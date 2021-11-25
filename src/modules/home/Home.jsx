@@ -4,7 +4,7 @@ import withLayout from '../layout/LayoutHOC';
 const Home = () => {
   return (
     <div>
-      Home
+      Home algo
     </div>
   )
 }
