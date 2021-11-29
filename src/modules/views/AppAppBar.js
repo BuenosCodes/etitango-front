@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import AppBar from '../components/AppBar';
 import Toolbar from '../components/Toolbar';
+// import Link from 'react-router-dom'
 
 const rightLink = {
   fontSize: 16,
@@ -20,28 +21,29 @@ function AppAppBar() {
             variant="h6"
             underline="none"
             color="inherit"
-            href="/premium-themes/onepirate/"
+            href="/"
             sx={{ fontSize: 24 }}
           >
-            {'onepirate'}
+            {'ETI Tango'}
           </Link>
+
           <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
             <Link
               color="inherit"
               variant="h6"
               underline="none"
-              href="/sign-in/"
+              href="/signin/"
               sx={rightLink}
             >
-              {'Sign In'}
+              {'Inicia Sesion'}
             </Link>
             <Link
               variant="h6"
               underline="none"
-              href="/premium-themes/onepirate/sign-up/"
+              href="/signup/"
               sx={{ ...rightLink, color: 'secondary.main' }}
             >
-              {'Sign Up'}
+              {'Registrate'}
             </Link>
           </Box>
         </Toolbar>
