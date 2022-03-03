@@ -1,0 +1,33 @@
+{
+  "dias": [
+    {
+      "dia": "Viernes 25 de Marzo",
+      "actividades": [
+        "Acreditación 10hs ",
+        "Almuerzo a la canasta 13 hs",
+        "Baile hasta las 16:45hs",
+        "Asamblea desde las 17 hs hasta las 19 hs",
+        "Milonga de Bienvenida “Tu remera favorita” desde 21 y 30hs a 4hs",
+        "After "
+      ]
+    },
+    {
+      "dia": "Sábado 26 de Marzo",
+      "actividades": [
+        "Desayuno y almuerzo a la canasta",
+        "Baile hasta las 16:45hs",
+        "Asamblea desde las 17 hs hasta las 19 hs",
+        "Milonga de Gala desde 21 y 30hs a 4hs",
+        "After"
+      ]
+    },
+    {
+      "dia": "Domingo 27 de Marzo",
+      "actividades": [
+        "Asado Milonguero, incluye comida, bebida , vegetarianos, veganos",
+        "Cambio de bandera",
+        "Milonga de despedida hasta las 0hs"
+      ]
+    }
+  ]
+}
