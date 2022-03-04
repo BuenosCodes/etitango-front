@@ -49,7 +49,7 @@ const theme = {
     ...rawTheme.palette,
     background: {
       ...rawTheme.palette.background,
-      default: rawTheme.palette.common.white,
+      default: "#f0f8ff",
       placeholder: grey[200],
     },
   },
