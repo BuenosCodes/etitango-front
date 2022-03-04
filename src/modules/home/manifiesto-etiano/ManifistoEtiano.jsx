@@ -1,5 +1,5 @@
 import * as React from "react";
-import AppAppBar from '../../views/AppAppBar';
+import AppAppBar from '../../../components/AppAppBar';
 import { Typography, Box, Container } from '@mui/material';
 
 const item = {

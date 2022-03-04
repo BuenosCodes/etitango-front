@@ -2,7 +2,7 @@ import { DatePicker } from '@mui/lab';
 import { Autocomplete, Button, Checkbox, Container, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import axios from 'axios';
 import React, { Component } from 'react'
-import AppAppBar from '../views/AppAppBar';
+import AppAppBar from '../../components/AppAppBar';
 
 import { HELP_WITH_CHOICES, FOOD_CHOICES } from './inscripcion.constants';
 

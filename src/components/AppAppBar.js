@@ -1,15 +1,12 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Link from "@mui/material/Link";
-import AppBar from "../components/AppBar";
-import Toolbar from "../components/Toolbar";
-import { Button, Avatar } from "@mui/material";
+
+import { Box, Button, Avatar, AppBar, Link, Toolbar } from "@mui/material";
 // import Link from 'react-router-dom'
 
 function AppAppBar() {
   return (
     <div>
-      <AppBar position="fixed">
+      <AppBar position="fixed" sx={{ height: 64, }}>
         <Toolbar
           sx={{ justifyContent: "space-evenly", backgroundColor: "white" }}
         >
