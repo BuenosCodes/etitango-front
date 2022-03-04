@@ -2,13 +2,16 @@ import { Routes, Route } from "react-router-dom";
 // import Dashboard from './modules/dashboard/Dashboard';
 import SignIn from "./modules/login/SignIn";
 import SignUp from "./modules/login/SignUp";
-import Home from "./modules/home/Home";
+import routes from "./routes/Routes";
+import withRoot from "./components/withRoot";
 
 function App() {
   return (
     <div className="">
       <Routes>
-        <Route path="/" exact element={<Home />} />
+        {routes.map((route) => (
+          <Route path={route.path} exact element={route.element} />
+        ))}
 
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
@@ -17,4 +20,4 @@ function App() {
   );
 }
 
-export default App;
+export default withRoot(App);

@@ -31,9 +31,9 @@ const rawTheme = createTheme({
   typography: {
     fontFamily: "Roboto",
     fontSize: 14,
-    fontWeightLight: 300, // Work Sans
+    fontWeightLight: 300, // Work Sans||
     fontWeightRegular: 400, // Work Sans
-    fontWeightMedium: 700, // Roboto Condensed
+    fontWeightMedium: 700, // Roboto Condensedw
   },
 });
 
@@ -89,12 +89,12 @@ const theme = {
     },
     subtitle1: {
       ...rawTheme.typography.subtitle1,
-      fontSize: 18,
+      fontSize: 20,
     },
     body1: {
       ...rawTheme.typography.body2,
       fontWeight: rawTheme.typography.fontWeightRegular,
-      fontSize: 16,
+      fontSize: 18,
     },
     body2: {
       ...rawTheme.typography.body1,

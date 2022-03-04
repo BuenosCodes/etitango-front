@@ -14,14 +14,16 @@ function AppAppBar() {
           sx={{ justifyContent: "space-evenly", backgroundColor: "white" }}
         >
           <Box sx={{ flex: 1, display: "flex", justifyContent: "flex-start" }}>
-            <Avatar
-              src="/img/icon/ETI_logo_1.png"
-              alt="increase priority"
-              sx={{
-                width: "100px",
-                height: "100px",
-              }}
-            />
+            <Link href="/home">
+              <Avatar
+                src="/img/icon/ETI_logo_1.png"
+                alt="increase priority"
+                sx={{
+                  width: "100px",
+                  height: "100px",
+                }}
+              />
+            </Link>
           </Box>
           <Box
             sx={{ flex: 1, display: "flex", justifyContent: "space-between" }}
@@ -30,7 +32,7 @@ function AppAppBar() {
               variant="h6"
               underline="none"
               color="black"
-              href="/"
+              href="/historia-del-eti"
               sx={{ fontSize: 14 }}
             >
               {"Historia del ETI"}
@@ -39,7 +41,7 @@ function AppAppBar() {
               variant="h6"
               underline="none"
               color="black"
-              href="/"
+              href="/manifiesto-etiano"
               sx={{ fontSize: 14 }}
             >
               {"Manifiesto ETIano"}
