@@ -1,6 +1,7 @@
 import Home from "../modules/home/Home";
 import HistoriaEti from "../modules/home/historia-del-ETI/HistoriaEti";
 import ManifiestoETiano from "../modules/home/manifiesto-etiano/ManifistoEtiano";
+import Inscripcion from "../modules/inscripcion/Inscripcion";
 const Routes = [
   {
     path: "home",
@@ -13,6 +14,10 @@ const Routes = [
   {
     path: "manifiesto-etiano",
     element: <ManifiestoETiano />,
+  },
+  {
+    path: "inscripcion",
+    element: <Inscripcion />,
   },
 ];
 

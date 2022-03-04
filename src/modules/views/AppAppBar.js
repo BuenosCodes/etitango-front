@@ -63,10 +63,10 @@ function AppAppBar() {
               color="secondary"
               variant="contained"
               underline="none"
-              href="/inscription/"
+              href="/inscripcion/"
               sx={{ fontSize: 12, align: "center" }}
             >
-              {"iNSCRIPCIÓN "}
+              {"INSCRIPCIÓN "}
             </Button>
             {/*
               CODIGO QUE SERVIRÁ PARA MAS ADELANTE

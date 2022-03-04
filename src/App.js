@@ -12,7 +12,6 @@ function App() {
         {routes.map((route) => (
           <Route path={route.path} exact element={route.element} />
         ))}
-
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
