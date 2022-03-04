@@ -59,7 +59,7 @@ function ProductHowItWorks() {
           size="large"
           variant="contained"
           component="a"
-          href="/inscription/"
+          href="/inscripcion/"
           sx={{ my: 20 }}
         >
           Inscripción
