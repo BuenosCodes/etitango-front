@@ -1,22 +1,21 @@
-import * as React from 'react';
-import { Field, Form, FormSpy } from 'react-final-form';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Typography from '../components/Typography';
-import AppFooter from '../views/AppFooter';
-import AppAppBar from '../views/AppAppBar';
-import AppForm from '../views/AppForm';
-import { email, required } from '../form/validation';
-import RFTextField from '../form/RFTextField';
-import FormButton from '../form/FormButton';
-import FormFeedback from '../form/FormFeedback';
-import withRoot from '../withRoot';
+import * as React from "react";
+import { Field, Form, FormSpy } from "react-final-form";
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Typography from "../components/Typography";
+import AppFooter from "../views/AppFooter";
+import AppAppBar from "../views/AppAppBar";
+import AppForm from "../views/AppForm";
+import { email, required } from "../form/validation";
+import RFTextField from "../form/RFTextField";
+import FormButton from "../form/FormButton";
+import FormFeedback from "../form/FormFeedback";
 
 function SignIn() {
   const [sent, setSent] = React.useState(false);
 
   const validate = (values) => {
-    const errors = required(['email', 'password'], values);
+    const errors = required(["email", "password"], values);
 
     if (!errors.email) {
       const emailError = email(values.email);
@@ -41,7 +40,7 @@ function SignIn() {
             Sign In
           </Typography>
           <Typography variant="body2" align="center">
-            {'Not a member yet? '}
+            {"Not a member yet? "}
             <Link
               href="/premium-themes/onepirate/sign-up/"
               align="center"
@@ -57,7 +56,12 @@ function SignIn() {
           validate={validate}
         >
           {({ handleSubmit: handleSubmit2, submitting }) => (
-            <Box component="form" onSubmit={handleSubmit2} noValidate sx={{ mt: 6 }}>
+            <Box
+              component="form"
+              onSubmit={handleSubmit2}
+              noValidate
+              sx={{ mt: 6 }}
+            >
               <Field
                 autoComplete="email"
                 autoFocus
@@ -98,7 +102,7 @@ function SignIn() {
                 color="secondary"
                 fullWidth
               >
-                {submitting || sent ? 'In progress…' : 'Sign In'}
+                {submitting || sent ? "In progress…" : "Sign In"}
               </FormButton>
             </Box>
           )}
@@ -114,4 +118,4 @@ function SignIn() {
   );
 }
 
-export default withRoot(SignIn);
+export default SignIn;

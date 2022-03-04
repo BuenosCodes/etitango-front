@@ -1,23 +1,25 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import { Field, Form, FormSpy } from 'react-final-form';
-import Typography from '../components/Typography';
-import AppFooter from '../views/AppFooter';
-import AppAppBar from '../views/AppAppBar';
-import AppForm from '../views/AppForm';
-import { email, required } from '../form/validation';
-import RFTextField from '../form/RFTextField';
-import FormButton from '../form/FormButton';
-import FormFeedback from '../form/FormFeedback';
-import withRoot from '../withRoot';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import { Field, Form, FormSpy } from "react-final-form";
+import Typography from "../components/Typography";
+import AppFooter from "../views/AppFooter";
+import AppAppBar from "../views/AppAppBar";
+import AppForm from "../views/AppForm";
+import { email, required } from "../form/validation";
+import RFTextField from "../form/RFTextField";
+import FormButton from "../form/FormButton";
+import FormFeedback from "../form/FormFeedback";
 
 function SignUp() {
   const [sent, setSent] = React.useState(false);
 
   const validate = (values) => {
-    const errors = required(['firstName', 'lastName', 'email', 'password'], values);
+    const errors = required(
+      ["firstName", "lastName", "email", "password"],
+      values
+    );
 
     if (!errors.email) {
       const emailError = email(values.email);
@@ -53,7 +55,12 @@ function SignUp() {
           validate={validate}
         >
           {({ handleSubmit: handleSubmit2, submitting }) => (
-            <Box component="form" onSubmit={handleSubmit2} noValidate sx={{ mt: 6 }}>
+            <Box
+              component="form"
+              onSubmit={handleSubmit2}
+              noValidate
+              sx={{ mt: 6 }}
+            >
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <Field
@@ -115,7 +122,7 @@ function SignUp() {
                 color="secondary"
                 fullWidth
               >
-                {submitting || sent ? 'In progress…' : 'Sign Up'}
+                {submitting || sent ? "In progress…" : "Sign Up"}
               </FormButton>
             </Box>
           )}
@@ -126,4 +133,4 @@ function SignUp() {
   );
 }
 
-export default withRoot(SignUp);
+export default SignUp;
