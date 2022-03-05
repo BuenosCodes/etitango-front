@@ -114,7 +114,7 @@ class Inscripcion extends Component {
         help_with: help_with.value,
         food: food.value,
         is_celiac,
-        country: country.country_id,
+        country: country.id,
         province: province.id,
         city: city.id
       })
