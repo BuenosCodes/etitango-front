@@ -4,6 +4,10 @@ import ManifiestoETiano from "../modules/home/manifiesto-etiano/ManifistoEtiano"
 import Inscripcion from "../modules/inscripcion/Inscripcion";
 const Routes = [
   {
+    path: "",
+    element: <Home />,
+  },
+  {
     path: "home",
     element: <Home />,
   },
