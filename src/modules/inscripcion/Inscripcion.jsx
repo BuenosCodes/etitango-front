@@ -30,6 +30,7 @@ class Inscripcion extends PureComponent {
       help_with: "",
       food: "",
       is_celiac: false,
+      vaccinated: false,
       country: null,
       province: null,
       city: null
@@ -78,6 +79,10 @@ class Inscripcion extends PureComponent {
     this.setState({ is_celiac })
   }
 
+  handleIsVaccinatedChange = (e, vaccinated) => {
+    this.setState({ vaccinated })
+  }
+
   handleCountryChange = (e, value) => {
     if (!value) return;
     let provinces = []
@@ -107,8 +112,7 @@ class Inscripcion extends PureComponent {
 
   save = () => {
     const { name, last_name, email, dni_number, arrival_date, leave_date, help_with, food, is_celiac, country, province, city } = this.state;
-
-    axios.post(`http://${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/event/inscription/`, {
+    let data = {
       name,
       last_name,
       email,
@@ -121,9 +125,17 @@ class Inscripcion extends PureComponent {
       country: (country && country.id) || null,
       province: (province && province.id) || null,
       city: (city && city.id) || null
-    })
+    };
+    if (!country);
+    delete data.country;
+    if (!province);
+    delete data.province;
+    if (!city);
+    delete data.city;
+
+    axios.post(`http://${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/event/inscription/`, data)
       .then(response => {
-        console.log(response);
+        window.location.href = `http://${process.env.REACT_APP_FRONT_END_URL || 'localhost:3000'}/lista-inscriptos`;
       })
       .catch((error) => {
         this.setState({ errors: error.response.data })
@@ -171,7 +183,7 @@ class Inscripcion extends PureComponent {
       errors,
       pristine,
       // Form Data
-      name, last_name, email, dni_number, arrival_date, leave_date, help_with, food, is_celiac, country, province, city
+      name, last_name, email, dni_number, arrival_date, leave_date, help_with, food, is_celiac, country, province, city, vaccinated
     } = this.state;
 
     return (
@@ -362,9 +374,12 @@ class Inscripcion extends PureComponent {
               </Grid>
             </Grid>
             <Grid item>
+              <FormControlLabel control={<Checkbox value={vaccinated} onChange={this.handleIsVaccinatedChange} />} label="Declaro tener las vacunas al día" />
+            </Grid>
+            <Grid item>
               <Grid container justifyContent="flex-end">
                 <Grid >
-                  <Button variant="contained" color="secondary" onClick={this.save} disabled={pristine || Boolean(Object.keys(errors).length)}>Inscribirme!</Button>
+                  <Button variant="contained" color="secondary" onClick={this.save} disabled={pristine || Boolean(Object.keys(errors).length) || !vaccinated}>Inscribirme!</Button>
                 </Grid>
               </Grid>
             </Grid>
