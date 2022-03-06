@@ -35,9 +35,9 @@ class Inscripcion extends Component {
   componentDidMount = async () => {
     try {
       const locations = Promise.all([
-        axios.get('http://localhost:8000/location/countries/'),
-        axios.get('http://localhost:8000/location/provinces/'),
-        axios.get('http://localhost:8000/location/cities/')
+        axios.get(`http://${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/location/countries/`),
+        axios.get(`http://${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/location/provinces/`),
+        axios.get(`http://${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/location/cities/`)
       ])
       locations
         .then((response) => {
@@ -104,7 +104,7 @@ class Inscripcion extends Component {
     const { name, last_name, email, dni_number, arrival_date, leave_date, help_with, food, is_celiac, country, province, city } = this.state;
 
     if (isValid) {
-      axios.post('http://localhost:8000/event/inscription/', {
+      axios.post(`http://${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/event/inscription/`, {
         name,
         last_name,
         email,
