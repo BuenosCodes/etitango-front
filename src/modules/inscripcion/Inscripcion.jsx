@@ -1,12 +1,14 @@
+import React, { PureComponent } from 'react'
 import { DatePicker } from '@mui/lab';
-import { Autocomplete, Button, Checkbox, Container, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Autocomplete, Button, Checkbox, Container, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import axios from 'axios';
-import React, { Component } from 'react'
+import { debounce } from 'debounce';
+import { produce } from 'immer';
 import AppAppBar from '../../components/AppAppBar';
 
-import { HELP_WITH_CHOICES, FOOD_CHOICES } from './inscripcion.constants';
+import { HELP_WITH_CHOICES, FOOD_CHOICES, VALIDATION_RULES } from './inscripcion.constants';
 
-class Inscripcion extends Component {
+class Inscripcion extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,6 +17,8 @@ class Inscripcion extends Component {
       provinces: [],
       allCities: [],
       cities: [],
+      errors: {},
+      pristine: true,
       //FormData
       name: "",
       last_name: "",
@@ -48,8 +52,7 @@ class Inscripcion extends Component {
           })
         })
         .catch(e => {
-          console.error(e);
-
+          console.error(e)
         })
 
     } catch (e) {
@@ -58,13 +61,16 @@ class Inscripcion extends Component {
 
   handleOnChange = ({ target }) => {
     this.setState({ [target.name]: target.value })
+    debounce(this.validateField(target.name, target.value), 500);
   }
 
   handleArrivalDateChange = (newValue) => {
+    if (!newValue) return
     this.setState({ arrival_date: `${newValue.year()}-${newValue.month() + 1}-${newValue.date()}` })
   }
 
   handleLeaveDateChange = (newValue) => {
+    if (!newValue) return
     this.setState({ leave_date: `${newValue.year()}-${newValue.month() + 1}-${newValue.date()}` })
   }
 
@@ -100,35 +106,61 @@ class Inscripcion extends Component {
   }
 
   save = () => {
-    const isValid = this.validateForm();
     const { name, last_name, email, dni_number, arrival_date, leave_date, help_with, food, is_celiac, country, province, city } = this.state;
 
-    if (isValid) {
-      axios.post(`http://${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/event/inscription/`, {
-        name,
-        last_name,
-        email,
-        dni_number,
-        arrival_date,
-        leave_date,
-        help_with: help_with.value,
-        food: food.value,
-        is_celiac,
-        country: country.id,
-        province: province.id,
-        city: city.id
+    axios.post(`http://${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/event/inscription/`, {
+      name,
+      last_name,
+      email,
+      dni_number,
+      arrival_date,
+      leave_date,
+      help_with: help_with.value,
+      food: food.value,
+      is_celiac,
+      country: (country && country.id) || null,
+      province: (province && province.id) || null,
+      city: (city && city.id) || null
+    })
+      .then(response => {
+        console.log(response);
       })
-        .then(response => {
-          console.log(response);
-        })
-        .catch(error => {
-          console.error(error);
-        })
-    }
+      .catch((error) => {
+        this.setState({ errors: error.response.data })
+      })
+
   }
 
-  validateForm = () => {
-    return true;
+  validateField = (name, value) => {
+    const rules = VALIDATION_RULES[name];
+    let errors;
+    if (rules) {
+      if (rules.required) {
+        if (!value) {
+          errors = rules.required.msg
+        }
+      }
+      if (rules.maxLength) {
+        if (value && value.length > rules.maxLength) {
+          errors = rules.maxLength.msg
+        }
+      }
+      if (rules.regex) {
+        if (!rules.regex.expression.test(value)) {
+          errors = rules.regex.msg
+        }
+      }
+
+      const newErrors = produce(this.state.errors, draft => {
+        if (errors) {
+          draft[name] = errors
+        } else {
+          delete draft[name];
+        }
+      });
+
+      this.setState({ errors: newErrors, pristine: false });
+    }
   }
 
   render() {
@@ -136,6 +168,8 @@ class Inscripcion extends Component {
       countries,
       provinces,
       cities,
+      errors,
+      pristine,
       // Form Data
       name, last_name, email, dni_number, arrival_date, leave_date, help_with, food, is_celiac, country, province, city
     } = this.state;
@@ -143,8 +177,9 @@ class Inscripcion extends Component {
     return (
       <React.Fragment>
         <AppAppBar />
-        <Container maxWidth="md" sx={{ marginTop: 2 }}>
+        <Container maxWidth="md" sx={{ marginTop: 6 }}>
           <Grid container direction="column" spacing={3}>
+            <Grid item><Typography variant="h2" color="secondary" align="center">Formulario de inscripción</Typography></Grid>
             <Grid item container spacing={2}>
               <Grid item xs={6}>
                 <TextField
@@ -152,6 +187,9 @@ class Inscripcion extends Component {
                   label="Nombre"
                   value={name}
                   name="name"
+                  required
+                  error={Boolean(errors.name)}
+                  helperText={errors.name || ''}
                   onChange={this.handleOnChange}
                 />
               </Grid>
@@ -161,6 +199,9 @@ class Inscripcion extends Component {
                   label="Apellido"
                   value={last_name}
                   name="last_name"
+                  required
+                  error={Boolean(errors.last_name)}
+                  helperText={errors.last_name || ''}
                   onChange={this.handleOnChange}
                 />
               </Grid>
@@ -172,6 +213,9 @@ class Inscripcion extends Component {
                   type="email"
                   value={email}
                   name="email"
+                  required
+                  error={Boolean(errors.email)}
+                  helperText={errors.email || ''}
                   onChange={this.handleOnChange}
                 />
               </Grid>
@@ -181,6 +225,9 @@ class Inscripcion extends Component {
                   label="DNI"
                   value={dni_number}
                   name="dni_number"
+                  required
+                  error={Boolean(errors.dni_number)}
+                  helperText={errors.dni_number || ''}
                   onChange={this.handleOnChange}
                 />
               </Grid>
@@ -221,7 +268,6 @@ class Inscripcion extends Component {
                     label="Ayuda con"
                     onChange={this.handleOnChange}
                   >
-                    <MenuItem value={undefined}></MenuItem>
                     {
                       HELP_WITH_CHOICES.map((help, i) => (
                         <MenuItem key={`help_with_${i}`} value={help.value}>{help.label}</MenuItem>
@@ -241,7 +287,6 @@ class Inscripcion extends Component {
                     label="Comida"
                     onChange={this.handleOnChange}
                   >
-                    <MenuItem value={undefined}></MenuItem>
                     {
                       FOOD_CHOICES.map((food, i) => (
                         <MenuItem key={`food_${i}`} value={food.value}>{food.label}</MenuItem>
@@ -319,7 +364,7 @@ class Inscripcion extends Component {
             <Grid item>
               <Grid container justifyContent="flex-end">
                 <Grid >
-                  <Button variant="contained" color="secondary" onClick={this.save}>Inscribirme!</Button>
+                  <Button variant="contained" color="secondary" onClick={this.save} disabled={pristine || Boolean(Object.keys(errors).length)}>Inscribirme!</Button>
                 </Grid>
               </Grid>
             </Grid>
