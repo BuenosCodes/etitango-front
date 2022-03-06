@@ -14,7 +14,7 @@ class InscripcionList extends PureComponent {
   }
 
   componentDidMount = () => {
-    axios.get('http://localhost:8000/event/inscription/')
+    axios.get(`http://${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/event/inscription/`)
       .then(response => {
         this.setState({ inscripciones: response.data.inscriptions })
       })
@@ -37,10 +37,10 @@ class InscripcionList extends PureComponent {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                   <TableHead>
                     <TableRow>
-                      <TableCell align="right">Nombre</TableCell>
-                      {/* <TableCell align="right">Provincia</TableCell>
+                      <TableCell align="left">Nombre</TableCell>
+                      <TableCell align="right">Provincia</TableCell>
                       <TableCell align="right">Ciudad</TableCell>
-                      <TableCell align="right">Provincia</TableCell> */}
+                      <TableCell align="right">Provincia</TableCell>
                       <TableCell align="right">Estado de la inscripción</TableCell>
                     </TableRow>
                   </TableHead>
@@ -53,9 +53,9 @@ class InscripcionList extends PureComponent {
                         <TableCell component="th" scope="row">
                           {`${inscripcion.name} ${inscripcion.last_name}`}
                         </TableCell>
-                        {/* <TableCell align="right">{inscripcion.country}</TableCell>
+                        <TableCell align="right">{inscripcion.country}</TableCell>
                         <TableCell align="right">{inscripcion.province}</TableCell>
-                        <TableCell align="right">{inscripcion.city}</TableCell> */}
+                        <TableCell align="right">{inscripcion.city}</TableCell>
                         <TableCell align="right">{inscripcion.status}</TableCell>
                       </TableRow>
                     ))}
