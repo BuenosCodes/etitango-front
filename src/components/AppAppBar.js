@@ -11,7 +11,7 @@ function AppAppBar() {
           sx={{ justifyContent: "space-evenly", backgroundColor: "white" }}
         >
           <Box sx={{ flex: 1, display: "flex", justifyContent: "flex-start" }}>
-            <Link href="/home">
+            <Link href="/">
               <Avatar
                 src="/img/icon/ETI_logo_1.png"
                 alt="increase priority"
@@ -61,9 +61,18 @@ function AppAppBar() {
               variant="contained"
               underline="none"
               href="/inscripcion/"
-              sx={{ fontSize: 12, align: "center" }}
+              sx={{ fontSize: 12, align: "center", marginRight: 1 }}
             >
               {"INSCRIPCIÓN "}
+            </Button>
+            <Button
+              color="secondary"
+              variant="contained"
+              underline="none"
+              href="/lista-inscriptos/"
+              sx={{ fontSize: 12, align: "center" }}
+            >
+              {"LISTADO DE INSCRIPCIONES"}
             </Button>
             {/*
               CODIGO QUE SERVIRÁ PARA MAS ADELANTE
