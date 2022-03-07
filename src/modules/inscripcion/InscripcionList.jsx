@@ -14,7 +14,7 @@ class InscripcionList extends PureComponent {
   }
 
   componentDidMount = () => {
-    axios.get(`http://${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/event/inscription/`)
+    axios.get(`${window.location.protocol}//${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/event/inscription/`)
       .then(response => {
         this.setState({ inscripciones: response.data.inscriptions })
       })

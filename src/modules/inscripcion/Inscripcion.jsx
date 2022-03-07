@@ -40,9 +40,9 @@ class Inscripcion extends PureComponent {
   componentDidMount = async () => {
     try {
       const locations = Promise.all([
-        axios.get(`http://${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/location/countries/`),
-        axios.get(`http://${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/location/provinces/`),
-        axios.get(`http://${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/location/cities/`)
+        axios.get(`${window.location.protocol}//${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/location/countries/`),
+        axios.get(`${window.location.protocol}//${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/location/provinces/`),
+        axios.get(`${window.location.protocol}//${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/location/cities/`)
       ])
       locations
         .then((response) => {
@@ -133,9 +133,9 @@ class Inscripcion extends PureComponent {
     if (!city);
     delete data.city;
 
-    axios.post(`http://${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/event/inscription/`, data)
+    axios.post(`${window.location.protocol}//${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/event/inscription/`, data)
       .then(response => {
-        window.location.href = `http://${process.env.REACT_APP_FRONT_END_URL || 'localhost:3000'}/lista-inscriptos`;
+        window.location.href = `${window.location.protocol}//${process.env.REACT_APP_FRONT_END_URL || 'localhost:3000'}/lista-inscriptos`;
       })
       .catch((error) => {
         this.setState({ errors: error.response.data })
