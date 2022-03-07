@@ -42,8 +42,8 @@ function Cronograma() {
         </Grid>
         <Grid item>
           <Grid container spacing={3} mt={6} px={15}>
-            {cronograma.dias.map((dia) => (
-              <Grid item xs={12} md={4}>
+            {cronograma.dias.map((dia, index) => (
+              <Grid item key={`cronograma_${index}`} xs={12} md={4}>
                 <Paper sx={{ padding: "24px", height: "100%" }}>
                   <Box sx={number}>{dia.dia}</Box>
                   <List>
