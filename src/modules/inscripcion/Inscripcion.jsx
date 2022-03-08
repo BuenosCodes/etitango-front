@@ -97,7 +97,7 @@ class Inscripcion extends PureComponent {
   handleProvinceChange = (e, value) => {
     if (!value) return;
     let cities;
-    if (value.country_id === 'AR' || value.country_id === 'CL') {
+    if (value.country === 'AR' || value.country === 'CL') {
       cities = this.state.allCities.filter(c => c.province === value.id);
     } else {
       cities = this.state.allCities;
@@ -126,12 +126,12 @@ class Inscripcion extends PureComponent {
       province: (province && province.id) || null,
       city: (city && city.id) || null
     };
-    if (!country);
-    delete data.country;
-    if (!province);
-    delete data.province;
-    if (!city);
-    delete data.city;
+    if (!country)
+      delete data.country;
+    if (!province)
+      delete data.province;
+    if (!city)
+      delete data.city;
 
     axios.post(`${window.location.protocol}//${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/event/inscription/`, data)
       .then(response => {
@@ -373,12 +373,18 @@ class Inscripcion extends PureComponent {
                 />
               </Grid>
             </Grid>
-            <Grid item>
-              <FormControlLabel control={<Checkbox value={vaccinated} onChange={this.handleIsVaccinatedChange} />} label="Declaro tener las vacunas al día" />
+            <Grid item container alignItems="center">
+              <Grid item xs={1}>
+                <Checkbox size="large" value={vaccinated} onChange={this.handleIsVaccinatedChange} />
+              </Grid>
+              <Grid item xs={11}>
+                <Typography color="error">"*Declaro que cuento con esquema de vacunación covid completo (2 o más dosis) o, en caso contrario, me comprometo a realizarme y presentar un diagnóstico por PCR hasta 48hs antes del ETI que deberá ser negativo para poder asistir al encuentro.
+                  Declaro entender que de no cumplir con lo anterior se me negará la entrada al encuentro y no se me devolverá el dinero del combo."</Typography>
+              </Grid>
             </Grid>
             <Grid item>
               <Grid container justifyContent="flex-end">
-                <Grid >
+                <Grid item>
                   <Button variant="contained" color="secondary" onClick={this.save} disabled={pristine || Boolean(Object.keys(errors).length) || !vaccinated}>Inscribirme!</Button>
                 </Grid>
               </Grid>
