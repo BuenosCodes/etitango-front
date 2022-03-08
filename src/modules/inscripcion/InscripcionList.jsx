@@ -38,9 +38,9 @@ class InscripcionList extends PureComponent {
                   <TableHead>
                     <TableRow>
                       <TableCell align="left">Nombre</TableCell>
+                      <TableCell align="right">Pais</TableCell>
                       <TableCell align="right">Provincia</TableCell>
                       <TableCell align="right">Ciudad</TableCell>
-                      <TableCell align="right">Provincia</TableCell>
                       <TableCell align="right">Estado de la inscripción</TableCell>
                     </TableRow>
                   </TableHead>
