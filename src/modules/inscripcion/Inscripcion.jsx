@@ -427,13 +427,31 @@ class Inscripcion extends PureComponent {
                   Declaro entender que de no cumplir con lo anterior se me negará la entrada al encuentro y no se me devolverá el dinero del combo."</Typography>
               </Grid>
             </Grid>*/}
-                        <Grid item md={6} sm={6} xs={12}>
+                        <Grid item container
+                            justifyContent={"center"}
+                        >
+                            <Grid item style={{textAlign: 'center'}} justifyContent={'center'} >
+                                <Typography variant="h3" color="primary" align="center">
+                                    Combo
+                                </Typography>
+                                <Typography>Hasta el 9/6: $3500</Typography>
+                                <Typography>Después del 9/6: $4000</Typography>
+                            </Grid>
+
                             <Grid container justifyContent="flex-end">
-                                <Grid item md={6} sm={6} xs={12}>
+                                <Grid item>
                                     <Button variant="contained" color="secondary" onClick={this.save}
                                             disabled={pristine || Boolean(Object.keys(errors).length) || !vaccinated}>Inscribirme!</Button>
                                 </Grid>
                             </Grid>
+                            <Grid item style={{textAlign: 'center'}}>
+                                    <Typography variant="caption">
+                                        * Si por alguna razón no podés asistir al ETI,
+                                        tenés tiempo de pedir la devolución de tu combo hasta 10 días antes del ETI,
+                                        es decir, hasta el <b>martes 28 de junio</b>.<br/>
+                                        Pasada esa fecha, no se te devolverá tu dinero aunque no asistas al ETI.
+                                    </Typography>
+                                </Grid>
                         </Grid>
                     </Grid>
 
