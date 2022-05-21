@@ -20,7 +20,7 @@ const number = {
   paddingLeft: 2,
 };
 
-const ImgBackground = process.env.PUBLIC_URL + "/img/logo/eti-bellville.jpg";
+const ImgBackground = process.env.PUBLIC_URL + "/img/logo/eti-belleville.jpg";
 function Cronograma() {
   return (
     <Box component="section" sx={{ display: "flex", overflow: "hidden" }}>
