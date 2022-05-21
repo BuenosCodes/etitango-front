@@ -4,7 +4,7 @@ import { Autocomplete, Button, Checkbox, Container, FormControl, FormControlLabe
 import axios from 'axios';
 import { debounce } from 'debounce';
 import { produce } from 'immer';
-import AppAppBar from '../../components/AppAppBar';
+import EtiAppBar from '../../components/EtiAppBar';
 
 import { HELP_WITH_CHOICES, FOOD_CHOICES, VALIDATION_RULES } from './inscripcion.constants';
 
@@ -188,7 +188,7 @@ class Inscripcion extends PureComponent {
 
     return (
       <React.Fragment>
-        <AppAppBar />
+        <EtiAppBar />
         <Container maxWidth="md" sx={{ marginTop: 6 }}>
           <Grid container direction="column" spacing={3}>
             <Grid item><Typography variant="h2" color="secondary" align="center">Formulario de inscripción</Typography></Grid>

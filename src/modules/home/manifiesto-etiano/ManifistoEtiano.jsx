@@ -1,5 +1,5 @@
 import * as React from "react";
-import AppAppBar from '../../../components/AppAppBar';
+import EtiAppBar from '../../../components/EtiAppBar';
 import { Typography, Box, Container } from '@mui/material';
 
 const item = {
@@ -12,7 +12,7 @@ const item = {
 function ManifiestoETiano() {
   return (
     <React.Fragment>
-       <AppAppBar />
+       <EtiAppBar />
    
       <Container >
         <Box sx={item} >

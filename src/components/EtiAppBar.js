@@ -1,8 +1,7 @@
 import * as React from "react";
 
-import {AppBar, Avatar, Box, Button, Link, Toolbar} from "@mui/material";
+import {AppBar, Avatar, Box, Button, Link, Menu, Toolbar} from "@mui/material";
 import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/AppAppBarMenu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 

@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import axios from 'axios';
 
-import AppAppBar from '../../components/AppAppBar';
+import EtiAppBar from '../../components/EtiAppBar';
 import {
     Container,
     Grid,
@@ -39,7 +39,7 @@ class InscripcionList extends PureComponent {
 
         return (
             <React.Fragment>
-                <AppAppBar/>
+                <EtiAppBar/>
                 <Container maxWidth="lg" sx={{marginTop: 6}}>
                     <Grid container direction="column" spacing={3}>
                         <Grid item><Typography variant="h2" color="secondary" align="center">

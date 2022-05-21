@@ -3,12 +3,12 @@ import AppFooter from "../../components/AppFooter";
 import Portada from "./portada/Portada";
 import Cronograma from "./cronograma/Cronograma";
 
-import AppAppBar from "../../components/AppAppBar";
+import EtiAppBar from "../../components/EtiAppBar";
 
 function Index() {
   return (
     <React.Fragment>
-      <AppAppBar />
+      <EtiAppBar />
       <Portada />
       <Cronograma />
 
