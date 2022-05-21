@@ -20,7 +20,7 @@ const number = {
   paddingLeft: 2,
 };
 
-const ImgBackground = process.env.PUBLIC_URL + "/img/logo/eti-lomanegra.jpg";
+const ImgBackground = process.env.PUBLIC_URL + "/img/logo/eti-bellville.jpg";
 function Cronograma() {
   return (
     <Box component="section" sx={{ display: "flex", overflow: "hidden" }}>
@@ -34,13 +34,13 @@ function Cronograma() {
         direction="column"
         align="center"
       >
-        <Grid item><Typography variant="h4" marked="center" component="h2">
-          Cronograma ETIano
-        </Typography></Grid>
+        {/*<Grid item><Typography variant="h4" marked="center" component="h2">*/}
+        {/*  Cronograma ETIano*/}
+        {/*</Typography></Grid>*/}
         <Grid item>
-          <img src={ImgBackground} alt="logo" />
+          <img src={ImgBackground} alt="logo" height="100%" width="100%" />
         </Grid>
-        <Grid item>
+        {/*<Grid item>
           <Grid container spacing={3} mt={6} px={15}>
             {cronograma.dias.map((dia, index) => (
               <Grid item key={`cronograma_${index}`} xs={12} md={4}>
@@ -57,7 +57,7 @@ function Cronograma() {
               </Grid>
             ))}
           </Grid>
-        </Grid>
+        </Grid>*/}
         <Grid item>
           <Button
             color="secondary"
