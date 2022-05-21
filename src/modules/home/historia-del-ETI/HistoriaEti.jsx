@@ -1,5 +1,4 @@
 import * as React from "react";
-import EtiAppBar from '../../../components/EtiAppBar';
 import { Typography, Box, Container } from '@mui/material';
 
 const item = {
@@ -13,8 +12,7 @@ const item = {
 function HistoriaEti() {
   return (
     <React.Fragment>
-       <EtiAppBar />
-   
+
       <Container >
         <Box sx={item} >
 
