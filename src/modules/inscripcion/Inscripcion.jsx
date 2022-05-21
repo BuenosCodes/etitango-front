@@ -30,7 +30,7 @@ class Inscripcion extends PureComponent {
       help_with: "",
       food: "",
       is_celiac: false,
-      vaccinated: false,
+      vaccinated: true,
       country: null,
       province: null,
       city: null
@@ -79,9 +79,9 @@ class Inscripcion extends PureComponent {
     this.setState({ is_celiac })
   }
 
-  handleIsVaccinatedChange = (e, vaccinated) => {
-    this.setState({ vaccinated })
-  }
+  // handleIsVaccinatedChange = (e, vaccinated) => {
+  //   this.setState({ vaccinated })
+  // }
 
   handleCountryChange = (e, value) => {
     if (!value) return;
@@ -373,7 +373,7 @@ class Inscripcion extends PureComponent {
                 />
               </Grid>
             </Grid>
-            <Grid item container alignItems="center">
+            {/*<Grid item container alignItems="center">
               <Grid item xs={1}>
                 <Checkbox size="large" value={vaccinated} onChange={this.handleIsVaccinatedChange} />
               </Grid>
@@ -381,7 +381,7 @@ class Inscripcion extends PureComponent {
                 <Typography color="error">"*Declaro que cuento con esquema de vacunación covid completo (2 o más dosis) o, en caso contrario, me comprometo a realizarme y presentar un diagnóstico por PCR hasta 48hs antes del ETI que deberá ser negativo para poder asistir al encuentro.
                   Declaro entender que de no cumplir con lo anterior se me negará la entrada al encuentro y no se me devolverá el dinero del combo."</Typography>
               </Grid>
-            </Grid>
+            </Grid>*/}
             <Grid item>
               <Grid container justifyContent="flex-end">
                 <Grid item>
