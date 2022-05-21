@@ -21,7 +21,7 @@ export default function Portada() {
                     alt="increase priority"
                 />
                 <Typography color="white" align="center" variant="h3" >
-                    ETI "La vuelta" 25, 26 y 27 de Marzo - Loma Negra
+                    ETI "La Revancha" - 8, 9 y 10 de Julio - Bell Ville
                 </Typography>
             </Box>
         </React.Fragment>
