@@ -1,24 +1,19 @@
 import * as React from "react";
-import cronograma from "../cronograma.json";
+// import cronograma from "../cronograma.json";
 
 import {
   Box,
-  List,
   Grid,
   Button,
-  Typography,
-  ListItem,
-  ListItemText,
-  Paper,
 } from "@mui/material";
 
-const number = {
-  fontSize: 24,
-  fontFamily: "default",
-  color: "secondary.main",
-  fontWeight: "medium",
-  paddingLeft: 2,
-};
+// const number = {
+//   fontSize: 24,
+//   fontFamily: "default",
+//   color: "secondary.main",
+//   fontWeight: "medium",
+//   paddingLeft: 2,
+// };
 
 const ImgBackground = process.env.PUBLIC_URL + "/img/logo/eti-belleville.jpg";
 function Cronograma() {

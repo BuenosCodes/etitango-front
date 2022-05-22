@@ -13,6 +13,7 @@ import {
     TableRow,
     Typography
 } from '@mui/material';
+import WithAuthentication from "./withAuthentication";
 
 class InscripcionList extends PureComponent {
 
@@ -38,6 +39,7 @@ class InscripcionList extends PureComponent {
 
         return (
             <React.Fragment>
+                <WithAuthentication/>
                 <Container maxWidth="lg" sx={{marginTop: 6}}>
                     <Grid container direction="column" spacing={3}>
                         <Grid item><Typography variant="h2" color="secondary" align="center">
