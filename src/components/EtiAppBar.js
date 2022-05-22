@@ -1,9 +1,12 @@
 import * as React from "react";
+import {useEffect, useState} from "react";
 
 import {AppBar, Avatar, Box, Button, Link, Menu, Toolbar} from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
+
+import {auth} from "../etiFirebase";
 
 const links = [
     {href: "/historia-del-eti", title: "Historia del ETI"},
@@ -20,6 +23,14 @@ const buttons = [
 
 const EtiAppBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [isSignedIn, setIsSignedIn] = useState(!!auth.currentUser); // Local signed-in state.
+
+    useEffect(() => {
+        const unregisterAuthObserver = auth.onAuthStateChanged(user => {
+            setIsSignedIn(!!user);
+        });
+        return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
+    }, []);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -31,7 +42,7 @@ const EtiAppBar = () => {
 
 
     return (
-        <AppBar position="static"  sx={{backgroundColor: "white"}} id="appbar">
+        <AppBar position="static" sx={{backgroundColor: "white"}} id="appbar">
             <Container maxWidth="xl" id="container">
                 <Toolbar disableGutters id="toolbar"
                          sx={{display: "flex", justifyContent: 'space-between'}}>
@@ -60,6 +71,15 @@ const EtiAppBar = () => {
                                 {button.title}
                             </Button>
                         )}
+                        {isSignedIn &&
+                            <Button color="secondary" variant="contained" underline="none"
+                                    onClick={() => auth.signOut()}
+                                    href={'/'}
+                                    key={'signout'}
+                                    sx={{fontSize: 12, align: "center", margin: "3px", textAlign: 'center'}}>
+                                {"Cerrar Sesión"}
+                            </Button>
+                        }
                     </Box>;
                     <Box sx={{flexGrow: 0, display: {xs: 'flex', md: 'none'}}}>
                         <IconButton

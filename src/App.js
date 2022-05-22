@@ -1,4 +1,4 @@
-import {Routes, Route} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import routes from "./routes/Routes";
 import withRoot from "./components/withRoot";
 import EtiAppBar from "./components/EtiAppBar";

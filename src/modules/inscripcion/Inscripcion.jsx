@@ -18,7 +18,8 @@ import axios from 'axios';
 import {debounce} from 'debounce';
 import {produce} from 'immer';
 
-import {HELP_WITH_CHOICES, FOOD_CHOICES, VALIDATION_RULES} from './inscripcion.constants';
+import {FOOD_CHOICES, HELP_WITH_CHOICES, VALIDATION_RULES} from './inscripcion.constants';
+import WithAuthentication from "./withAuthentication";
 
 class Inscripcion extends PureComponent {
     constructor(props) {
@@ -225,6 +226,7 @@ class Inscripcion extends PureComponent {
 
         return (
             <React.Fragment>
+                <WithAuthentication redirectUrl={'inscripcion'}/>
                 <Container maxWidth="lg" sx={{marginTop: 6}}>
                     <Grid container direction="column" spacing={3}>
                         <Grid item>
@@ -428,9 +430,9 @@ class Inscripcion extends PureComponent {
               </Grid>
             </Grid>*/}
                         <Grid item container
-                            justifyContent={"center"}
+                              justifyContent={"center"}
                         >
-                            <Grid item style={{textAlign: 'center'}} justifyContent={'center'} >
+                            <Grid item style={{textAlign: 'center'}} justifyContent={'center'}>
                                 <Typography variant="h3" color="primary" align="center">
                                     Combo
                                 </Typography>
@@ -445,13 +447,13 @@ class Inscripcion extends PureComponent {
                                 </Grid>
                             </Grid>
                             <Grid item style={{textAlign: 'center'}}>
-                                    <Typography variant="caption">
-                                        * Si por alguna razón no podés asistir al ETI,
-                                        tenés tiempo de pedir la devolución de tu combo hasta 10 días antes del ETI,
-                                        es decir, hasta el <b>martes 28 de junio</b>.<br/>
-                                        Pasada esa fecha, no se te devolverá tu dinero aunque no asistas al ETI.
-                                    </Typography>
-                                </Grid>
+                                <Typography variant="caption">
+                                    * Si por alguna razón no podés asistir al ETI,
+                                    tenés tiempo de pedir la devolución de tu combo hasta 10 días antes del ETI,
+                                    es decir, hasta el <b>martes 28 de junio</b>.<br/>
+                                    Pasada esa fecha, no se te devolverá tu dinero aunque no asistas al ETI.
+                                </Typography>
+                            </Grid>
                         </Grid>
                     </Grid>
 
