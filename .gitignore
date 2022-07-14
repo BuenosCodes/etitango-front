@@ -23,3 +23,12 @@ yarn-debug.log*
 yarn-error.log*
 
 .idea/
+
+.env
+
+package-lock.json
+/.firebase/hosting.YnVpbGQ.cache
+
+functions/lib/
+
+*.log
