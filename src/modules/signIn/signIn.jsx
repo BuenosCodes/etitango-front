@@ -57,7 +57,7 @@ function SignInScreen() {
                     helperText={errors.password || ''}
                     onChange={onChange('password')}
                 />
-                <Button onClick={() => getUserCredential()}>Enviar</Button>
+                <Button disabled={!state.email || !state.password} onClick={() => getUserCredential()}>Enviar</Button>
             </div>
         );
     }

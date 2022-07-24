@@ -15,7 +15,7 @@ import {
     Typography
 } from '@mui/material';
 import {produce} from 'immer';
-
+import {debounce} from 'debounce';
 import {FOOD_CHOICES, HELP_WITH_CHOICES, VALIDATION_RULES} from './inscripcion.constants';
 import WithAuthentication from "./withAuthentication";
 import {getCities, getCountries, getProvinces} from "../../helpers/firestore/countries";
@@ -26,7 +26,7 @@ class Inscripcion extends PureComponent {
         super(props);
         this.state = {
             countries: [],
-            states: [],
+            provinces: [],
             cities: [],
             errors: {},
             pristine: true,
@@ -43,7 +43,7 @@ class Inscripcion extends PureComponent {
             is_celiac: false,
             vaccinated: true,
             country: null,
-            state: null,
+            province: null,
             city: null
         };
     }
@@ -59,6 +59,7 @@ class Inscripcion extends PureComponent {
 
     handleOnChange = ({target}) => {
         this.setState({[target.name]: target.value})
+        debounce(this.validateField(target.name, target.value), 500);
     }
 
     handleArrivalDateChange = (newValue) => {
@@ -81,7 +82,7 @@ class Inscripcion extends PureComponent {
 
     handleCountryChange = async (e, value) => {
         const province = value ? await getProvinces(value.id) : []
-        this.setState({states: province, country: value})
+        this.setState({provinces: province, country: value})
     }
 
     handleProvinceChange = async (e, value) => {
@@ -106,7 +107,7 @@ class Inscripcion extends PureComponent {
             food,
             is_celiac,
             country,
-            state,
+            province,
             city
         } = this.state;
         let data = {
@@ -120,13 +121,13 @@ class Inscripcion extends PureComponent {
             food: food,
             is_celiac,
             country: (country && country.id) || null,
-            state: (state && state.id) || null,
+            province: (province && province.id) || null,
             city: (city && city.id) || null
         };
         if (!country)
             delete data.country;
-        if (!state)
-            delete data.state;
+        if (!province)
+            delete data.province;
         if (!city)
             delete data.city;
 
@@ -174,7 +175,7 @@ class Inscripcion extends PureComponent {
     render() {
         const {
             countries,
-            states,
+            provinces,
             cities,
             errors,
             pristine,
@@ -189,7 +190,7 @@ class Inscripcion extends PureComponent {
             food,
             is_celiac,
             country,
-            state,
+            province,
             city,
             vaccinated
         } = this.state;
@@ -353,11 +354,11 @@ class Inscripcion extends PureComponent {
                                 <Autocomplete
                                     fullWidth
                                     disablePortal
-                                    id="states"
+                                    id="provinces"
                                     onChange={this.handleProvinceChange}
                                     getOptionLabel={(option) => option.name}
-                                    options={states}
-                                    value={state}
+                                    options={provinces}
+                                    value={province}
                                     renderInput={(params) => <TextField
                                         {...params}
                                         label="Provincia"
