@@ -1,13 +1,17 @@
 import * as functions from "firebase-functions";
 import {CallableContext} from "firebase-functions/lib/common/providers/https";
+import {SampleInterface} from "../../shared/example";
+const {initializeApp, applicationDefault,} = require('firebase-admin/app');
+const {getFirestore} = require('firebase-admin/firestore');
 
-const admin = require('firebase-admin');
-admin.initializeApp();
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-export const helloWorld = functions.https.onCall((data: any, context: CallableContext) => {
+initializeApp({credential: applicationDefault(),});
+
+export const db = getFirestore();
+
+export const helloWorld = functions.https.onCall(async (data: SampleInterface, context: CallableContext) => {
     const txt = "Hello from Firebase!";
-    return {txt: txt + ' ' + data.text};
+    return {txt: txt + ' ' + data.fieldA};
 });
+
+export const authentication = require('./authentication');

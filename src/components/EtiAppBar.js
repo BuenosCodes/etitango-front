@@ -80,7 +80,7 @@ const EtiAppBar = () => {
                                 {"Cerrar Sesión"}
                             </Button>
                         }
-                    </Box>;
+                    </Box>
                     <Box sx={{flexGrow: 0, display: {xs: 'flex', md: 'none'}}}>
                         <IconButton
                             size="large"

@@ -3,12 +3,14 @@ import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import {auth, uiConfig} from "../../etiFirebase";
 import {Navigate} from "react-router-dom"
 import {Button, TextField} from "@mui/material";
-import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
-import {sendVerificaionEmail} from "../../helpers/firebaseAuthentication";
+import {createUserWithEmailAndPassword} from "firebase/auth";
+import {sendVerificationEmail} from "../../helpers/firebaseAuthentication";
+import {createUserInDb} from "../../helpers/functions/index";
 
 function SignInScreen() {
     const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
     const [isVerified, setIsVerified] = useState(false); // Local signed-in state.
+
     // Listen to the Firebase Auth state and set the local state.
     useEffect(() => {
         const unregisterAuthObserver = auth.onAuthStateChanged(user => {
@@ -17,16 +19,17 @@ function SignInScreen() {
         });
         return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
     }, []);
+
     const [state, setState] = useState({email: '', errors: {}});
     const errors = {email: 'Ingrese un email válido'}
     const onChange = (fieldName) => (e) => {
         setState(s => ({...s, [fieldName]: e.target.value}))
     }
 
-
     async function getUserCredential() {
-        await createUserWithEmailAndPassword(getAuth(), state.email, state.password);
-        await sendVerificaionEmail();
+        await createUserWithEmailAndPassword(auth, state.email, state.password);
+        await sendVerificationEmail();
+        await createUserInDb(auth.currentUser)
     }
 
     if (!isSignedIn) {
@@ -54,15 +57,16 @@ function SignInScreen() {
                     helperText={errors.password || ''}
                     onChange={onChange('password')}
                 />
-                <Button onClick={() => getUserCredential()}>Enviar</Button>
+                <Button disabled={!state.email || !state.password} onClick={() => getUserCredential()}>Enviar</Button>
             </div>
         );
     }
     if (!isVerified) {
-        return <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}> <p>Valida tu email para continuar. (Clickeando en el link que reibiste a tu correo)</p>
-            <p>No lo recibiste? <button onClick={sendVerificaionEmail}>Reenviar</button></p>
+        return <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            <p>Valida tu email para continuar. (Clickeando en el link que reibiste a tu correo)</p>
+            <p>No lo recibiste? <button onClick={sendVerificationEmail}>Reenviar</button></p>
             <p>Si seguis sin verlo, revisá la carpeta de SPAM (Correo no deseado) </p>
-            </div>
+        </div>
     }
     return (
         <Navigate to='/inscripcion'/>
