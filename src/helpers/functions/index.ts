@@ -1,5 +1,5 @@
 import {httpsCallable} from "firebase/functions";
-import {functions} from "../../etiFirebase.js";
+import {functions} from "../../etiFirebase";
 import {SampleInterface, SampleResponse} from "../../../shared/example";
 
 export async function callTest() {

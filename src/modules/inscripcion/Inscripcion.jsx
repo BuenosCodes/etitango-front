@@ -21,6 +21,8 @@ import WithAuthentication from "./withAuthentication";
 import {createSignup} from "../../helpers/firestore/signups";
 import {getCities, getProvinces} from "../../helpers/thirdParties/georef";
 import {getCountries} from "../../helpers/thirdParties/restCountries";
+import {getFutureEti} from "../../helpers/firestore/events";
+import {auth} from "../../etiFirebase"
 
 class Inscripcion extends PureComponent {
     constructor(props) {
@@ -36,9 +38,6 @@ class Inscripcion extends PureComponent {
             last_name: "",
             email: "",
             dni_number: "",
-            status: "W",
-            arrival_date: "2022-07-8",
-            leave_date: "2022-07-10",
             help_with: "",
             food: "",
             is_celiac: false,
@@ -51,8 +50,14 @@ class Inscripcion extends PureComponent {
 
     componentDidMount = async () => {
         try {
-            const countries = await getCountries();
-            this.setState({countries});
+            const [countries, etiEvent] = await Promise.all([getCountries(), getFutureEti()])
+            this.setState({
+                countries,
+                etiEvent,
+                arrival_date: etiEvent.dateStart,
+                leave_date: etiEvent.dateEnd,
+                email: auth.currentUser.email
+            });
         } catch (e) {
             console.error(e)
         }
@@ -112,6 +117,7 @@ class Inscripcion extends PureComponent {
             province,
             city
         } = this.state;
+
         let data = {
             name,
             last_name,
@@ -122,19 +128,12 @@ class Inscripcion extends PureComponent {
             help_with: help_with,
             food: food,
             is_celiac,
-            country: (country && country.id) || null,
-            province: (province && province.id) || null,
-            city: (city && city.id) || null
+            country,
+            province,
+            city,
         };
-        if (!country)
-            delete data.country;
-        if (!province)
-            delete data.province;
-        if (!city)
-            delete data.city;
-
         try {
-            await createSignup(data)
+            await createSignup(this.state.etiEvent.id, data)
             window.location.href = `${window.location.protocol}//${process.env.REACT_APP_FRONT_END_URL || 'localhost:3000'}/lista-inscriptos`;
         } catch (error) {
             this.setState({errors: error.response.data})
@@ -206,6 +205,9 @@ class Inscripcion extends PureComponent {
                             <Typography variant="h2" color="secondary" align="center">
                                 Formulario de inscripción
                             </Typography>
+                            <Typography variant="h2" color="secondary" align="center">
+                                {this.state.etiEvent?.name}
+                            </Typography>
                         </Grid>
                         <Grid item container spacing={2} md={6} sm={12}>
                             <Grid item md={6} sm={6} xs={12}>
@@ -236,6 +238,7 @@ class Inscripcion extends PureComponent {
                         <Grid item container spacing={2} md={6} sm={12}>
                             <Grid item md={6} sm={6} xs={12}>
                                 <TextField
+                                    disabled
                                     fullWidth label="Email"
                                     type="email"
                                     value={email}
@@ -347,38 +350,38 @@ class Inscripcion extends PureComponent {
                                 />
                             </Grid>
                             {this.state.isArgentina && <>
-                            <Grid item md={4} sm={4} xs={12}>
-                                <Autocomplete
-                                    fullWidth
-                                    disablePortal
-                                    id="provinces"
-                                    onChange={this.handleProvinceChange}
-                                    options={provinces}
-                                    value={province}
-                                    renderInput={(params) => <TextField
-                                        {...params}
-                                        label="Provincia"
-                                        inputProps={params.inputProps}
+                                <Grid item md={4} sm={4} xs={12}>
+                                    <Autocomplete
+                                        fullWidth
+                                        disablePortal
+                                        id="provinces"
+                                        onChange={this.handleProvinceChange}
+                                        options={provinces}
+                                        value={province}
+                                        renderInput={(params) => <TextField
+                                            {...params}
+                                            label="Provincia"
+                                            inputProps={params.inputProps}
+                                        />
+                                        }
                                     />
-                                    }
-                                />
-                            </Grid>
-                            <Grid item md={4} sm={4} xs={12}>
-                                <Autocomplete
-                                    fullWidth
-                                    disablePortal
-                                    id="cities"
-                                    onChange={this.handleCityChange}
-                                    options={cities}
-                                    value={city}
-                                    renderInput={(params) => <TextField
-                                        {...params}
-                                        label="Ciudad"
-                                        inputProps={params.inputProps}
+                                </Grid>
+                                <Grid item md={4} sm={4} xs={12}>
+                                    <Autocomplete
+                                        fullWidth
+                                        disablePortal
+                                        id="cities"
+                                        onChange={this.handleCityChange}
+                                        options={cities}
+                                        value={city}
+                                        renderInput={(params) => <TextField
+                                            {...params}
+                                            label="Ciudad"
+                                            inputProps={params.inputProps}
+                                        />
+                                        }
                                     />
-                                    }
-                                />
-                            </Grid>
+                                </Grid>
                             </>}
                         </Grid>
                         {/*<Grid item container alignItems="center">

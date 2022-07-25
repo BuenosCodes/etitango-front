@@ -3,28 +3,49 @@ import {db} from "../../etiFirebase";
 
 
 export async function getCollection(path) {
-    const ref = collection(db, path);
-    const q = query(ref);
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((doc) => ({id: doc.id, ...doc.data()}));
+    try {
+        const ref = collection(db, path);
+        const q = query(ref);
+        const querySnapshot = await getDocs(q);
+        return querySnapshot.docs.map((doc) => ({id: doc.id, ...doc.data()}));
+    } catch (e) {
+        console.error(e)
+        throw e
+    }
 }
 
 export async function getDocument(...path) {
-    const ref = doc(db, path);
-    const docSnapshot = await getDoc(ref);
-    if (docSnapshot.exists()) {
-        return docSnapshot.data()
-    } else {
-        return undefined;
+    try {
+        const ref = doc(db, path);
+        const docSnapshot = await getDoc(ref);
+        if (docSnapshot.exists()) {
+            return docSnapshot.data()
+        } else {
+            return undefined;
+        }
+    } catch (e) {
+        console.error(e)
+        throw e
     }
 }
 
 export const createDoc = async (path, data, id) => {
-    if (!!id) {
-        const docRef = await setDoc(doc(db, `${path}/${id}`), data, id);
-        return docRef.id
-    } else {
-        const docRef  = await addDoc(collection(db, path), data);
-        return docRef.id;
+    try {
+        const docData = {...data};
+        Object.entries(data).forEach(([k, v]) => {
+            if (v === undefined || v === null)
+                delete docData[k];
+        });
+        debugger
+        if (!!id) {
+            const docRef = await setDoc(doc(db, `${path}/${id}`), docData, id);
+            return docRef.id
+        } else {
+            const docRef = await addDoc(collection(db, path), docData);
+            return docRef.id;
+        }
+    } catch (e) {
+        console.error(e)
+        throw e
     }
 };
