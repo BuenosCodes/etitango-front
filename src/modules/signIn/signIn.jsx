@@ -2,10 +2,7 @@ import React, {useEffect, useState} from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import {auth, uiConfig} from "../../etiFirebase";
 import {Navigate} from "react-router-dom"
-import {Button, TextField} from "@mui/material";
-import {createUserWithEmailAndPassword} from "firebase/auth";
-import {sendVerificationEmail} from "../../helpers/firebaseAuthentication";
-import {createUserInDb} from "../../helpers/functions/index";
+import {sendVerificationEmail} from "../../helpers/firebaseAuthentication.js";
 
 function SignInScreen() {
     const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
@@ -20,44 +17,11 @@ function SignInScreen() {
         return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
     }, []);
 
-    const [state, setState] = useState({email: '', errors: {}});
-    const errors = {email: 'Ingrese un email válido'}
-    const onChange = (fieldName) => (e) => {
-        setState(s => ({...s, [fieldName]: e.target.value}))
-    }
-
-    async function getUserCredential() {
-        await createUserWithEmailAndPassword(auth, state.email, state.password);
-        await sendVerificationEmail();
-        await createUserInDb(auth.currentUser)
-    }
-
     if (!isSignedIn) {
         return (
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <p>Inicia sesión para continuar</p>
                 <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
-                <TextField
-                    label="Email"
-                    type="email"
-                    value={state.email}
-                    name="email"
-                    required
-                    error={Boolean(state.errors.email)}
-                    helperText={errors.email || ''}
-                    onChange={onChange('email')}
-                />
-                <TextField
-                    label="Contraseña"
-                    type="password"
-                    value={state.password}
-                    name="password"
-                    required
-                    error={Boolean(state.errors.password)}
-                    helperText={errors.password || ''}
-                    onChange={onChange('password')}
-                />
-                <Button disabled={!state.email || !state.password} onClick={() => getUserCredential()}>Enviar</Button>
             </div>
         );
     }
