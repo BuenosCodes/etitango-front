@@ -4,6 +4,8 @@ import * as firebaseAuth from "firebase/auth";
 import {connectAuthEmulator, getAuth} from "firebase/auth";
 import {connectFirestoreEmulator, getFirestore} from "firebase/firestore";
 import {connectFunctionsEmulator, getFunctions} from "firebase/functions";
+import {createUserInDbIfNotExists} from "./helpers/functions/index";
+import {sendVerificationEmail} from "./helpers/firebaseAuthentication";
 
 config()
 export const firebaseConfig = {
@@ -39,5 +41,14 @@ export const uiConfig = {
     signInOptions: [
         firebaseAuth.GoogleAuthProvider.PROVIDER_ID,
         firebaseAuth.FacebookAuthProvider.PROVIDER_ID,
-    ]
+        firebaseAuth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD,
+    ],
+    callbacks: {
+        signInSuccess: async (user) => {
+            await createUserInDbIfNotExists(user)
+            if (!user.emailVerified) {
+                await sendVerificationEmail()
+            }
+        }
+    }
 };

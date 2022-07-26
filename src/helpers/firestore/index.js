@@ -14,7 +14,7 @@ export async function getCollection(path) {
     }
 }
 
-export async function getDocument(...path) {
+export async function getDocument(path) {
     try {
         const ref = doc(db, path);
         const docSnapshot = await getDoc(ref);
