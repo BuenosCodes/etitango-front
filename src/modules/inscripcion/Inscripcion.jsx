@@ -18,8 +18,9 @@ import {produce} from 'immer';
 import {debounce} from 'debounce';
 import {FOOD_CHOICES, HELP_WITH_CHOICES, VALIDATION_RULES} from './inscripcion.constants';
 import WithAuthentication from "./withAuthentication";
-import {getCities, getCountries, getProvinces} from "../../helpers/firestore/countries";
 import {createSignup} from "../../helpers/firestore/signups";
+import {getCities, getProvinces} from "../../helpers/thirdParties/georef";
+import {getCountries} from "../../helpers/thirdParties/restCountries";
 
 class Inscripcion extends PureComponent {
     constructor(props) {
@@ -81,13 +82,14 @@ class Inscripcion extends PureComponent {
     // }
 
     handleCountryChange = async (e, value) => {
-        const province = value ? await getProvinces(value.id) : []
-        this.setState({provinces: province, country: value})
+        const isArgentina = value === 'Argentina';
+        const provinces = isArgentina ? await getProvinces() : []
+        this.setState({provinces, province: null, city: null, country: value, isArgentina})
     }
 
     handleProvinceChange = async (e, value) => {
-        const cities = value ? await getCities(this.state.country.id, value.id) : []
-        this.setState({cities, province: value})
+        const cities = value ? await getCities(value) : []
+        this.setState({cities, province: value, city: null})
     }
 
     handleCityChange = (e, value) => {
@@ -334,38 +336,29 @@ class Inscripcion extends PureComponent {
                                     disablePortal
                                     id="countries"
                                     onChange={this.handleCountryChange}
-                                    getOptionLabel={(option) => {
-                                        return option.name
-                                    }}
                                     options={countries}
                                     value={country}
                                     renderInput={(params) => <TextField
                                         {...params}
                                         label="Pais"
-                                        inputProps={{
-                                            ...params.inputProps,
-                                            autoComplete: 'new-password',
-                                        }}
+                                        inputProps={params.inputProps}
                                     />
                                     }
                                 />
                             </Grid>
+                            {this.state.isArgentina && <>
                             <Grid item md={4} sm={4} xs={12}>
                                 <Autocomplete
                                     fullWidth
                                     disablePortal
                                     id="provinces"
                                     onChange={this.handleProvinceChange}
-                                    getOptionLabel={(option) => option.name}
                                     options={provinces}
                                     value={province}
                                     renderInput={(params) => <TextField
                                         {...params}
                                         label="Provincia"
-                                        inputProps={{
-                                            ...params.inputProps,
-                                            autoComplete: 'new-password',
-                                        }}
+                                        inputProps={params.inputProps}
                                     />
                                     }
                                 />
@@ -376,20 +369,17 @@ class Inscripcion extends PureComponent {
                                     disablePortal
                                     id="cities"
                                     onChange={this.handleCityChange}
-                                    getOptionLabel={(option) => option.name}
                                     options={cities}
                                     value={city}
                                     renderInput={(params) => <TextField
                                         {...params}
                                         label="Ciudad"
-                                        inputProps={{
-                                            ...params.inputProps,
-                                            autoComplete: 'new-password',
-                                        }}
+                                        inputProps={params.inputProps}
                                     />
                                     }
                                 />
                             </Grid>
+                            </>}
                         </Grid>
                         {/*<Grid item container alignItems="center">
               <Grid item xs={1}>
