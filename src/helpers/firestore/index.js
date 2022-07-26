@@ -38,8 +38,8 @@ export const createDoc = async (path, data, id) => {
         });
 
         if (!!id) {
-            const docRef = await setDoc(doc(db, `${path}/${id}`), docData, id);
-            return docRef.id
+            await setDoc(doc(db, `${path}/${id}`), docData, id);
+            return id;
         } else {
             const docRef = await addDoc(collection(db, path), docData);
             return docRef.id;

@@ -54,8 +54,8 @@ class Inscripcion extends PureComponent {
             this.setState({
                 countries,
                 etiEvent,
-                arrival_date: etiEvent.dateStart,
-                leave_date: etiEvent.dateEnd,
+                arrival_date: etiEvent?.dateStart,
+                leave_date: etiEvent?.dateEnd,
                 email: auth.currentUser.email
             });
         } catch (e) {
@@ -133,7 +133,7 @@ class Inscripcion extends PureComponent {
             city,
         };
         try {
-            await createSignup(this.state.etiEvent.id, data)
+            await createSignup(this.state.etiEvent?.id, auth.currentUser.uid, data)
             window.location.href = `${window.location.protocol}//${process.env.REACT_APP_FRONT_END_URL || 'localhost:3000'}/lista-inscriptos`;
         } catch (error) {
             this.setState({errors: error.response.data})

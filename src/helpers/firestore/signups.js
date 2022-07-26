@@ -6,5 +6,5 @@ const SIGNUP = (etiEventId, signupId) => `${SIGNUPS(etiEventId)}/${signupId}`;
 export const getSignups = async (etiEventId) => getCollection(SIGNUPS(etiEventId));
 
 export const getSignup = async (etiEventId, signupId) => getDocument(SIGNUP(etiEventId, signupId));
-export const createSignup = async (etiEventId, data) => createDoc(SIGNUPS(etiEventId), data);
+export const createSignup = async (etiEventId, userId, data) => createDoc(SIGNUPS(etiEventId), data, userId);
 
