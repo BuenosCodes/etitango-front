@@ -1,5 +1,4 @@
 import React, {PureComponent} from 'react'
-import axios from 'axios';
 
 import {
     Container,
@@ -14,6 +13,8 @@ import {
     Typography
 } from '@mui/material';
 import WithAuthentication from "./withAuthentication";
+import {getFutureEti} from "../../helpers/firestore/events";
+import {getSignups} from "../../helpers/firestore/signups";
 
 class InscripcionList extends PureComponent {
 
@@ -24,19 +25,14 @@ class InscripcionList extends PureComponent {
         }
     }
 
-    componentDidMount = () => {
-        axios.get(`${window.location.protocol}//${process.env.REACT_APP_BACK_END_URL || 'localhost:8000'}/event/inscription/`)
-            .then(response => {
-                this.setState({inscripciones: response.data.inscriptions})
-            })
-            .catch(e => {
-                console.error(e);
-            })
+    componentDidMount = async () => {
+        const etiEvent = await getFutureEti();
+        const inscripciones = await getSignups(etiEvent.id);
+        this.setState({inscripciones})
     }
 
     render() {
         const {inscripciones} = this.state;
-
         return (
             <React.Fragment>
                 <WithAuthentication/>
