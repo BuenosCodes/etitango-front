@@ -84,12 +84,12 @@ class Inscripcion extends PureComponent {
     handleCountryChange = async (e, value) => {
         const isArgentina = value === 'Argentina';
         const provinces = isArgentina ? await getProvinces() : []
-        this.setState({provinces, province: undefined, city: undefined, country: value, isArgentina})
+        this.setState({provinces, province: null, city: null, country: value, isArgentina})
     }
 
     handleProvinceChange = async (e, value) => {
         const cities = value ? await getCities(value) : []
-        this.setState({cities, province: value, city: undefined})
+        this.setState({cities, province: value, city: null})
     }
 
     handleCityChange = (e, value) => {
