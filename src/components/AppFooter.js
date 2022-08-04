@@ -1,9 +1,12 @@
 import * as React from "react";
 import { Grid, Link } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import {useTranslation} from "react-i18next";
+import {SCOPES} from "helpers/constants/i18n.ts";
 
 
 export default function AppFooter() {
+  const {t} = useTranslation(SCOPES.COMPONENTS.FOOTER, {useSuspense: false});
   return (
     <Grid container >
       <Grid item xs={12}>
@@ -20,7 +23,7 @@ export default function AppFooter() {
             </Link>
           </Grid>
           <Grid item variant="body1" sx={{ color: "white" }}>
-            Foro Tanguero del Interior
+            {t("footer")}
           </Grid>
         </Grid>
       </Grid>

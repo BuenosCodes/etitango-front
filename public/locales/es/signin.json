@@ -1,0 +1,7 @@
+{
+  "notSignedIn": "Inicia sesión para continuar",
+  "emailNotValidated": "Valida tu email para continuar. (Clickeando en el link que reibiste a tu correo)",
+  "verificationMailNotReceived": "No lo recibiste?",
+  "resend": "Reenviar",
+  "checkSpamFolder": "Si seguis sin verlo, revisá la carpeta de SPAM (Correo no deseado) "
+}
