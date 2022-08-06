@@ -3,8 +3,12 @@ import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import {auth, uiConfig} from "../../etiFirebase";
 import {Navigate} from "react-router-dom"
 import {sendVerificationEmail} from "../../helpers/firebaseAuthentication.js";
+import {useTranslation} from "react-i18next";
+import {SCOPES} from "helpers/constants/i18n.ts";
 
 function SignInScreen() {
+    const {t} = useTranslation(SCOPES.MODULES.SIGN_IN, {useSuspense: false});
+
     const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
     const [isVerified, setIsVerified] = useState(false); // Local signed-in state.
 
@@ -20,16 +24,16 @@ function SignInScreen() {
     if (!isSignedIn) {
         return (
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                <p>Inicia sesión para continuar</p>
+                <p>{t("notSignedIn")}</p>
                 <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
             </div>
         );
     }
     if (!isVerified) {
         return <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-            <p>Valida tu email para continuar. (Clickeando en el link que reibiste a tu correo)</p>
-            <p>No lo recibiste? <button onClick={sendVerificationEmail}>Reenviar</button></p>
-            <p>Si seguis sin verlo, revisá la carpeta de SPAM (Correo no deseado) </p>
+            <p>{t("emailNotValidated")}</p>
+            <p>{t("verificationMailNotReceived")} <button onClick={sendVerificationEmail}>{t("resend")}</button></p>
+            <p>{t("checkSpamFolder")}</p>
         </div>
     }
     return (

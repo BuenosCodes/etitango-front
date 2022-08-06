@@ -1,0 +1,8 @@
+{
+  "title": "Listado de Inscripciones",
+  "name": "Nombre",
+  "country": "Pais",
+  "province": "Provincia",
+  "city": "Ciudad",
+  "status": "Estado de la inscripción"
+}

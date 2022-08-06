@@ -7,19 +7,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 
 import {auth} from "../etiFirebase";
-
-const links = [
-    {href: "/historia-del-eti", title: "Historia del ETI"},
-    {href: "/manifiesto-etiano", title: "Manifiesto ETIano"},
-    // {href: "/", title: "Comisión de Género"} // Esto se agregará más adelante
-];
-
-const buttons = [
-    {href: "/inscripcion/", title: "INSCRIPCIÓN"},
-    {href: "/lista-inscriptos/", title: "LISTADO DE INSCRIPCIONES"},
-    // {href: "/signup/", title: "CREAR USUARIO"} // Esto se agregará más adelante
-];
-
+import {useTranslation} from "react-i18next";
+import {SCOPES} from "helpers/constants/i18n.ts";
 
 const EtiAppBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -39,6 +28,20 @@ const EtiAppBar = () => {
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
+
+    const {t} = useTranslation(SCOPES.COMPONENTS.BAR, {useSuspense: false});
+
+    const links = [
+        {href: "/historia-del-eti", title: t("history")},
+        {href: "/manifiesto-etiano", title: t("manifest")},
+        // {href: "/", title: "Comisión de Género"} // Esto se agregará más adelante
+    ];
+
+    const buttons = [
+        {href: "/inscripcion/", title: t("signup").toUpperCase()},
+        {href: "/lista-inscriptos/", title: t("signupList").toUpperCase()},
+        // {href: "/signup/", title: "CREAR USUARIO"} // Esto se agregará más adelante
+    ];
 
 
     return (
@@ -77,7 +80,7 @@ const EtiAppBar = () => {
                                     href={'/'}
                                     key={'signout'}
                                     sx={{fontSize: 12, align: "center", margin: "3px", textAlign: 'center'}}>
-                                {"Cerrar Sesión"}
+                                {t("logout")}
                             </Button>
                         }
                     </Box>
