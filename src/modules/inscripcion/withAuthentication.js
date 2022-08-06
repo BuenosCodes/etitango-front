@@ -9,11 +9,11 @@ const WithAuthentication = (props) => {
     const [ran, setRan] = useState(false);
     useEffect(() => {
         const unregisterAuthObserver = auth.onAuthStateChanged(user => {
-            setIsSignedIn(!!user);
+            setIsSignedIn(!!user?.emailVerified);
             setRan(true);
         });
         return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
-    }, [])
+    }, [auth])
 
     return (
         <>

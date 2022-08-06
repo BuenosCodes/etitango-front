@@ -1,7 +1,11 @@
-import firebase from "firebase/compat/app";
-import * as firebaseAuth from "firebase/auth";
-import {getAuth} from "firebase/auth";
 import {config} from "dotenv";
+import {initializeApp} from "firebase/app";
+import * as firebaseAuth from "firebase/auth";
+import {connectAuthEmulator, getAuth} from "firebase/auth";
+import {connectFirestoreEmulator, getFirestore} from "firebase/firestore";
+import {connectFunctionsEmulator, getFunctions} from "firebase/functions";
+import {createUserInDbIfNotExists} from "./helpers/functions/index";
+import {sendVerificationEmail} from "./helpers/firebaseAuthentication";
 
 config()
 export const firebaseConfig = {
@@ -14,9 +18,20 @@ export const firebaseConfig = {
 };
 
 // Configure Firebase.
-firebase.initializeApp(firebaseConfig)
+const app = initializeApp(firebaseConfig)
+
 export const auth = getAuth();
-// Configure FirebaseUI.
+export const db = getFirestore(app);
+export const functions = getFunctions(app);
+
+if (process.env.NODE_ENV === 'development') {
+    console.log("connecting to emulators")
+    connectFunctionsEmulator(functions, "localhost", 5001);
+    connectFirestoreEmulator(db, 'localhost', 8080);
+    connectAuthEmulator(auth, "http://localhost:9099");
+}
+
+// // Configure FirebaseUI.
 export const uiConfig = {
     // Popup signin flow rather than redirect flow.
     signInFlow: "popup",
@@ -25,6 +40,15 @@ export const uiConfig = {
     // We will display Google and Facebook as auth providers.
     signInOptions: [
         firebaseAuth.GoogleAuthProvider.PROVIDER_ID,
+        firebaseAuth.FacebookAuthProvider.PROVIDER_ID,
         firebaseAuth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD,
-    ]
+    ],
+    callbacks: {
+        signInSuccess: async (user) => {
+            await createUserInDbIfNotExists(user)
+            if (!user.emailVerified) {
+                await sendVerificationEmail()
+            }
+        }
+    }
 };
