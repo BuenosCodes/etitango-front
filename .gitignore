@@ -26,7 +26,6 @@ yarn-error.log*
 
 .env
 
-package-lock.json
 /.firebase/hosting.YnVpbGQ.cache
 
 functions/lib/
