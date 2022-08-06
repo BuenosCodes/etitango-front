@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-import {CallableContext} from "firebase-functions/lib/common/providers/https";
+import { CallableContext } from "firebase-functions/lib/providers/https";
 import {SampleInterface} from "../../shared/example";
 const {initializeApp, applicationDefault,} = require('firebase-admin/app');
 const {getFirestore} = require('firebase-admin/firestore');
