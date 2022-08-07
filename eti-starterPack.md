@@ -4,8 +4,8 @@
   ``` $ sudo apt install npm ```
 2. Clone the repository into your desiderd path:
   ``` $ git clone git@github.com:BuenosCodes/etitango-front.git```
-3. Change into dev branch:
-  ``` $ git checkout dev```
+3. Stay into main branch, if you are not there:
+  ``` $ git checkout main```
 4. Create an `.env` file and save it into the root and /functions folders. Contact the PM to get the file content.
 5. Make the install:
   ``` $ npm install```
