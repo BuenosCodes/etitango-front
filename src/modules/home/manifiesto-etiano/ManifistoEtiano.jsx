@@ -24,9 +24,28 @@ function ManifiestoETiano() {
                     <Typography variant="body1" gutterBottom>
 
                         <Typography variant="h6" gutterBottom component="div">
-                            {t("subtitle")}
+                            {t("subtitle_1")}
                         </Typography>
-                        {t("manifest")}
+                        {t("manifest_p1")}
+                        <Typography variant="h6" gutterBottom component="div">
+                            {t("subtitle_2")}
+                        </Typography>
+                        {t("manifest_p2")}
+                        <Typography variant="h6" gutterBottom component="div">
+                            {t("subtitle_3")}
+                        </Typography>
+                        {t("manifest_p3")}
+                        <Typography variant="h6" gutterBottom component="div">
+                            {t("subtitle_4_1")}
+                        </Typography>
+                        <Typography variant="h6" gutterBottom component="div">
+                            {t("subtitle_4_2")}
+                        </Typography>
+                        <Typography variant="h6" gutterBottom component="div"> {/* TODO variant="h7" "small-right" */}
+                            {t("subtitle_4_3")}
+                        </Typography>
+                        {t("manifest_p4")}
+                        
 
                     </Typography>
                 </Box>
