@@ -25,6 +25,7 @@
     "firebase-tools": "^11.2.0",
     "formik": "^2.2.9",
     "formik-mui": "^5.0.0-alpha.0",
+    "formik-mui-x-date-pickers": "0.0.1",
     "http2": "^3.3.7",
     "i18next": "^21.8.16",
     "i18next-http-backend": "^1.4.1",
