@@ -27,25 +27,28 @@ export enum FoodChoices {
     VEGAN = 'vegan'
 }
 
-export interface SignupCreate {
-    name: string
-    last_name: string,
+export interface SignupBase {
+    nameFirst: string
+    nameLast: string,
     email: string,
-    dni_number: string,
-    status: SignupStatus,
-    arrival_date: Date,
-    leave_date: Date,
-    help_with: SignupHelpWith,
+    dniNumber: string,
+    helpWith: SignupHelpWith,
     food: FoodChoices,
-    role: DanceRoles,
-    is_celiac: boolean,
-    vaccinated?: boolean,
+    role?: DanceRoles,
+    isCeliac: boolean,
+    isVaccinated?: boolean,
     country: string,
     state?: string,
     city?: string
+    status?: SignupStatus,
 }
 
-export interface SignupDoc extends SignupCreate {
+export interface SignupCreate extends SignupBase {
+    dateArrival: Date,
+    dateDeparture: Date,
+}
+
+export interface Signup extends SignupBase {
     id: string,
-    etiEventId: string
+    etiEventId: string,
 }

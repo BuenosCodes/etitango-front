@@ -35,23 +35,23 @@ export default function Inscripcion() {
         }
         getFormData().catch(error => console.error(error));
     }, []);
-    const InscripcionSchema = object({
-        name: string().required("Este campo no puede estar vacío").test('length', 'El nombre debe tener menos de 32 caracteres', value => !value || (value && value.length <= 32)),
-        last_name: string().required("Este campo no puede estar vacío").test('length', 'El apellido debe tener menos de 32 caracteres', value => !value || (value && value.length <= 32)),
-        dni_number: number()
+    const SignupSchema = object({
+        nameFirst: string().required("Este campo no puede estar vacío").test('length', 'El nombre debe tener menos de 32 caracteres', value => !value || (value && value.length <= 32)),
+        nameLast: string().required("Este campo no puede estar vacío").test('length', 'El apellido debe tener menos de 32 caracteres', value => !value || (value && value.length <= 32)),
+        dniNumber: number()
             .required("Completa este campo")
             .positive()
             .typeError("El DNI debe contener números únicamente")
             .test('dni_length', 'El DNI debe tener menos de 11 números', value => !value || (value && value.toString().length <= 11)),
         email: string().required("Este campo no puede estar vacío").email("Formato de mail inválido"),
-        help_with: string().required("Este campo no puede estar vacío"),
+        helpWith: string().required("Este campo no puede estar vacío"),
         food: string().required("Este campo no puede estar vacío"),
-        is_celiac: bool().required("Este campo no puede estar vacío"),
+        isCeliac: bool().required("Este campo no puede estar vacío"),
         country: string().nullable(true).required("Este campo no puede estar vacío"),
         province: string().nullable(true).required("Este campo no puede estar vacío"),
         city: string().nullable(true).required("Este campo no puede estar vacío"),
-        arrival_date: date().required("Este campo no puede estar vacío"),
-        leave_date: date().required("Este campo no puede estar vacío")
+        dateArrival: date().required("Este campo no puede estar vacío"),
+        dateDeparture: date().required("Este campo no puede estar vacío")
     });
     const handleCountryChange = (value, setFieldValue) => {
         const isArgentina = value === 'Argentina';
@@ -74,31 +74,31 @@ export default function Inscripcion() {
         setFieldValue("province", value);
         setFieldValue("city", null);
     }
-    const save = async (values, {setSubmitting}) => {
+    const save = async (values, setSubmitting) => {
         const {
-            name,
-            last_name,
+            nameFirst,
+            nameLast,
             email,
-            dni_number,
-            arrival_date,
-            leave_date,
-            help_with,
+            dniNumber,
+            dateArrival,
+            dateDeparture,
+            helpWith,
             food,
-            is_celiac,
+            isCeliac,
             country,
             province,
             city
         } = values;
         let data = {
-            name,
-            last_name,
+            nameFirst,
+            nameLast,
             email,
-            dni_number,
-            arrival_date,
-            leave_date,
-            help_with: help_with,
-            food: food,
-            is_celiac,
+            dniNumber,
+            dateArrival,
+            dateDeparture,
+            helpWith,
+            food,
+            isCeliac,
             country,
             province,
             city,
@@ -107,6 +107,7 @@ export default function Inscripcion() {
             await createSignup(etiEvent?.id, auth.currentUser.uid, data)
             window.location.href = `${window.location.protocol}//${process.env.REACT_APP_FRONT_END_URL || 'localhost:3000'}/lista-inscriptos`;
         } catch (error) {
+            console.error(error)
             setSubmitting(false);
             //TODO global error handling this.setState({errors: error.response.data})
         }
@@ -129,29 +130,31 @@ export default function Inscripcion() {
                             <Formik
                                 enableReinitialize
                                 initialValues={{
-                                    name: "",
-                                    last_name: "",
-                                    dni_number: "",
-                                    help_with: "",
+                                    nameFirst: "",
+                                    nameLast: "",
+                                    dniNumber: "",
+                                    helpWith: "",
                                     food: "",
-                                    is_celiac: false,
+                                    isCeliac: false,
                                     country: null,
                                     province: null,
                                     city: null,
-                                    arrival_date: etiEvent?.dateStart,
-                                    leave_date: etiEvent?.dateEnd,
+                                    dateArrival: etiEvent?.dateStart,
+                                    dateDeparture: etiEvent?.dateEnd,
                                     email: auth?.currentUser?.email
                                 }}
-                                validationSchema={InscripcionSchema}
-                                onSubmit={save}
+                                validationSchema={SignupSchema}
+                                onSubmit={async (values, {setSubmitting}) => {
+                                    await save(values, setSubmitting);
+                                }}
                             >
                                 {({isSubmitting, touched, errors, setFieldValue}) => (
                                     <Form>
                                         <Grid container spacing={2}>
                                             <Grid item md={6} sm={6} xs={12}>
                                                 <Field
-                                                    name="name"
-                                                    label={t("name")}
+                                                    name="nameFirst"
+                                                    label={t("nameFirst")}
                                                     component={TextField}
                                                     required
                                                     fullWidth
@@ -159,8 +162,8 @@ export default function Inscripcion() {
                                             </Grid>
                                             <Grid item md={6} sm={6} xs={12}>
                                                 <Field
-                                                    name="last_name"
-                                                    label={t("surname")}
+                                                    name="nameLast"
+                                                    label={t("nameLast")}
                                                     component={TextField}
                                                     required
                                                     fullWidth
@@ -180,8 +183,8 @@ export default function Inscripcion() {
                                             </Grid>
                                             <Grid item md={6} sm={6} xs={12}>
                                                 <Field
-                                                    name="dni_number"
-                                                    label={t("id")}
+                                                    name="dniNumber"
+                                                    label={t("nationalId")}
                                                     component={TextField}
                                                     required
                                                     fullWidth
@@ -192,8 +195,8 @@ export default function Inscripcion() {
                                                     component={DatePicker}
                                                     disablePast
                                                     textField={{fullWidth: true}}
-                                                    label={t("arrivalDate")}
-                                                    name="arrival_date"
+                                                    label={t("dateArrival")}
+                                                    name="date_arrival"
                                                     inputFormat="DD-MM-YYYY"
                                                     mask="__-__-____"
                                                 />
@@ -203,8 +206,8 @@ export default function Inscripcion() {
                                                     component={DatePicker}
                                                     disablePast
                                                     textField={{fullWidth: true}}
-                                                    label={t("leaveDate")}
-                                                    name="leave_date"
+                                                    label={t("dateDeparture")}
+                                                    name="date_departure"
                                                     inputFormat="DD-MM-YYYY"
                                                     mask="__-__-____"
                                                 />
@@ -212,13 +215,13 @@ export default function Inscripcion() {
                                             <Grid item md={4} sm={4} xs={12}>
                                                 <Field
                                                     component={Select}
-                                                    id="help_with"
-                                                    name="help_with"
+                                                    id="helpWith"
+                                                    name="helpWith"
                                                     labelId="helpwith-label"
                                                     label={t("helpWith")}
                                                     formControl={{fullWidth: true}}>
                                                     {HELP_WITH_CHOICES.map((help, i) => (
-                                                        <MenuItem key={`help_with_${i}`}
+                                                        <MenuItem key={`helpWith_${i}`}
                                                                   value={help.value}>{help.label}</MenuItem>
                                                     ))}
                                                 </Field>
@@ -241,8 +244,8 @@ export default function Inscripcion() {
                                                 <Field
                                                     component={CheckboxWithLabel}
                                                     type="checkbox"
-                                                    name="is_celiac"
-                                                    Label={{label: t("celiac")}}
+                                                    name="isCeliac"
+                                                    Label={{label: t("isCeliac")}}
                                                 />
                                             </Grid>
                                             <Grid item md={4} sm={4} xs={12}>

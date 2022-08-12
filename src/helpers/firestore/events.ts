@@ -1,20 +1,18 @@
 import {collection, getDocs, limit, orderBy, query, Timestamp, where} from "firebase/firestore";
 import {db} from "../../etiFirebase";
-import {EtiEvent} from "../../../shared/etiEvent";
+import {EtiEvent, EtiEventBase} from "../../../shared/etiEvent";
 
 const EVENTS = 'events'
 
-interface EtiEventFirestore {
-    id: string;
-    name: string;
-    location: string;
+interface EtiEventFirestore extends EtiEventBase {
     dateStart: Timestamp;
     dateEnd: Timestamp;
 }
 
 const toJs = (etiEventFromFirestore: EtiEventFirestore) =>
     ({
-        ...etiEventFromFirestore, dateStart: etiEventFromFirestore.dateStart.toDate(),
+        ...etiEventFromFirestore,
+        dateStart: etiEventFromFirestore.dateStart.toDate(),
         dateEnd: etiEventFromFirestore.dateEnd.toDate()
     } as EtiEvent)
 
