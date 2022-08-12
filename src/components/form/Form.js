@@ -1,6 +1,6 @@
 import React from "react";
 import {Formik, Form, Field} from "formik";
-import {object, ref, string, number, date} from "yup";
+import {object, ref, string, number} from "yup";
 import {
     Avatar,
     Button,
@@ -9,9 +9,8 @@ import {
     Box,
     Typography,
     Container,
-    LinearProgress
+    LinearProgress,
 } from "@mui/material";
-import {DatePicker} from 'formik-mui-x-date-pickers';
 import {TextField} from "formik-mui";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
@@ -26,29 +25,19 @@ const UserSchema = object({
     password: string()
         .required("Completa este campo")
         .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.{8,})/,
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
             "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número"
         ),
     passwordConfirmation: string().oneOf(
         [ref("password"), null],
         "Las contraseñas no coinciden"
     ),
-    dateFrom: date().required("Completa este campo"),
-    dateTo: date().required("Completa este campo").test(
-        "dateTo_greater_than_dateFrom_test",
-        "La fecha hasta debe ser mayor o igual a la fecha desde",
-        function (value) {
-            const { dateFrom } = this.parent;
-            return value.getTime() >= dateFrom.getTime();
-        }
-    ),
 });
 
 function Register() {
-    const onUserRegistration = (values) => {
-        const {name, surname, dni, password, email, dateFrom, dateTo} = values;
+    const onUserRegistration = (values, {setSubmitting}) => {
+        const {name, surname, dni, password, email} = values;
         alert("Usuario registrado!");
-        console.table({name, surname, dni, password, email, dateFrom, dateTo})
     };
     return (
         <Container component="main" maxWidth="xs">
@@ -72,10 +61,7 @@ function Register() {
                         surname: "",
                         dni: "",
                         password: "",
-                        passwordConfirmation: "",
                         email: "",
-                        dateFrom: new Date(),
-                        dateTo: new Date()
                     }}
                     validationSchema={UserSchema}
                     onSubmit={onUserRegistration}
@@ -110,25 +96,6 @@ function Register() {
                                             required
                                         />
                                     </Grid>
-                                    <Grid item xs={6} sm={6}>
-                                        <Field
-                                            component={DatePicker}
-                                            disablePast
-                                            label="Fecha desde"
-                                            name="dateFrom"
-                                            inputFormat="DD-MM-YYYY"
-                                            mask="__-__-____"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={6} sm={6}>
-                                        <Field
-                                            component={DatePicker}
-                                            label="Fecha hasta"
-                                            name="dateTo"
-                                            inputFormat="DD-MM-YYYY"
-                                            mask="__-__-____"
-                                        />
-                                    </Grid>
                                     <Grid item xs={12}>
                                         <Field
                                             name="dni"
@@ -160,7 +127,7 @@ function Register() {
                                     </Grid>
                                 </Grid>
                                 <Button
-                                    type='submit'
+                                    type="submit"
                                     fullWidth
                                     variant="contained"
                                     sx={{mt: 3, mb: 2}}
@@ -170,11 +137,11 @@ function Register() {
                                 {isSubmitting && <LinearProgress/>}
                             </Box>
                         </Form>
-                        )}
-                        </Formik>
-                        </Box>
-                        </Container>
-                        );
-                    }
+                    )}
+                </Formik>
+            </Box>
+        </Container>
+    );
+}
 
-                    export default Register;
+export default Register;

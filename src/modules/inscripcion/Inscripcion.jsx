@@ -24,7 +24,7 @@ import {getCountries} from "../../helpers/thirdParties/restCountries";
 import {getFutureEti} from "../../helpers/firestore/events";
 import {auth} from "../../etiFirebase"
 import {Translation} from "react-i18next";
-import {SCOPES} from "helpers/constants/i18n.ts";
+import {SCOPES} from "../../helpers/constants/i18n.ts";
 
 class Inscripcion extends PureComponent {
     constructor(props) {
