@@ -8,7 +8,7 @@
     ]
   },
   "firestore": {
-    "rules": "firestore.rules",
+    "rules": "functions/src/rules/firestore.rules",
     "indexes": "firestore.indexes.json"
   },
   "functions": {
