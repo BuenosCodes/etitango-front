@@ -7,6 +7,8 @@ import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
 import { createUserInDbIfNotExists } from './helpers/functions/index';
 import { sendVerificationEmail } from './helpers/firebaseAuthentication';
 
+/* eslint-disable no-undef */
+
 config();
 export const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,

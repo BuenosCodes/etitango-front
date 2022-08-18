@@ -18,7 +18,7 @@ export async function createUserInDbIfNotExists(user: { uid: string; email: stri
   }
 
   const userInDb = await getUser(user.uid);
-  if (!!userInDb) {
+  if (userInDb) {
     return;
   }
 

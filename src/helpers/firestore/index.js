@@ -35,7 +35,7 @@ export const createDoc = async (path, data, id) => {
       if (v === undefined || v === null) delete docData[k];
     });
 
-    if (!!id) {
+    if (id) {
       await setDoc(doc(db, `${path}/${id}`), docData, id);
       return id;
     } else {
