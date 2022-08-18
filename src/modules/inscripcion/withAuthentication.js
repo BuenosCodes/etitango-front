@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { UserContext } from '../../App.js';
-import { auth } from 'etiFirebase.js';
+import * as React from "react";
+import {useContext, useEffect, useState} from "react";
+import {Navigate} from "react-router-dom"
+import {UserContext} from "../../helpers/UserContext";
+import {auth} from "etiFirebase.js"
 
 const WithAuthentication = (props) => {
   const { user, setUser } = useContext(UserContext);
