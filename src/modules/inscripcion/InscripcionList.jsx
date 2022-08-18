@@ -60,12 +60,12 @@ class InscripcionList extends PureComponent {
                                             <TableBody>
                                                 {inscripciones.map((inscripcion) => (
                                                     <TableRow
-                                                        key={inscripcion.name}
+                                                        key={inscripcion.nameFirst}
                                                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                                         style={{background: getBackgroundColor(inscripcion.status_code)}}
                                                     >
                                                         <TableCell component="th" scope="row">
-                                                            {`${inscripcion.name} ${inscripcion.last_name}`}
+                                                            {`${inscripcion.nameFirst} ${inscripcion.nameLast}`}
                                                         </TableCell>
                                                         <TableCell align="right">{inscripcion.country}</TableCell>
                                                         <TableCell align="right">{inscripcion.province}</TableCell>
