@@ -1,17 +1,17 @@
 const firebase = require('@firebase/testing');
 const fs = require('fs');
-const path = require("path");
+const path = require('path');
 
 module.exports.setup = async (auth, data) => {
-    const projectId = `rules-spec-${Date.now()}`;
-    const app = await firebase.initializeTestApp({
-        projectId,
-        auth
-    });
+  const projectId = `rules-spec-${Date.now()}`;
+  const app = await firebase.initializeTestApp({
+    projectId,
+    auth
+  });
 
-    const db = app.firestore();
+  const db = app.firestore();
 
-     // Initialize admin app
+  // Initialize admin app
   const adminApp = firebase.initializeAdminApp({
     projectId
   });
@@ -25,15 +25,15 @@ module.exports.setup = async (auth, data) => {
       await ref.set(data[key]);
     }
   }
-    // Apply rules
-    await firebase.loadFirestoreRules({
-        projectId,
-        rules: fs.readFileSync(path.resolve(__dirname, '../firestore.rules'), 'utf8')
-    });
+  // Apply rules
+  await firebase.loadFirestoreRules({
+    projectId,
+    rules: fs.readFileSync(path.resolve(__dirname, '../firestore.rules'), 'utf8')
+  });
 
-    return db;
+  return db;
 };
 
 module.exports.teardown = async () => {
-  await Promise.all(firebase.apps().map(app => app.delete()));
+  await Promise.all(firebase.apps().map((app) => app.delete()));
 };
