@@ -1,7 +1,7 @@
-import * as React from "react";
-import {Typography, Box, Container} from '@mui/material';
-import {useTranslation} from "react-i18next";
-import {SCOPES} from "helpers/constants/i18n.ts";
+import * as React from 'react';
+import { Box, Container, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { SCOPES } from 'helpers/constants/i18n.ts';
 
 const item = {
     display: "flex",
@@ -23,16 +23,13 @@ function ComisionGeneroProtocol() {
                     <Typography> {t("body_1")} </Typography>
                     <Typography> {t("def_1")} </Typography> <br />
                     <Typography variant="h6" gutterBottom component="div"> {t("subtitle_2")} </Typography>
-                    <Typography> {t("body_2")} </Typography>
-                    <Typography> {t("body_3")} </Typography>
-                    <Typography> {t("body_4")} </Typography>
-                    <Typography> {t("body_5")} </Typography>
-                    <Typography> {t("body_6")} </Typography>
-                    <Typography> {t("body_7")} </Typography>
-                    <Typography> {t("body_8")} </Typography>
-                    <Typography> {t("body_9")} </Typography>
-                    <Typography> {t("body_10")} </Typography>
-                    <Typography> {t("body_11")} </Typography> <br />
+                    <ul>{t('body_2')
+                        .split('\n')
+                        .map((tx) => (
+                            <li><Typography> {tx}</Typography></li>
+                        ))}{' '}
+                    </ul>
+                    <br />
                     <Typography variant="h6" gutterBottom component="div"> {t("subtitle_3")} </Typography>
                     <Typography> {t("body_12")} </Typography> <br />
                     <Typography variant="h6" gutterBottom component="div"> {t("subtitle_4")} </Typography>
