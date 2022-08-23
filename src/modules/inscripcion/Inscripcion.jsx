@@ -48,8 +48,14 @@ export default function Inscripcion() {
         food: string().required("Este campo no puede estar vacío"),
         isCeliac: bool().required("Este campo no puede estar vacío"),
         country: string().nullable(true).required("Este campo no puede estar vacío"),
-        province: string().nullable(true).required("Este campo no puede estar vacío"),
-        city: string().nullable(true).required("Este campo no puede estar vacío"),
+        province: string().nullable(true).when("country", {
+            is: "Argentina",
+            then: string().nullable(true).required("Este campo no puede estar vacío")
+        }),
+        city: string().nullable(true).when("country", {
+            is: "Argentina",
+            then: string().nullable(true).required("Este campo no puede estar vacío")
+        }),
         dateArrival: date().required("Este campo no puede estar vacío"),
         dateDeparture: date().required("Este campo no puede estar vacío")
     });
