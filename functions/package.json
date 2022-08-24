@@ -33,7 +33,9 @@
     "typescript": "^4.5.4"
   },
   "private": true,
-    "jest": {
-      "setupFilesAfterEnv": ["./src/customMatchers.js"]
+  "jest": {
+    "setupFilesAfterEnv": [
+      "./src/customMatchers.js"
+    ]
   }
 }
