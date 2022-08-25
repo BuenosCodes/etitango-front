@@ -10,7 +10,12 @@ export const SCOPES = {
         HOME: {
             MAIN: "home",
             MANIFEST: "home.manifest",
-            HISTORY: "home.history"
+            HISTORY: "home.history",
+            GENDER:{
+                WHO: "home.gender-who",
+                PROT: "home.gender-prot",
+                CONT: "home.gender-cont"
+            }, 
         },
         SIGN_UP: "signup",
         SIGN_UP_LIST: "signup.list",

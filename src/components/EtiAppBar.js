@@ -13,18 +13,18 @@ import {SCOPES} from "helpers/constants/i18n.ts";
 const EtiAppBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [isSignedIn, setIsSignedIn] = useState(!!auth.currentUser); // Local signed-in state.
-
+    
     useEffect(() => {
         const unregisterAuthObserver = auth.onAuthStateChanged(user => {
             setIsSignedIn(!!user);
         });
         return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
     }, []);
-
+    
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
-
+    
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
@@ -41,6 +41,20 @@ const EtiAppBar = () => {
         {href: "/inscripcion/", title: t("signup").toUpperCase()},
         {href: "/lista-inscriptos/", title: t("signupList").toUpperCase()},
         // {href: "/signup/", title: "CREAR USUARIO"} // Esto se agregará más adelante
+    ];
+    
+    const [anchorElNavGender, setAnchorElNavGender] = React.useState(null);
+    const openGenderMenu = Boolean(anchorElNavGender);
+    const handleOpenNavGenderMenu = (event) => {
+        setAnchorElNavGender(event.currentTarget);
+    };
+    const handleCloseNavGenderMenu = () => {
+        setAnchorElNavGender(null);
+    };    
+    const linksGender = [
+        {href: "/comision-de-genero-who", title: t("genderWho")},
+        {href: "/comision-de-genero-protocol", title: t("genderProt")},
+        {href: "/comision-de-genero-contact", title: t("genderCont")},
     ];
 
 
@@ -62,6 +76,33 @@ const EtiAppBar = () => {
                                 {link.title}
                             </Link>)
                         )}
+                        <Button
+                            id="gender-button"
+                            aria-controls={openGenderMenu ? 'gender-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={openGenderMenu ? 'true' : undefined}
+                            onClick={handleOpenNavGenderMenu}
+                        >
+                            {t("gender")}
+                        </Button>
+                        <Menu
+                            id="gender-menu"
+                            anchorEl={anchorElNavGender}
+                            open={openGenderMenu}
+                            onClose={handleCloseNavGenderMenu}
+                            anchorReference={'ancohrEl'}
+                            MenuListProps={{
+                            'aria-labelledby': 'gender-button',
+                            }}
+                        >
+                        {linksGender.map(link =>
+                                            (<Link variant="h6" underline="none" color="black" href={link.href} sx={{fontSize: 14}}
+                                                   key={link.href}
+                                                   display="flex" padding="5px">
+                                                {link.title}
+                                            </Link>)
+                                        )}
+                        </Menu>
                     </Box>
 
                     <Box sx={{flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'flex-end'}}
@@ -120,6 +161,33 @@ const EtiAppBar = () => {
                                     {link.title}
                                 </Link>)
                             )}
+                            <Button
+                                id="gender-button"
+                                aria-controls={openGenderMenu ? 'gender-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={openGenderMenu ? 'true' : undefined}
+                                onClick={handleOpenNavGenderMenu}
+                            >
+                                {t("gender")}
+                            </Button>
+                            <Menu
+                                id="gender-menu"
+                                anchorEl={anchorElNavGender}
+                                open={openGenderMenu}
+                                onClose={handleCloseNavGenderMenu}
+                                anchorReference={'ancohrEl'}
+                                MenuListProps={{
+                                'aria-labelledby': 'gender-button',
+                                }}
+                            >
+                            {linksGender.map(link =>
+                                (<Link variant="h6" underline="none" color="black" href={link.href} sx={{fontSize: 14}}
+                                        key={link.href}
+                                        display="flex" padding="5px">
+                                    {link.title}
+                                </Link>)
+                            )}
+                            </Menu>
                         </Menu>
                     </Box>
 
