@@ -1,8 +1,8 @@
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import theme from "../theme";
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from '../theme';
 
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 
 export default function withRoot(Component) {
