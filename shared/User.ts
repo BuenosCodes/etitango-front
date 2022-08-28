@@ -1,14 +1,17 @@
 export enum UserRoles {
-    ADMIN = 'admin',
+  // eslint-disable-next-line no-unused-vars
+  ADMIN = 'admin'
 }
 
 export type IUser = {
-    id: string;
-    email: string;
-    roles: {
-        [key in keyof UserRoles]: boolean
-    }
-}
+  id: string;
+  email: string;
+  roles: {
+    // eslint-disable-next-line no-unused-vars
+    [key in keyof UserRoles]: boolean;
+  };
+};
 export type UserChange = {
-    [key in keyof IUser]: IUser[keyof IUser]
-}
+  // eslint-disable-next-line no-unused-vars
+  [key in keyof IUser]: IUser[keyof IUser];
+};

@@ -1,8 +1,8 @@
-import * as React from "react";
-import {useContext, useEffect, useState} from "react";
-import {Navigate} from "react-router-dom"
-import {UserContext} from "../../helpers/UserContext";
-import {auth} from "etiFirebase.js"
+import * as React from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import { UserContext } from '../../helpers/UserContext';
+import { auth } from 'etiFirebase.js';
 
 const WithAuthentication = (props) => {
   const { user, setUser } = useContext(UserContext);
@@ -18,7 +18,7 @@ const WithAuthentication = (props) => {
   return (
     <>
       {ran && !user && (
-          // eslint-disable-next-line react/prop-types
+        // eslint-disable-next-line react/prop-types
         <Navigate to="/sign-in" replace state={{ redirectUrl: props.redirectUrl }} />
       )}
     </>

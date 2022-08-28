@@ -15,12 +15,11 @@ export default function Portada() {
           backgroundSize: 'cover',
           height: '625px',
           paddingTop: '25px'
-        }}
-      >
+        }}>
         {/* Increase the network loading priority of the background image. */}
         <img style={{ display: 'none' }} src={ImgBackground} alt="increase priority" />
         <Typography color="white" align="center" variant="h3">
-            {/* eslint-disable-next-line react/no-unescaped-entities */}
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
           ETI "La Revancha" - 8, 9 y 10 de Julio - Bell Ville
         </Typography>
       </Box>
