@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  Container,
-  Grid,
-  MenuItem,
-  Typography,
-  TextField as TextFieldMUI
-} from '@mui/material';
+import { Button, Container, Grid, MenuItem, TextField as TextFieldMUI, Typography } from '@mui/material';
 import { FOOD_CHOICES, HELP_WITH_CHOICES } from './inscripcion.constants';
 import WithAuthentication from './withAuthentication';
 import { createSignup } from '../../helpers/firestore/signups';
@@ -19,7 +12,7 @@ import { SCOPES } from 'helpers/constants/i18n.ts';
 import { Field, Form, Formik } from 'formik';
 import { Autocomplete, CheckboxWithLabel, Select, TextField } from 'formik-mui';
 import { DatePicker } from 'formik-mui-x-date-pickers';
-import { date, number, object, string, bool } from 'yup';
+import { bool, date, number, object, string } from 'yup';
 
 export default function Inscripcion() {
   const [countries, setCountries] = useState([]);
@@ -64,8 +57,18 @@ export default function Inscripcion() {
     food: string().required('Este campo no puede estar vacío'),
     isCeliac: bool().required('Este campo no puede estar vacío'),
     country: string().nullable(true).required('Este campo no puede estar vacío'),
-    province: string().nullable(true).required('Este campo no puede estar vacío'),
-    city: string().nullable(true).required('Este campo no puede estar vacío'),
+    province: string()
+      .nullable(true)
+      .when('country', {
+        is: 'Argentina',
+        then: string().nullable(true).required('Este campo no puede estar vacío')
+      }),
+    city: string()
+      .nullable(true)
+      .when('country', {
+        is: 'Argentina',
+        then: string().nullable(true).required('Este campo no puede estar vacío')
+      }),
     dateArrival: date().required('Este campo no puede estar vacío'),
     dateDeparture: date().required('Este campo no puede estar vacío')
   });
@@ -81,6 +84,7 @@ export default function Inscripcion() {
     setFieldValue('province', null);
     setFieldValue('city', null);
   };
+
   const handleProvinceChange = (value, setFieldValue) => {
     if (value) {
       getCities(value).then((cities) => setCities(cities));
@@ -141,8 +145,7 @@ export default function Inscripcion() {
               direction="column"
               alignItems="center"
               justifyContent="center"
-              spacing={3}
-            >
+              spacing={3}>
               <Grid item sx={{ mb: 3 }}>
                 <Typography variant="h2" color="secondary" align="center">
                   {t(`${SCOPES.MODULES.SIGN_UP}.title`)}
@@ -170,8 +173,7 @@ export default function Inscripcion() {
                 validationSchema={SignupSchema}
                 onSubmit={async (values, { setSubmitting }) => {
                   await save(values, setSubmitting);
-                }}
-              >
+                }}>
                 {({ isSubmitting, touched, errors, setFieldValue }) => (
                   <Form>
                     <Grid container spacing={2}>
@@ -243,8 +245,7 @@ export default function Inscripcion() {
                           name="helpWith"
                           labelId="helpwith-label"
                           label={t('helpWith')}
-                          formControl={{ fullWidth: true }}
-                        >
+                          formControl={{ fullWidth: true }}>
                           {HELP_WITH_CHOICES.map((help, i) => (
                             <MenuItem key={`helpWith_${i}`} value={help.value}>
                               {help.label}
@@ -259,8 +260,7 @@ export default function Inscripcion() {
                           name="food"
                           labelId="food-label"
                           label={t('food')}
-                          formControl={{ fullWidth: true }}
-                        >
+                          formControl={{ fullWidth: true }}>
                           {FOOD_CHOICES.map((food, i) => (
                             <MenuItem key={`food_${i}`} value={food.value}>
                               {food.label}
@@ -357,8 +357,7 @@ export default function Inscripcion() {
                               variant="contained"
                               color="secondary"
                               type="submit"
-                              disabled={isSubmitting}
-                            >
+                              disabled={isSubmitting}>
                               {t(`${SCOPES.MODULES.SIGN_UP}.signUp`)}
                             </Button>
                           </Grid>
