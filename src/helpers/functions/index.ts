@@ -24,6 +24,7 @@ export async function createUserInDbIfNotExists(user: { uid: string; email: stri
 
   const email = user.email;
   const createUser = httpsCallable(functions, 'authentication-createUserInDB');
+
   try {
     await createUser({ email });
   } catch (e) {

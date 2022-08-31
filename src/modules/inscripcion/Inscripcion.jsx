@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Grid, MenuItem, TextField as TextFieldMUI, Typography } from '@mui/material';
+import {
+  Button,
+  Container,
+  Grid,
+  MenuItem,
+  TextField as TextFieldMUI,
+  Typography
+} from '@mui/material';
 import { FOOD_CHOICES, HELP_WITH_CHOICES } from './inscripcion.constants';
 import WithAuthentication from './withAuthentication';
 import { createSignup } from '../../helpers/firestore/signups';
@@ -126,6 +133,7 @@ export default function Inscripcion() {
     try {
       await createSignup(etiEvent?.id, auth.currentUser.uid, data);
       window.location.href = `${window.location.protocol}//${
+        // eslint-disable-next-line no-undef
         process.env.REACT_APP_FRONT_END_URL || 'localhost:3000'
       }/lista-inscriptos`;
     } catch (error) {
