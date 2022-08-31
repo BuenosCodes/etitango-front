@@ -1,6 +1,6 @@
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '../../etiFirebase';
-import { SampleInterface, SampleResponse } from '../../../shared/example';
+import { SampleInterface, SampleResponse } from '../../shared/example';
 import { getUser } from '../firestore/users';
 
 export async function callTest() {

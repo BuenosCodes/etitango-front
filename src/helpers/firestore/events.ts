@@ -1,6 +1,6 @@
 import { collection, getDocs, limit, orderBy, query, Timestamp, where } from 'firebase/firestore';
 import { db } from '../../etiFirebase';
-import { EtiEvent, EtiEventBase } from '../../../shared/etiEvent';
+import { EtiEvent, EtiEventBase } from '../../shared/etiEvent';
 
 const EVENTS = 'events';
 

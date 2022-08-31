@@ -18,7 +18,7 @@ const WithAuthentication = (props) => {
   return (
     <>
       {ran && !user && (
-          // eslint-disable-next-line react/prop-types
+        // eslint-disable-next-line react/prop-types
         <Navigate to="/sign-in" replace state={{ redirectUrl: props.redirectUrl }} />
       )}
     </>

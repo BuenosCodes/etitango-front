@@ -1,7 +1,11 @@
 {
   "hosting": {
     "public": "build",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
   },
   "firestore": {
     "rules": "functions/src/rules/firestore.rules",
@@ -9,7 +13,6 @@
   },
   "functions": {
     "predeploy": [
-      "npm --prefix \"$RESOURCE_DIR\" run lint",
       "npm --prefix \"$RESOURCE_DIR\" run build"
     ],
     "source": "functions"
@@ -30,5 +33,8 @@
     "ui": {
       "enabled": true
     }
+  },
+  "extensions": {
+    "firestore-send-email": "firebase/firestore-send-email@0.1.19"
   }
 }

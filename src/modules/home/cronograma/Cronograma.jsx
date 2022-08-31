@@ -1,7 +1,6 @@
 import * as React from 'react';
 // import cronograma from "../cronograma.json";
-
-import { Box, Grid, Button } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
 
@@ -13,7 +12,8 @@ import { SCOPES } from 'helpers/constants/i18n.ts';
 //   paddingLeft: 2,
 // };
 
-const ImgBackground = process.env.PUBLIC_URL + '/img/logo/eti-belleville.jpg';
+// eslint-disable-next-line no-undef
+const ImgBackground = process.env.PUBLIC_URL + '/img/logo/eti-currentEvent.jpg';
 
 function Cronograma() {
   const { t } = useTranslation(SCOPES.MODULES.HOME.MAIN, { useSuspense: false });
@@ -28,8 +28,7 @@ function Cronograma() {
         }}
         spacing={3}
         direction="column"
-        align="center"
-      >
+        align="center">
         {/*<Grid item><Typography variant="h4" marked="center" component="h2">*/}
         {/*  Cronograma ETIano*/}
         {/*</Typography></Grid>*/}
@@ -60,8 +59,7 @@ function Cronograma() {
             size="large"
             variant="contained"
             component="a"
-            href="/inscripcion/"
-          >
+            href="/inscripcion/">
             {t('signUp')}
           </Button>
         </Grid>
