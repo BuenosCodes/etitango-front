@@ -2,7 +2,7 @@
   "nameFirst": "Nombre",
   "nameLast": "Apellido",
   "email": "Email",
-  "nationalId": "DNI",
+  "dniNumber": "DNI",
   "dateArrival": "Fecha de llegada",
   "dateDeparture": "Fecha de ida",
   "helpWith": "Ayuda con",
