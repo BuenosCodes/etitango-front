@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 
 import {
+  Button,
   Container,
   Grid,
   Paper,
@@ -10,7 +11,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Tooltip,
   Typography
 } from '@mui/material';
 import WithAuthentication from './withAuthentication';
@@ -19,8 +19,13 @@ import { getSignups } from '../../helpers/firestore/signups';
 import { Translation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
 import { CSVLink } from 'react-csv';
-import IconButton from '@mui/material/IconButton';
 import { FileDownload as FileDownloadIcon } from '@mui/icons-material';
+import {
+  CELIAC_CHOICES,
+  FOOD_CHOICES,
+  getLabelForValue,
+  HELP_WITH_CHOICES
+} from './inscripcion.constants.js';
 
 class InscripcionList extends PureComponent {
   constructor(props) {
@@ -38,8 +43,24 @@ class InscripcionList extends PureComponent {
 
   render() {
     const { inscripciones } = this.state;
+    const exportableData =
+      inscripciones?.map((signUp) => ({
+        ...signUp,
+        dateArrival: signUp.dateArrival.toLocaleDateString(),
+        dateEnd: signUp.dateEnd.toLocaleDateString(),
+        dateDeparture: signUp.dateDeparture.toLocaleDateString(),
+        isCeliac: getLabelForValue(CELIAC_CHOICES, signUp.isCeliac),
+        helpWith: getLabelForValue(HELP_WITH_CHOICES, signUp.helpWith),
+        food: getLabelForValue(FOOD_CHOICES, signUp.food)
+      })) || [];
+    const exportableDataHeaders = inscripciones
+      ?.map((signUp) => Object.keys(signUp))
+      .reduce((previous, current) => previous.concat(current), [])
+      .filter((column, index, array) => array.indexOf(column) === index);
+    const today = new Date();
+    const date = `${today.getDay()}-${today.getMonth() + 1}-${today.getFullYear()}`;
     return (
-      <Translation ns={SCOPES.MODULES.SIGN_UP_LIST} useSuspense={false}>
+      <Translation ns={[SCOPES.MODULES.SIGN_UP_LIST, SCOPES.COMMON.FORM]} useSuspense={false}>
         {(t) => (
           <>
             <WithAuthentication />
@@ -58,18 +79,19 @@ class InscripcionList extends PureComponent {
                       direction="row"
                       justifyContent="flex-end"
                       alignItems="center">
-                      <CSVLink data={inscripciones} filename={t('exportFilename')}>
-                        <Tooltip title={t('export')}>
-                          <span>
-                            <IconButton
-                              aria-label={t('export')}
-                              color="secondary"
-                              size="large"
-                              variant="contained">
-                              <FileDownloadIcon />
-                            </IconButton>
-                          </span>
-                        </Tooltip>
+                      <CSVLink
+                        headers={exportableDataHeaders.map((header) => ({
+                          key: header,
+                          label: t(header, { ns: SCOPES.COMMON.FORM })
+                        }))}
+                        data={exportableData}
+                        filename={t('exportFilename', { date })}>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          startIcon={<FileDownloadIcon />}>
+                          {t('export')}
+                        </Button>
                       </CSVLink>
                     </Grid>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
