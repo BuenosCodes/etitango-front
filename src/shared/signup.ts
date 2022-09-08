@@ -41,7 +41,7 @@ export interface SignupBase {
   isCeliac: boolean;
   isVaccinated?: boolean;
   country: string;
-  state?: string;
+  province?: string;
   city?: string;
   status?: SignupStatus;
 }
@@ -54,4 +54,6 @@ export interface SignupCreate extends SignupBase {
 export interface Signup extends SignupBase {
   id: string;
   etiEventId: string;
+  dateArrival: Date;
+  dateDeparture: Date;
 }

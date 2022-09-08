@@ -1,13 +1,15 @@
 import { createDoc, getDocument } from './index';
 import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
 import { db, functions } from '../../etiFirebase';
-import { Signup, SignupCreate, SignupStatus } from '../../shared/signup';
+import { Signup, SignupBase, SignupCreate, SignupStatus } from '../../shared/signup';
 import { httpsCallable } from 'firebase/functions';
 
 const SIGNUPS = `signups`;
 const SIGNUP = (signupId: string) => `${SIGNUPS}/${signupId}`;
 
-interface SignupFirestore extends Signup {
+interface SignupFirestore extends SignupBase {
+  id: string;
+  etiEventId: string;
   dateArrival: Timestamp;
   dateDeparture: Timestamp;
 }

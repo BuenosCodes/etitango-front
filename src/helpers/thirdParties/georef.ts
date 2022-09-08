@@ -20,7 +20,7 @@ interface ArgentinaProvincias {
 export const getProvinces = async () => {
   const response = await fetch('https://apis.datos.gob.ar/georef/api/provincias?campos=nombre');
   const { provincias } = (await response.json()) as ArgentinaProvincias;
-  return provincias.map((province) => province.nombre).sort();
+  return (provincias || []).map((province) => province.nombre).sort();
 };
 export const getCities = async (province: string) => {
   const encodedProvince = encodeURIComponent(province);
@@ -28,5 +28,5 @@ export const getCities = async (province: string) => {
     `https://apis.datos.gob.ar/georef/api/localidades?provincia=${encodedProvince}&max=2000&campos=nombre`
   );
   const data = (await response.json()) as ArgentinaLocalidades;
-  return data.localidades.map((localidad) => toTitleCase(localidad.nombre)).sort();
+  return (data?.localidades || []).map((localidad) => toTitleCase(localidad.nombre)).sort();
 };

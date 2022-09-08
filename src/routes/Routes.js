@@ -5,7 +5,7 @@ import ComisionGeneroContact from '../modules/home/comision-de-genero/ComisionGe
 import ComisionGeneroProtocol from '../modules/home/comision-de-genero/ComisionGeneroProtocol';
 import ComisionGeneroWho from '../modules/home/comision-de-genero/comisionGeneroWho';
 import Inscripcion from '../modules/inscripcion/Inscripcion';
-import InscripcionList from '../modules/inscripcion/InscripcionList';
+import SignupList from '../modules/inscripcion/SignupList';
 import SignInScreen from '../modules/signIn/signIn';
 import Form from '../components/form/Form.js';
 
@@ -40,7 +40,7 @@ const Routes = [
   },
   {
     path: 'lista-inscriptos',
-    element: <InscripcionList />
+    element: <SignupList />
   },
   {
     path: 'sign-in',
