@@ -1,7 +1,10 @@
+/* eslint-disable no-unused-vars*/
 export enum SignupStatus {
   WAITLIST = 'waitlist',
-  PENDING = 'pending',
-  CONFIRMED = 'confirmed'
+  PAYMENT_PENDING = 'payment-pending',
+  PAYMENT_DELAYED = 'payment-delayed',
+  CONFIRMED = 'confirmed',
+  CANCELLED = 'cancelled'
 }
 
 export enum SignupHelpWith {

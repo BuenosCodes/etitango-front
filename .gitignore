@@ -31,3 +31,5 @@ yarn-error.log*
 functions/lib/
 
 *.log
+
+extensions/firestore-send-email.env

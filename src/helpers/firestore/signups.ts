@@ -1,7 +1,8 @@
 import { createDoc, getDocument } from './index';
 import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
-import { db } from '../../etiFirebase';
-import { Signup, SignupCreate } from '../../../shared/signup';
+import { db, functions } from '../../etiFirebase';
+import { Signup, SignupCreate, SignupStatus } from '../../shared/signup';
+import { httpsCallable } from 'firebase/functions';
 
 const SIGNUPS = `signups`;
 const SIGNUP = (signupId: string) => `${SIGNUPS}/${signupId}`;
@@ -38,3 +39,26 @@ export const createSignup = async (etiEventId: string, userId: string, data: Sig
     userId,
     etiEventId
   });
+
+export const createEmail = async () =>
+  Object.values(SignupStatus).map((status) =>
+    createDoc('mail', {
+      toUids: ['3YMkn4rGwHdb3dD5NXxR2okR4JNa'],
+      template: {
+        name: status,
+        data: {
+          username: 'ada',
+          name: 'Ada Lovelace'
+        }
+      }
+    })
+  );
+
+export const createSeeds = async () => {
+  const seeds = httpsCallable(functions, 'seeds-seedDatabase');
+  try {
+    await seeds();
+  } catch (e) {
+    console.log(e);
+  }
+};

@@ -142,6 +142,7 @@ export default function Inscripcion() {
       //TODO global error handling this.setState({errors: error.response.data})
     }
   };
+
   return (
     <Translation ns={[SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP]} useSuspense={false}>
       {(t) => (
