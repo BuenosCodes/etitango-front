@@ -218,7 +218,7 @@ export default function Inscripcion() {
                       <Grid item md={6} sm={6} xs={12}>
                         <Field
                           name="dniNumber"
-                          label={t('nationalId')}
+                          label={t('dniNumber')}
                           component={TextField}
                           required
                           fullWidth

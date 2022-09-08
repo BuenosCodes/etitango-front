@@ -25,6 +25,7 @@ export const getSignups = async (etiEventId: string) => {
 const toJs = (signup: SignupFirestore) =>
   ({
     ...signup,
+    dateDeparture: signup.dateDeparture?.toDate(),
     dateArrival: signup.dateArrival?.toDate(),
     dateEnd: signup.dateDeparture?.toDate()
   } as Signup);

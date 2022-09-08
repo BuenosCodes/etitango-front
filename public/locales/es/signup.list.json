@@ -4,5 +4,7 @@
   "country": "Pais",
   "province": "Provincia",
   "city": "Ciudad",
-  "status": "Estado de la inscripción"
+  "status": "Estado de la inscripción",
+  "export": "Descargar para Excel",
+  "exportFilename": "inscripciones-{{date}}.csv"
 }

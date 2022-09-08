@@ -2,13 +2,16 @@
   "nameFirst": "Nombre",
   "nameLast": "Apellido",
   "email": "Email",
-  "nationalId": "DNI",
+  "dniNumber": "DNI",
   "dateArrival": "Fecha de llegada",
   "dateDeparture": "Fecha de ida",
   "helpWith": "Ayuda con",
   "food": "Comida",
   "isCeliac": "Celíaco",
-  "country": "Pais",
+  "country": "País",
   "province": "Provincia",
-  "city": "Ciudad"
+  "city": "Ciudad",
+  "userId": "ID de usuario",
+  "etiEventId": "ID de ETI",
+  "dateEnd": "Fecha de finalización de ETI"
 }
