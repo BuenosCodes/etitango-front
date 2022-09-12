@@ -1,15 +1,4 @@
-export enum GenderComissionActionOptions {
-BAN = "se veta al denunciado",
-NOTIFICATION = "se notifica al denunciado",
-NONE = "no se toma accion"
-}
-
-export enum GenderComplaintBanOptions {
-EXPELLED = "EXPULSADO",
-MONTHS = "MESES",
-ETISNUMBER = "NUMEROS DE ETI"
-}
-
+import { GenderComissionActionOptions, GenderComplaintBanOptions } from "./constants";
 
 interface GenderComplaint {
     genderComissionAction: GenderComissionActionOptions;

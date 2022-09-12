@@ -1,32 +1,21 @@
-export enum BudgetCategory{
-PLACEANDFURNITURE = "SALON_Y_MOBILIARIOS",
-INSURANCE = "SEGUROS",
-TAXES = "IMPUESTOS_FIJOS",
-ASADETI = "ASADETI",
-EXTRA = "GASTOS VARIOS"
-} 
-
-export enum InscriptionMethods{
-LOTTERY = "SORTEO",
-PAYORDER = "ORDEN DE PAGO"
-} 
+import { BudgetCategory, InscriptionMethods } from "./constants";
 
 export interface ProposalItem {
-    Id: string;
+    id: string;
     description: string;
     amount: number;
     itemPrice: number;
     totalPrice: number;
-    itemType: BudgetCategory;
+    BudgetCategory: BudgetCategory;
 }
 
 interface PreProposal {
     date: Date;
     country: string;
-    province: string;
+    province?: string;
     city: string;
     maxAttendance: number;
-    orginizers: Array<string>;      // Array<userId>
+    organizers: Array<string>;      // Array<userId>
     colaborators: Array<string>;    // Array<userId>
     inscriptionMethod: InscriptionMethods;
 }

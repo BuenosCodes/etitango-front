@@ -1,4 +1,4 @@
-import {ProposalItem} from "./event_proposal";
+import { ProposalItem } from "./event_proposal";
 
 export interface AdministrationItem extends ProposalItem {
     receipt: URL;
@@ -8,7 +8,7 @@ interface RegistrationReview {
     registrationId: string;
     paymentDate: Date;
     paymentNumber: number;
-    confirmed: boolean;
+    isRegistrationConfirmed: boolean;
 }
 
 interface EventScheduleItem {
@@ -36,5 +36,5 @@ interface AdministrationBankAccount {
 }
 
 interface AdministrationTShirt {
-    myEventId: string;
+    etiEventId: string;
 }

@@ -1,17 +1,14 @@
-export enum GenderComplaintStatusOptions{
-CLOSED = "CERRADA",
-OPEN = "SIN ANALIZAR"
-}
+import { GenderComplaintStatusOptions } from "./constants";
 
 interface GenderComplaint {
-    genderComplaint: boolean;
+    isGenderComplaint: boolean;
     genderComplaintLocation: string;
     genderComplaintETI: string; /** misma variable que el listado de etis */
     genderComplaintVictimName: string;
     genderComplaintDescription: string;
     genderComplaintWill: string;
-    genderComplaintContact: boolean;
-    genderComplaintRestriction: boolean;
+    isGenderComplaintContact: boolean;
+    isGenderComplaintRestriction: boolean;
     genderComplaintRestrictionFile: URL;
     genderComplaintID: string;
     genderComplaintStatus: GenderComplaintStatusOptions;

@@ -1,6 +1,6 @@
 import { AdministrationItem } from "./event_administration";
 
-interface AccountabilityItem {
+interface AccountabilityItem extends AdministrationItem {
     administrationItemIds: Array<string>;
-    approved: boolean;
+    isApproved: boolean;
 }

@@ -1,45 +1,17 @@
-export enum SignupStatus {
-    WAITLIST = 'waitlist',
-    PENDING = 'pending',
-    CONFIRMED = 'confirmed'
-}
-
-export enum SignupHelpWith {
-    CLEANING = 'cleaning',
-    COOKING = 'cooking'
-}
-
-export enum Genders {
-    MALE = 'male',
-    FEMALE = 'female',
-    OTHER = 'other',
-}
-
-export enum DanceRoles {
-    LEADER = 'leader',
-    FOLLOWER = 'follower',
-    BOTH = 'both',
-}
-
-export enum FoodChoices {
-    OMNIVORE = 'omnivore',
-    VEGETARIAN = 'vegetarian',
-    VEGAN = 'vegan'
-}
+import { EventSignUpStatus, DanceRoles, FoodOptions, CollaborationDutyOptions } from "./constants"
 
 export interface SignupCreate {
     name: string
-    last_name: string,
+    lastname: string,
     email: string,
-    dni_number: string,
-    status: SignupStatus,
-    arrival_date: Date,
-    leave_date: Date,
-    help_with: SignupHelpWith,
-    food: FoodChoices,
+    dninumber: string,
+    status: EventSignUpStatus,
+    arrivaldate: Date,
+    leaveDate: Date,
+    collaborationDuties: CollaborationDutyOptions,
+    food: FoodOptions,
     role: DanceRoles,
-    is_celiac: boolean,
-    vaccinated?: boolean,
+    isCeliac: boolean,
     country: string,
     state?: string,
     city?: string
