@@ -7,4 +7,5 @@ export interface EtiEventBase {
 export interface EtiEvent extends EtiEventBase {
   dateStart: Date;
   dateEnd: Date;
+  dateSignupOpen: Date;
 }

@@ -1,32 +1,37 @@
 {
   "dias": [
     {
-      "dia": "Viernes 25 de Marzo",
+      "dia": "Viernes 04 de Noviembre",
       "actividades": [
-        "Acreditación 10hs ",
-        "Almuerzo a la canasta 13 hs",
-        "Baile hasta las 16:45hs",
-        "Asamblea desde las 17 hs hasta las 19 hs",
-        "Milonga de Bienvenida “Tu remera favorita” desde 21 y 30hs a 4hs",
-        "After "
+        "11hs: Acreditación",
+        "12hs: Recepción y Almuerzo a la canasta",
+        "13hs: Se abre la pista!",
+        "Opcional: Visita al Fortin Pavón en Saldungaray (sin costo, traslado por cuenta propia)",
+        "19hs: Limpieza del salon",
+        "21:30hs: Milonga temática: las Plumas... traete tus mejores plumajes coloridos",
+        "04hs: After"
       ]
     },
     {
-      "dia": "Sábado 26 de Marzo",
+      "dia": "Sábado 05 de Noviembre",
       "actividades": [
-        "Desayuno y almuerzo a la canasta",
-        "Baile hasta las 16:45hs",
-        "Asamblea desde las 17 hs hasta las 19 hs",
-        "Milonga de Gala desde 21 y 30hs a 4hs",
-        "After"
+        "10hs: Se abre la pista!",
+        "13:30hs: Almuerzo frugal sin bebidas",
+        "15hs: Clase magistral de tango a cargo de Lucas Robanera y Becky Navarro (sin costo)",
+        "16hs: ASAMBLEA ETIANA, sumate a decidir las futuras sedes del ETI!",
+        "18hs: Milonga callejera: playón de la Estación del ferrocarril",
+        "22:30hs: Empieza la milonga de gala con orquestas en vivo y exhibición, y lo mas importante: el bautismo ETIan@",
+        "04hs: After"
       ]
     },
     {
-      "dia": "Domingo 27 de Marzo",
+      "dia": "Domingo 06 de Noviembre",
       "actividades": [
-        "Asado Milonguero, incluye comida, bebida , vegetarianos, veganos",
-        "Cambio de bandera",
-        "Milonga de despedida hasta las 0hs"
+        "10hs: Se abre la pista del ultimo dia!",
+        "11hs: Clase de Zamba a cargo de Mariela Montero, directora de la escuela municipal de folklore (sin costo)",
+        "13:30hs: Asado ETIan@ incluye comida y bebida, con opción omnivora, vegetariana, vegana y celiaco",
+        "15hs: Cambio de bandera, zorba el griego y muchos abrazos",
+        "20hs: Se cierra ETIventania, nos vamos felices y llenos de abrazos a casa"
       ]
     }
   ]

@@ -149,241 +149,253 @@ export default function Inscripcion() {
         <>
           <WithAuthentication redirectUrl={'inscripcion'} />
           <Container maxWidth="lg" sx={{ marginTop: 6 }}>
-            <Grid
-              container
-              direction="column"
-              alignItems="center"
-              justifyContent="center"
-              spacing={3}>
-              <Grid item sx={{ mb: 3 }}>
-                <Typography variant="h2" color="secondary" align="center">
-                  {t(`${SCOPES.MODULES.SIGN_UP}.title`)}
-                </Typography>
-                <Typography variant="h2" color="secondary" align="center">
-                  {etiEvent?.name}
-                </Typography>
+            {etiEvent?.dateSignupOpen > new Date() ? (
+              <Typography>
+                {t(`${SCOPES.MODULES.SIGN_UP}.signupClosed`)}{' '}
+                {etiEvent.dateSignupOpen.toLocaleString()}
+              </Typography>
+            ) : (
+              <Grid
+                container
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
+                spacing={3}
+              >
+                <Grid item sx={{ mb: 3 }}>
+                  <Typography variant="h2" color="secondary" align="center">
+                    {t(`${SCOPES.MODULES.SIGN_UP}.title`)}
+                  </Typography>
+                  <Typography variant="h2" color="secondary" align="center">
+                    {etiEvent?.name}
+                  </Typography>
+                </Grid>
+                <Formik
+                  enableReinitialize
+                  initialValues={{
+                    nameFirst: '',
+                    nameLast: '',
+                    dniNumber: '',
+                    helpWith: '',
+                    food: '',
+                    isCeliac: false,
+                    country: null,
+                    province: null,
+                    city: null,
+                    dateArrival: etiEvent?.dateStart,
+                    dateDeparture: etiEvent?.dateEnd,
+                    email: auth?.currentUser?.email
+                  }}
+                  validationSchema={SignupSchema}
+                  onSubmit={async (values, { setSubmitting }) => {
+                    await save(values, setSubmitting);
+                  }}
+                >
+                  {({ isSubmitting, touched, errors, setFieldValue }) => (
+                    <Form>
+                      <Grid container spacing={2}>
+                        <Grid item md={6} sm={6} xs={12}>
+                          <Field
+                            name="nameFirst"
+                            label={t('nameFirst')}
+                            component={TextField}
+                            required
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item md={6} sm={6} xs={12}>
+                          <Field
+                            name="nameLast"
+                            label={t('nameLast')}
+                            component={TextField}
+                            required
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item md={6} sm={6} xs={12}>
+                          <Field
+                            name="email"
+                            label={t('email')}
+                            type="email"
+                            component={TextField}
+                            disabled
+                            required
+                            fullWidth
+                            InputLabelProps={{ shrink: true }}
+                          />
+                        </Grid>
+                        <Grid item md={6} sm={6} xs={12}>
+                          <Field
+                            name="dniNumber"
+                            label={t('dniNumber')}
+                            component={TextField}
+                            required
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item md={6} sm={6} xs={6}>
+                          <Field
+                            component={DatePicker}
+                            disablePast
+                            textField={{ fullWidth: true }}
+                            label={t('dateArrival')}
+                            name="date_arrival"
+                            inputFormat="DD-MM-YYYY"
+                            mask="__-__-____"
+                          />
+                        </Grid>
+                        <Grid item md={6} sm={6} xs={6}>
+                          <Field
+                            component={DatePicker}
+                            disablePast
+                            textField={{ fullWidth: true }}
+                            label={t('dateDeparture')}
+                            name="date_departure"
+                            inputFormat="DD-MM-YYYY"
+                            mask="__-__-____"
+                          />
+                        </Grid>
+                        <Grid item md={4} sm={4} xs={12}>
+                          <Field
+                            component={Select}
+                            id="helpWith"
+                            name="helpWith"
+                            labelId="helpwith-label"
+                            label={t('helpWith')}
+                            formControl={{ fullWidth: true }}
+                          >
+                            {HELP_WITH_CHOICES.map((help, i) => (
+                              <MenuItem key={`helpWith_${i}`} value={help.value}>
+                                {help.label}
+                              </MenuItem>
+                            ))}
+                          </Field>
+                        </Grid>
+                        <Grid item md={4} sm={4} xs={12}>
+                          <Field
+                            component={Select}
+                            id="food"
+                            name="food"
+                            labelId="food-label"
+                            label={t('food')}
+                            formControl={{ fullWidth: true }}
+                          >
+                            {FOOD_CHOICES.map((food, i) => (
+                              <MenuItem key={`food_${i}`} value={food.value}>
+                                {food.label}
+                              </MenuItem>
+                            ))}
+                          </Field>
+                        </Grid>
+                        <Grid item md={4} sm={4} xs={12}>
+                          <Field
+                            component={CheckboxWithLabel}
+                            type="checkbox"
+                            name="isCeliac"
+                            Label={{ label: t('isCeliac') }}
+                          />
+                        </Grid>
+                        <Grid item md={4} sm={4} xs={12}>
+                          <Field
+                            name="countries"
+                            component={Autocomplete}
+                            disablePortal
+                            fullWidth
+                            options={countries}
+                            getOptionLabel={(option) => option}
+                            onChange={(_, value) => handleCountryChange(value, setFieldValue)}
+                            renderInput={(params) => (
+                              <TextFieldMUI
+                                {...params}
+                                name="country"
+                                error={touched['country'] && !!errors['country']}
+                                helperText={touched['country'] && errors['country']}
+                                label={t('country')}
+                                variant="outlined"
+                              />
+                            )}
+                          />
+                        </Grid>
+                        {isArgentina && (
+                          <>
+                            <Grid item md={4} sm={4} xs={12}>
+                              <Field
+                                name="provinces"
+                                component={Autocomplete}
+                                disablePortal
+                                fullWidth
+                                options={provinces}
+                                getOptionLabel={(option) => option}
+                                onChange={(_, value) => handleProvinceChange(value, setFieldValue)}
+                                renderInput={(params) => (
+                                  <TextFieldMUI
+                                    {...params}
+                                    name="province"
+                                    error={touched['province'] && !!errors['province']}
+                                    helperText={touched['province'] && errors['province']}
+                                    label={t('province')}
+                                    variant="outlined"
+                                  />
+                                )}
+                              />
+                            </Grid>
+                            <Grid item md={4} sm={4} xs={12}>
+                              <Field
+                                name="cities"
+                                component={Autocomplete}
+                                disablePortal
+                                fullWidth
+                                options={cities}
+                                getOptionLabel={(option) => option}
+                                onChange={(_, value) => setFieldValue('city', value)}
+                                renderInput={(params) => (
+                                  <TextFieldMUI
+                                    {...params}
+                                    name="city"
+                                    error={touched['city'] && !!errors['city']}
+                                    helperText={touched['city'] && errors['city']}
+                                    label={t('city')}
+                                    variant="outlined"
+                                  />
+                                )}
+                              />
+                            </Grid>
+                          </>
+                        )}
+                        <Grid item container justifyContent={'center'}>
+                          <Grid item style={{ textAlign: 'center' }} justifyContent={'center'}>
+                            <Typography variant="h3" color="primary" align="center">
+                              {t(`${SCOPES.MODULES.SIGN_UP}.combo`)}
+                            </Typography>
+                            <Typography>Hasta el 9/6: $3500</Typography>
+                            <Typography>Después del 9/6: $4000</Typography>
+                          </Grid>
+                          <Grid container justifyContent="flex-end">
+                            <Grid item>
+                              <Button
+                                variant="contained"
+                                color="secondary"
+                                type="submit"
+                                disabled={isSubmitting}
+                              >
+                                {t(`${SCOPES.MODULES.SIGN_UP}.signUp`)}
+                              </Button>
+                            </Grid>
+                          </Grid>
+                          <Grid item style={{ textAlign: 'center' }}>
+                            <Typography variant="caption">
+                              {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer`)}
+                              <b>martes 28 de junio</b>.<br />
+                              {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer2`)}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Form>
+                  )}
+                </Formik>
               </Grid>
-              <Formik
-                enableReinitialize
-                initialValues={{
-                  nameFirst: '',
-                  nameLast: '',
-                  dniNumber: '',
-                  helpWith: '',
-                  food: '',
-                  isCeliac: false,
-                  country: null,
-                  province: null,
-                  city: null,
-                  dateArrival: etiEvent?.dateStart,
-                  dateDeparture: etiEvent?.dateEnd,
-                  email: auth?.currentUser?.email
-                }}
-                validationSchema={SignupSchema}
-                onSubmit={async (values, { setSubmitting }) => {
-                  await save(values, setSubmitting);
-                }}>
-                {({ isSubmitting, touched, errors, setFieldValue }) => (
-                  <Form>
-                    <Grid container spacing={2}>
-                      <Grid item md={6} sm={6} xs={12}>
-                        <Field
-                          name="nameFirst"
-                          label={t('nameFirst')}
-                          component={TextField}
-                          required
-                          fullWidth
-                        />
-                      </Grid>
-                      <Grid item md={6} sm={6} xs={12}>
-                        <Field
-                          name="nameLast"
-                          label={t('nameLast')}
-                          component={TextField}
-                          required
-                          fullWidth
-                        />
-                      </Grid>
-                      <Grid item md={6} sm={6} xs={12}>
-                        <Field
-                          name="email"
-                          label={t('email')}
-                          type="email"
-                          component={TextField}
-                          disabled
-                          required
-                          fullWidth
-                          InputLabelProps={{ shrink: true }}
-                        />
-                      </Grid>
-                      <Grid item md={6} sm={6} xs={12}>
-                        <Field
-                          name="dniNumber"
-                          label={t('dniNumber')}
-                          component={TextField}
-                          required
-                          fullWidth
-                        />
-                      </Grid>
-                      <Grid item md={6} sm={6} xs={6}>
-                        <Field
-                          component={DatePicker}
-                          disablePast
-                          textField={{ fullWidth: true }}
-                          label={t('dateArrival')}
-                          name="date_arrival"
-                          inputFormat="DD-MM-YYYY"
-                          mask="__-__-____"
-                        />
-                      </Grid>
-                      <Grid item md={6} sm={6} xs={6}>
-                        <Field
-                          component={DatePicker}
-                          disablePast
-                          textField={{ fullWidth: true }}
-                          label={t('dateDeparture')}
-                          name="date_departure"
-                          inputFormat="DD-MM-YYYY"
-                          mask="__-__-____"
-                        />
-                      </Grid>
-                      <Grid item md={4} sm={4} xs={12}>
-                        <Field
-                          component={Select}
-                          id="helpWith"
-                          name="helpWith"
-                          labelId="helpwith-label"
-                          label={t('helpWith')}
-                          formControl={{ fullWidth: true }}>
-                          {HELP_WITH_CHOICES.map((help, i) => (
-                            <MenuItem key={`helpWith_${i}`} value={help.value}>
-                              {help.label}
-                            </MenuItem>
-                          ))}
-                        </Field>
-                      </Grid>
-                      <Grid item md={4} sm={4} xs={12}>
-                        <Field
-                          component={Select}
-                          id="food"
-                          name="food"
-                          labelId="food-label"
-                          label={t('food')}
-                          formControl={{ fullWidth: true }}>
-                          {FOOD_CHOICES.map((food, i) => (
-                            <MenuItem key={`food_${i}`} value={food.value}>
-                              {food.label}
-                            </MenuItem>
-                          ))}
-                        </Field>
-                      </Grid>
-                      <Grid item md={4} sm={4} xs={12}>
-                        <Field
-                          component={CheckboxWithLabel}
-                          type="checkbox"
-                          name="isCeliac"
-                          Label={{ label: t('isCeliac') }}
-                        />
-                      </Grid>
-                      <Grid item md={4} sm={4} xs={12}>
-                        <Field
-                          name="countries"
-                          component={Autocomplete}
-                          disablePortal
-                          fullWidth
-                          options={countries}
-                          getOptionLabel={(option) => option}
-                          onChange={(_, value) => handleCountryChange(value, setFieldValue)}
-                          renderInput={(params) => (
-                            <TextFieldMUI
-                              {...params}
-                              name="country"
-                              error={touched['country'] && !!errors['country']}
-                              helperText={touched['country'] && errors['country']}
-                              label={t('country')}
-                              variant="outlined"
-                            />
-                          )}
-                        />
-                      </Grid>
-                      {isArgentina && (
-                        <>
-                          <Grid item md={4} sm={4} xs={12}>
-                            <Field
-                              name="provinces"
-                              component={Autocomplete}
-                              disablePortal
-                              fullWidth
-                              options={provinces}
-                              getOptionLabel={(option) => option}
-                              onChange={(_, value) => handleProvinceChange(value, setFieldValue)}
-                              renderInput={(params) => (
-                                <TextFieldMUI
-                                  {...params}
-                                  name="province"
-                                  error={touched['province'] && !!errors['province']}
-                                  helperText={touched['province'] && errors['province']}
-                                  label={t('province')}
-                                  variant="outlined"
-                                />
-                              )}
-                            />
-                          </Grid>
-                          <Grid item md={4} sm={4} xs={12}>
-                            <Field
-                              name="cities"
-                              component={Autocomplete}
-                              disablePortal
-                              fullWidth
-                              options={cities}
-                              getOptionLabel={(option) => option}
-                              onChange={(_, value) => setFieldValue('city', value)}
-                              renderInput={(params) => (
-                                <TextFieldMUI
-                                  {...params}
-                                  name="city"
-                                  error={touched['city'] && !!errors['city']}
-                                  helperText={touched['city'] && errors['city']}
-                                  label={t('city')}
-                                  variant="outlined"
-                                />
-                              )}
-                            />
-                          </Grid>
-                        </>
-                      )}
-                      <Grid item container justifyContent={'center'}>
-                        <Grid item style={{ textAlign: 'center' }} justifyContent={'center'}>
-                          <Typography variant="h3" color="primary" align="center">
-                            {t(`${SCOPES.MODULES.SIGN_UP}.combo`)}
-                          </Typography>
-                          <Typography>Hasta el 9/6: $3500</Typography>
-                          <Typography>Después del 9/6: $4000</Typography>
-                        </Grid>
-                        <Grid container justifyContent="flex-end">
-                          <Grid item>
-                            <Button
-                              variant="contained"
-                              color="secondary"
-                              type="submit"
-                              disabled={isSubmitting}>
-                              {t(`${SCOPES.MODULES.SIGN_UP}.signUp`)}
-                            </Button>
-                          </Grid>
-                        </Grid>
-                        <Grid item style={{ textAlign: 'center' }}>
-                          <Typography variant="caption">
-                            {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer`)}
-                            <b>martes 28 de junio</b>.<br />
-                            {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer2`)}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Form>
-                )}
-              </Formik>
-            </Grid>
+            )}
           </Container>
         </>
       )}

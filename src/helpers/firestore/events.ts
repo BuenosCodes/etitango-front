@@ -7,13 +7,15 @@ const EVENTS = 'events';
 interface EtiEventFirestore extends EtiEventBase {
   dateStart: Timestamp;
   dateEnd: Timestamp;
+  dateSignupOpen: Timestamp;
 }
 
 const toJs = (etiEventFromFirestore: EtiEventFirestore) =>
   ({
     ...etiEventFromFirestore,
     dateStart: etiEventFromFirestore.dateStart.toDate(),
-    dateEnd: etiEventFromFirestore.dateEnd.toDate()
+    dateEnd: etiEventFromFirestore.dateEnd.toDate(),
+    dateSignupOpen: etiEventFromFirestore.dateSignupOpen.toDate()
   } as EtiEvent);
 
 export async function getFutureEti() {

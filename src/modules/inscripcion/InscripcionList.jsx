@@ -78,18 +78,21 @@ class InscripcionList extends PureComponent {
                       container
                       direction="row"
                       justifyContent="flex-end"
-                      alignItems="center">
+                      alignItems="center"
+                    >
                       <CSVLink
                         headers={exportableDataHeaders.map((header) => ({
                           key: header,
                           label: t(header, { ns: SCOPES.COMMON.FORM })
                         }))}
                         data={exportableData}
-                        filename={t('exportFilename', { date })}>
+                        filename={t('exportFilename', { date })}
+                      >
                         <Button
                           variant="contained"
                           color="secondary"
-                          startIcon={<FileDownloadIcon />}>
+                          startIcon={<FileDownloadIcon />}
+                        >
                           {t('export')}
                         </Button>
                       </CSVLink>
@@ -109,7 +112,8 @@ class InscripcionList extends PureComponent {
                           <TableRow
                             key={inscripcion.nameFirst}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            style={{ background: getBackgroundColor(inscripcion.status_code) }}>
+                            style={{ background: getBackgroundColor(inscripcion.status_code) }}
+                          >
                             <TableCell component="th" scope="row">
                               {`${inscripcion.nameFirst} ${inscripcion.nameLast}`}
                             </TableCell>
