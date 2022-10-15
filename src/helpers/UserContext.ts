@@ -1,8 +1,8 @@
 import { createContext } from 'react';
-import { IUser, UserChange } from '../../shared/User';
+import { IUser, UserChange, UserRoles } from '../shared/User';
 
 export const UserContext = createContext({
-  user: {},
+  user: { data: { roles: [] as UserRoles[] } },
   setUser: () => {}
 });
 UserContext.displayName = 'UserContext';

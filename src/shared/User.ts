@@ -6,10 +6,7 @@ export enum UserRoles {
 export type IUser = {
   id: string;
   email: string;
-  roles: {
-    // eslint-disable-next-line no-unused-vars
-    [key in keyof UserRoles]: boolean;
-  };
+  data: { roles: Map<UserRoles, boolean> };
 };
 export type UserChange = {
   // eslint-disable-next-line no-unused-vars

@@ -2,19 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import { Translation } from 'react-i18next';
 
-import {
-  Button,
-  Container,
-  Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography
-} from '@mui/material';
+import { Button, Container, Grid, Paper, TableContainer, Typography } from '@mui/material';
 import WithAuthentication from './withAuthentication';
 import { getFutureEti } from '../../helpers/firestore/events';
 import { getSignups } from '../../helpers/firestore/signups';
@@ -26,7 +14,8 @@ import {
   getLabelForValue,
   HELP_WITH_CHOICES
 } from './inscripcion.constants.js';
-import { Signup, SignupStatus } from '../../shared/signup';
+import { Signup } from '../../shared/signup';
+import { SignupListTable } from './SignupListTable';
 
 const SignupList = () => {
   const [signups, setSignups] = useState([] as Signup[]);
@@ -96,34 +85,7 @@ const SignupList = () => {
                       </Button>
                     </CSVLink>
                   </Grid>
-                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="left">{t('name')}</TableCell>
-                        <TableCell align="right">{t('country')}</TableCell>
-                        <TableCell align="right">{t('province')}</TableCell>
-                        <TableCell align="right">{t('city')}</TableCell>
-                        <TableCell align="right">{t('status')}</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {signups.map((signup) => (
-                        <TableRow
-                          key={signup.nameFirst}
-                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                          style={{ background: getBackgroundColor(signup.status) }}
-                        >
-                          <TableCell component="th" scope="row">
-                            {`${signup.nameFirst} ${signup.nameLast}`}
-                          </TableCell>
-                          <TableCell align="right">{signup.country}</TableCell>
-                          <TableCell align="right">{signup.province}</TableCell>
-                          <TableCell align="right">{signup.city}</TableCell>
-                          <TableCell align="right">{signup.status}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
+                  <SignupListTable signups={signups} />
                 </TableContainer>
               </Grid>
             </Grid>
@@ -133,27 +95,5 @@ const SignupList = () => {
     </Translation>
   );
 };
-
-function getBackgroundColor(status?: SignupStatus) {
-  const colorYellow = 'rgba(255,242,0,0.5)';
-  const colorOrange = 'rgba(255,124,0,0.5)';
-  const colorRed = 'rgba(255,0,20,0.4)';
-  const colorBeige = '#ffe4c4';
-  const colorGreen = 'rgba(85,204,0,0.5)';
-  switch (status) {
-    case SignupStatus.CONFIRMED:
-      return colorGreen;
-    case SignupStatus.WAITLIST: // lista de espera
-      return colorBeige;
-    case SignupStatus.PAYMENT_PENDING: // Pendiente de Aprobación
-      return colorYellow;
-    case SignupStatus.CANCELLED: // Cancelado
-      return colorRed;
-    case SignupStatus.PAYMENT_DELAYED: //Pago demorado
-      return colorOrange;
-    default:
-      return 'white';
-  }
-}
 
 export default SignupList;
