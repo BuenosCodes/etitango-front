@@ -1,23 +1,23 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getAuth } from 'firebase/auth';
 import { Navigate } from 'react-router-dom';
-import { UserContext } from '../../helpers/UserContext';
-import { auth } from 'etiFirebase.js';
 
 const WithAuthentication = (props) => {
-  const { user, setUser } = useContext(UserContext);
+  const auth = getAuth();
+  const [isSignedIn, setIsSignedIn] = useState(!!auth.currentUser); // Local signed-in state.
   const [ran, setRan] = useState(false);
   useEffect(() => {
     const unregisterAuthObserver = auth.onAuthStateChanged((user) => {
-      setUser(user);
+      setIsSignedIn(!!user?.emailVerified);
       setRan(true);
     });
     return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
-  }, [auth, setUser]);
+  }, [auth]);
 
   return (
     <>
-      {ran && !user && (
+      {ran && !isSignedIn && (
         // eslint-disable-next-line react/prop-types
         <Navigate to="/sign-in" replace state={{ redirectUrl: props.redirectUrl }} />
       )}
