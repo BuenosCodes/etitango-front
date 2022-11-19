@@ -23,47 +23,52 @@ function ComisionGeneroProtocol() {
                     <Typography> {t("body_1")} </Typography>
                     <Typography> {t("def_1")} </Typography> <br />
                     <Typography variant="h6" gutterBottom component="div"> {t("subtitle_2")} </Typography>
-                    <Typography> {t("body_2")} </Typography>
-                    <Typography> {t("body_3")} </Typography>
-                    <Typography> {t("body_4")} </Typography>
-                    <Typography> {t("body_5")} </Typography>
-                    <Typography> {t("body_6")} </Typography>
-                    <Typography> {t("body_7")} </Typography>
-                    <Typography> {t("body_8")} </Typography>
-                    <Typography> {t("body_9")} </Typography>
-                    <Typography> {t("body_10")} </Typography>
-                    <Typography> {t("body_11")} </Typography> <br />
+                    <ul>{t('body_2')
+                        .split('\n')
+                        .map((tx) => (
+                            <li><Typography> {tx}</Typography></li>
+                        ))}{' '}
+                    </ul>
+                    <br />
                     <Typography variant="h6" gutterBottom component="div"> {t("subtitle_3")} </Typography>
-                    <Typography> {t("body_12")} </Typography> <br />
+                    <Typography> {t("body_3")} </Typography> <br />
                     <Typography variant="h6" gutterBottom component="div"> {t("subtitle_4")} </Typography>
-                    <Typography> {t("body_13")} </Typography>
-                    <Typography> {t("body_14")} </Typography>
-                    <Typography> {t("body_15")} </Typography>
-                    <Typography> {t("body_16")} </Typography>
-                    <Typography> {t("body_17")} </Typography>
-                    <Typography> {t("body_18")} </Typography>
-                    <Typography> {t("body_19")} </Typography> <br />
+                    <ul>{t('body_4')
+                        .split('\n')
+                        .map((tx) => (
+                            <li><Typography> {tx}</Typography></li>
+                        ))}{' '}
+                    </ul>
+                    <br />
                     <Typography variant="h6" gutterBottom component="div"> {t("subtitle_5")} </Typography>
-                    <Typography> {t("body_20")} </Typography> <br />
+                    <Typography> {t("body_5")} </Typography> <br />
                     <Typography variant="h6" gutterBottom component="div"> {t("subtitle_6")} </Typography>
                     <Typography variant="h6" gutterBottom component="div"> {t("subtitle_7")} </Typography>
-                    <Typography> {t("body_21")} </Typography>
-                    <Typography> {t("body_22")} </Typography>
-                    <Typography> {t("body_23")} </Typography>
-                    <Typography> {t("body_24")} </Typography>
-                    <Typography> {t("body_25")} </Typography>
-                    <Typography> {t("body_26")} </Typography>
-                    <Typography> {t("body_27")} </Typography> <br />
+                    <ul>{t('body_6')
+                        .split('\n')
+                        .map((tx) => (
+                            <li><Typography> {tx}</Typography></li>
+                        ))}{' '}
+                    </ul>
+                    <br />
                     <Typography variant="h6" gutterBottom component="div"> {t("subtitle_8")} </Typography>
-                    <Typography> {t("body_28")} </Typography>
-                    <Typography> {t("body_29")} </Typography> <br />
+                    <ul>{t('body_7')
+                        .split('\n')
+                        .map((tx) => (
+                            <li><Typography> {tx}</Typography></li>
+                        ))}{' '}
+                    </ul>
+                    <br />
                     <Typography variant="h6" gutterBottom component="div"> {t("subtitle_9")} </Typography>
-                    <Typography variant="h6" gutterBottom component="div"> {t("body_30")} </Typography>
-                    <Typography> {t("body_31")} </Typography>
-                    <Typography> {t("body_32")} </Typography>
-                    <Typography> {t("body_33")} </Typography>
-                    <Typography> {t("body_34")} </Typography>
-                    <Typography> {t("body_35")} </Typography>
+                    <Typography variant="h6" gutterBottom component="div"> {t("body_8")} </Typography>
+                    <ul>{t('body_9')
+                        .split('\n')
+                        .map((tx) => (
+                            <li><Typography> {tx}</Typography></li>
+                        ))}{' '}
+                    </ul>
+                    <br />
+                    <br />
                 </Box>
             </Container>
         </React.Fragment>
