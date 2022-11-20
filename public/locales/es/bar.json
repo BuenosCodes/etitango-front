@@ -3,5 +3,9 @@
   "manifest": "Manifiesto ETIano",
   "signup": "Inscripción",
   "signupList": "Listado de inscripciones",
-  "logout": "Cerrar Sesión"
+  "logout": "Cerrar Sesión",
+  "gender": "Comisión de Género",
+  "genderWho": "Sobre Nosotres",
+  "genderProt": "Protocolo de Genero",
+  "genderCont": "Contacto"
 }
