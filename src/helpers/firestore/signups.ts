@@ -1,4 +1,4 @@
-import { createDoc, getDocument } from './index';
+import { createOrUpdateDoc, getDocument } from './index';
 import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
 import { db, functions } from '../../etiFirebase';
 import { Signup, SignupBase, SignupCreate, SignupStatus } from '../../shared/signup';
@@ -36,7 +36,7 @@ const toJs = (signup: SignupFirestore) =>
 export const getSignup = async (signupId: string) => getDocument(SIGNUP(signupId));
 
 export const createSignup = async (etiEventId: string, userId: string, data: SignupCreate) =>
-  createDoc(SIGNUPS, {
+  createOrUpdateDoc(SIGNUPS, {
     ...data,
     userId,
     etiEventId
@@ -44,7 +44,7 @@ export const createSignup = async (etiEventId: string, userId: string, data: Sig
 
 export const createEmail = async () =>
   Object.values(SignupStatus).map((status) =>
-    createDoc('mail', {
+    createOrUpdateDoc('mail', {
       toUids: ['3YMkn4rGwHdb3dD5NXxR2okR4JNa'],
       template: {
         name: status,
@@ -64,3 +64,9 @@ export const createSeeds = async () => {
     console.log(e);
   }
 };
+
+export async function updateSignupsStatus(selectedStatus: SignupStatus, selectedRows: string[]) {
+  return Promise.all(
+    selectedRows.map((id) => createOrUpdateDoc('signups', { status: selectedStatus }, id))
+  );
+}

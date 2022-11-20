@@ -1,9 +1,10 @@
 import { createContext } from 'react';
-import { IUser, UserChange, UserRoles } from '../shared/User';
+import { IUser, UserChange } from '../shared/User';
 
 export const UserContext = createContext({
-  user: { data: { roles: [] as UserRoles[] } },
-  setUser: () => {}
+  user: {},
+  // eslint-disable-next-line no-unused-vars
+  setUser: (user: IUser) => {}
 });
 UserContext.displayName = 'UserContext';
 

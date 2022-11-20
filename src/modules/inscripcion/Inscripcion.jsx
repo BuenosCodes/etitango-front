@@ -7,7 +7,6 @@ import {
   TextField as TextFieldMUI,
   Typography
 } from '@mui/material';
-import { FOOD_CHOICES, HELP_WITH_CHOICES } from './inscripcion.constants';
 import WithAuthentication from './withAuthentication';
 import { createSignup } from '../../helpers/firestore/signups';
 import { getCities, getProvinces } from '../../helpers/thirdParties/georef';
@@ -20,6 +19,7 @@ import { Field, Form, Formik } from 'formik';
 import { Autocomplete, CheckboxWithLabel, Select, TextField } from 'formik-mui';
 import { DatePicker } from 'formik-mui-x-date-pickers';
 import { bool, date, number, object, string } from 'yup';
+import { FoodChoices, SignupHelpWith } from '../../shared/signup';
 
 export default function Inscripcion() {
   const [countries, setCountries] = useState([]);
@@ -264,9 +264,9 @@ export default function Inscripcion() {
                             label={t('helpWith')}
                             formControl={{ fullWidth: true }}
                           >
-                            {HELP_WITH_CHOICES.map((help, i) => (
-                              <MenuItem key={`helpWith_${i}`} value={help.value}>
-                                {help.label}
+                            {Object.values(SignupHelpWith).map((help) => (
+                              <MenuItem key={help} value={help}>
+                                {t(help)}
                               </MenuItem>
                             ))}
                           </Field>
@@ -280,9 +280,9 @@ export default function Inscripcion() {
                             label={t('food')}
                             formControl={{ fullWidth: true }}
                           >
-                            {FOOD_CHOICES.map((food, i) => (
-                              <MenuItem key={`food_${i}`} value={food.value}>
-                                {food.label}
+                            {Object.values(FoodChoices).map((food) => (
+                              <MenuItem key={food} value={food}>
+                                {t(food)}
                               </MenuItem>
                             ))}
                           </Field>

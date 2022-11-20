@@ -1,17 +1,31 @@
-import * as fs from 'fs';
-import * as functions from 'firebase-functions';
-import { SignupStatus } from '../../src/shared/signup';
-import { db } from './index';
-import { validateUserIsSuperAdmin } from './validators';
-import { CallableContext } from 'firebase-functions/lib/providers/https';
+import * as fs from "fs";
+import * as functions from "firebase-functions";
+import {SignupStatus} from "../../src/shared/signup";
+import {db} from "./index";
+import {validateUserIsSuperAdmin} from "./validators";
+import {CallableContext} from "firebase-functions/lib/providers/https";
 
 const templateSubjects = {
-  [SignupStatus.WAITLIST]: 'ETI - En lista de espera',
-  [SignupStatus.PAYMENT_PENDING]: 'ETI - Esperando pago',
-  [SignupStatus.PAYMENT_DELAYED]: 'ETI - Pago demorado',
-  [SignupStatus.CONFIRMED]: 'ETI - Inscripcion confirmada',
-  [SignupStatus.CANCELLED]: 'ETI - Inscripcion anulada'
+  [SignupStatus.WAITLIST]: "ETI - En lista de espera",
+  [SignupStatus.PAYMENT_PENDING]: "ETI - Esperando pago",
+  [SignupStatus.PAYMENT_DELAYED]: "ETI - Pago demorado",
+  [SignupStatus.CONFIRMED]: "ETI - Inscripcion confirmada",
+  [SignupStatus.CANCELLED]: "ETI - Inscripcion anulada",
 };
+
+function createEti() {
+  const values = {
+    dateEnd: new Date("Mon Nov 28 2022 14:41:00 GMT-0300 (Argentina Standard Time)"),
+    dateSignupOpen:
+        new Date("Sat Oct 15 2022 15:33:40 GMT-0300 (Argentina Standard Time)"),
+
+    dateStart: new Date("Sat Nov 26 2022 14:40:52 GMT-0300 (Argentina Standard Time)"),
+    location: "Sierra de la Ventana",
+    name: "Futuro Eti",
+  };
+  const ref = db.collection("events");
+  return ref.add(values);
+}
 
 function createTemplate(status: SignupStatus) {
   let html;
@@ -24,16 +38,19 @@ function createTemplate(status: SignupStatus) {
 
   const template = {
     subject: templateSubjects[status],
-    html
+    html,
   };
-  const ref = db.collection('templates').doc(status);
+  const ref = db.collection("templates").doc(status);
   return ref.set(template);
 }
 
 const createTemplates = () =>
-  Promise.all(Object.values(SignupStatus).map((status) => createTemplate(status as SignupStatus)));
+  Promise.all(Object.values(SignupStatus).map((status) =>
+    createTemplate(status as SignupStatus)));
 
-export const seedDatabase = functions.https.onCall(async (data: any, context: CallableContext) => {
-  await validateUserIsSuperAdmin(context);
-  await createTemplates();
-});
+export const seedDatabase = functions.https.onCall(
+    async (data: any, context: CallableContext) => {
+      await validateUserIsSuperAdmin(context);
+      await createTemplates();
+      await createEti();
+    });

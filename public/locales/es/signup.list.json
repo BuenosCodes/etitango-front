@@ -1,10 +1,12 @@
 {
   "title": "Listado de Inscripciones",
-  "name": "Nombre",
-  "country": "Pais",
-  "province": "Provincia",
-  "city": "Ciudad",
   "status": "Estado de la inscripción",
   "export": "Descargar para Excel",
-  "exportFilename": "inscripciones-{{date}}.csv"
+  "exportFilename": "inscripciones-{{date}}.csv",
+  "waitlist": "Lista de Espera",
+  "payment-pending": "Pendiente de Pago",
+  "payment-delayed": "Pago Demorado",
+  "confirmed": "Confirmada",
+  "cancelled": "Cancelada",
+  "changeStatus": "Cambiar Estado de inscripción"
 }

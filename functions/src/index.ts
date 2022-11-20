@@ -1,23 +1,27 @@
-import * as functions from 'firebase-functions';
-import { CallableContext } from 'firebase-functions/lib/providers/https';
-import { SampleInterface } from '../../src/shared/example';
+import * as functions from "firebase-functions";
+import {CallableContext} from "firebase-functions/lib/providers/https";
+import {applicationDefault, initializeApp} from "firebase-admin/app";
+import {getFirestore} from "firebase-admin/firestore";
 
-const { initializeApp, applicationDefault } = require('firebase-admin/app');
-const { getFirestore } = require('firebase-admin/firestore');
+import {SampleInterface} from "../../src/shared/example";
 
-initializeApp({ credential: applicationDefault() });
+
+initializeApp({credential: applicationDefault()});
 
 export const db = getFirestore();
 
 export const helloWorld = functions.https.onCall(
-  async (data: SampleInterface, _context: CallableContext) => {
-    const txt = 'Hello from Firebase!';
-    return { txt: txt + ' ' + data.fieldA };
-  }
+    async (data: SampleInterface, _context: CallableContext) => {
+      const txt = "Hello from Firebase!";
+      return {txt: txt + " " + data.fieldA};
+    }
 );
 
-export const authentication = require('./authentication');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+export const authentication = require("./authentication");
 
-export const seeds = require('./seeds');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+export const seeds = require("./seeds");
 
-export const mailing = require('./mailing');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+export const mailing = require("./mailing");

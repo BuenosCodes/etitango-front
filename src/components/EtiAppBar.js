@@ -108,7 +108,7 @@ const EtiAppBar = () => {
               anchorEl={anchorElNavGender}
               open={openGenderMenu}
               onClose={handleCloseNavGenderMenu}
-              anchorReference={'ancohrEl'}
+              anchorReference={'anchorEl'}
               MenuListProps={{
                 'aria-labelledby': 'gender-button'
               }}
@@ -218,7 +218,7 @@ const EtiAppBar = () => {
                 anchorEl={anchorElNavGender}
                 open={openGenderMenu}
                 onClose={handleCloseNavGenderMenu}
-                anchorReference={'ancohrEl'}
+                anchorReference={'anchorEl'}
                 MenuListProps={{
                   'aria-labelledby': 'gender-button'
                 }}

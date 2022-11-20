@@ -1,17 +1,20 @@
-import React, { useContext } from 'react';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
-import { Translation } from 'react-i18next';
-
-import { Signup, SignupStatus } from 'shared/signup';
-import { SCOPES } from 'helpers/constants/i18n';
-import { UserContext } from '../../helpers/UserContext';
-import { UserRoles } from 'shared/User';
+import React from 'react';
+import { Signup } from 'shared/signup';
+import { CircularProgress, Paper } from '@mui/material';
+import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
+import { useTranslation } from 'react-i18next';
+import { SCOPES } from '../../helpers/constants/i18n';
 
 type SignupField = keyof Signup;
 
-export function SignupListTable(props: { signups: Signup[] }) {
-  const { user } = useContext(UserContext);
-  const { signups } = props;
+export function SignupListTable(props: {
+  signups: Signup[];
+  isAdmin: boolean;
+  // eslint-disable-next-line no-unused-vars
+  setSelectedRows: (selection: string[]) => void;
+}) {
+  const { signups, setSelectedRows, isAdmin } = props;
+
   const publicFields: SignupField[] = [
     'nameFirst',
     'nameLast',
@@ -30,68 +33,80 @@ export function SignupListTable(props: { signups: Signup[] }) {
     'isCeliac'
   ];
 
-  function getSignupElement(signup: Signup, fieldName: SignupField) {
-    const value = signup[fieldName];
-    if (value instanceof Date) {
-      return value.toLocaleString();
-    }
-    return value;
-  }
+  const getFields = () => (isAdmin ? [...publicFields, ...privateFields] : publicFields);
 
-  const getFields = () => {
-    // @ts-ignore
-    const isAdmin = user?.data?.roles && !!user?.data?.roles[UserRoles.ADMIN];
-    return isAdmin ? [...publicFields, ...privateFields] : publicFields;
+  const { t } = useTranslation([SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP_LIST], {
+    useSuspense: false
+  });
+  const columns: GridColDef[] = getFields().map((fieldName) => ({
+    field: fieldName,
+    headerName: t(fieldName),
+    width: fieldName === 'email' ? 300 : 150
+  }));
+
+  const getSignupValues = (signup: Signup) => {
+    let output: any = { ...signup };
+    const dateFields: (keyof Signup)[] = ['dateArrival', 'dateDeparture'];
+    dateFields.forEach((field) => {
+      if (signup[field]) {
+        output[field] = (signup[field]! as Date).toLocaleDateString()!;
+      }
+    });
+    const translatableFields: ('helpWith' | 'food' | 'status')[] = ['helpWith', 'food', 'status'];
+    translatableFields.forEach((field) => {
+      if (signup[field]) {
+        output[field] = t(signup[field] as string);
+      }
+    });
+    if (!signup.isCeliac) {
+      delete output.isCeliac;
+    } else {
+      output.isCeliac = t('yes');
+    }
+
+    return output;
   };
 
+  function selectionChanged(selection: GridSelectionModel) {
+    setSelectedRows(selection.map((id) => id as string));
+  }
+
   return (
-    <Translation ns={[SCOPES.MODULES.SIGN_UP_LIST, SCOPES.COMMON.FORM]} useSuspense={false}>
-      {(t) => (
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              {getFields().map((fieldName) => (
-                <TableCell key={fieldName}>{t(fieldName)}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {signups.map((signup) => (
-              <TableRow
-                key={signup.nameFirst}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                style={{ background: getBackgroundColor(signup.status) }}
-              >
-                {getFields().map((fieldName) => (
-                  <TableCell key={fieldName}>{getSignupElement(signup, fieldName)}</TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+    <>
+      {props.signups.length && !!columns.length ? (
+        <Paper style={{ height: '100vh' }}>
+          <DataGrid
+            rows={signups.map(getSignupValues)}
+            columns={columns}
+            checkboxSelection={isAdmin}
+            onSelectionModelChange={selectionChanged}
+          />
+        </Paper>
+      ) : (
+        <CircularProgress />
       )}
-    </Translation>
+    </>
   );
 }
 
-function getBackgroundColor(status?: SignupStatus) {
-  const colorYellow = 'rgba(255,242,0,0.5)';
-  const colorOrange = 'rgba(255,124,0,0.5)';
-  const colorRed = 'rgba(255,0,20,0.4)';
-  const colorBeige = '#ffe4c4';
-  const colorGreen = 'rgba(85,204,0,0.5)';
-  switch (status) {
-    case SignupStatus.CONFIRMED:
-      return colorGreen;
-    case SignupStatus.WAITLIST: // lista de espera
-      return colorBeige;
-    case SignupStatus.PAYMENT_PENDING: // Pendiente de Aprobación
-      return colorYellow;
-    case SignupStatus.CANCELLED: // Cancelado
-      return colorRed;
-    case SignupStatus.PAYMENT_DELAYED: //Pago demorado
-      return colorOrange;
-    default:
-      return 'white';
-  }
-}
+// function getBackgroundColor(status?: SignupStatus) {
+//   const colorYellow = 'rgba(255,242,0,0.5)';
+//   const colorOrange = 'rgba(255,124,0,0.5)';
+//   const colorRed = 'rgba(255,0,20,0.4)';
+//   const colorBeige = '#ffe4c4';
+//   const colorGreen = 'rgba(85,204,0,0.5)';
+//   switch (status) {
+//     case SignupStatus.CONFIRMED:
+//       return colorGreen;
+//     case SignupStatus.WAITLIST: // lista de espera
+//       return colorBeige;
+//     case SignupStatus.PAYMENT_PENDING: // Pendiente de Aprobación
+//       return colorYellow;
+//     case SignupStatus.CANCELLED: // Cancelado
+//       return colorRed;
+//     case SignupStatus.PAYMENT_DELAYED: //Pago demorado
+//       return colorOrange;
+//     default:
+//       return 'white';
+//   }
+// }

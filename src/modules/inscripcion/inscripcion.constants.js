@@ -21,23 +21,12 @@ export const ROL_CHOICES = [
   { value: 'A', label: 'Indistinto' }
 ];
 
-export const FOOD_CHOICES = [
-  { value: 'O', label: 'Omnívora/Carnívora' },
-  { value: 'V', label: 'Vegetariana' },
-  { value: 'G', label: 'Vegana' }
-];
-
 export const TRANSPORTATION_CHOICES = [
   { value: 'A', label: 'Auto' },
   { value: 'B', label: 'Colectivo' },
   { value: 'V', label: 'Avión' },
   { value: 'C', label: 'Combi' },
   { value: 'O', label: 'Otro' }
-];
-
-export const HELP_WITH_CHOICES = [
-  { value: 'A', label: 'Limpieza del Salon' },
-  { value: 'C', label: 'Cocina' }
 ];
 
 export const CELIAC_CHOICES = [

@@ -8,6 +8,7 @@ import Inscripcion from '../modules/inscripcion/Inscripcion';
 import SignupList from '../modules/inscripcion/SignupList';
 import SignInScreen from '../modules/signIn/signIn';
 import Form from '../components/form/Form.js';
+import SuperAdmin from '../modules/superAdmin/superAdmin';
 
 const Routes = [
   {
@@ -45,6 +46,10 @@ const Routes = [
   {
     path: 'sign-in',
     element: <SignInScreen />
+  },
+  {
+    path: 'super-admin',
+    element: <SuperAdmin />
   },
   //TODO this should be removed
   {

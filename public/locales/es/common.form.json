@@ -13,5 +13,18 @@
   "city": "Ciudad",
   "userId": "ID de usuario",
   "etiEventId": "ID de ETI",
-  "dateEnd": "Fecha de finalización de ETI"
+  "dateEnd": "Fecha de finalización de ETI",
+  "status": "Estado de la inscripción",
+  "cooking": "Cocina",
+  "cleaning": "Limpieza",
+  "vegan": "Vegana",
+  "vegetarian": "Vegetariana",
+  "omnivore": "Omnívora",
+  "waitlist": "Lista de Espera",
+  "payment-pending": "Pendiente de Pago",
+  "payment-delayed": "Pago Demorado",
+  "confirmed": "Confirmada",
+  "cancelled": "Cancelada",
+  "yes": "Si",
+  "no": "No"
 }

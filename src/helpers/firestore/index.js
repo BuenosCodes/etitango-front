@@ -28,7 +28,7 @@ export async function getDocument(path) {
   }
 }
 
-export const createDoc = async (path, data, id) => {
+export const createOrUpdateDoc = async (path, data, id) => {
   try {
     const docData = { ...data };
     Object.entries(data).forEach(([k, v]) => {
@@ -36,7 +36,7 @@ export const createDoc = async (path, data, id) => {
     });
 
     if (id) {
-      await setDoc(doc(db, `${path}/${id}`), docData, id);
+      await setDoc(doc(db, `${path}/${id}`), docData, { merge: true });
       return id;
     } else {
       const docRef = await addDoc(collection(db, path), docData);
