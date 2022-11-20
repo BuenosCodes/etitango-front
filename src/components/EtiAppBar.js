@@ -53,8 +53,8 @@ const EtiAppBar = () => {
   };
   const linksGender = [
     { href: '/comision-de-genero-who', title: t('genderWho') },
-    { href: '/comision-de-genero-protocol', title: t('genderProt') },
-    { href: '/comision-de-genero-contact', title: t('genderCont') }
+    { href: '/comision-de-genero-protocol', title: t('genderProtocol') },
+    { href: '/comision-de-genero-contact', title: t('genderContact') }
   ];
 
   return (

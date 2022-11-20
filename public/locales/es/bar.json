@@ -6,6 +6,6 @@
   "logout": "Cerrar Sesión",
   "gender": "Comisión de Género",
   "genderWho": "Sobre Nosotres",
-  "genderProt": "Protocolo de Genero",
-  "genderCont": "Contacto"
+  "genderProtocol": "Protocolo de Genero",
+  "genderContact": "Contacto"
 }
