@@ -32,8 +32,9 @@ const WithAuthentication = ({
   }, [auth]);
 
   const unverified = ran && (!user || !user?.emailVerified);
-  const hasRequiredRole = !roles?.length || roles?.some((role) => !!user?.data?.roles[role]);
-  console.log(hasRequiredRole);
+  const hasRequiredRole =
+    !roles?.length || (!!user?.data?.roles && roles?.some((role) => !!user?.data?.roles[role]));
+
   return (
     <>
       {!ran && <CircularProgress />}

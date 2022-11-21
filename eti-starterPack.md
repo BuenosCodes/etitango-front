@@ -1,8 +1,8 @@
 # First install NPM environment:
 
-1. Verify if NPM is already installed, if not, intall ir with:
+1. Verify if NPM is already installed, if not, install it with:
    `$ sudo apt install npm`
-2. Clone the repository into your desiderd path:
+2. Clone the repository into your desired path:
    ` $ git clone git@github.com:BuenosCodes/etitango-front.git`
 3. Stay into main branch, if you are not there:
    ` $ git checkout main`
@@ -29,6 +29,6 @@
 4. Start front:
    `$ npm run start`
 5. In order to keep the local data, run:
-   `$ firebase emulators:start --export-on-exit=<PATH_TO_DIRECTORY>> --import <PATH_TO_DIRECTORY>`
+   `$ firebase emulators:start --export-on-exit=<PATH_TO_DIRECTORY> --import <PATH_TO_DIRECTORY>`
    where the path is any local folder user decides to use to storage data.
 6. Create file extensions/firestore-send-email.env (from repository root, a level up from functions) with the data provided by the team

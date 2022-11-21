@@ -4,7 +4,7 @@
   "email": "Email",
   "dniNumber": "DNI",
   "dateArrival": "Fecha de llegada",
-  "dateDeparture": "Fecha de ida",
+  "dateDeparture": "Fecha de partida",
   "helpWith": "Ayuda con",
   "food": "Comida",
   "isCeliac": "Celíaco",
@@ -26,5 +26,6 @@
   "confirmed": "Confirmada",
   "cancelled": "Cancelada",
   "yes": "Si",
-  "no": "No"
+  "no": "No",
+  "whereAreYouComingFrom": "Desde dónde viajás?"
 }
