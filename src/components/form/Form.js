@@ -33,8 +33,6 @@ const UserSchema = object({
 
 function Register() {
   const onUserRegistration = (values, { setSubmitting }) => {
-    const { name, surname, dni, password, email } = values;
-    console.log({ name, surname, dni, password, email });
     setSubmitting(false);
     alert('Usuario registrado!');
   };

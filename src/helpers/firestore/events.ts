@@ -1,8 +1,9 @@
 import { collection, getDocs, limit, orderBy, query, Timestamp, where } from 'firebase/firestore';
 import { db } from '../../etiFirebase';
 import { EtiEvent, EtiEventBase } from '../../shared/etiEvent';
+import { getCollection } from './index';
 
-const EVENTS = 'events';
+export const EVENTS = 'events';
 
 interface EtiEventFirestore extends EtiEventBase {
   dateStart: Timestamp;
@@ -27,4 +28,9 @@ export async function getFutureEti() {
     ...doc.data()
   }))[0] as EtiEventFirestore;
   return toJs(data);
+}
+
+export async function getEvents() {
+  const events = (await getCollection(EVENTS)) as EtiEventFirestore[];
+  return events.map(toJs);
 }
