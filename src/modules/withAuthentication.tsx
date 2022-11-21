@@ -2,10 +2,11 @@ import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { getAuth, User } from 'firebase/auth';
 import { Navigate } from 'react-router-dom';
-import { getUser } from '../../helpers/firestore/users';
-import { UserContext } from '../../helpers/UserContext';
+import { getUser } from '../helpers/firestore/users';
+import { UserContext } from '../helpers/UserContext';
 import { CircularProgress } from '@mui/material';
-import { IUser, UserData, UserRoles } from '../../shared/User';
+import { IUser, UserData, UserRoles } from '../shared/User';
+import { ROUTES } from 'App';
 
 const WithAuthentication = ({
   redirectUrl,
@@ -40,7 +41,7 @@ const WithAuthentication = ({
       {!ran && <CircularProgress />}
       {ran && (unverified || !hasRequiredRole) && (
         // eslint-disable-next-line react/prop-types
-        <Navigate to="/sign-in" replace state={{ redirectUrl: redirectUrl }} />
+        <Navigate to={ROUTES.SIGN_IN} replace state={{ redirectUrl: redirectUrl }} />
       )}
     </>
   );

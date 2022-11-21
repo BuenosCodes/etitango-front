@@ -9,6 +9,7 @@ import Container from '@mui/material/Container';
 import { auth } from '../etiFirebase';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
+import { ROUTES } from '../App.js';
 
 const EtiAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -35,12 +36,6 @@ const EtiAppBar = () => {
     { href: '/historia-del-eti', title: t('history') },
     { href: '/manifiesto-etiano', title: t('manifest') }
     // {href: "/", title: "Comisión de Género"} // Esto se agregará más adelante
-  ];
-
-  const buttons = [
-    { href: '/inscripcion/', title: t('signup').toUpperCase() },
-    { href: '/lista-inscriptos/', title: t('signupList').toUpperCase() }
-    // {href: "/signup/", title: "CREAR USUARIO"} // Esto se agregará más adelante
   ];
 
   const [anchorElNavGender, setAnchorElNavGender] = React.useState(null);
@@ -135,29 +130,41 @@ const EtiAppBar = () => {
             display={'flex'}
             id="botonera"
           >
-            {buttons.map((button) => (
+            {isSignedIn ? (
+              <>
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  underline="none"
+                  href={ROUTES.USER_HOME}
+                  key={'profile'}
+                  sx={{ fontSize: 12, align: 'center', margin: '3px', textAlign: 'center' }}
+                >
+                  {t('controlPanel')}
+                </Button>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  underline="none"
+                  onClick={() => auth.signOut()}
+                  href={'/'}
+                  key={'signout'}
+                  sx={{ fontSize: 12, align: 'center', margin: '3px', textAlign: 'center' }}
+                >
+                  {t('logout')}
+                </Button>
+              </>
+            ) : (
               <Button
                 color="secondary"
                 variant="contained"
                 underline="none"
-                href={button.href}
-                key={button.href}
+                onClick={() => auth.signIn()}
+                href={'/sign-in'}
+                key={'sign-in'}
                 sx={{ fontSize: 12, align: 'center', margin: '3px', textAlign: 'center' }}
               >
-                {button.title}
-              </Button>
-            ))}
-            {isSignedIn && (
-              <Button
-                color="secondary"
-                variant="contained"
-                underline="none"
-                onClick={() => auth.signOut()}
-                href={'/'}
-                key={'signout'}
-                sx={{ fontSize: 12, align: 'center', margin: '3px', textAlign: 'center' }}
-              >
-                {t('logout')}
+                {t('signin')}
               </Button>
             )}
           </Box>

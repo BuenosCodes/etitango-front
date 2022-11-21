@@ -4,8 +4,10 @@
   "signup": "Inscripción",
   "signupList": "Listado de inscripciones",
   "logout": "Cerrar Sesión",
+  "signin": "Iniciar Sesión",
   "gender": "Comisión de Género",
   "genderWho": "Sobre Nosotres",
   "genderProtocol": "Protocolo de Genero",
-  "genderContact": "Contacto"
+  "genderContact": "Contacto",
+  "controlPanel": "Panel de Control"
 }

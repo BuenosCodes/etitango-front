@@ -17,6 +17,7 @@ import SignupList from './modules/inscripcion/SignupList';
 import SignInScreen from './modules/signIn/signIn';
 import SuperAdmin from './modules/superAdmin/index';
 import EventsList from './modules/superAdmin/events/index';
+import Profile from './modules/user/profile';
 
 i18n
   .use(initReactI18next)
@@ -30,7 +31,14 @@ i18n
     nsSeparator: '.'
   });
 
-const ROUTES = { EVENTS: 'events', SUPERADMIN: 'super-admin' };
+export const ROUTES = {
+  EVENTS: 'events',
+  SUPERADMIN: 'super-admin',
+  PROFILE: 'profile',
+  USER: 'user',
+  USER_HOME: '/user/profile',
+  SIGN_IN: 'sign-in'
+};
 function App() {
   const [user, setUser] = useState({ user: {} });
   return (
@@ -46,8 +54,10 @@ function App() {
           <Route path="inscripcion" element={<Inscripcion />} exact />
           <Route path="lista-inscriptos" element={<SignupList />} exact />
           <Route path="sign-in" element={<SignInScreen />} exact />
+          <Route path="sign-in" element={<SignInScreen />} exact />
           <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
           <Route path={`${ROUTES.SUPERADMIN}/${ROUTES.EVENTS}`} element={<EventsList />} />
+          <Route path={`${ROUTES.USER}/${ROUTES.PROFILE}`} element={<Profile />} />
         </Routes>
       </UserContext.Provider>
     </div>

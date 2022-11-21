@@ -1,4 +1,4 @@
-import WithAuthentication from '../inscripcion/withAuthentication';
+import WithAuthentication from '../withAuthentication';
 import { createSeeds } from '../../helpers/firestore/signups';
 import { Button } from '@mui/material';
 import { UserRoles } from '../../shared/User';

@@ -10,7 +10,7 @@ import {
   Typography
 } from '@mui/material';
 
-import WithAuthentication from './withAuthentication';
+import WithAuthentication from '../withAuthentication';
 import { getFutureEti } from '../../helpers/firestore/events';
 import { getSignups } from '../../helpers/firestore/signups';
 import { Signup } from '../../shared/signup';

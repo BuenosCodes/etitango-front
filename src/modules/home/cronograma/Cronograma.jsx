@@ -13,7 +13,8 @@ import {
 } from '@mui/material';
 
 import cronograma from '../cronograma.json';
-import { SCOPES } from 'helpers/constants/i18n.ts';
+import { SCOPES } from 'helpers/constants/i18n';
+import { ROUTES } from 'src/App';
 
 const number = {
   fontSize: 24,
@@ -85,7 +86,7 @@ function Cronograma() {
             size="large"
             variant="contained"
             component="a"
-            href="/inscripcion/"
+            href={ROUTES.USER_HOME}
           >
             {t('signUp')}
           </Button>

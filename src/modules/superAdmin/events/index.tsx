@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import WithAuthentication from '../../inscripcion/withAuthentication';
+import WithAuthentication from '../../withAuthentication';
 import { UserRoles } from 'shared/User';
 import { EtiEvent } from 'shared/etiEvent';
 import * as firestoreEventHelper from 'helpers/firestore/events';

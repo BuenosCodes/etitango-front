@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import { auth, uiConfig } from '../../etiFirebase';
+import { auth, uiConfig } from 'etiFirebase';
 import { Navigate } from 'react-router-dom';
 import { sendVerificationEmail } from '../../helpers/firebaseAuthentication.js';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
+import { ROUTES } from 'App.js';
 
 function SignInScreen() {
   const { t } = useTranslation(SCOPES.MODULES.SIGN_IN, { useSuspense: false });
@@ -41,7 +42,7 @@ function SignInScreen() {
       </div>
     );
   }
-  return <Navigate to="/inscripcion" />;
+  return <Navigate to={ROUTES.USER_HOME} />;
 }
 
 export default SignInScreen;
