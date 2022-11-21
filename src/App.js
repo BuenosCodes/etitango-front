@@ -18,6 +18,7 @@ import SignInScreen from './modules/signIn/signIn';
 import SuperAdmin from './modules/superAdmin/index';
 import EventsList from './modules/superAdmin/events/index';
 import Profile from './modules/user/profile';
+import UserHome from './modules/user/index.jsx';
 
 i18n
   .use(initReactI18next)
@@ -34,13 +35,17 @@ i18n
 export const ROUTES = {
   EVENTS: 'events',
   SUPERADMIN: 'super-admin',
-  PROFILE: 'profile',
+  PROFILE: 'user/profile',
   USER: 'user',
-  USER_HOME: '/user/profile',
-  SIGN_IN: 'sign-in'
+  USER_HOME: '/user',
+  SIGN_IN: 'sign-in',
+  SIGNUP: 'inscripcion',
+  SIGNUPS: 'lista-inscriptos'
 };
+
 function App() {
   const [user, setUser] = useState({ user: {} });
+
   return (
     <div className="">
       <UserContext.Provider value={{ user, setUser }}>
@@ -51,13 +56,13 @@ function App() {
           <Route path="comision-de-genero-contact" element={<ComisionGeneroContact />} exact />
           <Route path="comision-de-genero-protocol" element={<ComisionGeneroProtocol />} exact />
           <Route path="comision-de-genero-who" element={<ComisionGeneroWho />} exact />
-          <Route path="inscripcion" element={<Inscripcion />} exact />
-          <Route path="lista-inscriptos" element={<SignupList />} exact />
-          <Route path="sign-in" element={<SignInScreen />} exact />
-          <Route path="sign-in" element={<SignInScreen />} exact />
+          <Route path={ROUTES.SIGNUP} element={<Inscripcion />} exact />
+          <Route path={ROUTES.SIGNUPS} element={<SignupList />} exact />
+          <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
           <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
           <Route path={`${ROUTES.SUPERADMIN}/${ROUTES.EVENTS}`} element={<EventsList />} />
-          <Route path={`${ROUTES.USER}/${ROUTES.PROFILE}`} element={<Profile />} />
+          <Route path={ROUTES.USER} element={<UserHome />} />
+          <Route path={ROUTES.PROFILE} element={<Profile />} />
         </Routes>
       </UserContext.Provider>
     </div>

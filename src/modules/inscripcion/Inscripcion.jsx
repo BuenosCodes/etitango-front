@@ -101,7 +101,7 @@ export default function Inscripcion() {
     <Translation ns={[SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP]} useSuspense={false}>
       {(t) => (
         <>
-          <WithAuthentication redirectUrl={'inscripcion'} />
+          <WithAuthentication />
           <Container maxWidth="lg" sx={{ marginTop: 6 }}>
             {etiEvent?.dateSignupOpen > new Date() ? (
               <Typography>

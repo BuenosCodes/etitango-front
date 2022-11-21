@@ -24,6 +24,7 @@ export const SCOPES = {
     SIGN_UP: 'signup',
     SIGN_UP_LIST: 'signup.list',
     SIGN_IN: 'signin',
+    USER: 'user',
     PROFILE: 'profile'
   }
 };
