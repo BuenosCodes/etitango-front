@@ -12,7 +12,7 @@ import {
 
 import WithAuthentication from '../withAuthentication';
 import { getFutureEti } from '../../helpers/firestore/events';
-import { getSignups } from '../../helpers/firestore/signups';
+import { getSignupsWithUser } from '../../helpers/firestore/signups';
 import { Signup } from '../../shared/signup';
 import { SignupListTable } from './SignupListTable';
 import { UserContext } from '../../helpers/UserContext';
@@ -36,7 +36,7 @@ const SignupList = () => {
   useEffect(() => {
     const fetchData = async () => {
       const etiEvent = await getFutureEti();
-      const signups = await getSignups(etiEvent.id);
+      const signups = await getSignupsWithUser(etiEvent.id);
       setSignups(signups);
     };
     fetchData();

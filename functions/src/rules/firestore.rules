@@ -33,7 +33,8 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-      allow read, write: if request.auth.uid == userId;
+      allow read: if true;
+      allow write: if request.auth.uid == userId;
     }
 
     match /signups/{document=**} {

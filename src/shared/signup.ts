@@ -31,6 +31,7 @@ export enum FoodChoices {
 }
 
 export interface SignupBase {
+  userId: string;
   nameFirst: string;
   nameLast: string;
   email: string;
