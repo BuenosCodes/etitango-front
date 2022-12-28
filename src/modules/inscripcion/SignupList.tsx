@@ -12,7 +12,7 @@ import {
 
 import WithAuthentication from '../withAuthentication';
 import { getFutureEti } from '../../helpers/firestore/events';
-import { getSignupsWithUser } from '../../helpers/firestore/signups';
+import { getSignups } from '../../helpers/firestore/signups';
 import { Signup } from '../../shared/signup';
 import { SignupListTable } from './SignupListTable';
 import { UserContext } from '../../helpers/UserContext';
@@ -24,6 +24,7 @@ const SignupList = () => {
   const { user } = useContext(UserContext);
   const [signups, setSignups] = useState([] as Signup[]);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [alert, setAlert] = useState<{ props?: AlertProps; text?: string }>({});
   const { t } = useTranslation([SCOPES.MODULES.SIGN_UP_LIST, SCOPES.COMMON.FORM], {
     useSuspense: false
@@ -33,12 +34,15 @@ const SignupList = () => {
     return user?.data?.roles && !!user?.data?.roles[UserRoles.ADMIN];
   };
 
+  const fetchData = async () => {
+    setIsLoading(true);
+    const etiEvent = await getFutureEti();
+    const signups = await getSignups(etiEvent.id);
+    setSignups(signups);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const etiEvent = await getFutureEti();
-      const signups = await getSignupsWithUser(etiEvent.id);
-      setSignups(signups);
-    };
     fetchData();
   }, [user]);
 
@@ -47,7 +51,7 @@ const SignupList = () => {
   return (
     <>
       <WithAuthentication />
-      <Container maxWidth="lg" sx={{ marginTop: 6 }}>
+      <Container maxWidth="xl" sx={{ marginTop: 6, display: 'flex' }}>
         <Grid container direction="column" spacing={3}>
           <Grid item>
             <Typography variant="h2" color="secondary" align="center">
@@ -56,14 +60,20 @@ const SignupList = () => {
           </Grid>
           <Grid item>
             {alert.text && <Alert {...alert.props}>{alert.text}</Alert>}
-            <TableContainer component={Paper} style={{ width: '90%' }}>
+            <TableContainer component={Paper}>
               {isAdmin() && (
-                <AdminTools signups={signups} selectedRows={selectedRows} setAlert={setAlert} />
+                <AdminTools
+                  signups={signups}
+                  selectedRows={selectedRows}
+                  setAlert={setAlert}
+                  callback={fetchData}
+                />
               )}
               <SignupListTable
                 isAdmin={isAdmin()}
                 signups={signups}
                 setSelectedRows={setSelectedRows}
+                isLoading={isLoading}
               />
             </TableContainer>
           </Grid>

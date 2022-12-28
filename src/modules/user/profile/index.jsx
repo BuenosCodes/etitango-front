@@ -126,7 +126,7 @@ export default function Profile() {
                     nameLast: userData?.nameLast || '',
                     dniNumber: userData?.dniNumber || '',
                     food: userData?.food || '',
-                    isCeliac: userData.isCeliac,
+                    isCeliac: userData.isCeliac || false,
                     country: userData.country || null,
                     province: userData.province || null,
                     city: userData.city || null,

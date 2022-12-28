@@ -14,6 +14,8 @@ import { SignupHelpWith } from '../../shared/signup';
 import { LocationPicker } from '../LocationPicker';
 import { getDocument } from '../../helpers/firestore/index.js';
 import { USERS } from '../../helpers/firestore/users.js';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../App.js';
 
 export default function Inscripcion() {
   const [etiEvent, setEtiEvent] = useState();
@@ -70,7 +72,7 @@ export default function Inscripcion() {
     };
     fetchData().catch((error) => console.error(error));
   }, [auth.currentUser?.uid]);
-
+  const navigate = useNavigate();
   const save = async (values, setSubmitting) => {
     const { dateArrival, dateDeparture, helpWith, food, isCeliac, country, province, city } =
       values;
@@ -86,10 +88,7 @@ export default function Inscripcion() {
     };
     try {
       await createSignup(etiEvent?.id, auth.currentUser.uid, data);
-      window.location.href = `${window.location.protocol}//${
-        // eslint-disable-next-line no-undef
-        process.env.REACT_APP_FRONT_END_URL || 'localhost:3000'
-      }/lista-inscriptos`;
+      navigate(`/${ROUTES.SIGNUPS}`);
     } catch (error) {
       console.error(error);
       setSubmitting(false);

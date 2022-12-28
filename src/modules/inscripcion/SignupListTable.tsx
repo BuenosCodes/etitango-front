@@ -1,6 +1,6 @@
 import React from 'react';
 import { Signup } from 'shared/signup';
-import { CircularProgress, Paper } from '@mui/material';
+import { Paper } from '@mui/material';
 import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from '../../helpers/constants/i18n';
@@ -12,8 +12,9 @@ export function SignupListTable(props: {
   isAdmin: boolean;
   // eslint-disable-next-line no-unused-vars
   setSelectedRows: (selection: string[]) => void;
+  isLoading: boolean;
 }) {
-  const { signups, setSelectedRows, isAdmin } = props;
+  const { signups, setSelectedRows, isAdmin, isLoading } = props;
 
   const publicFields: SignupField[] = [
     'nameFirst',
@@ -73,18 +74,15 @@ export function SignupListTable(props: {
 
   return (
     <>
-      {props.signups.length && !!columns.length ? (
-        <Paper style={{ height: '100vh' }}>
-          <DataGrid
-            rows={signups.map(getSignupValues)}
-            columns={columns}
-            checkboxSelection={isAdmin}
-            onSelectionModelChange={selectionChanged}
-          />
-        </Paper>
-      ) : (
-        <CircularProgress />
-      )}
+      <Paper style={{ height: '100vh' }}>
+        <DataGrid
+          rows={signups.map(getSignupValues)}
+          columns={columns}
+          checkboxSelection={isAdmin}
+          onSelectionModelChange={selectionChanged}
+          loading={isLoading}
+        />
+      </Paper>
     </>
   );
 }
