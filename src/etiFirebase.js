@@ -42,7 +42,6 @@ export const uiConfig = {
   // We will display Google and Facebook as auth providers.
   signInOptions: [
     firebaseAuth.GoogleAuthProvider.PROVIDER_ID,
-    firebaseAuth.FacebookAuthProvider.PROVIDER_ID,
     firebaseAuth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD
   ],
   callbacks: {

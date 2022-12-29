@@ -28,5 +28,7 @@
   "yes": "Si",
   "no": "No",
   "whereAreYouComingFrom": "Desde dónde viajás?",
-  "orderNumber": "# de Orden"
+  "orderNumber": "# de Orden",
+  "role": "Rol de baile",
+  "both": "ambos"
 }

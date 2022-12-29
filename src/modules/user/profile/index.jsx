@@ -8,10 +8,12 @@ import { SCOPES } from 'helpers/constants/i18n';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel, Select, TextField } from 'formik-mui';
 import { bool, number, object, string } from 'yup';
-import { FoodChoices } from 'shared/signup';
+import { DanceRoles, FoodChoices } from 'shared/signup';
 import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
 import { LocationPicker } from '../../LocationPicker';
 import { USERS } from 'helpers/firestore/users.js';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../../App.js';
 
 export default function Profile() {
   const ProfileSchema = object({
@@ -40,6 +42,7 @@ export default function Profile() {
       ),
     email: string().required('Este campo no puede estar vacío').email('Formato de mail inválido'),
     food: string().required('Este campo no puede estar vacío'),
+    role: string().required('Este campo no puede estar vacío'),
     isCeliac: bool().required('Este campo no puede estar vacío'),
     country: string().nullable(true).required('Este campo no puede estar vacío'),
     province: string()
@@ -53,11 +56,15 @@ export default function Profile() {
       .when('country', {
         is: 'Argentina',
         then: string().nullable(true).required('Este campo no puede estar vacío')
-      })
+      }),
+    bank: string().required(
+      'Este campo no puede estar vacío. Es necesario para gestionar la devolución de tu combo y para resolver problemas con el pago'
+    )
   });
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
 
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       if (auth.currentUser?.uid) {
@@ -70,28 +77,45 @@ export default function Profile() {
   }, [auth.currentUser?.uid]);
 
   const save = async (values, setSubmitting) => {
-    const { nameFirst, nameLast, email, dniNumber, food, isCeliac, country, province, city } =
-      values;
-    let data = {
+    const {
       nameFirst,
       nameLast,
       email,
       dniNumber,
       food,
       isCeliac,
-      country
+      country,
+      province,
+      city,
+      role,
+      bank
+    } = values;
+    let userData = {
+      nameFirst,
+      nameLast,
+      email,
+      dniNumber,
+      food,
+      isCeliac,
+      country,
+      role
     };
-    const isArgentina = data.country === 'Argentina';
+    const isArgentina = userData.country === 'Argentina';
 
-    data.province = isArgentina ? province : deleteField();
-    data.city = isArgentina ? city : deleteField();
+    userData.province = isArgentina ? province : deleteField();
+    userData.city = isArgentina ? city : deleteField();
 
+    const userId = auth.currentUser.uid;
     try {
-      await createOrUpdateDoc('users', data, auth.currentUser.uid);
+      await Promise.all([
+        createOrUpdateDoc('users', userData, userId),
+        createOrUpdateDoc('banks', { userId, bank })
+      ]);
+      navigate(ROUTES.USER_HOME);
     } catch (error) {
       console.error(error);
       setSubmitting(false);
-      //TODO global error handling this.setState({errors: error.response.data})
+      //TODO global error handling this.setState({errors: error.response.userData})
     }
   };
 
@@ -126,6 +150,7 @@ export default function Profile() {
                     nameLast: userData?.nameLast || '',
                     dniNumber: userData?.dniNumber || '',
                     food: userData?.food || '',
+                    role: userData?.role || '',
                     isCeliac: userData.isCeliac || false,
                     country: userData.country || null,
                     province: userData.province || null,
@@ -203,6 +228,22 @@ export default function Profile() {
                             Label={{ label: t('isCeliac') }}
                           />
                         </Grid>
+                        <Grid item md={4} sm={4} xs={12}>
+                          <Field
+                            component={Select}
+                            id="role"
+                            name="role"
+                            labelId="role-label"
+                            label={t('role')}
+                            formControl={{ fullWidth: true }}
+                          >
+                            {Object.values(DanceRoles).map((role) => (
+                              <MenuItem key={role} value={role}>
+                                {t(role) || role}
+                              </MenuItem>
+                            ))}
+                          </Field>
+                        </Grid>
                         <Grid item xs={12} lg={12} style={{ display: 'flex' }}>
                           <LocationPicker
                             errors={errors}
@@ -210,6 +251,15 @@ export default function Profile() {
                             setFieldValue={setFieldValue}
                             touched={touched}
                             location={userData}
+                          />
+                        </Grid>
+                        <Grid item md={6} sm={6} xs={12}>
+                          <Field
+                            name="bank"
+                            label="CBU/alias"
+                            component={TextField}
+                            required
+                            fullWidth
                           />
                         </Grid>
                         <Grid item container justifyContent={'center'}>
