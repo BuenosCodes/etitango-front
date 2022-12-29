@@ -14,7 +14,7 @@ import {
 
 import cronograma from '../cronograma.json';
 import { SCOPES } from 'helpers/constants/i18n';
-import { ROUTES } from 'src/App';
+import { ROUTES } from '../../../App';
 
 const number = {
   fontSize: 24,

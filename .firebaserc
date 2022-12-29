@@ -1,5 +1,13 @@
 {
   "projects": {
     "default": "etitango-5118a"
+  },
+  "targets": {},
+  "etags": {
+    "etitango-5118a": {
+      "extensionInstances": {
+        "firestore-send-email": "c99877c311f2cc19d4856de242090522e5ca82893522a10dec7a3023cee9add7"
+      }
+    }
   }
 }

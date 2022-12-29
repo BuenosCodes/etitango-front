@@ -18,7 +18,8 @@ import SignInScreen from './modules/signIn/signIn';
 import SuperAdmin from './modules/superAdmin/index';
 import EventsList from './modules/superAdmin/events/index';
 import Profile from './modules/user/profile';
-import UserHome from './modules/user/index.jsx';
+import UserHome from './modules/user/index';
+import Home from './modules/home/Home';
 
 i18n
   .use(initReactI18next)
@@ -63,6 +64,7 @@ function App() {
           <Route path={`${ROUTES.SUPERADMIN}/${ROUTES.EVENTS}`} element={<EventsList />} />
           <Route path={ROUTES.USER} element={<UserHome />} />
           <Route path={ROUTES.PROFILE} element={<Profile />} />
+          <Route path="/" element={<Home />} />
         </Routes>
       </UserContext.Provider>
     </div>
