@@ -109,9 +109,9 @@ export default function Profile() {
     try {
       await Promise.all([
         createOrUpdateDoc('users', userData, userId),
-        createOrUpdateDoc('banks', { userId, bank })
+        createOrUpdateDoc('banks', { userId, bank }, userId)
       ]);
-      navigate(ROUTES.USER_HOME);
+      navigate(`/${ROUTES.USER_HOME}`);
     } catch (error) {
       console.error(error);
       setSubmitting(false);

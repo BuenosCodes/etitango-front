@@ -1,9 +1,11 @@
 import React from 'react';
 import { Signup } from 'shared/signup';
-import { Paper } from '@mui/material';
-import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
+import { Button, Paper } from '@mui/material';
+import { DataGrid, GridColDef, GridRenderCellParams, GridSelectionModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from '../../helpers/constants/i18n';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../App';
 
 type SignupField = keyof Signup;
 
@@ -15,7 +17,7 @@ export function SignupListTable(props: {
   isLoading: boolean;
 }) {
   const { signups, setSelectedRows, isAdmin, isLoading } = props;
-
+  const navigate = useNavigate();
   const publicFields: SignupField[] = [
     'orderNumber',
     'nameFirst',
@@ -25,6 +27,7 @@ export function SignupListTable(props: {
     'city',
     'status'
   ];
+
   const privateFields: SignupField[] = [
     'dateArrival',
     'dateDeparture',
@@ -45,7 +48,25 @@ export function SignupListTable(props: {
     headerName: t(fieldName),
     width: fieldName === 'email' ? 300 : 150
   }));
-
+  if (isAdmin) {
+    columns.push({
+      field: 'bank',
+      headerName: 'Datos Bancarios',
+      renderCell: (params: GridRenderCellParams<String>) => (
+        <strong>
+          <Button
+            variant="contained"
+            size="small"
+            style={{ marginLeft: 16 }}
+            tabIndex={params.hasFocus ? 0 : -1}
+            onClick={() => navigate(`/${ROUTES.BANKS}/${params.row.userId}`)}
+          >
+            Ver Datos Bancarios
+          </Button>
+        </strong>
+      )
+    });
+  }
   const getSignupValues = (signup: Signup) => {
     let output: any = { ...signup };
     const dateFields: (keyof Signup)[] = ['dateArrival', 'dateDeparture'];
