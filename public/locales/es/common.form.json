@@ -27,5 +27,6 @@
   "cancelled": "Cancelada",
   "yes": "Si",
   "no": "No",
-  "whereAreYouComingFrom": "Desde dónde viajás?"
+  "whereAreYouComingFrom": "Desde dónde viajás?",
+  "orderNumber": "# de Orden"
 }

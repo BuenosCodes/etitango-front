@@ -1,9 +1,8 @@
 import { createOrUpdateDoc, getDocument } from './index';
 import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
 import { db, functions } from '../../etiFirebase';
-import { Signup, SignupBase, SignupCreate, SignupStatus } from '../../shared/signup';
+import { Signup, SignupBase, SignupStatus } from '../../shared/signup';
 import { httpsCallable } from 'firebase/functions';
-import { getUser } from './users';
 
 const SIGNUPS = `signups`;
 const SIGNUP = (signupId: string) => `${SIGNUPS}/${signupId}`;
@@ -11,6 +10,7 @@ const SIGNUP = (signupId: string) => `${SIGNUPS}/${signupId}`;
 interface SignupFirestore extends SignupBase {
   id: string;
   etiEventId: string;
+  orderNumber: number;
   dateArrival: Timestamp;
   dateDeparture: Timestamp;
 }
@@ -36,14 +36,18 @@ const toJs = (signup: SignupFirestore) =>
 
 export const getSignup = async (signupId: string) => getDocument(SIGNUP(signupId));
 
-export const createSignup = async (etiEventId: string, userId: string, data: SignupCreate) => {
-  const user = await getUser(userId);
-  return createOrUpdateDoc(SIGNUPS, {
-    ...user,
+export const createSignup = async (etiEventId: string, userId: string, data: Signup) => {
+  const signupData = {
     ...data,
     userId,
     etiEventId
-  });
+  };
+  const createSignup = httpsCallable(functions, 'signup-createSignup');
+  try {
+    return createSignup(signupData);
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export const createEmail = async () =>

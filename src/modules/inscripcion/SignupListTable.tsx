@@ -17,6 +17,7 @@ export function SignupListTable(props: {
   const { signups, setSelectedRows, isAdmin, isLoading } = props;
 
   const publicFields: SignupField[] = [
+    'orderNumber',
     'nameFirst',
     'nameLast',
     'country',
