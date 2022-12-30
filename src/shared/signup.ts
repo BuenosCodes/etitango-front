@@ -32,6 +32,7 @@ export enum FoodChoices {
 
 export interface SignupBase {
   userId: string;
+  etiEventId: string;
   nameFirst: string;
   nameLast: string;
   email: string;
@@ -54,7 +55,7 @@ export interface SignupCreate extends SignupBase {
 
 export interface Signup extends SignupBase {
   id: string;
-  etiEventId: string;
   dateArrival: Date;
   dateDeparture: Date;
+  orderNumber: number;
 }

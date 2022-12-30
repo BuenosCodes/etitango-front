@@ -11,7 +11,7 @@ initializeApp({credential: applicationDefault()});
 export const db = getFirestore();
 
 export const helloWorld = functions.https.onCall(
-    async (data: SampleInterface, _context: CallableContext) => {
+    async (data: SampleInterface, context: CallableContext) => {
       const txt = "Hello from Firebase!";
       return {txt: txt + " " + data.fieldA};
     }
@@ -25,3 +25,5 @@ export const seeds = require("./seeds");
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 export const mailing = require("./mailing");
+
+export const signup = require("./signup");
