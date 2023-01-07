@@ -1,1 +1,13 @@
-{ "footer": "Foro Tanguero del Interior" }
+{
+  "footer": "Foro Tanguero del Interior",
+  "about": {
+    "title": "Acerca del ETI",
+    "description": "El Encuentro Tanguero del Interior es una reunion de amantes del tango que viajamos por el pais compartiendo abrazos."
+  },
+  "links": {
+    "title": "Links ETIanos"
+  },
+  "socialNetworks": {
+    "title": "Nuestras redes sociales"
+  }
+}

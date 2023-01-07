@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 import withRoot from './components/withRoot';
 import EtiAppBar from './components/EtiAppBar';
+import AppFooter from './components/AppFooter';
 import { UserContext } from './helpers/UserContext';
 import HistoriaEti from './modules/home/historia-del-ETI/HistoriaEti';
 import ManifiestoETiano from './modules/home/manifiesto-etiano/ManifistoEtiano';
@@ -69,6 +70,7 @@ function App() {
           <Route path={ROUTES.PROFILE} element={<Profile />} />
           <Route path="/" element={<Home />} />
         </Routes>
+        <AppFooter />
       </UserContext.Provider>
     </div>
   );
