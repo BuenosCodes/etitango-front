@@ -11,7 +11,7 @@ const rawTheme = createTheme({
     secondary: {
       light: '#bbdefb',
       main: '#2196f3',
-      dark: '#0d47a1'
+      dark: '#1A0D3F'
     },
     warning: {
       main: '#ffc071',
@@ -29,18 +29,50 @@ const rawTheme = createTheme({
     }
   },
   typography: {
-    fontFamily: 'Roboto',
-    fontSize: 14,
-    fontWeightLight: 300, // Work Sans||
-    fontWeightRegular: 400, // Work Sans
-    fontWeightMedium: 700 // Roboto Condensedw
+    root: {
+      fontFamily: 'Montserrat',
+      fontSize: 14,
+      fontWeight: 500,
+      lineHeight: 1.75
+    },
+    body1: {
+      fontFamily: 'Montserrat',
+      fontSize: 14,
+      fontWeight: 500
+    },
+    body2: {
+      fontFamily: 'Montserrat',
+      fontSize: 14,
+      fontWeight: 500
+    }
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          fontFamily: 'Montserrat',
+          fontSize: 12,
+          align: 'center',
+          margin: '3px',
+          textAlign: 'center'
+        }
+      }
+    },
+    MuiListItemText: {
+      styleOverrides: {
+        root: {
+          fontSize: 16
+        }
+      }
+    }
   }
 });
 
 const fontHeader = {
   color: rawTheme.palette.text.primary,
-  fontWeight: rawTheme.typography.fontWeightMedium,
-  fontFamily: "'Roboto', sans-serif"
+  fontWeight: 500,
+  fontFamily: "'Montserrat', sans-serif"
 };
 
 const theme = {
@@ -49,7 +81,7 @@ const theme = {
     ...rawTheme.palette,
     background: {
       ...rawTheme.palette.background,
-      default: '#f0f8ff',
+      default: '#ffffff',
       placeholder: grey[200]
     }
   },
@@ -80,7 +112,7 @@ const theme = {
     h5: {
       ...rawTheme.typography.h5,
       fontSize: 20,
-      fontWeight: rawTheme.typography.fontWeightLight
+      fontWeight: 300
     },
     h6: {
       ...rawTheme.typography.h6,
@@ -93,8 +125,8 @@ const theme = {
     },
     body1: {
       ...rawTheme.typography.body2,
-      fontWeight: rawTheme.typography.fontWeightRegular,
-      fontSize: 18
+      fontWeight: 500,
+      fontSize: 16
     },
     body2: {
       ...rawTheme.typography.body1,
