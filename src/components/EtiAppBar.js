@@ -77,6 +77,7 @@ const EtiAppBar = () => {
           >
             {links.map((link) => (
               <Link
+                className="appBarLink"
                 variant="h6"
                 underline="none"
                 color="black"
@@ -90,6 +91,7 @@ const EtiAppBar = () => {
               </Link>
             ))}
             <Button
+              sx={{ fontSize: 14 }}
               id="gender-button"
               aria-controls={openGenderMenu ? 'gender-menu' : undefined}
               aria-haspopup="true"
@@ -138,7 +140,6 @@ const EtiAppBar = () => {
                   underline="none"
                   href={ROUTES.USER_HOME}
                   key={'profile'}
-                  sx={{ fontSize: 12, align: 'center', margin: '3px', textAlign: 'center' }}
                 >
                   {t('controlPanel')}
                 </Button>
@@ -164,7 +165,7 @@ const EtiAppBar = () => {
                 key={'sign-in'}
                 sx={{ fontSize: 12, align: 'center', margin: '3px', textAlign: 'center' }}
               >
-                {t('signin')}
+                {t('signin').toUpperCase()}
               </Button>
             )}
           </Box>
