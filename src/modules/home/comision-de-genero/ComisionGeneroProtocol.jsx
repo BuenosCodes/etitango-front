@@ -7,8 +7,7 @@ const item = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'left',
-  px: 5,
-  height: '100vh'
+  px: 5
 };
 
 function ComisionGeneroProtocol() {
