@@ -17,14 +17,11 @@ export const SCOPES = {
         CONT: 'home.gender-cont'
       }
     },
-    COMPONENTS: {
-      BAR: 'bar',
-      FOOTER: 'footer'
-    },
     SIGN_UP: 'signup',
     SIGN_UP_LIST: 'signup.list',
     SIGN_IN: 'signin',
     USER: 'user',
-    PROFILE: 'profile'
+    PROFILE: 'profile',
+    USER_HOME: 'user.home',
   }
 };
