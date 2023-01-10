@@ -49,7 +49,7 @@ function Cronograma() {
         <Grid item>
           <img src={ImgBackground} alt="logo" height="100%" width="100%" />
         </Grid>
-        <Grid item mt={3}>
+        <Grid item mt={3} px={5}>
           <Typography variant="h4">
             Salón: Bomberos voluntarios de Sierra de La ventana.
             <Link
@@ -60,7 +60,7 @@ function Cronograma() {
               <Typography>(Ver en Mapa Aquí)</Typography>
             </Link>
           </Typography>
-          <Grid container spacing={3} px={15} mt={3}>
+          <Grid container spacing={3} px={5} mt={3}>
             {cronograma.dias.map((dia, index) => (
               <Grid item key={`cronograma_${index}`} xs={12} md={4}>
                 <Paper sx={{ padding: '24px', height: '100%' }}>
