@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { deleteField } from 'firebase/firestore';
-import { Button, CircularProgress, Container, Grid, MenuItem, Typography } from '@mui/material';
+import { Button, CircularProgress, Container, Grid, MenuItem } from '@mui/material';
 import WithAuthentication from '../../withAuthentication';
 import { auth } from 'etiFirebase';
 import { Translation } from 'react-i18next';
@@ -130,7 +130,7 @@ export default function Profile() {
           {loading ? (
             <CircularProgress />
           ) : (
-            <Container maxWidth="lg" sx={{ marginTop: 6 }}>
+            <Container maxWidth="lg" sx={{ marginTop: 3, mx: 3 }}>
               <Grid
                 container
                 direction="column"
@@ -138,10 +138,8 @@ export default function Profile() {
                 justifyContent="center"
                 spacing={3}
               >
-                <Grid item sx={{ mb: 3 }}>
-                  <Typography variant="h2" color="secondary" align="center">
-                    {t(`${SCOPES.MODULES.PROFILE}.title`)}
-                  </Typography>
+                <Grid item sx={{ my: 3, typography: 'h5', color: 'secondary.main' }}>
+                  {t(`${SCOPES.MODULES.PROFILE}.title`)}
                 </Grid>
                 <Formik
                   enableReinitialize
@@ -228,7 +226,16 @@ export default function Profile() {
                             Label={{ label: t('isCeliac') }}
                           />
                         </Grid>
-                        <Grid item md={4} sm={4} xs={12}>
+                        <Grid item xs={12} lg={12} style={{ display: 'flex' }}>
+                          <LocationPicker
+                            errors={errors}
+                            t={t}
+                            setFieldValue={setFieldValue}
+                            touched={touched}
+                            location={userData}
+                          />
+                        </Grid>
+                        <Grid item md={6} sm={6} xs={12}>
                           <Field
                             component={Select}
                             id="role"
@@ -243,15 +250,6 @@ export default function Profile() {
                               </MenuItem>
                             ))}
                           </Field>
-                        </Grid>
-                        <Grid item xs={12} lg={12} style={{ display: 'flex' }}>
-                          <LocationPicker
-                            errors={errors}
-                            t={t}
-                            setFieldValue={setFieldValue}
-                            touched={touched}
-                            location={userData}
-                          />
                         </Grid>
                         <Grid item md={6} sm={6} xs={12}>
                           <Field
@@ -271,7 +269,7 @@ export default function Profile() {
                                 type="submit"
                                 disabled={isSubmitting}
                               >
-                                {t(`${SCOPES.MODULES.PROFILE}.save`)}
+                                {t(`${SCOPES.MODULES.PROFILE}.save`).toUpperCase()}
                               </Button>
                             </Grid>
                           </Grid>
