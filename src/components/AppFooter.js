@@ -26,7 +26,7 @@ export default function AppFooter() {
       justifyContent={'center'}
       alignItems={'center'}
     >
-      <Grid item xs={4}>
+      <Grid item xs={12} md={4}>
         <Grid
           direction={'column'}
           container
@@ -42,7 +42,7 @@ export default function AppFooter() {
           </Typography>
         </Grid>
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={12} md={4}>
         <Grid
           direction={'column'}
           container
@@ -67,7 +67,7 @@ export default function AppFooter() {
           ))}
         </Grid>
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={12} md={4}>
         <Grid
           direction={'column'}
           container
