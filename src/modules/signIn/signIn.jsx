@@ -6,6 +6,7 @@ import { sendVerificationEmail } from '../../helpers/firebaseAuthentication.js';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
 import { ROUTES } from 'App.js';
+import { Button } from '@mui/material';
 
 function SignInScreen() {
   const { t } = useTranslation(SCOPES.MODULES.SIGN_IN, { useSuspense: false });
@@ -32,11 +33,13 @@ function SignInScreen() {
   }
   if (!isVerified) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '5px' }}>
         <p>{t('emailNotValidated')}</p>
         <p>
           {t('verificationMailNotReceived')}{' '}
-          <button onClick={sendVerificationEmail}>{t('resend')}</button>
+          <Button color="secondary" variant="contained" onClick={sendVerificationEmail}>
+            {t('resend').toUpperCase()}
+          </Button>
         </p>
         <p>{t('checkSpamFolder')}</p>
       </div>
