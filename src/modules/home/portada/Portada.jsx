@@ -14,14 +14,14 @@ export default function Portada() {
           backgroundPosition: 'center',
           backgroundSize: 'cover',
           height: '625px',
-          paddingTop: '25px',
+          padding: '25px',
           boxShadow: 'inset 0 0 0 50vw rgba(0, 0, 0, 0.5);',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center'
         }}
       >
-        <Typography color="white" variant="h6">
+        <Typography color="white" variant="h6" textAlign="center">
           ETI &quot;Ventania&quot; - 4, 5 y 6 de Noviembre - Sierra de la Ventana
         </Typography>
       </Box>
