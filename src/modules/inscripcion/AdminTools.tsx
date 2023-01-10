@@ -31,7 +31,8 @@ const AdminTools = (props: {
       dateDeparture: signUp.dateDeparture.toLocaleDateString(),
       isCeliac: getLabelForValue(CELIAC_CHOICES, signUp.isCeliac),
       helpWith: t(signUp.helpWith),
-      food: t(signUp.food)
+      food: t(signUp.food),
+      roles: null
     })) || [];
 
   const exportableDataHeaders = signups
