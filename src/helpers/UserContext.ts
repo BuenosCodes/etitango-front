@@ -2,7 +2,7 @@ import { createContext } from 'react';
 import { IUser, UserChange } from '../shared/User';
 
 export const UserContext = createContext({
-  user: {},
+  user: {} as IUser,
   // eslint-disable-next-line no-unused-vars
   setUser: (user: IUser) => {}
 });

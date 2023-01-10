@@ -22,6 +22,7 @@ import Profile from './modules/user/profile';
 import UserHome from './modules/user/index';
 import Home from './modules/home/Home';
 import Bank from './modules/user/profile/bank';
+import withUserMenu from './components/withUserMenu';
 
 i18n
   .use(initReactI18next)
@@ -61,15 +62,15 @@ function App() {
           <Route path="comision-de-genero-contact" element={<ComisionGeneroContact />} exact />
           <Route path="comision-de-genero-protocol" element={<ComisionGeneroProtocol />} exact />
           <Route path="comision-de-genero-who" element={<ComisionGeneroWho />} exact />
-          <Route path={ROUTES.SIGNUP} element={<Inscripcion />} exact />
-          <Route path={ROUTES.SIGNUPS} element={<SignupList />} exact />
+          <Route path={ROUTES.SIGNUP} element={withUserMenu(Inscripcion)()} exact />
+          <Route path={ROUTES.SIGNUPS} element={withUserMenu(SignupList)()} exact />
           <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
           <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
           <Route path={`${ROUTES.SUPERADMIN}/${ROUTES.EVENTS}`} element={<EventsList />} />
-          <Route path={ROUTES.USER} element={<UserHome />} />
+          <Route path={ROUTES.USER} element={withUserMenu(UserHome)()} />
           <Route path={`${ROUTES.BANKS}/:id`} element={<Bank />} />
-          <Route path={ROUTES.PROFILE} element={<Profile />} />
-          <Route path="/" element={<Home />} />
+          <Route path={ROUTES.PROFILE} element={withUserMenu(Profile)()} />
+          <Route path={ROUTES.HOME} element={<Home />} />
         </Routes>
         <AppFooter />
       </UserContext.Provider>
