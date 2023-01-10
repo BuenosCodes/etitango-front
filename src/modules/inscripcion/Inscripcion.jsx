@@ -88,7 +88,7 @@ export default function Inscripcion() {
     };
     try {
       await createSignup(etiEvent?.id, auth.currentUser.uid, data);
-      navigate(`/${ROUTES.SIGNUPS}`);
+      navigate(ROUTES.SIGNUPS);
     } catch (error) {
       console.error(error);
       setSubmitting(false);

@@ -111,7 +111,7 @@ export default function Profile() {
         createOrUpdateDoc('users', userData, userId),
         createOrUpdateDoc('banks', { userId, bank }, userId)
       ]);
-      navigate(`/${ROUTES.USER_HOME}`);
+      navigate(ROUTES.USER_HOME);
     } catch (error) {
       console.error(error);
       setSubmitting(false);

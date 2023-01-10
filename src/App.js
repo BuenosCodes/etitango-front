@@ -36,15 +36,16 @@ i18n
   });
 
 export const ROUTES = {
-  EVENTS: 'events',
-  SUPERADMIN: 'super-admin',
-  PROFILE: 'user/profile',
-  USER: 'user',
+  HOME: '/',
+  EVENTS: '/events',
+  SUPERADMIN: '/super-admin',
+  PROFILE: '/user/profile',
+  USER: '/user',
   USER_HOME: '/user',
-  SIGN_IN: 'sign-in',
-  SIGNUP: 'inscripcion',
-  SIGNUPS: 'lista-inscriptos',
-  BANKS: 'banks'
+  SIGN_IN: '/sign-in',
+  SIGNUP: '/inscripcion',
+  SIGNUPS: '/lista-inscriptos',
+  BANKS: '/banks'
 };
 
 function App() {
