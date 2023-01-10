@@ -31,7 +31,7 @@ const SignupList = () => {
   });
   const isAdmin = () => {
     // @ts-ignore
-    return user?.data?.roles && !!user?.data?.roles[UserRoles.ADMIN];
+    return !!user?.data?.roles && !!user?.data?.roles[UserRoles.ADMIN];
   };
 
   const fetchData = async () => {
