@@ -65,6 +65,7 @@ const AdminTools = (props: {
         label={t('status')}
         onChange={onSelectedStatusChange}
         value={selectedStatus}
+        SelectDisplayProps={{style: {padding: '6px 32px', fontSize: 14}}}
       >
         {Object.values(SignupStatus).map((status) => (
           <MenuItem key={status} value={status}>
