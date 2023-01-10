@@ -9,7 +9,8 @@ import Container from '@mui/material/Container';
 import { auth } from '../etiFirebase';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
-import { ROUTES } from '../App.js';
+import { PRIVATE_ROUTES, ROUTES } from '../App.js';
+import { useLocation } from 'react-router-dom';
 
 const EtiAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -31,7 +32,7 @@ const EtiAppBar = () => {
   };
 
   const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
-
+  const { pathname: currentRoute } = useLocation();
   const links = [
     { href: '/historia-del-eti', title: t('history') },
     { href: '/manifiesto-etiano', title: t('manifest') }
@@ -53,7 +54,12 @@ const EtiAppBar = () => {
   ];
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: 'white' }} id="appbar">
+    <AppBar
+      elevation={0}
+      position="static"
+      sx={{ backgroundColor: 'white', paddingX: 2 }}
+      id="appbar"
+    >
       <Container maxWidth="xl" id="container">
         <Toolbar
           disableGutters
@@ -133,28 +139,29 @@ const EtiAppBar = () => {
             id="botonera"
           >
             {isSignedIn ? (
-              <>
-                <Button
-                  color="secondary"
-                  variant="contained"
-                  underline="none"
-                  href={ROUTES.USER_HOME}
-                  key={'profile'}
-                >
-                  {t('controlPanel')}
-                </Button>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  underline="none"
-                  onClick={() => auth.signOut()}
-                  href={'/'}
-                  key={'signout'}
-                  sx={{ fontSize: 12, align: 'center', margin: '3px', textAlign: 'center' }}
-                >
-                  {t('logout')}
-                </Button>
-              </>
+              !PRIVATE_ROUTES.includes(currentRoute) && (
+                <>
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    underline="none"
+                    href={ROUTES.USER_HOME}
+                    key={'profile'}
+                  >
+                    {t('controlPanel').toUpperCase()}
+                  </Button>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    underline="none"
+                    onClick={() => auth.signOut()}
+                    href={'/'}
+                    key={'signout'}
+                  >
+                    {t('logout').toUpperCase()}
+                  </Button>
+                </>
+              )
             ) : (
               <Button
                 color="secondary"

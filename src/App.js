@@ -49,6 +49,14 @@ export const ROUTES = {
   BANKS: '/banks'
 };
 
+export const PRIVATE_ROUTES = [
+  ROUTES.PROFILE,
+  ROUTES.USER,
+  ROUTES.USER_HOME,
+  ROUTES.SIGNUP,
+  ROUTES.SIGNUPS
+];
+
 function App() {
   const [user, setUser] = useState({ user: {} });
 
