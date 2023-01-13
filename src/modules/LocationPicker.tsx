@@ -56,7 +56,7 @@ export const LocationPicker = ({
   };
 
   return (
-    <>
+    <Grid container spacing={3}>
       <Grid item md={4} sm={4} xs={12}>
         <Autocomplete
           disablePortal
@@ -120,6 +120,6 @@ export const LocationPicker = ({
           </Grid>
         </>
       )}
-    </>
+    </Grid>
   );
 };

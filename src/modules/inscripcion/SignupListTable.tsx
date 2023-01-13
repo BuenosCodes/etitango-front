@@ -59,7 +59,7 @@ export function SignupListTable(props: {
             size="small"
             style={{ marginLeft: 16 }}
             tabIndex={params.hasFocus ? 0 : -1}
-            onClick={() => navigate(`/${ROUTES.BANKS}/${params.row.userId}`)}
+            onClick={() => navigate(`${ROUTES.BANKS}/${params.row.userId}`)}
           >
             Ver Datos Bancarios
           </Button>

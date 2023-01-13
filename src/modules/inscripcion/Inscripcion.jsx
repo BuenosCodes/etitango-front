@@ -88,7 +88,7 @@ export default function Inscripcion() {
     };
     try {
       await createSignup(etiEvent?.id, auth.currentUser.uid, data);
-      navigate(`/${ROUTES.SIGNUPS}`);
+      navigate(ROUTES.SIGNUPS);
     } catch (error) {
       console.error(error);
       setSubmitting(false);
@@ -101,9 +101,9 @@ export default function Inscripcion() {
       {(t) => (
         <>
           <WithAuthentication />
-          <Container maxWidth="lg" sx={{ marginTop: 6 }}>
+          <Container maxWidth="lg" sx={{ marginTop: 3, mx: 3 }}>
             {etiEvent?.dateSignupOpen > new Date() ? (
-              <Typography>
+              <Typography color={'error.dark'} textAlign={'center'}>
                 {t(`${SCOPES.MODULES.SIGN_UP}.signupClosed`)}{' '}
                 {etiEvent.dateSignupOpen.toLocaleString()}
               </Typography>
@@ -116,10 +116,10 @@ export default function Inscripcion() {
                 spacing={3}
               >
                 <Grid item sx={{ mb: 3 }}>
-                  <Typography variant="h2" color="secondary" align="center">
+                  <Typography variant="h5" color="secondary" align="center">
                     {t(`${SCOPES.MODULES.SIGN_UP}.title`)}
                   </Typography>
-                  <Typography variant="h2" color="secondary" align="center">
+                  <Typography variant="h5" color="secondary" align="center">
                     {etiEvent?.name}
                   </Typography>
                 </Grid>
@@ -189,15 +189,15 @@ export default function Inscripcion() {
                             </Field>
                           </Grid>
                           <Grid item xs={12}>
-                            <Typography>{t('whereAreYouComingFrom')}</Typography>
+                            <Typography sx={{ mb: 1 }}>{t('whereAreYouComingFrom')}</Typography>
+                            <LocationPicker
+                              setFieldValue={setFieldValue}
+                              touched={touched}
+                              errors={errors}
+                              t={t}
+                              location={userData}
+                            />
                           </Grid>
-                          <LocationPicker
-                            setFieldValue={setFieldValue}
-                            touched={touched}
-                            errors={errors}
-                            t={t}
-                            location={userData}
-                          />
                           <Grid item container justifyContent={'center'}>
                             <Grid item style={{ textAlign: 'center' }} justifyContent={'center'}>
                               <Typography variant="h3" color="primary" align="center">
@@ -214,7 +214,7 @@ export default function Inscripcion() {
                                   type="submit"
                                   disabled={isSubmitting}
                                 >
-                                  {t(`${SCOPES.MODULES.SIGN_UP}.signUp`)}
+                                  {t(`${SCOPES.MODULES.SIGN_UP}.signUp`).toUpperCase()}
                                 </Button>
                               </Grid>
                             </Grid>

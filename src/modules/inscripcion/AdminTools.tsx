@@ -31,7 +31,8 @@ const AdminTools = (props: {
       dateDeparture: signUp.dateDeparture.toLocaleDateString(),
       isCeliac: getLabelForValue(CELIAC_CHOICES, signUp.isCeliac),
       helpWith: t(signUp.helpWith),
-      food: t(signUp.food)
+      food: t(signUp.food),
+      roles: null
     })) || [];
 
   const exportableDataHeaders = signups
@@ -65,6 +66,7 @@ const AdminTools = (props: {
         label={t('status')}
         onChange={onSelectedStatusChange}
         value={selectedStatus}
+        SelectDisplayProps={{ style: { padding: '6px 32px', fontSize: 14 } }}
       >
         {Object.values(SignupStatus).map((status) => (
           <MenuItem key={status} value={status}>

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import AppFooter from '../../components/AppFooter';
 import Portada from './portada/Portada';
 import Cronograma from './cronograma/Cronograma';
 
@@ -8,8 +7,6 @@ function Index() {
     <React.Fragment>
       <Portada />
       <Cronograma />
-
-      <AppFooter />
     </React.Fragment>
   );
 }

@@ -31,7 +31,7 @@ const SignupList = () => {
   });
   const isAdmin = () => {
     // @ts-ignore
-    return user?.data?.roles && !!user?.data?.roles[UserRoles.ADMIN];
+    return !!user?.data?.roles && !!user?.data?.roles[UserRoles.ADMIN];
   };
 
   const fetchData = async () => {
@@ -51,10 +51,10 @@ const SignupList = () => {
   return (
     <>
       <WithAuthentication />
-      <Container maxWidth="xl" sx={{ marginTop: 6, display: 'flex' }}>
+      <Container maxWidth="xl" sx={{ marginTop: 3, mx: 3 }}>
         <Grid container direction="column" spacing={3}>
           <Grid item>
-            <Typography variant="h2" color="secondary" align="center">
+            <Typography variant="h5" color="secondary" align="center">
               {t('title')}
             </Typography>
           </Grid>

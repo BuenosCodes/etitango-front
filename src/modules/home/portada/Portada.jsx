@@ -14,12 +14,14 @@ export default function Portada() {
           backgroundPosition: 'center',
           backgroundSize: 'cover',
           height: '625px',
-          paddingTop: '25px'
+          padding: '25px',
+          boxShadow: 'inset 0 0 0 50vw rgba(0, 0, 0, 0.5);',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
       >
-        {/* Increase the network loading priority of the background image. */}
-        <img style={{ display: 'none' }} src={ImgBackground} alt="increase priority" />
-        <Typography color="white" align="center" variant="h3" sx={{ backgroundColor: '#00000075' }}>
+        <Typography color="white" variant="h6" textAlign="center">
           ETI &quot;Ventania&quot; - 4, 5 y 6 de Noviembre - Sierra de la Ventana
         </Typography>
       </Box>
