@@ -8,7 +8,7 @@ export enum UserRoles {
   ADMIN = 'admin'
 }
 
-export interface UserData extends UserPersonalInfo{
+export interface UserData extends UserPersonalInfo {
   roles: { [role: string]: boolean };
 }
 
