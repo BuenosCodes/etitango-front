@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Signup } from 'shared/signup';
 import { Button, Paper } from '@mui/material';
-import { DataGrid, GridColDef, GridRenderCellParams, GridSelectionModel } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridColDef,
+  GridFilterItem,
+  GridRenderCellParams,
+  GridSelectionModel
+} from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from '../../helpers/constants/i18n';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../App';
+import { SearchBar } from '../../components/searchBar/SearchBar';
 
 type SignupField = keyof Signup;
+
+export const SEARCHABLE_FIELDS = ['nameFirst', 'nameLast', 'country', 'province', 'city', 'status'];
 
 export function SignupListTable(props: {
   signups: Signup[];
@@ -18,6 +27,18 @@ export function SignupListTable(props: {
 }) {
   const { signups, setSelectedRows, isAdmin, isLoading } = props;
   const navigate = useNavigate();
+  const [filteredRows, setFilteredRows] = useState<GridFilterItem[]>([]);
+
+  const filterRows = (value: string, columnField: string) => {
+    setFilteredRows([
+      {
+        columnField,
+        operatorValue: 'contains',
+        value
+      }
+    ]);
+  };
+
   const publicFields: SignupField[] = [
     'orderNumber',
     'nameFirst',
@@ -96,13 +117,15 @@ export function SignupListTable(props: {
 
   return (
     <>
-      <Paper style={{ height: '100vh' }}>
+      <Paper style={{ height: '100vh', marginTop: 3 }}>
+        <SearchBar setQuery={filterRows} />
         <DataGrid
           rows={signups.map(getSignupValues)}
           columns={columns}
           checkboxSelection={isAdmin}
           onSelectionModelChange={selectionChanged}
           loading={isLoading}
+          filterModel={{ items: filteredRows }}
         />
       </Paper>
     </>

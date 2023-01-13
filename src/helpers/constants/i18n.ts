@@ -4,7 +4,8 @@ export const SCOPES = {
   },
   COMPONENTS: {
     BAR: 'bar',
-    FOOTER: 'footer'
+    FOOTER: 'footer',
+    SEARCH_BAR: 'search-bar'
   },
   MODULES: {
     HOME: {
