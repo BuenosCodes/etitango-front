@@ -16,14 +16,7 @@ import { SearchBar } from '../../components/searchBar/SearchBar';
 
 type SignupField = keyof Signup;
 
-export const SEARCHABLE_FIELDS = [
-  'nameFirst',
-  'nameLast',
-  'country',
-  'province',
-  'city',
-  'status'
-];
+export const SEARCHABLE_FIELDS = ['nameFirst', 'nameLast', 'country', 'province', 'city', 'status'];
 
 export function SignupListTable(props: {
   signups: Signup[];
