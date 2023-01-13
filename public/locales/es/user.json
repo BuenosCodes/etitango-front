@@ -1,5 +1,10 @@
 {
   "myProfile": "Mis datos personales",
   "signup": "Inscripción al próximo ETI",
-  "signupList": "Lista de Inscripciones"
+  "signupList": "Lista de Inscripciones",
+  "alert": {
+    "fillInData": "¡Completar mis datos!",
+    "warning": "Advertencia",
+    "fillInDataReason": "Debés completar los datos de tu perfil para poder inscribirte al próximo ETI"
+  }
 }

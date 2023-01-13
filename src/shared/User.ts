@@ -1,4 +1,5 @@
 import { User } from 'firebase/auth';
+import { FoodChoices } from './signup';
 
 export enum UserRoles {
   // eslint-disable-next-line no-unused-vars
@@ -7,8 +8,20 @@ export enum UserRoles {
   ADMIN = 'admin'
 }
 
-export interface UserData {
+export interface UserData extends UserPersonalInfo {
   roles: { [role: string]: boolean };
+}
+
+export interface UserPersonalInfo {
+  city?: string;
+  country: string;
+  dniNumber: string;
+  email: string;
+  food: FoodChoices;
+  isCeliac: boolean;
+  nameFirst: string;
+  nameLast: string;
+  province?: string;
 }
 
 export interface IUser extends User {
