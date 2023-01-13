@@ -34,12 +34,7 @@ export default function UserNavBar() {
         </Button>
       </Grid>
       <Grid item xs={12} md sx={styles.panelTitleContainer}>
-        <Button
-          color={'secondary'}
-          variant={'contained'}
-          onClick={() => logout()}
-          key={'signout'}
-        >
+        <Button color={'secondary'} variant={'contained'} onClick={() => logout()} key={'signout'}>
           {t('logout').toUpperCase()}
         </Button>
       </Grid>

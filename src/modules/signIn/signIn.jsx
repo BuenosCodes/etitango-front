@@ -33,7 +33,9 @@ function SignInScreen() {
   }
   if (!isVerified) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '5px' }}>
+      <div
+        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '5px' }}
+      >
         <p>{t('emailNotValidated')}</p>
         <p>
           {t('verificationMailNotReceived')}{' '}
