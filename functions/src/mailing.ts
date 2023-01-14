@@ -34,6 +34,6 @@ exports.onUpdateSignup = functions.firestore
 exports.onCreateSignup = functions.firestore
   .document('signups/{signupId}')
   .onCreate(async (snapshot: QueryDocumentSnapshot<Signup>, context: EventContext) => {
-    console.info(`OnCreate triggered for ${context.params.signupId}`);
+    console.info(`OnCreate triggered for signups/${context.params.signupId}`);
     await snapshot.ref.set({ status: SignupStatus.WAITLIST }, { merge: true });
   });
