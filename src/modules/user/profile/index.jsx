@@ -14,6 +14,7 @@ import { LocationPicker } from '../../LocationPicker';
 import { USERS } from 'helpers/firestore/users.js';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
+import { BANKS } from 'helpers/firestore/banks';
 
 export default function Profile() {
   const ProfileSchema = object({
@@ -68,8 +69,11 @@ export default function Profile() {
   useEffect(() => {
     const fetchData = async () => {
       if (auth.currentUser?.uid) {
-        const user = await getDocument(`${USERS}/${auth.currentUser.uid}`);
-        setUserData(user);
+        const [user, bank] = await Promise.all([
+          getDocument(`${USERS}/${auth.currentUser.uid}`),
+          getDocument(`${BANKS}/${auth.currentUser.uid}`)
+        ]);
+        setUserData({ ...user, bank: bank?.bank });
         setLoading(false);
       }
     };
@@ -153,7 +157,8 @@ export default function Profile() {
                     country: userData.country || null,
                     province: userData.province || null,
                     city: userData.city || null,
-                    email: auth?.currentUser?.email
+                    email: auth?.currentUser?.email,
+                    bank: userData.bank || ''
                   }}
                   validationSchema={ProfileSchema}
                   onSubmit={async (values, { setSubmitting }) => {

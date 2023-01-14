@@ -37,9 +37,9 @@ service cloud.firestore {
       allow write: if request.auth.uid == userId;
     }
 
-    match /banks/{document=**} {
+    match /banks/{documentId} {
       allow write: if requestBelongsToUser();
-      allow read: if requestBelongsToUser() || isAdmin();
+      allow read: if documentId == request.auth.uid || requestBelongsToUser() || isAdmin();
     }
 
     match /signups/{document=**} {

@@ -30,5 +30,7 @@
   "whereAreYouComingFrom": "Desde dónde viajás?",
   "orderNumber": "# de Orden",
   "role": "Rol de baile",
+  "leader": "Conductorx",
+  "follower": "Conducidx",
   "both": "ambos"
 }
