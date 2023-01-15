@@ -13,7 +13,7 @@ export const LocationPicker = ({
   location,
   setFieldValue
 }: {
-  values: FormikValues,
+  values: FormikValues;
   touched: any;
   errors: any;
   t: any;
