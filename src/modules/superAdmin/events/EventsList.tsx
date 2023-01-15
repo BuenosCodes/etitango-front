@@ -1,23 +1,15 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import WithAuthentication from '../../withAuthentication';
 import { UserRoles } from 'shared/User';
 import { EtiEvent } from 'shared/etiEvent';
 import * as firestoreEventHelper from 'helpers/firestore/events';
-import { createOrUpdateDoc } from 'helpers/firestore';
+import EventListTable from './eventsListTable';
 
 const EventsList = () => {
   // eslint-disable-next-line no-unused-vars
   const [events, setEvents] = useState<EtiEvent[]>([]);
-
+  const [isLoading, setIsLoading] = useState(false);
   // eslint-disable-next-line no-unused-vars
-  const updateEvent = (etiData: EtiEvent) => {
-    return createOrUpdateDoc(firestoreEventHelper.EVENTS, etiData, etiData.id);
-  };
-
-  // eslint-disable-next-line no-unused-vars
-  const createEvent = (data: EtiEvent) => {
-    return createOrUpdateDoc(firestoreEventHelper.EVENTS, data);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,13 +17,15 @@ const EventsList = () => {
       console.log(evts);
       setEvents(evts);
     };
+    setIsLoading(true);
     fetchData().catch((error) => console.error(error));
+    setIsLoading(false);
   }, []);
 
   return (
     <>
       <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} />
-      <>listar la variable events aca</>
+      <EventListTable events={events} isLoading={isLoading} />
     </>
   );
 };
