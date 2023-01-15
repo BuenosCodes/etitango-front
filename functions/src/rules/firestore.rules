@@ -57,5 +57,9 @@ service cloud.firestore {
       allow read: if signedIn() || isAdmin();
       allow write: if isAdmin();
     }
+
+    match /templates/{document=**} {
+      allow read, write: if isSuperAdmin();
+    }
   }
 }

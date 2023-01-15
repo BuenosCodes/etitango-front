@@ -24,6 +24,8 @@ import Home from './modules/home/Home';
 import Bank from './modules/user/profile/bank';
 import withUserMenu from './components/withUserMenu';
 import EventForm from './modules/superAdmin/events/EventForm';
+import TemplatesList from './modules/superAdmin/templates';
+import EditTemplate from './modules/superAdmin/templates/EditTemplate';
 import RolesList from './modules/superAdmin/roles/RolesList';
 
 i18n
@@ -49,7 +51,8 @@ export const ROUTES = {
   SIGNUP: '/inscripcion',
   SIGNUPS: '/lista-inscriptos',
   BANKS: '/banks',
-  ROLES: '/roles'
+  ROLES: '/roles',
+  TEMPLATES: '/templates'
 };
 
 export const PRIVATE_ROUTES = [
@@ -84,6 +87,8 @@ function App() {
           <Route path={`${ROUTES.BANKS}/:id`} element={<Bank />} />
           <Route path={ROUTES.PROFILE} element={withUserMenu(Profile)()} />
           <Route path={ROUTES.HOME} element={<Home />} />
+          <Route path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}`} element={<TemplatesList />} />
+          <Route path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}/:id`} element={<EditTemplate />} />
         </Routes>
         <AppFooter />
       </UserContext.Provider>
