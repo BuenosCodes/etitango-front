@@ -11,7 +11,7 @@ import { bool, number, object, string } from 'yup';
 import { DanceRoles, FoodChoices } from 'shared/signup';
 import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
 import { LocationPicker } from '../../LocationPicker';
-import { USERS } from 'helpers/firestore/users.js';
+import { USERS } from 'helpers/firestore/users';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
 import { BANKS } from 'helpers/firestore/banks';

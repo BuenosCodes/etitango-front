@@ -23,6 +23,7 @@ import UserHome from './modules/user/index';
 import Home from './modules/home/Home';
 import Bank from './modules/user/profile/bank';
 import withUserMenu from './components/withUserMenu';
+import RolesList from './modules/superAdmin/roles/RolesList';
 
 i18n
   .use(initReactI18next)
@@ -46,7 +47,8 @@ export const ROUTES = {
   SIGN_IN: '/sign-in',
   SIGNUP: '/inscripcion',
   SIGNUPS: '/lista-inscriptos',
-  BANKS: '/banks'
+  BANKS: '/banks',
+  ROLES: '/roles'
 };
 
 export const PRIVATE_ROUTES = [
@@ -74,7 +76,7 @@ function App() {
           <Route path={ROUTES.SIGNUPS} element={withUserMenu(SignupList)()} exact />
           <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
           <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
-          <Route path={`${ROUTES.SUPERADMIN}/${ROUTES.EVENTS}`} element={<EventsList />} />
+          <Route path={`${ROUTES.SUPERADMIN}${ROUTES.ROLES}`} element={<RolesList />} />
           <Route path={ROUTES.USER} element={withUserMenu(UserHome)()} />
           <Route path={`${ROUTES.BANKS}/:id`} element={<Bank />} />
           <Route path={ROUTES.PROFILE} element={withUserMenu(Profile)()} />

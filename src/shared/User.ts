@@ -12,6 +12,10 @@ export interface UserData extends UserPersonalInfo {
   roles: { [role: string]: boolean };
 }
 
+export interface UserFullData extends UserData {
+  id: string;
+}
+
 export interface UserPersonalInfo {
   city?: string;
   country: string;
@@ -23,6 +27,8 @@ export interface UserPersonalInfo {
   nameLast: string;
   province?: string;
 }
+
+export type UserRolesListData = Pick<UserFullData, 'email' | 'roles' | 'id'>;
 
 export interface IUser extends User {
   data?: UserData;

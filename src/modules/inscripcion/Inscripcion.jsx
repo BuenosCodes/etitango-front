@@ -13,7 +13,7 @@ import { bool, date, object, string } from 'yup';
 import { SignupHelpWith } from '../../shared/signup';
 import { LocationPicker } from '../LocationPicker';
 import { getDocument } from '../../helpers/firestore/index.js';
-import { USERS } from '../../helpers/firestore/users.js';
+import { USERS } from '../../helpers/firestore/users';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../App.js';
 
