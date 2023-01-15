@@ -165,7 +165,7 @@ export default function Profile() {
                     await save(values, setSubmitting);
                   }}
                 >
-                  {({ isSubmitting, touched, errors, setFieldValue }) => (
+                  {({ isSubmitting, touched, errors, setFieldValue, values }) => (
                     <Form>
                       <Grid container spacing={2}>
                         <Grid item md={6} sm={6} xs={12}>
@@ -233,6 +233,7 @@ export default function Profile() {
                         </Grid>
                         <Grid item xs={12} lg={12} style={{ display: 'flex' }}>
                           <LocationPicker
+                            values={values}
                             errors={errors}
                             t={t}
                             setFieldValue={setFieldValue}
