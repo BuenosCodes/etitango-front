@@ -23,6 +23,7 @@ export const SCOPES = {
     SIGN_IN: 'signin',
     USER: 'user',
     PROFILE: 'profile',
-    USER_HOME: 'user.home'
+    USER_HOME: 'user.home',
+    EVENT_LIST: 'event.list'
   }
 };
