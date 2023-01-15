@@ -101,7 +101,7 @@ export default function Inscripcion() {
       {(t) => (
         <>
           <WithAuthentication />
-          <Container maxWidth="lg" sx={{ marginTop: 3}}>
+          <Container maxWidth="lg" sx={{ marginTop: 3 }}>
             {etiEvent?.dateSignupOpen > new Date() ? (
               <Typography color={'error.dark'} textAlign={'center'}>
                 {t(`${SCOPES.MODULES.SIGN_UP}.signupClosed`)}{' '}
