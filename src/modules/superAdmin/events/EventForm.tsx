@@ -6,10 +6,10 @@ import { SCOPES } from 'helpers/constants/i18n';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 import { date, object, string } from 'yup';
-import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
+import { createOrUpdateDoc } from 'helpers/firestore';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
-import { EVENTS } from '../../../helpers/firestore/events';
+import { getEvent } from '../../../helpers/firestore/events';
 import { EtiEvent } from '../../../shared/etiEvent';
 import { DatePicker } from 'formik-mui-x-date-pickers';
 import { UserRoles } from '../../../shared/User';
@@ -29,8 +29,8 @@ export default function EventForm() {
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
-        const event = (await getDocument(`${EVENTS}/${id}`)) as EtiEvent;
-        setEvent(event!);
+        const event = await getEvent(id);
+        setEvent(event);
         setLoading(false);
       }
     };

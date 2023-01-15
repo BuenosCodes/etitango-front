@@ -24,7 +24,6 @@ const EditTemplate = () => {
 
   return (
     <div>
-      {<template className="subject"></template>}
       <TextField
         defaultValue={template?.id}
         onChange={handleChange('id')}
