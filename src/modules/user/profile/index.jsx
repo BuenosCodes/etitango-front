@@ -134,7 +134,7 @@ export default function Profile() {
           {loading ? (
             <CircularProgress />
           ) : (
-            <Container maxWidth="lg" sx={{ marginTop: 3, mx: 3 }}>
+            <Container maxWidth="lg" sx={{ marginTop: 3 }}>
               <Grid
                 container
                 direction="column"
