@@ -22,7 +22,7 @@ export default function Portada() {
         }}
       >
         <Typography color="white" variant="h6" textAlign="center">
-          ETI &quot;Ventania&quot; - 4, 5 y 6 de Noviembre - Sierra de la Ventana
+          ETI &quot;Caminito Amigo&quot; - 24, 25 y 26 de Marzo - La Rioja
         </Typography>
       </Box>
     </React.Fragment>
