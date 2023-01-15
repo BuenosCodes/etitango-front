@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n';
 import { UserRoles, UserRolesListData } from 'shared/User';
 
-export function EventListTable(props: {
+export function RolesListTable(props: {
   users: UserRolesListData[];
   isLoading: boolean;
   removeARole: Function;
@@ -65,4 +65,4 @@ export function EventListTable(props: {
   );
 }
 
-export default EventListTable;
+export default RolesListTable;

@@ -2,44 +2,9 @@ import React, { useEffect, useState } from 'react';
 import WithAuthentication from '../../withAuthentication';
 import { UserFullData, UserRoles } from 'shared/User';
 import * as firestoreUserHelper from 'helpers/firestore/users';
-import { addRole, removeRole } from 'helpers/firestore/users';
+import { removeRole } from 'helpers/firestore/users';
 import RolesListTable from './rolesListTable';
-import { Button, TextField } from '@mui/material';
-
-const RolesAddForm = () => {
-  const [email, setEmail] = useState('');
-
-  async function addARole(email: string, role: UserRoles) {
-    await addRole(email, role);
-  }
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-  return (
-    <div>
-      <TextField value={email} onChange={handleChange} />
-      <strong>
-        <Button
-          variant="contained"
-          size="small"
-          style={{ marginLeft: 16 }}
-          onClick={() => addARole(email, UserRoles.ADMIN)}
-        >
-          Make Admin
-        </Button>
-        <Button
-          variant="contained"
-          size="small"
-          style={{ marginLeft: 16 }}
-          onClick={() => addARole(email, UserRoles.SUPER_ADMIN)}
-        >
-          Make Super Admin
-        </Button>
-      </strong>
-    </div>
-  );
-};
+import { RolesAddForm } from './RolesAddForm';
 
 const RolesList = () => {
   // eslint-disable-next-line no-unused-vars
