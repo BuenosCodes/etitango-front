@@ -42,3 +42,11 @@ export const createSignup = functions.https.onCall(
     });
   }
 );
+
+export const validateSignup = functions.https.onCall(
+  async (data: { etiEventId: string }, context: CallableContext) => {
+    await validateUserIsLoggedIn(context);
+    const userId = context.auth!.uid;
+    await validateSingleSignup(userId, data.etiEventId);
+  }
+);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, CircularProgress, Container, Grid, MenuItem, Typography } from '@mui/material';
 import WithAuthentication from '../withAuthentication';
-import { createSignup } from '../../helpers/firestore/signups';
+import { createSignup, validateSignUp } from '../../helpers/firestore/signups';
 import { getFutureEti } from '../../helpers/firestore/events';
 import { auth } from '../../etiFirebase';
 import { Translation } from 'react-i18next';
@@ -16,18 +16,31 @@ import { getDocument } from '../../helpers/firestore/index.js';
 import { USERS } from '../../helpers/firestore/users.js';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../App.js';
+import { ERROR_CODES } from '../../helpers/constants/errorCodes.ts';
 
 export default function Inscripcion() {
   const [etiEvent, setEtiEvent] = useState();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [isSignedUp, setIsSignedUp] = useState(false);
+
+  const handleError = error => {
+    console.error(error);
+    if (error.code === ERROR_CODES.SIGNUPS.ALREADY_SIGNED_UP) {
+      setIsSignedUp(true);
+    }
+  };
 
   useEffect(() => {
     const getFormData = async () => {
-      const etiEvent = await getFutureEti();
-      setEtiEvent(etiEvent);
+      const futureEtiEvent = await getFutureEti();
+      setEtiEvent(futureEtiEvent);
+      const etiEventId = futureEtiEvent?.id;
+      if (etiEventId) {
+        await validateSignUp(etiEventId);
+      }
     };
-    getFormData().catch((error) => console.error(error));
+    getFormData().catch(handleError);
   }, []);
 
   useEffect(() => {
@@ -212,9 +225,9 @@ export default function Inscripcion() {
                                   variant="contained"
                                   color="secondary"
                                   type="submit"
-                                  disabled={isSubmitting}
+                                  disabled={isSignedUp || isSubmitting}
                                 >
-                                  {t(`${SCOPES.MODULES.SIGN_UP}.signUp`).toUpperCase()}
+                                  {t(`${SCOPES.MODULES.SIGN_UP}.${isSignedUp ? 'alreadySignedUp' : 'signUp'}`).toUpperCase()}
                                 </Button>
                               </Grid>
                             </Grid>
