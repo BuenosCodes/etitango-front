@@ -101,7 +101,7 @@ export default function Inscripcion() {
       {(t) => (
         <>
           <WithAuthentication />
-          <Container maxWidth="lg" sx={{ marginTop: 3, mx: 3 }}>
+          <Container maxWidth="lg" sx={{ marginTop: 3}}>
             {etiEvent?.dateSignupOpen > new Date() ? (
               <Typography color={'error.dark'} textAlign={'center'}>
                 {t(`${SCOPES.MODULES.SIGN_UP}.signupClosed`)}{' '}
@@ -147,7 +147,7 @@ export default function Inscripcion() {
                       await save(values, setSubmitting);
                     }}
                   >
-                    {({ isSubmitting, touched, errors, setFieldValue }) => (
+                    {({ isSubmitting, touched, errors, setFieldValue, values }) => (
                       <Form>
                         <Grid container spacing={2}>
                           <Grid item md={4} sm={4} xs={12}>
@@ -191,6 +191,7 @@ export default function Inscripcion() {
                           <Grid item xs={12}>
                             <Typography sx={{ mb: 1 }}>{t('whereAreYouComingFrom')}</Typography>
                             <LocationPicker
+                              values={values}
                               setFieldValue={setFieldValue}
                               touched={touched}
                               errors={errors}
