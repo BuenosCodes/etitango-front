@@ -8,6 +8,11 @@
       "extensionInstances": {
         "firestore-send-email": "0c331f1ce8c86c66c594dc00d6bd8821d0b7893a51626fadd774948e94e9a9fe"
       }
+    },
+    "eti-tango": {
+      "extensionInstances": {
+        "firestore-send-email": "2fc74d1bc617d459b12b3ed8fc5be3292eba9cd45b178622aee322fb31b7499c"
+      }
     }
   }
 }

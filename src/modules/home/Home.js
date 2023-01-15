@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Portada from './portada/Portada';
-import Cronograma from './cronograma/Cronograma';
+// import Cronograma from './cronograma/Cronograma';
 
 function Index() {
   return (
     <React.Fragment>
       <Portada />
-      <Cronograma />
+      {/*<Cronograma />*/}
     </React.Fragment>
   );
 }
