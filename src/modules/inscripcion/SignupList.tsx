@@ -51,7 +51,7 @@ const SignupList = () => {
   return (
     <>
       <WithAuthentication />
-      <Container maxWidth="xl" sx={{ marginTop: 3, mx: 3 }}>
+      <Container maxWidth="xl" sx={{ marginTop: 3 }}>
         <Grid container direction="column" spacing={3}>
           <Grid item>
             <Typography variant="h5" color="secondary" align="center">
