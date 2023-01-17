@@ -24,7 +24,7 @@ export const getSignups = async (etiEventId: string, isAdmin: boolean) => {
   const ref = collection(db, SIGNUPS);
   let banks: BankFirestore[] = [];
   if (isAdmin) {
-    banks = await getCollection(BANKS) as BankFirestore[];
+    banks = (await getCollection(BANKS)) as BankFirestore[];
   }
   const q = query(ref, where('etiEventId', '==', etiEventId));
   const querySnapshot = await getDocs(q);
@@ -72,11 +72,11 @@ export const createSignup = async (etiEventId: string, userId: string, data: Sig
 export const validateSignUp = async (etiEventId: string) => {
   const validateSignUp = httpsCallable(functions, 'signup-validateSignup');
   try {
-    return validateSignUp({etiEventId});
+    return validateSignUp({ etiEventId });
   } catch (e) {
     console.log(e);
   }
-}
+};
 
 export const createEmail = async () =>
   Object.values(SignupStatus).map((status) =>

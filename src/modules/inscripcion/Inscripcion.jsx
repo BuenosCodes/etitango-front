@@ -34,7 +34,7 @@ export default function Inscripcion() {
   const handleError = (error) => {
     if (error.code === ERROR_CODES.SIGNUPS.ALREADY_SIGNED_UP) {
       setIsSignedUp(true);
-      setNotification(t(`${SCOPES.MODULES.SIGN_UP}.alreadySignedUpReason`), {severity: 'info'});
+      setNotification(t(`${SCOPES.MODULES.SIGN_UP}.alreadySignedUpReason`), { severity: 'info' });
     }
   };
 
