@@ -50,6 +50,15 @@ export const createSignup = async (etiEventId: string, userId: string, data: Sig
   }
 };
 
+export const validateSignUp = async (etiEventId: string) => {
+  const validateSignUp = httpsCallable(functions, 'signup-validateSignup');
+  try {
+    return validateSignUp({etiEventId});
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export const createEmail = async () =>
   Object.values(SignupStatus).map((status) =>
     createOrUpdateDoc('mail', {

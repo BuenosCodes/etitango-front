@@ -76,6 +76,13 @@ const rawTheme = createTheme({
           fontSize: 16
         }
       }
+    },
+    MuiAlert: {
+      styleOverrides: {
+        root: {
+          fontWeight: 'bold'
+        }
+      }
     }
   }
 });

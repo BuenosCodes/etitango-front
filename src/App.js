@@ -8,6 +8,7 @@ import withRoot from './components/withRoot';
 import EtiAppBar from './components/EtiAppBar';
 import AppFooter from './components/AppFooter';
 import { UserContext } from './helpers/UserContext';
+import { NotificationContext } from './helpers/NotificationContext';
 import HistoriaEti from './modules/home/historia-del-ETI/HistoriaEti';
 import ManifiestoETiano from './modules/home/manifiesto-etiano/ManifistoEtiano';
 import ComisionGeneroContact from './modules/home/comision-de-genero/ComisionGeneroContact';
@@ -27,6 +28,7 @@ import EventForm from './modules/superAdmin/events/EventForm';
 import TemplatesList from './modules/superAdmin/templates';
 import EditTemplate from './modules/superAdmin/templates/EditTemplate';
 import RolesList from './modules/superAdmin/roles/RolesList';
+import { Notification } from './components/notification/Notification';
 
 i18n
   .use(initReactI18next)
@@ -65,32 +67,57 @@ export const PRIVATE_ROUTES = [
 
 function App() {
   const [user, setUser] = useState({ user: {} });
-
+  const [notification, setNotificationInfo] = useState({
+    visible: false,
+    notificationProps: {},
+    notificationText: ''
+  });
+  const setNotification = (notificationText, notificationProps) => {
+    if (!notification.visible) {
+      setNotificationInfo({
+        notificationProps,
+        notificationText,
+        visible: true
+      });
+      setTimeout(() => {
+        setNotificationInfo({
+          ...notification,
+          visible: false
+        });
+      }, 10000);
+    }
+  };
   return (
     <div className="">
       <UserContext.Provider value={{ user, setUser }}>
-        <EtiAppBar />
-        <Routes>
-          <Route path="historia-del-eti" element={<HistoriaEti />} exact />
-          <Route path="manifiesto-etiano" element={<ManifiestoETiano />} exact />
-          <Route path="comision-de-genero-contact" element={<ComisionGeneroContact />} exact />
-          <Route path="comision-de-genero-protocol" element={<ComisionGeneroProtocol />} exact />
-          <Route path="comision-de-genero-who" element={<ComisionGeneroWho />} exact />
-          <Route path={ROUTES.SIGNUP} element={withUserMenu(Inscripcion)()} exact />
-          <Route path={ROUTES.SIGNUPS} element={withUserMenu(SignupList)()} exact />
-          <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
-          <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
-          <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`} element={<EventsList />} />
-          <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`} element={<EventForm />} />
-          <Route path={`${ROUTES.SUPERADMIN}${ROUTES.ROLES}`} element={<RolesList />} />
-          <Route path={ROUTES.USER} element={withUserMenu(UserHome)()} />
-          <Route path={`${ROUTES.BANKS}/:id`} element={<Bank />} />
-          <Route path={ROUTES.PROFILE} element={withUserMenu(Profile)()} />
-          <Route path={ROUTES.HOME} element={<Home />} />
-          <Route path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}`} element={<TemplatesList />} />
-          <Route path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}/:id`} element={<EditTemplate />} />
-        </Routes>
-        <AppFooter />
+        <NotificationContext.Provider value={{ notification, setNotification }}>
+          <EtiAppBar />
+          <Notification {...notification} />
+          <Routes>
+            <Route path="historia-del-eti" element={<HistoriaEti />} exact />
+            <Route path="manifiesto-etiano" element={<ManifiestoETiano />} exact />
+            <Route path="comision-de-genero-contact" element={<ComisionGeneroContact />} exact />
+            <Route path="comision-de-genero-protocol" element={<ComisionGeneroProtocol />} exact />
+            <Route path="comision-de-genero-who" element={<ComisionGeneroWho />} exact />
+            <Route path={ROUTES.SIGNUP} element={withUserMenu(Inscripcion)()} exact />
+            <Route path={ROUTES.SIGNUPS} element={withUserMenu(SignupList)()} exact />
+            <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
+            <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
+            <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`} element={<EventsList />} />
+            <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`} element={<EventForm />} />
+            <Route path={`${ROUTES.SUPERADMIN}${ROUTES.ROLES}`} element={<RolesList />} />
+            <Route path={ROUTES.USER} element={withUserMenu(UserHome)()} />
+            <Route path={`${ROUTES.BANKS}/:id`} element={<Bank />} />
+            <Route path={ROUTES.PROFILE} element={withUserMenu(Profile)()} />
+            <Route path={ROUTES.HOME} element={<Home />} />
+            <Route path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}`} element={<TemplatesList />} />
+            <Route
+              path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}/:id`}
+              element={<EditTemplate />}
+            />
+          </Routes>
+          <AppFooter />
+        </NotificationContext.Provider>
       </UserContext.Provider>
     </div>
   );
