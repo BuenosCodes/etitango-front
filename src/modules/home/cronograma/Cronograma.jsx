@@ -1,16 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Box,
-  Button,
-  Grid,
-  Link,
-  List,
-  ListItem,
-  ListItemText,
-  Paper,
-  Typography
-} from '@mui/material';
+import { Box, Button, Grid, List, ListItem, ListItemText, Paper, Typography } from '@mui/material';
 
 import cronograma from '../cronograma.json';
 import { SCOPES } from 'helpers/constants/i18n';
@@ -23,9 +13,6 @@ const number = {
   fontWeight: 'medium',
   paddingLeft: 2
 };
-
-// eslint-disable-next-line no-undef
-const ImgBackground = process.env.PUBLIC_URL + '/img/logo/eti_ventania.jpg';
 
 function Cronograma() {
   const { t } = useTranslation(SCOPES.MODULES.HOME.MAIN, { useSuspense: false });
@@ -46,20 +33,17 @@ function Cronograma() {
             Cronograma ETIano
           </Typography>
         </Grid>
-        <Grid item>
-          <img src={ImgBackground} alt="logo" height="100%" width="100%" />
-        </Grid>
         <Grid item mt={3} px={5}>
-          <Typography variant="h4">
-            Salón: Bomberos voluntarios de Sierra de La ventana.
-            <Link
-              href={
-                'https://www.google.com/maps/place/Bomberos+Voluntarios+de+Sierra+de+la+Ventana,+D+Meyer+S%2Fn,+Sierra+de+la+Ventana,+Buenos+Aires/@-38.1368324,-61.7942031,15z/data=!4m5!3m4!1s0x95eceeb55cdf8d9b:0x758f7d5143f4040f!8m2!3d-38.1368324!4d-61.7942031'
-              }
-            >
-              <Typography>(Ver en Mapa Aquí)</Typography>
-            </Link>
-          </Typography>
+          {/*<Typography variant="h4">*/}
+          {/*  Salón: Bomberos voluntarios de Sierra de La ventana.*/}
+          {/*  <Link*/}
+          {/*    href={*/}
+          {/*      'https://www.google.com/maps/place/Bomberos+Voluntarios+de+Sierra+de+la+Ventana,+D+Meyer+S%2Fn,+Sierra+de+la+Ventana,+Buenos+Aires/@-38.1368324,-61.7942031,15z/data=!4m5!3m4!1s0x95eceeb55cdf8d9b:0x758f7d5143f4040f!8m2!3d-38.1368324!4d-61.7942031'*/}
+          {/*    }*/}
+          {/*  >*/}
+          {/*    <Typography>(Ver en Mapa Aquí)</Typography>*/}
+          {/*  </Link>*/}
+          {/*</Typography>*/}
           <Grid container spacing={3} px={5} mt={3}>
             {cronograma.dias.map((dia, index) => (
               <Grid item key={`cronograma_${index}`} xs={12} md={4}>
