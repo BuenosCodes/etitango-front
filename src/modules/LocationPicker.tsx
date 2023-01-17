@@ -3,14 +3,17 @@ import Autocomplete from '@mui/material/Autocomplete';
 import React, { useEffect, useState } from 'react';
 import { getCountries } from 'helpers/thirdParties/restCountries';
 import { getProvinces, getCities } from 'helpers/thirdParties/georef';
+import { FormikValues } from 'formik';
 
 export const LocationPicker = ({
+  values,
   touched,
   errors,
   t,
   location,
   setFieldValue
 }: {
+  values: FormikValues;
   touched: any;
   errors: any;
   t: any;
@@ -22,7 +25,7 @@ export const LocationPicker = ({
   const [cities, setCities] = useState<string[]>([]);
   const [isArgentina, setIsArgentina] = useState(false);
 
-  const handleCountryChange = async (value: string | null) => {
+  const handleCountryChange = async (value: string | null, userControlled?: boolean) => {
     const isArgentina = value === 'Argentina';
     if (isArgentina) {
       const provinces = (await getProvinces()) as string[];
@@ -33,6 +36,10 @@ export const LocationPicker = ({
     }
     setIsArgentina(isArgentina);
     setFieldValue('country', value);
+    if (userControlled) {
+      setFieldValue('province', null);
+      setFieldValue('city', null);
+    }
   };
 
   useEffect(() => {
@@ -44,7 +51,7 @@ export const LocationPicker = ({
     getFormData().catch((error) => console.error(error));
   }, []);
 
-  const handleProvinceChange = async (value: string | null) => {
+  const handleProvinceChange = async (value: string | null, userControlled?: boolean) => {
     if (value) {
       const cities = await getCities(value);
       setCities(cities);
@@ -53,6 +60,9 @@ export const LocationPicker = ({
       setCities([]);
     }
     setFieldValue('province', value);
+    if (userControlled) {
+      setFieldValue('city', null);
+    }
   };
 
   return (
@@ -63,7 +73,8 @@ export const LocationPicker = ({
           fullWidth
           options={countries}
           getOptionLabel={(option) => option}
-          onChange={(_, value) => handleCountryChange(value)}
+          onChange={(_, value) => handleCountryChange(value, true)}
+          value={values?.country || null}
           defaultValue={location?.country}
           renderInput={(params) => (
             <TextFieldMUI
@@ -84,7 +95,8 @@ export const LocationPicker = ({
               fullWidth
               options={provinces}
               getOptionLabel={(option) => option}
-              onChange={(_, value) => handleProvinceChange(value)}
+              onChange={(_, value) => handleProvinceChange(value, true)}
+              value={values?.province || null}
               defaultValue={location?.province}
               renderInput={(params) => (
                 <TextFieldMUI
@@ -105,6 +117,7 @@ export const LocationPicker = ({
               options={cities}
               getOptionLabel={(option) => option}
               onChange={(_, value) => setFieldValue('city', value)}
+              value={values?.city || null}
               defaultValue={location?.city}
               renderInput={(params) => (
                 <TextFieldMUI

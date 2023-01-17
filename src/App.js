@@ -17,12 +17,16 @@ import Inscripcion from './modules/inscripcion/Inscripcion';
 import SignupList from './modules/inscripcion/SignupList';
 import SignInScreen from './modules/signIn/signIn';
 import SuperAdmin from './modules/superAdmin/index';
-import EventsList from './modules/superAdmin/events/index';
+import EventsList from './modules/superAdmin/events/EventsList';
 import Profile from './modules/user/profile';
 import UserHome from './modules/user/index';
 import Home from './modules/home/Home';
 import Bank from './modules/user/profile/bank';
 import withUserMenu from './components/withUserMenu';
+import EventForm from './modules/superAdmin/events/EventForm';
+import TemplatesList from './modules/superAdmin/templates';
+import EditTemplate from './modules/superAdmin/templates/EditTemplate';
+import RolesList from './modules/superAdmin/roles/RolesList';
 
 i18n
   .use(initReactI18next)
@@ -46,7 +50,9 @@ export const ROUTES = {
   SIGN_IN: '/sign-in',
   SIGNUP: '/inscripcion',
   SIGNUPS: '/lista-inscriptos',
-  BANKS: '/banks'
+  BANKS: '/banks',
+  ROLES: '/roles',
+  TEMPLATES: '/templates'
 };
 
 export const PRIVATE_ROUTES = [
@@ -74,11 +80,15 @@ function App() {
           <Route path={ROUTES.SIGNUPS} element={withUserMenu(SignupList)()} exact />
           <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
           <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
-          <Route path={`${ROUTES.SUPERADMIN}/${ROUTES.EVENTS}`} element={<EventsList />} />
+          <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`} element={<EventsList />} />
+          <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`} element={<EventForm />} />
+          <Route path={`${ROUTES.SUPERADMIN}${ROUTES.ROLES}`} element={<RolesList />} />
           <Route path={ROUTES.USER} element={withUserMenu(UserHome)()} />
           <Route path={`${ROUTES.BANKS}/:id`} element={<Bank />} />
           <Route path={ROUTES.PROFILE} element={withUserMenu(Profile)()} />
           <Route path={ROUTES.HOME} element={<Home />} />
+          <Route path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}`} element={<TemplatesList />} />
+          <Route path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}/:id`} element={<EditTemplate />} />
         </Routes>
         <AppFooter />
       </UserContext.Provider>

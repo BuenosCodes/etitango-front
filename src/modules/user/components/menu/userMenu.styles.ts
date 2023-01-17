@@ -2,13 +2,13 @@ export const styles = {
   container: {
     border: '3px solid black',
     borderTop: 'none',
-    flexDirection: 'column',
     display: 'flex'
   },
   item: {
-    borderBottom: '2px solid black',
+    flex: 1,
+    borderRight: '2px solid black',
     '&:nth-last-of-type(1)': {
-      borderBottom: 'none'
+      borderRight: 'none'
     },
     margin: 0,
     borderRadius: 0,

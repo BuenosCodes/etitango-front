@@ -13,7 +13,7 @@ import { bool, date, object, string } from 'yup';
 import { SignupHelpWith } from '../../shared/signup';
 import { LocationPicker } from '../LocationPicker';
 import { getDocument } from '../../helpers/firestore/index.js';
-import { USERS } from '../../helpers/firestore/users.js';
+import { USERS } from '../../helpers/firestore/users';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../App.js';
 import { ERROR_CODES } from '../../helpers/constants/errorCodes.ts';
@@ -114,7 +114,7 @@ export default function Inscripcion() {
       {(t) => (
         <>
           <WithAuthentication />
-          <Container maxWidth="lg" sx={{ marginTop: 3, mx: 3 }}>
+          <Container maxWidth="lg" sx={{ marginTop: 3 }}>
             {etiEvent?.dateSignupOpen > new Date() ? (
               <Typography color={'error.dark'} textAlign={'center'}>
                 {t(`${SCOPES.MODULES.SIGN_UP}.signupClosed`)}{' '}
@@ -160,7 +160,7 @@ export default function Inscripcion() {
                       await save(values, setSubmitting);
                     }}
                   >
-                    {({ isSubmitting, touched, errors, setFieldValue }) => (
+                    {({ isSubmitting, touched, errors, setFieldValue, values }) => (
                       <Form>
                         <Grid container spacing={2}>
                           <Grid item md={4} sm={4} xs={12}>
@@ -204,6 +204,7 @@ export default function Inscripcion() {
                           <Grid item xs={12}>
                             <Typography sx={{ mb: 1 }}>{t('whereAreYouComingFrom')}</Typography>
                             <LocationPicker
+                              values={values}
                               setFieldValue={setFieldValue}
                               touched={touched}
                               errors={errors}
@@ -216,8 +217,7 @@ export default function Inscripcion() {
                               <Typography variant="h3" color="primary" align="center">
                                 {t(`${SCOPES.MODULES.SIGN_UP}.combo`)}
                               </Typography>
-                              <Typography>Hasta el 9/6: $3500</Typography>
-                              <Typography>Después del 9/6: $4000</Typography>
+                              <Typography>$5500</Typography>
                             </Grid>
                             <Grid container justifyContent="flex-end">
                               <Grid item>

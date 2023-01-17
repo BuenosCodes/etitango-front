@@ -11,7 +11,7 @@ import { bool, number, object, string } from 'yup';
 import { DanceRoles, FoodChoices } from 'shared/signup';
 import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
 import { LocationPicker } from '../../LocationPicker';
-import { USERS } from 'helpers/firestore/users.js';
+import { USERS } from 'helpers/firestore/users';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
 import { BANKS } from 'helpers/firestore/banks';
@@ -134,7 +134,7 @@ export default function Profile() {
           {loading ? (
             <CircularProgress />
           ) : (
-            <Container maxWidth="lg" sx={{ marginTop: 3, mx: 3 }}>
+            <Container maxWidth="lg" sx={{ marginTop: 3 }}>
               <Grid
                 container
                 direction="column"
@@ -165,7 +165,7 @@ export default function Profile() {
                     await save(values, setSubmitting);
                   }}
                 >
-                  {({ isSubmitting, touched, errors, setFieldValue }) => (
+                  {({ isSubmitting, touched, errors, setFieldValue, values }) => (
                     <Form>
                       <Grid container spacing={2}>
                         <Grid item md={6} sm={6} xs={12}>
@@ -233,6 +233,7 @@ export default function Profile() {
                         </Grid>
                         <Grid item xs={12} lg={12} style={{ display: 'flex' }}>
                           <LocationPicker
+                            values={values}
                             errors={errors}
                             t={t}
                             setFieldValue={setFieldValue}

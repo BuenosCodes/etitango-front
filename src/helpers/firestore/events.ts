@@ -1,7 +1,7 @@
 import { collection, getDocs, limit, orderBy, query, Timestamp, where } from 'firebase/firestore';
 import { db } from '../../etiFirebase';
 import { EtiEvent, EtiEventBase } from '../../shared/etiEvent';
-import { getCollection } from './index';
+import { getCollection, getDocument } from './index';
 
 export const EVENTS = 'events';
 
@@ -30,6 +30,10 @@ export async function getFutureEti() {
   return toJs(data);
 }
 
+export async function getEvent(id: string) {
+  const doc = (await getDocument(`${EVENTS}/${id}`)) as EtiEventFirestore;
+  return toJs(doc);
+}
 export async function getEvents() {
   const events = (await getCollection(EVENTS)) as EtiEventFirestore[];
   return events.map(toJs);
