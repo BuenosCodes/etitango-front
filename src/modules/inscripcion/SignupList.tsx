@@ -37,7 +37,7 @@ const SignupList = () => {
   const fetchData = async () => {
     setIsLoading(true);
     const etiEvent = await getFutureEti();
-    const signups = await getSignups(etiEvent.id);
+    const signups = await getSignups(etiEvent.id, isAdmin());
     setSignups(signups);
     setIsLoading(false);
   };

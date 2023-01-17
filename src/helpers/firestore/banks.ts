@@ -4,3 +4,8 @@ export const BANKS = 'banks';
 const BANK = (userId: string) => `${BANKS}/${userId}`;
 
 export const getBankForUser = async (userId: string) => getDocument(BANK(userId));
+
+export interface BankFirestore {
+  id: string;
+  bank: string;
+}
