@@ -1,5 +1,5 @@
 import { createOrUpdateDoc, getCollection, getDocument } from './index';
-import { collection, onSnapshot, query, Timestamp, where } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query, Timestamp, where } from 'firebase/firestore';
 import { db, functions } from '../../etiFirebase';
 import { Signup, SignupBase, SignupStatus } from '../../shared/signup';
 import { httpsCallable } from 'firebase/functions';
@@ -34,7 +34,7 @@ export const getSignups = async (
   const addBank = (doc: Signup) => {
     return { ...doc, alias: getAliasForUserId(banks, doc.userId) };
   };
-  const q = query(ref, where('etiEventId', '==', etiEventId));
+  const q = query(ref, where('etiEventId', '==', etiEventId), orderBy('orderNumber'));
 
   return onSnapshot(q, (snapshot) => {
     const docs = snapshot.docs.map((doc) => {
