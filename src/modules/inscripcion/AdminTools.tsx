@@ -37,7 +37,7 @@ const AdminTools = (props: {
       ...signUp,
       dateArrival: signUp.dateArrival.toLocaleDateString(),
       dateDeparture: signUp.dateDeparture.toLocaleDateString(),
-      lastModifiedAt: signUp.lastModifiedAt.toLocaleDateString(),
+      lastModifiedAt: signUp.lastModifiedAt?.toLocaleDateString(),
       isCeliac: getLabelForValue(CELIAC_CHOICES, signUp.isCeliac),
       helpWith: t(signUp.helpWith),
       food: t(signUp.food),

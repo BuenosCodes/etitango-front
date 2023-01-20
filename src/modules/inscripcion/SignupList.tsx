@@ -20,7 +20,6 @@ import AdminTools from './AdminTools';
 import { SCOPES } from '../../helpers/constants/i18n';
 import { UserRoles } from '../../shared/User';
 import { EtiEvent } from '../../shared/etiEvent';
-import firebase from 'firebase/compat';
 import SignupSummary from './SignupSummary';
 
 const SignupList = () => {
@@ -58,7 +57,7 @@ const SignupList = () => {
     };
 
     fetchData();
-  }, [etiEvent, firebase]);
+  }, [etiEvent]);
 
   // @ts-ignore
   return (
