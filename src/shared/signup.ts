@@ -1,4 +1,6 @@
 /* eslint-disable no-unused-vars*/
+import { Timestamp } from 'firebase/firestore';
+
 export enum SignupStatus {
   WAITLIST = 'waitlist',
   PAYMENT_PENDING = 'payment-pending',
@@ -58,4 +60,15 @@ export interface Signup extends SignupBase {
   dateArrival: Date;
   dateDeparture: Date;
   orderNumber: number;
+
+  lastModifiedAt: Date;
+}
+
+export interface SignupFirestore extends SignupBase {
+  id: string;
+  etiEventId: string;
+  orderNumber: number;
+  dateArrival: Timestamp;
+  dateDeparture: Timestamp;
+  lastModifiedAt: Timestamp;
 }

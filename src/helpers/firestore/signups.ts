@@ -1,20 +1,12 @@
 import { createOrUpdateDoc, getCollection, getDocument } from './index';
-import { collection, onSnapshot, orderBy, query, Timestamp, where } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { db, functions } from '../../etiFirebase';
-import { Signup, SignupBase, SignupStatus } from '../../shared/signup';
+import { Signup, SignupFirestore, SignupStatus } from '../../shared/signup';
 import { httpsCallable } from 'firebase/functions';
 import { BankFirestore, BANKS } from './banks';
 
 const SIGNUPS = `signups`;
 const SIGNUP = (signupId: string) => `${SIGNUPS}/${signupId}`;
-
-interface SignupFirestore extends SignupBase {
-  id: string;
-  etiEventId: string;
-  orderNumber: number;
-  dateArrival: Timestamp;
-  dateDeparture: Timestamp;
-}
 
 interface SignupDetails extends Signup {
   alias?: string;
@@ -66,7 +58,8 @@ const toJs = (signup: SignupFirestore) =>
     ...signup,
     dateDeparture: signup.dateDeparture?.toDate(),
     dateArrival: signup.dateArrival?.toDate(),
-    dateEnd: signup.dateDeparture?.toDate()
+    dateEnd: signup.dateDeparture?.toDate(),
+    lastModifiedAt: signup.lastModifiedAt?.toDate()
   } as Signup);
 
 export const getSignup = async (signupId: string) => getDocument(SIGNUP(signupId));
