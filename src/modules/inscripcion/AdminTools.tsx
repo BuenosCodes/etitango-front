@@ -14,9 +14,8 @@ const AdminTools = (props: {
   selectedRows: string[];
   // eslint-disable-next-line no-unused-vars
   setAlert: (alertProps: { props?: AlertProps; text?: string }) => void;
-  callback: () => void;
 }) => {
-  const { signups, selectedRows, setAlert, callback } = props;
+  const { signups, selectedRows, setAlert } = props;
 
   const { t } = useTranslation([SCOPES.MODULES.SIGN_UP_LIST, SCOPES.COMMON.FORM], {
     useSuspense: false
@@ -53,7 +52,6 @@ const AdminTools = (props: {
       text: 'Actualizando estados, quedate en la página'
     });
     await updateSignupsStatus(selectedStatus, selectedRows);
-    callback();
     setAlert({ props: { severity: 'success', onClose: () => setAlert({}) }, text: 'Listo!' });
   }
 

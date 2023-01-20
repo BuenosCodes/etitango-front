@@ -1,5 +1,5 @@
 import { createOrUpdateDoc, getCollection, getDocument } from './index';
-import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
+import { collection, onSnapshot, query, Timestamp, where } from 'firebase/firestore';
 import { db, functions } from '../../etiFirebase';
 import { Signup, SignupBase, SignupStatus } from '../../shared/signup';
 import { httpsCallable } from 'firebase/functions';
@@ -16,24 +16,40 @@ interface SignupFirestore extends SignupBase {
   dateDeparture: Timestamp;
 }
 
-interface SignupDetails extends SignupFirestore {
-  alias: string;
+interface SignupDetails extends Signup {
+  alias?: string;
 }
 
-export const getSignups = async (etiEventId: string, isAdmin: boolean) => {
+export const getSignups = async (
+  etiEventId: string,
+  isAdmin: boolean,
+  setSignups: Function,
+  setIsLoading: Function
+) => {
   const ref = collection(db, SIGNUPS);
   let banks: BankFirestore[] = [];
   if (isAdmin) {
     banks = (await getCollection(BANKS)) as BankFirestore[];
   }
+  const addBank = (doc: Signup) => {
+    return { ...doc, alias: getAliasForUserId(banks, doc.userId) };
+  };
   const q = query(ref, where('etiEventId', '==', etiEventId));
-  const querySnapshot = await getDocs(q);
-  const data = querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    alias: getAliasForUserId(banks, (doc.data() as SignupFirestore).userId),
-    ...doc.data()
-  })) as SignupDetails[];
-  return data.map(toJs);
+
+  return onSnapshot(q, (snapshot) => {
+    const docs = snapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data()
+      };
+    }) as SignupFirestore[];
+    let signups: SignupDetails[] = docs.map(toJs);
+    if (isAdmin) {
+      signups = signups.map(addBank);
+    }
+    setSignups(signups);
+    setIsLoading(false);
+  });
 };
 
 const getAliasForUserId = (banks: BankFirestore[], userId: string) => {
