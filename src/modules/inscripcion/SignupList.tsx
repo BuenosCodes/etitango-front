@@ -21,6 +21,7 @@ import { SCOPES } from '../../helpers/constants/i18n';
 import { UserRoles } from '../../shared/User';
 import { EtiEvent } from '../../shared/etiEvent';
 import firebase from 'firebase/compat';
+import SignupSummary from './SignupSummary';
 
 const SignupList = () => {
   const { user } = useContext(UserContext);
@@ -65,6 +66,9 @@ const SignupList = () => {
       <WithAuthentication />
       <Container maxWidth="xl" sx={{ marginTop: 3 }}>
         <Grid container direction="column" spacing={3}>
+          <Grid item>
+            <SignupSummary signups={signups} />
+          </Grid>
           <Grid item>
             <Typography variant="h5" color="secondary" align="center">
               {t('title')}
