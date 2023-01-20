@@ -242,7 +242,7 @@ export default function Inscripcion() {
                         <Grid item style={{ textAlign: 'center' }}>
                           <Typography variant="caption">
                             {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer`)}
-                            <b>martes 28 de junio</b>.<br />
+                            <b>martes 28 de Febrero</b>.<br />
                             {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer2`)}
                           </Typography>
                         </Grid>
