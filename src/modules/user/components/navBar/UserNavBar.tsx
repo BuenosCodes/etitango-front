@@ -21,7 +21,7 @@ export default function UserNavBar() {
         <AccountCircle sx={styles.accountIcon} />
         <Box sx={styles.accountInfo}>
           <Typography variant={'h6'} noWrap>
-            {user.displayName}
+            {user.data?.nameFirst}
           </Typography>
           <Typography variant={'h6'} noWrap>
             {user.email}

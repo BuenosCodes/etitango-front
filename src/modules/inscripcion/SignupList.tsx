@@ -19,12 +19,15 @@ import { UserContext } from '../../helpers/UserContext';
 import AdminTools from './AdminTools';
 import { SCOPES } from '../../helpers/constants/i18n';
 import { UserRoles } from '../../shared/User';
+import { EtiEvent } from '../../shared/etiEvent';
+import SignupSummary from './SignupSummary';
 
 const SignupList = () => {
   const { user } = useContext(UserContext);
   const [signups, setSignups] = useState([] as Signup[]);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [etiEvent, setEtiEvent] = useState<EtiEvent>();
   const [alert, setAlert] = useState<{ props?: AlertProps; text?: string }>({});
   const { t } = useTranslation([SCOPES.MODULES.SIGN_UP_LIST, SCOPES.COMMON.FORM], {
     useSuspense: false
@@ -34,25 +37,37 @@ const SignupList = () => {
     return !!user?.data?.roles && !!user?.data?.roles[UserRoles.ADMIN];
   };
 
-  const fetchData = async () => {
-    setIsLoading(true);
-    const etiEvent = await getFutureEti();
-    const signups = await getSignups(etiEvent.id, isAdmin());
-    setSignups(signups);
-    setIsLoading(false);
-  };
-
+  /** get etiEvent */
   useEffect(() => {
-    fetchData();
-  }, [user]);
+    const getEvent = async () => {
+      const etiEvent = await getFutureEti();
+      setEtiEvent(etiEvent);
+    };
 
-  // @ts-ignore
+    getEvent();
+  }, []);
+
+  /** get signups */
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      if (etiEvent?.id) {
+        return getSignups(etiEvent.id, isAdmin(), setSignups, setIsLoading);
+      }
+    };
+
+    fetchData();
+  }, [etiEvent]);
+
   // @ts-ignore
   return (
     <>
       <WithAuthentication />
       <Container maxWidth="xl" sx={{ marginTop: 3 }}>
         <Grid container direction="column" spacing={3}>
+          <Grid item>
+            <SignupSummary signups={signups} />
+          </Grid>
           <Grid item>
             <Typography variant="h5" color="secondary" align="center">
               {t('title')}
@@ -62,12 +77,7 @@ const SignupList = () => {
             {alert.text && <Alert {...alert.props}>{alert.text}</Alert>}
             <TableContainer component={Paper}>
               {isAdmin() && (
-                <AdminTools
-                  signups={signups}
-                  selectedRows={selectedRows}
-                  setAlert={setAlert}
-                  callback={fetchData}
-                />
+                <AdminTools signups={signups} selectedRows={selectedRows} setAlert={setAlert} />
               )}
               <SignupListTable
                 isAdmin={isAdmin()}

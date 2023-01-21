@@ -46,7 +46,8 @@ export function SignupListTable(props: {
     'country',
     'province',
     'city',
-    'status'
+    'status',
+    'lastModifiedAt'
   ];
 
   const privateFields: SignupField[] = [
@@ -90,7 +91,7 @@ export function SignupListTable(props: {
   }
   const getSignupValues = (signup: Signup) => {
     let output: any = { ...signup };
-    const dateFields: (keyof Signup)[] = ['dateArrival', 'dateDeparture'];
+    const dateFields: (keyof Signup)[] = ['dateArrival', 'dateDeparture', 'lastModifiedAt'];
     dateFields.forEach((field) => {
       if (signup[field]) {
         output[field] = (signup[field]! as Date).toLocaleDateString()!;

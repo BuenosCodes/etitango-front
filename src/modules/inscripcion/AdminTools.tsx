@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { AlertProps, Button, Grid, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import {
+  Alert,
+  AlertProps,
+  Button,
+  Grid,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography
+} from '@mui/material';
 import { FileDownload as FileDownloadIcon } from '@mui/icons-material';
 import { CSVLink } from 'react-csv';
 import { useTranslation } from 'react-i18next';
@@ -14,9 +23,8 @@ const AdminTools = (props: {
   selectedRows: string[];
   // eslint-disable-next-line no-unused-vars
   setAlert: (alertProps: { props?: AlertProps; text?: string }) => void;
-  callback: () => void;
 }) => {
-  const { signups, selectedRows, setAlert, callback } = props;
+  const { signups, selectedRows, setAlert } = props;
 
   const { t } = useTranslation([SCOPES.MODULES.SIGN_UP_LIST, SCOPES.COMMON.FORM], {
     useSuspense: false
@@ -29,6 +37,7 @@ const AdminTools = (props: {
       ...signUp,
       dateArrival: signUp.dateArrival.toLocaleDateString(),
       dateDeparture: signUp.dateDeparture.toLocaleDateString(),
+      lastModifiedAt: signUp.lastModifiedAt?.toLocaleDateString(),
       isCeliac: getLabelForValue(CELIAC_CHOICES, signUp.isCeliac),
       helpWith: t(signUp.helpWith),
       food: t(signUp.food),
@@ -53,43 +62,54 @@ const AdminTools = (props: {
       text: 'Actualizando estados, quedate en la página'
     });
     await updateSignupsStatus(selectedStatus, selectedRows);
-    callback();
     setAlert({ props: { severity: 'success', onClose: () => setAlert({}) }, text: 'Listo!' });
   }
 
   return (
-    <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
-      <Select
-        id="status"
-        name="status"
-        labelId="status-label"
-        label={t('status')}
-        onChange={onSelectedStatusChange}
-        value={selectedStatus}
-        SelectDisplayProps={{ style: { padding: '6px 32px', fontSize: 14 } }}
-      >
-        {Object.values(SignupStatus).map((status) => (
-          <MenuItem key={status} value={status}>
-            {t(status)}
-          </MenuItem>
-        ))}
-      </Select>
-      <Button variant="contained" color="primary" onClick={saveNewStatus}>
-        {t('changeStatus')}
-      </Button>
-      <CSVLink
-        headers={exportableDataHeaders.map((header) => ({
-          key: header,
-          label: t(header, { ns: SCOPES.COMMON.FORM })
-        }))}
-        data={exportableData}
-        filename={t('exportFilename', { date })}
-      >
-        <Button variant="contained" color="secondary" startIcon={<FileDownloadIcon />}>
-          {t('export')}
+    <>
+      {signups.length >= 600 && (
+        <Alert severity={'error'}>
+          <div style={{ background: 'maroon' }}>
+            <Typography variant={'h2'} color={'white'}>
+              La suma de Inscriptxs y Pendientes de Pago es mayor o igual a 600 (total:{' '}
+              {signups.length})
+            </Typography>
+          </div>
+        </Alert>
+      )}
+      <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
+        <Select
+          id="status"
+          name="status"
+          labelId="status-label"
+          label={t('status')}
+          onChange={onSelectedStatusChange}
+          value={selectedStatus}
+          SelectDisplayProps={{ style: { padding: '6px 32px', fontSize: 14 } }}
+        >
+          {Object.values(SignupStatus).map((status) => (
+            <MenuItem key={status} value={status}>
+              {t(status)}
+            </MenuItem>
+          ))}
+        </Select>
+        <Button variant="contained" color="primary" onClick={saveNewStatus}>
+          {t('changeStatus')}
         </Button>
-      </CSVLink>
-    </Grid>
+        <CSVLink
+          headers={exportableDataHeaders.map((header) => ({
+            key: header,
+            label: t(header, { ns: SCOPES.COMMON.FORM })
+          }))}
+          data={exportableData}
+          filename={t('exportFilename', { date })}
+        >
+          <Button variant="contained" color="secondary" startIcon={<FileDownloadIcon />}>
+            {t('export')}
+          </Button>
+        </CSVLink>
+      </Grid>
+    </>
   );
 };
 

@@ -1,39 +1,47 @@
 import { createOrUpdateDoc, getCollection, getDocument } from './index';
-import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { db, functions } from '../../etiFirebase';
-import { Signup, SignupBase, SignupStatus } from '../../shared/signup';
+import { Signup, SignupFirestore, SignupStatus } from '../../shared/signup';
 import { httpsCallable } from 'firebase/functions';
 import { BankFirestore, BANKS } from './banks';
 
 const SIGNUPS = `signups`;
 const SIGNUP = (signupId: string) => `${SIGNUPS}/${signupId}`;
 
-interface SignupFirestore extends SignupBase {
-  id: string;
-  etiEventId: string;
-  orderNumber: number;
-  dateArrival: Timestamp;
-  dateDeparture: Timestamp;
+interface SignupDetails extends Signup {
+  alias?: string;
 }
 
-interface SignupDetails extends SignupFirestore {
-  alias: string;
-}
-
-export const getSignups = async (etiEventId: string, isAdmin: boolean) => {
+export const getSignups = async (
+  etiEventId: string,
+  isAdmin: boolean,
+  setSignups: Function,
+  setIsLoading: Function
+) => {
   const ref = collection(db, SIGNUPS);
   let banks: BankFirestore[] = [];
   if (isAdmin) {
     banks = (await getCollection(BANKS)) as BankFirestore[];
   }
-  const q = query(ref, where('etiEventId', '==', etiEventId));
-  const querySnapshot = await getDocs(q);
-  const data = querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    alias: getAliasForUserId(banks, (doc.data() as SignupFirestore).userId),
-    ...doc.data()
-  })) as SignupDetails[];
-  return data.map(toJs);
+  const addBank = (doc: Signup) => {
+    return { ...doc, alias: getAliasForUserId(banks, doc.userId) };
+  };
+  const q = query(ref, where('etiEventId', '==', etiEventId), orderBy('orderNumber'));
+
+  return onSnapshot(q, (snapshot) => {
+    const docs = snapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data()
+      };
+    }) as SignupFirestore[];
+    let signups: SignupDetails[] = docs.map(toJs);
+    if (isAdmin) {
+      signups = signups.map(addBank);
+    }
+    setSignups(signups);
+    setIsLoading(false);
+  });
 };
 
 const getAliasForUserId = (banks: BankFirestore[], userId: string) => {
@@ -50,7 +58,8 @@ const toJs = (signup: SignupFirestore) =>
     ...signup,
     dateDeparture: signup.dateDeparture?.toDate(),
     dateArrival: signup.dateArrival?.toDate(),
-    dateEnd: signup.dateDeparture?.toDate()
+    dateEnd: signup.dateDeparture?.toDate(),
+    lastModifiedAt: signup.lastModifiedAt?.toDate()
   } as Signup);
 
 export const getSignup = async (signupId: string) => getDocument(SIGNUP(signupId));
