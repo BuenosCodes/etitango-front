@@ -75,10 +75,10 @@ const SignupList = () => {
           </Grid>
           <Grid item>
             {alert.text && <Alert {...alert.props}>{alert.text}</Alert>}
+            {isAdmin() && (
+              <AdminTools signups={signups} selectedRows={selectedRows} setAlert={setAlert} />
+            )}
             <TableContainer component={Paper}>
-              {isAdmin() && (
-                <AdminTools signups={signups} selectedRows={selectedRows} setAlert={setAlert} />
-              )}
               <SignupListTable
                 isAdmin={isAdmin()}
                 signups={signups}
