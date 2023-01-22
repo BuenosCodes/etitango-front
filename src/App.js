@@ -29,6 +29,7 @@ import TemplatesList from './modules/superAdmin/templates';
 import EditTemplate from './modules/superAdmin/templates/EditTemplate';
 import RolesList from './modules/superAdmin/roles/RolesList';
 import { Notification } from './components/notification/Notification';
+import Instructions from './modules/instructions/index';
 
 i18n
   .use(initReactI18next)
@@ -54,7 +55,8 @@ export const ROUTES = {
   SIGNUPS: '/lista-inscriptos',
   BANKS: '/banks',
   ROLES: '/roles',
-  TEMPLATES: '/templates'
+  TEMPLATES: '/templates',
+  INSTRUCTIONS: '/instructions'
 };
 
 export const PRIVATE_ROUTES = [
@@ -115,6 +117,7 @@ function App() {
               path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}/:id`}
               element={<EditTemplate />}
             />
+            <Route path={ROUTES.INSTRUCTIONS} element={<Instructions />} />
           </Routes>
           <AppFooter />
         </NotificationContext.Provider>
