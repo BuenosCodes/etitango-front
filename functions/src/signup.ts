@@ -20,6 +20,18 @@ const validateSingleSignup = async (userId: string, etiEventId: string) => {
   }
 };
 
+// eslint-disable-next-line require-jsdoc
+async function validateSignupIsOpen(etiEventId: string) {
+  const eventRef = db.doc(`events/${etiEventId}`);
+  const event = await eventRef.get();
+  if (event.data()?.dateSignupOpen < new Date()) {
+    throw new functions.https.HttpsError(
+        "failed-precondition",
+        "Signups haven't opened yet"
+    );
+  }
+}
+
 export const createSignup = functions.https.onCall(
   async (data: SignupCreate, context: CallableContext) => {
     await validateUserIsLoggedIn(context);
