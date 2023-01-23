@@ -6,10 +6,12 @@ import { sendVerificationEmail } from '../../helpers/firebaseAuthentication.js';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
 import { ROUTES } from 'App.js';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 function SignInScreen() {
-  const { t } = useTranslation(SCOPES.MODULES.SIGN_IN, { useSuspense: false });
+  const { t } = useTranslation([SCOPES.MODULES.SIGN_IN], {
+    useSuspense: false
+  });
 
   const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
   const [isVerified, setIsVerified] = useState(false); // Local signed-in state.
@@ -27,7 +29,12 @@ function SignInScreen() {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <p>{t('notSignedIn')}</p>
+
         <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
+
+        <Button href={ROUTES.INSTRUCTIONS} variant={'contained'}>
+          <Typography>Dudas? Mirá el Instructivo</Typography>
+        </Button>
       </div>
     );
   }
