@@ -110,6 +110,15 @@ export const createSeeds = async () => {
   }
 };
 
+export const fixNumbering = async (etiEventId: string) => {
+  const fn = httpsCallable(functions, 'superAdmin-fixNumbering');
+  try {
+    await fn(etiEventId);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export async function updateSignupsStatus(selectedStatus: SignupStatus, selectedRows: string[]) {
   return Promise.all(
     selectedRows.map((id) => createOrUpdateDoc('signups', { status: selectedStatus }, id))
