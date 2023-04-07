@@ -20,23 +20,29 @@ const validateSingleSignup = async (userId: string, etiEventId: string) => {
   }
 };
 
-// eslint-disable-next-line require-jsdoc
 async function validateSignupIsOpen(etiEventId: string) {
   const eventRef = db.doc(`events/${etiEventId}`);
   const event = await eventRef.get();
 
   if (event.data()?.dateSignupOpen.toDate().getTime() > new Date().getTime()) {
     throw new functions.https.HttpsError(
-        "failed-precondition",
-        "Signups haven't opened yet"
-    );
+        "failed-precondition", "Signups haven't opened yet");
   }
+}
+
+function getUserIdOrFail(context: CallableContext) {
+  const userId = context.auth?.uid;
+  if (!userId) {
+    throw new functions.https.HttpsError(
+        "failed-precondition", "createSignup: missing Auth/uid");
+  }
+  return userId;
 }
 
 export const createSignup = functions.https.onCall(
     async (data: SignupCreate, context: CallableContext) => {
       await validateUserIsLoggedIn(context);
-      const userId = context.auth!.uid;
+      const userId = getUserIdOrFail(context);
       return db.runTransaction(async (transaction) => {
         await validateSignupIsOpen(data.etiEventId);
         await validateSingleSignup(userId, data.etiEventId);
@@ -50,9 +56,10 @@ export const createSignup = functions.https.onCall(
           dateArrival: new Date(data.dateArrival),
           dateDeparture: new Date(data.dateDeparture),
         };
-        const orderNumber = await getIncrement({transaction, counterName: data.etiEventId});
-        const signupsRef = db.collection("signups");
-        return signupsRef.add({...signupData, orderNumber});
+        const orderNumber =
+          await getIncrement({transaction, counterName: data.etiEventId});
+        const docRef = db.collection("signups").doc();
+        return transaction.set(docRef, {...signupData, orderNumber});
       });
     }
 );
@@ -60,7 +67,7 @@ export const createSignup = functions.https.onCall(
 export const validateSignup = functions.https.onCall(
     async (data: { etiEventId: string }, context: CallableContext) => {
       await validateUserIsLoggedIn(context);
-      const userId = context.auth!.uid;
+      const userId = getUserIdOrFail(context);
       await validateSingleSignup(userId, data.etiEventId);
     }
 );
