@@ -14,7 +14,6 @@ const EventsList = () => {
   useEffect(() => {
     const fetchData = async () => {
       const evts = await firestoreEventHelper.getEvents();
-      console.log(evts);
       setEvents(evts);
     };
     setIsLoading(true);

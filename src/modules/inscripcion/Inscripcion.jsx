@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
 import { Field, Form, Formik } from 'formik';
 import { Select } from 'formik-mui';
-import { DatePicker } from 'formik-mui-x-date-pickers';
 import { bool, date, object, string } from 'yup';
 import { SignupHelpWith } from '../../shared/signup';
 import { LocationPicker } from '../LocationPicker';
@@ -18,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../App.js';
 import { ERROR_CODES } from '../../helpers/constants/errorCodes.ts';
 import { NotificationContext } from '../../helpers/NotificationContext';
+import { ETIDatePicker } from '../../components/form/DatePicker.tsx';
 
 export default function Inscripcion() {
   const { t } = useTranslation([SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP], {
@@ -168,25 +168,19 @@ export default function Inscripcion() {
                   <Form>
                     <Grid container spacing={2}>
                       <Grid item md={4} sm={4} xs={12}>
-                        <Field
-                          component={DatePicker}
-                          disablePast
-                          textField={{ fullWidth: true }}
+                        <ETIDatePicker
                           label={t('dateArrival')}
-                          name="date_arrival"
-                          inputFormat="DD-MM-YYYY"
-                          mask="__-__-____"
+                          fieldName="dateArrival"
+                          setFieldValue={setFieldValue}
+                          textFieldProps={{ fullWidth: true }}
                         />
                       </Grid>
                       <Grid item md={4} sm={4} xs={12}>
-                        <Field
-                          component={DatePicker}
-                          disablePast
-                          textField={{ fullWidth: true }}
+                        <ETIDatePicker
                           label={t('dateDeparture')}
-                          name="date_departure"
-                          inputFormat="DD-MM-YYYY"
-                          mask="__-__-____"
+                          fieldName="dateDeparture"
+                          setFieldValue={setFieldValue}
+                          textFieldProps={{ fullWidth: true }}
                         />
                       </Grid>
                       <Grid item md={4} sm={4} xs={12}>
