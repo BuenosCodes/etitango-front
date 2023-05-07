@@ -54,3 +54,15 @@ export const seedDatabase = functions.https.onCall(
       await createTemplates();
       await createEti();
     });
+
+export const upsertTemplates = functions.https.onCall(
+    async (data: any, context: CallableContext) => {
+      try {
+        await validateUserIsSuperAdmin(context);
+        await createTemplates();
+        return;
+      } catch (e) {
+        console.log(e);
+        throw new functions.https.HttpsError("internal", JSON.stringify(e));
+      }
+    });
