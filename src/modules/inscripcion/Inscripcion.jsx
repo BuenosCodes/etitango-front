@@ -221,7 +221,12 @@ export default function Inscripcion() {
                           <Typography variant="h3" color="primary" align="center">
                             {t(`${SCOPES.MODULES.SIGN_UP}.combo`)}
                           </Typography>
-                          <Typography>$7500</Typography>
+                          <Typography>
+                            10/05 HASTA 31/05 $ 7000
+                          </Typography>
+                          <Typography>
+                            01/06 HASTA AGOTAR EL CUPO $ 8000
+                          </Typography>
                         </Grid>
                         <Grid container justifyContent="flex-end">
                           <Grid item>
@@ -242,7 +247,7 @@ export default function Inscripcion() {
                         <Grid item style={{ textAlign: 'center' }}>
                           <Typography variant="caption">
                             {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer`)}
-                            <b>martes 28 de Febrero</b>.<br />
+                            <b>lunes 19 de Junio</b>.<br />
                             {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer2`)}
                           </Typography>
                         </Grid>

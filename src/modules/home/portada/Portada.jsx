@@ -22,7 +22,7 @@ export default function Portada() {
         }}
       >
         <Typography color="white" variant="h6" textAlign="center">
-          ETI &quot;Caminito Amigo&quot; - 24, 25 y 26 de Marzo - La Rioja
+          VillamariETI - 7,8 y 9 de Julio de 2023
         </Typography>
       </Box>
     </React.Fragment>
