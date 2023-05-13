@@ -11,8 +11,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
 import { getEvent } from '../../../helpers/firestore/events';
 import { EtiEvent } from '../../../shared/etiEvent';
-import { DatePicker } from 'formik-mui-x-date-pickers';
 import { UserRoles } from '../../../shared/User';
+import { ETIDatePicker } from '../../../components/form/DatePicker';
 
 export default function EventForm() {
   const EventFormSchema = object({
@@ -37,18 +37,8 @@ export default function EventForm() {
     fetchData().catch((error) => console.error(error));
   }, [id]);
 
-  const prepareForSave = (event: any) => {
-    let output: any = { ...event };
-    const dateFields: (keyof EtiEvent)[] = ['dateStart', 'dateEnd', 'dateSignupOpen'];
-    dateFields.forEach((field) => {
-      if (event[field]) {
-        output[field] = event[field]!.toDate();
-      }
-    });
-    return output;
-  };
   const save = async (values: any, setSubmitting: Function) => {
-    const data = prepareForSave(values);
+    const data = values;
 
     try {
       await createOrUpdateDoc('events', data, id === 'new' ? undefined : id);
@@ -99,7 +89,7 @@ export default function EventForm() {
                     await save(values, setSubmitting);
                   }}
                 >
-                  {({ isSubmitting }) => (
+                  {({ isSubmitting, setFieldValue }) => (
                     <Form>
                       <Grid container spacing={2}>
                         <Grid item md={6} sm={6} xs={12}>
@@ -121,36 +111,27 @@ export default function EventForm() {
                           />
                         </Grid>
                         <Grid item md={4} sm={4} xs={12}>
-                          <Field
-                            component={DatePicker}
-                            disablePast
-                            textField={{ fullWidth: true }}
+                          <ETIDatePicker
+                            textFieldProps={{ fullWidth: true }}
                             label={t('dateStart')}
-                            name="dateStart"
-                            inputFormat="DD-MM-YYYY"
-                            mask="__-__-____"
+                            fieldName="dateStart"
+                            setFieldValue={setFieldValue}
                           />
                         </Grid>
                         <Grid item md={4} sm={4} xs={12}>
-                          <Field
-                            component={DatePicker}
-                            disablePast
-                            textField={{ fullWidth: true }}
+                          <ETIDatePicker
+                            textFieldProps={{ fullWidth: true }}
                             label={t('dateEnd')}
-                            name="dateEnd"
-                            inputFormat="DD-MM-YYYY"
-                            mask="__-__-____"
+                            fieldName="dateEnd"
+                            setFieldValue={setFieldValue}
                           />
                         </Grid>
                         <Grid item md={4} sm={4} xs={12}>
-                          <Field
-                            component={DatePicker}
-                            disablePast
-                            textField={{ fullWidth: true }}
+                          <ETIDatePicker
+                            textFieldProps={{ fullWidth: true }}
                             label={t('dateSignupOpen')}
-                            name="dateSignupOpen"
-                            inputFormat="DD-MM-YYYY"
-                            mask="__-__-____"
+                            fieldName="dateSignupOpen"
+                            setFieldValue={setFieldValue}
                           />
                         </Grid>
 

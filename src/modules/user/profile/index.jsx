@@ -10,7 +10,7 @@ import { CheckboxWithLabel, Select, TextField } from 'formik-mui';
 import { bool, number, object, string } from 'yup';
 import { DanceRoles, FoodChoices } from 'shared/signup';
 import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
-import { LocationPicker } from '../../LocationPicker';
+import { LocationPicker } from '../../../components/form/LocationPicker.tsx';
 import { USERS } from 'helpers/firestore/users';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
