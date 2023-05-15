@@ -1,5 +1,5 @@
 import WithAuthentication from '../withAuthentication';
-import { createSeeds, fixNumbering } from '../../helpers/firestore/signups';
+import { upsertTemplates, fixNumbering } from '../../helpers/firestore/signups';
 import { Button, Divider } from '@mui/material';
 import { UserRoles } from '../../shared/User';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +23,7 @@ const SuperAdmin = () => {
     <>
       <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} />
       <>
-        <Button onClick={createSeeds}>Crear templates</Button>
+        <Button onClick={upsertTemplates}>Actualizar email templates</Button>
 
         <Button onClick={() => navigate(ROUTES.SUPERADMIN + ROUTES.TEMPLATES)}>TEMPLATES</Button>
         <Button onClick={() => navigate(ROUTES.SUPERADMIN + ROUTES.EVENTS)}>EVENTS</Button>

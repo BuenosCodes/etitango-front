@@ -1,4 +1,4 @@
-import {CallableContext} from "firebase-functions/lib/providers/https";
+import {CallableContext} from "firebase-functions/lib/common/providers/https";
 import {db} from "./index";
 import {firestore} from "firebase-admin";
 import QueryDocumentSnapshot = firestore.QueryDocumentSnapshot;

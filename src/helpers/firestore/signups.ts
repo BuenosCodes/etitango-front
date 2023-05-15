@@ -101,8 +101,8 @@ export const createEmail = async () =>
     })
   );
 
-export const createSeeds = async () => {
-  const seeds = httpsCallable(functions, 'seeds-seedDatabase');
+export const upsertTemplates = async () => {
+  const seeds = httpsCallable(functions, 'seeds-upsertTemplates');
   try {
     await seeds();
   } catch (e) {
