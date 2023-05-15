@@ -215,7 +215,7 @@ export default function Inscripcion() {
                           <Typography variant="h3" color="primary" align="center">
                             {t(`${SCOPES.MODULES.SIGN_UP}.combo`)}
                           </Typography>
-                          <Typography>10/05 HASTA 31/05 $ 7000</Typography>
+                          <Typography>15/05 HASTA 31/05 $ 7000</Typography>
                           <Typography>01/06 HASTA AGOTAR EL CUPO $ 8000</Typography>
                         </Grid>
                         <Grid container justifyContent="flex-end">
