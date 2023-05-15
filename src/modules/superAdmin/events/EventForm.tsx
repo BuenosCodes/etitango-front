@@ -116,6 +116,7 @@ export default function EventForm() {
                             label={t('dateStart')}
                             fieldName="dateStart"
                             setFieldValue={setFieldValue}
+                            views={['day', 'hours', 'minutes']}
                           />
                         </Grid>
                         <Grid item md={4} sm={4} xs={12}>
@@ -124,6 +125,7 @@ export default function EventForm() {
                             label={t('dateEnd')}
                             fieldName="dateEnd"
                             setFieldValue={setFieldValue}
+                            views={['day', 'hours', 'minutes']}
                           />
                         </Grid>
                         <Grid item md={4} sm={4} xs={12}>
@@ -132,6 +134,7 @@ export default function EventForm() {
                             label={t('dateSignupOpen')}
                             fieldName="dateSignupOpen"
                             setFieldValue={setFieldValue}
+                            views={['day', 'hours', 'minutes']}
                           />
                         </Grid>
 
