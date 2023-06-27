@@ -48,6 +48,7 @@ export interface SignupBase {
   province?: string;
   city?: string;
   status?: SignupStatus;
+  didAttend: boolean;
 }
 
 export interface SignupCreate extends SignupBase {

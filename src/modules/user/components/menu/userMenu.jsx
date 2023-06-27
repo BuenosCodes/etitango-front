@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../../helpers/UserContext';
 import { isUserDataComplete } from '../../../../helpers/validators';
 import { Alert } from '../../../../components/alert/Alert';
+import { isAdmin } from '../../../../helpers/firestore/users';
 
 export function UserMenu() {
   const [alertVisible, setAlertVisible] = useState(false);
@@ -47,6 +48,11 @@ export function UserMenu() {
         <Button sx={getStyles(ROUTES.SIGNUPS)} onClick={() => navigate(ROUTES.SIGNUPS)}>
           {t('signupList')}
         </Button>
+        {isAdmin(user) ? (
+          <Button sx={getStyles(ROUTES.SIGNUPS)} onClick={() => navigate(ROUTES.ATTENDANCE)}>
+            {t('attendance')}
+          </Button>
+        ) : null}
       </Box>
     </>
   );

@@ -2,6 +2,7 @@
   "myProfile": "Mis datos personales",
   "signup": "Inscripción al próximo ETI",
   "signupList": "Lista de Inscripciones",
+  "attendance": "Control de Asistencia",
   "alert": {
     "fillInData": "¡Completar mis datos!",
     "warning": "Advertencia",

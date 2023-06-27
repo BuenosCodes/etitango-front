@@ -1,7 +1,7 @@
 import { collection, deleteField, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../../etiFirebase';
 import { createOrUpdateDoc, getDocument } from './index';
-import { UserFullData, UserRoles } from '../../shared/User';
+import { IUser, UserFullData, UserRoles } from '../../shared/User';
 
 export const USERS = 'users';
 const USER = (userId: string) => `${USERS}/${userId}`;
@@ -36,3 +36,8 @@ export async function addRole(email: string, role: UserRoles) {
 export async function removeRole(id: string, role: UserRoles) {
   return createOrUpdateDoc(USERS, { roles: { [role]: deleteField() } }, id);
 }
+
+export const isAdmin = (user: IUser) => {
+  // @ts-ignore
+  return !!user?.data?.roles && !!user?.data?.roles[UserRoles.ADMIN];
+};

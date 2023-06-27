@@ -12,17 +12,17 @@ import {
 
 import WithAuthentication from '../withAuthentication';
 import { getFutureEti } from '../../helpers/firestore/events';
-import { getSignups } from '../../helpers/firestore/signups';
+import { getSignups, markAttendance } from '../../helpers/firestore/signups';
 import { Signup } from '../../shared/signup';
 import { SignupListTable } from './SignupListTable';
 import { UserContext } from '../../helpers/UserContext';
 import AdminTools from './AdminTools';
 import { SCOPES } from '../../helpers/constants/i18n';
-import { UserRoles } from '../../shared/User';
 import { EtiEvent } from '../../shared/etiEvent';
 import SignupSummary from './SignupSummary';
+import { isAdmin } from '../../helpers/firestore/users';
 
-const SignupList = () => {
+const SignupList = (props: { isAttendance: boolean }) => {
   const { user } = useContext(UserContext);
   const [signups, setSignups] = useState([] as Signup[]);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
@@ -32,10 +32,6 @@ const SignupList = () => {
   const { t } = useTranslation([SCOPES.MODULES.SIGN_UP_LIST, SCOPES.COMMON.FORM], {
     useSuspense: false
   });
-  const isAdmin = () => {
-    // @ts-ignore
-    return !!user?.data?.roles && !!user?.data?.roles[UserRoles.ADMIN];
-  };
 
   /** get etiEvent */
   useEffect(() => {
@@ -52,7 +48,7 @@ const SignupList = () => {
     const fetchData = async () => {
       setIsLoading(true);
       if (etiEvent?.id) {
-        return getSignups(etiEvent.id, isAdmin(), setSignups, setIsLoading);
+        return getSignups(etiEvent.id, isAdmin(user), setSignups, setIsLoading);
       }
     };
 
@@ -65,9 +61,11 @@ const SignupList = () => {
       <WithAuthentication />
       <Container maxWidth="xl" sx={{ marginTop: 3 }}>
         <Grid container direction="column" spacing={3}>
-          <Grid item>
-            <SignupSummary signups={signups} />
-          </Grid>
+          {!props.isAttendance ? (
+            <Grid item>
+              <SignupSummary signups={signups} />
+            </Grid>
+          ) : null}
           <Grid item>
             <Typography variant="h5" color="secondary" align="center">
               {t('title')}
@@ -75,15 +73,17 @@ const SignupList = () => {
           </Grid>
           <Grid item>
             {alert.text && <Alert {...alert.props}>{alert.text}</Alert>}
-            {isAdmin() && (
+            {isAdmin(user) && (
               <AdminTools signups={signups} selectedRows={selectedRows} setAlert={setAlert} />
             )}
             <TableContainer component={Paper}>
               <SignupListTable
-                isAdmin={isAdmin()}
+                isAdmin={isAdmin(user)}
                 signups={signups}
                 setSelectedRows={setSelectedRows}
                 isLoading={isLoading}
+                isAttendance={props.isAttendance}
+                markAttendance={markAttendance}
               />
             </TableContainer>
           </Grid>
