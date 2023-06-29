@@ -124,3 +124,7 @@ export async function updateSignupsStatus(selectedStatus: SignupStatus, selected
     selectedRows.map((id) => createOrUpdateDoc('signups', { status: selectedStatus }, id))
   );
 }
+
+export async function markAttendance(signup: Signup) {
+  return createOrUpdateDoc('signups', { didAttend: !signup.didAttend }, signup.id);
+}

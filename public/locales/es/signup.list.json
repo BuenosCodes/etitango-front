@@ -1,5 +1,6 @@
 {
   "title": "Listado de Inscripciones",
+  "attendanceTitle": "Control de Asistencia",
   "status": "Estado de la inscripción",
   "export": "Descargar para Excel",
   "exportFilename": "inscripciones-{{date}}.csv",
@@ -8,5 +9,10 @@
   "payment-delayed": "Pago Demorado",
   "confirmed": "Confirmada",
   "cancelled": "Cancelada",
-  "changeStatus": "Cambiar Estado de inscripción"
+  "changeStatus": "Cambiar Estado de inscripción",
+  "alert": {
+    "title": "Confirmación",
+    "confirm": "Aceptar",
+    "description": "¿Deseas confirmar la asistencia de {{fullName}}?"
+  }
 }

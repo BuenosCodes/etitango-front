@@ -56,7 +56,8 @@ export const ROUTES = {
   BANKS: '/banks',
   ROLES: '/roles',
   TEMPLATES: '/templates',
-  INSTRUCTIONS: '/instructions'
+  INSTRUCTIONS: '/instructions',
+  ATTENDANCE: '/attendance'
 };
 
 export const PRIVATE_ROUTES = [
@@ -64,7 +65,8 @@ export const PRIVATE_ROUTES = [
   ROUTES.USER,
   ROUTES.USER_HOME,
   ROUTES.SIGNUP,
-  ROUTES.SIGNUPS
+  ROUTES.SIGNUPS,
+  ROUTES.ATTENDANCE
 ];
 
 function App() {
@@ -103,6 +105,11 @@ function App() {
             <Route path="comision-de-genero-who" element={<ComisionGeneroWho />} exact />
             <Route path={ROUTES.SIGNUP} element={withUserMenu(Inscripcion)()} exact />
             <Route path={ROUTES.SIGNUPS} element={withUserMenu(SignupList)()} exact />
+            <Route
+              path={ROUTES.ATTENDANCE}
+              element={withUserMenu(SignupList)({ isAttendance: true })}
+              exact
+            />
             <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
             <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`} element={<EventsList />} />

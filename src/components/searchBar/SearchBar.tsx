@@ -3,16 +3,18 @@ import { FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui
 import { Search } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from '../../helpers/constants/i18n';
-import { SEARCHABLE_FIELDS } from '../../modules/inscripcion/SignupListTable';
+import { SignupField } from '../../modules/inscripcion/SignupListTable';
 
 export function SearchBar({
-  setQuery
+  setQuery,
+  fields
 }: {
   // eslint-disable-next-line no-unused-vars
   setQuery: (value: string, columnField: string) => void;
+  fields: SignupField[];
 }) {
   const [value, setValue] = useState<string>('');
-  const [columnField, setColumnField] = useState<string>(SEARCHABLE_FIELDS[0]);
+  const [columnField, setColumnField] = useState<string>(fields[0]);
   useEffect(() => {
     setQuery(value, columnField);
   }, [value, columnField]);
@@ -41,7 +43,7 @@ export function SearchBar({
             onChange={(event) => setColumnField(event.target.value)}
             SelectDisplayProps={{ style: { padding: '6px 32px', fontSize: 14 } }}
           >
-            {SEARCHABLE_FIELDS.map((field) => (
+            {fields.map((field) => (
               <MenuItem key={field} value={field}>
                 {t(field, { ns: SCOPES.COMMON.FORM })}
               </MenuItem>

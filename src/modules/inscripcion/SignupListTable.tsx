@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Signup } from 'shared/signup';
-import { Button, Paper } from '@mui/material';
+import { Button, Checkbox, Paper } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -13,10 +13,10 @@ import { SCOPES } from '../../helpers/constants/i18n';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../App';
 import { SearchBar } from '../../components/searchBar/SearchBar';
+import { intersection } from 'lodash';
+import { Alert } from '../../components/alert/Alert';
 
-type SignupField = keyof Signup;
-
-export const SEARCHABLE_FIELDS = ['nameFirst', 'nameLast', 'country', 'province', 'city', 'status'];
+export type SignupField = keyof Signup;
 
 export function SignupListTable(props: {
   signups: Signup[];
@@ -24,10 +24,15 @@ export function SignupListTable(props: {
   // eslint-disable-next-line no-unused-vars
   setSelectedRows: (selection: string[]) => void;
   isLoading: boolean;
+  isAttendance: boolean;
+  // eslint-disable-next-line no-unused-vars
+  markAttendance: (signup: Signup) => void;
 }) {
-  const { signups, setSelectedRows, isAdmin, isLoading } = props;
+  const { signups, setSelectedRows, isAdmin, isLoading, isAttendance, markAttendance } = props;
   const navigate = useNavigate();
   const [filteredRows, setFilteredRows] = useState<GridFilterItem[]>([]);
+  const [attendanceConfirmationAlertVisible, setAttendanceConfirmationAlertVisible] = useState<boolean>(false);
+  const [attendanceConfirmationRow, setAttendanceConfirmationRow] = useState<Signup | null>(null);
 
   const filterRows = (value: string, columnField: string) => {
     setFilteredRows([
@@ -38,6 +43,15 @@ export function SignupListTable(props: {
       }
     ]);
   };
+
+  const attendanceFields: SignupField[] = [
+    'nameFirst',
+    'nameLast',
+    'dniNumber',
+    'food',
+    'isCeliac'
+    //'didAttend'
+  ];
 
   const publicFields: SignupField[] = [
     'orderNumber',
@@ -60,7 +74,31 @@ export function SignupListTable(props: {
     'isCeliac'
   ];
 
-  const getFields = () => (isAdmin ? [...publicFields, ...privateFields] : publicFields);
+  const searchableFields: SignupField[] = [
+    'nameFirst',
+    'nameLast',
+    'country',
+    'province',
+    'city',
+    'status',
+    'dniNumber'
+  ];
+
+  function getFields() {
+    if (isAttendance) {
+      return attendanceFields;
+    }
+
+    return isAdmin ? [...publicFields, ...privateFields] : publicFields;
+  }
+
+  function getFilterFields() {
+    if (isAttendance) {
+      return intersection(searchableFields, attendanceFields);
+    }
+
+    return isAdmin ? [...publicFields, ...privateFields] : publicFields;
+  }
 
   const { t } = useTranslation([SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP_LIST], {
     useSuspense: false
@@ -70,7 +108,7 @@ export function SignupListTable(props: {
     headerName: t(fieldName),
     width: fieldName === 'email' ? 300 : 150
   }));
-  if (isAdmin) {
+  if (isAdmin && !isAttendance) {
     columns.push({
       field: 'bank',
       headerName: 'Datos Bancarios',
@@ -86,6 +124,20 @@ export function SignupListTable(props: {
             Ver Datos Bancarios
           </Button>
         </strong>
+      )
+    });
+  }
+  if (isAttendance) {
+    columns.push({
+      field: 'didAttend',
+      headerName: 'Presente',
+      renderCell: (params: GridRenderCellParams) => (
+        <Checkbox
+          checked={!!params.row.didAttend}
+          disabled={!!params.row.didAttend}
+          onChange={() => askForAttendanceConfirmation(params)}
+          inputProps={{'aria-label': 'controlled'}}
+        />
       )
     });
   }
@@ -116,14 +168,38 @@ export function SignupListTable(props: {
     setSelectedRows(selection.map((id) => id as string));
   }
 
+  const askForAttendanceConfirmation = (confirmationRowParams: GridRenderCellParams) => {
+    setAttendanceConfirmationRow(confirmationRowParams.row);
+    setAttendanceConfirmationAlertVisible(true);
+  };
+
+  const getFullName = (user: Signup | null) => user ?`${user.nameFirst} ${user.nameLast}` : '';
+
   return (
     <>
+      <Alert
+        open={attendanceConfirmationAlertVisible}
+        handleClose={() => {
+          setAttendanceConfirmationAlertVisible(false);
+          setAttendanceConfirmationRow(null);
+        }}
+        onClick={() => {
+          setAttendanceConfirmationAlertVisible(false);
+          if (attendanceConfirmationRow) {
+            markAttendance(attendanceConfirmationRow);
+            setAttendanceConfirmationRow(null);
+          }
+        }}
+        buttonText={t('alert.confirm', { ns: SCOPES.MODULES.SIGN_UP_LIST }).toUpperCase()}
+        title={t('alert.title', { ns: SCOPES.MODULES.SIGN_UP_LIST })}
+        description={t('alert.description', { ns: SCOPES.MODULES.SIGN_UP_LIST, fullName: getFullName(attendanceConfirmationRow) })}
+      />
       <Paper style={{ height: '100vh', marginTop: 3 }}>
-        <SearchBar setQuery={filterRows} />
+        <SearchBar setQuery={filterRows} fields={getFilterFields()} />
         <DataGrid
           rows={signups.map(getSignupValues)}
           columns={columns}
-          checkboxSelection={isAdmin}
+          checkboxSelection={isAdmin && !isAttendance}
           onSelectionModelChange={selectionChanged}
           loading={isLoading}
           filterModel={{ items: filteredRows }}

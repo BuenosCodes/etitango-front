@@ -21,7 +21,7 @@ const toJs = (etiEventFromFirestore: EtiEventFirestore) =>
 
 export async function getFutureEti() {
   const ref = collection(db, EVENTS);
-  const q = query(ref, where('dateStart', '>', new Date()), orderBy('dateStart', 'asc'), limit(1));
+  const q = query(ref, where('dateEnd', '>', new Date()), orderBy('dateEnd', 'asc'), limit(1));
   const querySnapshot = await getDocs(q);
   const data = querySnapshot.docs.map((doc) => ({
     id: doc.id,
