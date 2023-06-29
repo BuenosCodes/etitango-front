@@ -193,6 +193,7 @@ export function SignupListTable(props: {
         buttonText={t('alert.confirm', { ns: SCOPES.MODULES.SIGN_UP_LIST }).toUpperCase()}
         title={t('alert.title', { ns: SCOPES.MODULES.SIGN_UP_LIST })}
         description={t('alert.description', { ns: SCOPES.MODULES.SIGN_UP_LIST, fullName: getFullName(attendanceConfirmationRow) })}
+        cancelButtonText={t('alert.cancel', { ns: SCOPES.MODULES.SIGN_UP_LIST }).toUpperCase()}
       />
       <Paper style={{ height: '100vh', marginTop: 3 }}>
         <SearchBar setQuery={filterRows} fields={getFilterFields()} />

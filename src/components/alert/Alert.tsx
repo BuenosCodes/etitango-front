@@ -14,7 +14,8 @@ export function Alert({
   title,
   description,
   onClick,
-  buttonText
+  buttonText,
+  cancelButtonText
 }: {
   open: boolean;
   handleClose: () => void;
@@ -22,6 +23,7 @@ export function Alert({
   description?: string;
   onClick: () => void;
   buttonText: string;
+  cancelButtonText: string;
 }) {
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -36,6 +38,10 @@ export function Alert({
           <Button onClick={onClick} autoFocus variant={'contained'} color={'secondary'}>
             {buttonText}
           </Button>
+          {cancelButtonText &&
+            <Button onClick={handleClose} variant={'contained'} color={'secondary'}>
+              {cancelButtonText}
+            </Button>}
         </DialogActions>
       )}
     </Dialog>
