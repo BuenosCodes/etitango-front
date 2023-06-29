@@ -68,7 +68,7 @@ const SignupList = (props: { isAttendance: boolean }) => {
           ) : null}
           <Grid item>
             <Typography variant="h5" color="secondary" align="center">
-              {t('title')}
+              {t(props.isAttendance ? 'attendanceTitle' : 'title')}
             </Typography>
           </Grid>
           <Grid item>

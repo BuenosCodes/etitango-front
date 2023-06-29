@@ -1,5 +1,6 @@
 {
   "title": "Listado de Inscripciones",
+  "attendanceTitle": "Control de Asistencia",
   "status": "Estado de la inscripción",
   "export": "Descargar para Excel",
   "exportFilename": "inscripciones-{{date}}.csv",
