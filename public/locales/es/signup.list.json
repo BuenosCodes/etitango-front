@@ -9,5 +9,10 @@
   "payment-delayed": "Pago Demorado",
   "confirmed": "Confirmada",
   "cancelled": "Cancelada",
-  "changeStatus": "Cambiar Estado de inscripción"
+  "changeStatus": "Cambiar Estado de inscripción",
+  "alert": {
+    "title": "Confirmación",
+    "confirm": "Aceptar",
+    "description": "¿Deseas confirmar la asistencia de {{fullName}}?"
+  }
 }

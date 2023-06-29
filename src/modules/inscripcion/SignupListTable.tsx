@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../App';
 import { SearchBar } from '../../components/searchBar/SearchBar';
 import { intersection } from 'lodash';
+import { Alert } from '../../components/alert/Alert';
 
 export type SignupField = keyof Signup;
 
@@ -30,6 +31,8 @@ export function SignupListTable(props: {
   const { signups, setSelectedRows, isAdmin, isLoading, isAttendance, markAttendance } = props;
   const navigate = useNavigate();
   const [filteredRows, setFilteredRows] = useState<GridFilterItem[]>([]);
+  const [attendanceConfirmationAlertVisible, setAttendanceConfirmationAlertVisible] = useState<boolean>(false);
+  const [attendanceConfirmationRow, setAttendanceConfirmationRow] = useState<Signup | null>(null);
 
   const filterRows = (value: string, columnField: string) => {
     setFilteredRows([
@@ -130,10 +133,10 @@ export function SignupListTable(props: {
       headerName: 'Presente',
       renderCell: (params: GridRenderCellParams) => (
         <Checkbox
-          checked={params.row.didAttend}
-          onChange={() => {
-            markAttendance(params.row);
-          }}
+          checked={!!params.row.didAttend}
+          disabled={!!params.row.didAttend}
+          onChange={() => askForAttendanceConfirmation(params)}
+          inputProps={{'aria-label': 'controlled'}}
         />
       )
     });
@@ -165,8 +168,32 @@ export function SignupListTable(props: {
     setSelectedRows(selection.map((id) => id as string));
   }
 
+  const askForAttendanceConfirmation = (confirmationRowParams: GridRenderCellParams) => {
+    setAttendanceConfirmationRow(confirmationRowParams.row);
+    setAttendanceConfirmationAlertVisible(true);
+  };
+
+  const getFullName = (user: Signup | null) => user ?`${user.nameFirst} ${user.nameLast}` : '';
+
   return (
     <>
+      <Alert
+        open={attendanceConfirmationAlertVisible}
+        handleClose={() => {
+          setAttendanceConfirmationAlertVisible(false);
+          setAttendanceConfirmationRow(null);
+        }}
+        onClick={() => {
+          setAttendanceConfirmationAlertVisible(false);
+          if (attendanceConfirmationRow) {
+            markAttendance(attendanceConfirmationRow);
+            setAttendanceConfirmationRow(null);
+          }
+        }}
+        buttonText={t('alert.confirm', { ns: SCOPES.MODULES.SIGN_UP_LIST }).toUpperCase()}
+        title={t('alert.title', { ns: SCOPES.MODULES.SIGN_UP_LIST })}
+        description={t('alert.description', { ns: SCOPES.MODULES.SIGN_UP_LIST, fullName: getFullName(attendanceConfirmationRow) })}
+      />
       <Paper style={{ height: '100vh', marginTop: 3 }}>
         <SearchBar setQuery={filterRows} fields={getFilterFields()} />
         <DataGrid
