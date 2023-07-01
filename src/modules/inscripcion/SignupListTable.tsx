@@ -31,7 +31,8 @@ export function SignupListTable(props: {
   const { signups, setSelectedRows, isAdmin, isLoading, isAttendance, markAttendance } = props;
   const navigate = useNavigate();
   const [filteredRows, setFilteredRows] = useState<GridFilterItem[]>([]);
-  const [attendanceConfirmationAlertVisible, setAttendanceConfirmationAlertVisible] = useState<boolean>(false);
+  const [attendanceConfirmationAlertVisible, setAttendanceConfirmationAlertVisible] =
+    useState<boolean>(false);
   const [attendanceConfirmationRow, setAttendanceConfirmationRow] = useState<Signup | null>(null);
 
   const filterRows = (value: string, columnField: string) => {
@@ -136,7 +137,7 @@ export function SignupListTable(props: {
           checked={!!params.row.didAttend}
           disabled={!!params.row.didAttend}
           onChange={() => askForAttendanceConfirmation(params)}
-          inputProps={{'aria-label': 'controlled'}}
+          inputProps={{ 'aria-label': 'controlled' }}
         />
       )
     });
@@ -173,7 +174,7 @@ export function SignupListTable(props: {
     setAttendanceConfirmationAlertVisible(true);
   };
 
-  const getFullName = (user: Signup | null) => user ?`${user.nameFirst} ${user.nameLast}` : '';
+  const getFullName = (user: Signup | null) => (user ? `${user.nameFirst} ${user.nameLast}` : '');
 
   return (
     <>
@@ -192,7 +193,11 @@ export function SignupListTable(props: {
         }}
         buttonText={t('alert.confirm', { ns: SCOPES.MODULES.SIGN_UP_LIST }).toUpperCase()}
         title={t('alert.title', { ns: SCOPES.MODULES.SIGN_UP_LIST })}
-        description={t('alert.description', { ns: SCOPES.MODULES.SIGN_UP_LIST, fullName: getFullName(attendanceConfirmationRow) })}
+        description={t('alert.description', {
+          ns: SCOPES.MODULES.SIGN_UP_LIST,
+          fullName: getFullName(attendanceConfirmationRow)
+        })}
+        cancelButtonText={t('alert.cancel', { ns: SCOPES.MODULES.SIGN_UP_LIST }).toUpperCase()}
       />
       <Paper style={{ height: '100vh', marginTop: 3 }}>
         <SearchBar setQuery={filterRows} fields={getFilterFields()} />

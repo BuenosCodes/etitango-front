@@ -13,6 +13,7 @@
   "alert": {
     "title": "Confirmación",
     "confirm": "Aceptar",
-    "description": "¿Deseas confirmar la asistencia de {{fullName}}?"
+    "description": "¿Deseas confirmar la asistencia de {{fullName}}?",
+    "cancel": "Cancelar"
   }
 }
