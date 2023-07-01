@@ -38,10 +38,11 @@ export function Alert({
           <Button onClick={onClick} autoFocus variant={'contained'} color={'secondary'}>
             {buttonText}
           </Button>
-          {cancelButtonText &&
+          {cancelButtonText && (
             <Button onClick={handleClose} variant={'contained'} color={'secondary'}>
               {cancelButtonText}
-            </Button>}
+            </Button>
+          )}
         </DialogActions>
       )}
     </Dialog>
