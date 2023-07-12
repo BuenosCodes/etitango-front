@@ -5,15 +5,17 @@ import { Navigate } from 'react-router-dom';
 import { getUser } from '../helpers/firestore/users';
 import { UserContext } from '../helpers/UserContext';
 import { CircularProgress } from '@mui/material';
-import { IUser, UserData, UserRoles } from '../shared/User';
+import { IUser, UserFullData, UserRoles } from '../shared/User';
 import { ROUTES } from 'App';
 
 const WithAuthentication = ({
   redirectUrl,
-  roles
+  roles,
+  eventId
 }: {
   redirectUrl?: string;
   roles?: UserRoles[];
+  eventId?: string;
 }) => {
   const auth = getAuth();
   // @ts-ignore
@@ -23,7 +25,7 @@ const WithAuthentication = ({
   useEffect(() => {
     const unregisterAuthObserver = auth.onAuthStateChanged(async (user: User | null) => {
       if (user) {
-        const userData = (await getUser(user.uid)) as UserData;
+        const userData = (await getUser(user.uid)) as UserFullData;
         setUser({ ...user, data: userData });
       }
       setRan(true);
@@ -33,8 +35,18 @@ const WithAuthentication = ({
   }, [auth]);
 
   const unverified = ran && (!user || !user?.emailVerified);
-  const hasRequiredRole =
-    !roles?.length || (!!user?.data?.roles && roles?.some((role) => !!user?.data?.roles[role]));
+  const hasRequiredRole = () => {
+    const userRoles = user?.data?.roles;
+    const isSuperAdmin = !!userRoles?.[UserRoles.SUPER_ADMIN];
+    const isAdminOfThisEvent = user?.data?.adminOf.find((e) => e === eventId);
+    if (roles?.length) {
+      return isSuperAdmin || !!userRoles?.[UserRoles.ADMIN];
+    }
+    if (eventId) {
+      return isSuperAdmin || isAdminOfThisEvent;
+    }
+    return false;
+  };
 
   return (
     <>

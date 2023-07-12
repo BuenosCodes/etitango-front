@@ -4,13 +4,14 @@ import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n';
 import { UserRoles, UserRolesListData } from 'shared/User';
+import { removeSuperAdmin, unassignEventAdmin } from '../../../helpers/firestore/users';
 
 export function RolesListTable(props: {
   users: UserRolesListData[];
   isLoading: boolean;
-  removeARole: Function;
+  eventId?: string;
 }) {
-  const { users, isLoading, removeARole } = props;
+  const { users, isLoading, eventId } = props;
 
   const { t } = useTranslation([SCOPES.COMMON.FORM], {
     useSuspense: false
@@ -23,24 +24,27 @@ export function RolesListTable(props: {
     width: 300,
     renderCell: (params: GridRenderCellParams<String>) => (
       <strong>
-        <Button
-          variant="contained"
-          size="small"
-          style={{ marginLeft: 16 }}
-          tabIndex={params.hasFocus ? 0 : -1}
-          onClick={() => removeARole(UserRoles.ADMIN, params.row.id)}
-        >
-          Quitar ADMIN
-        </Button>
-        <Button
-          variant="contained"
-          size="small"
-          style={{ marginLeft: 16 }}
-          tabIndex={params.hasFocus ? 0 : -1}
-          onClick={() => removeARole(UserRoles.SUPER_ADMIN, params.row.id)}
-        >
-          Quitar SUPERADMIN
-        </Button>
+        {eventId ? (
+          <Button
+            variant="contained"
+            size="small"
+            style={{ marginLeft: 16 }}
+            tabIndex={params.hasFocus ? 0 : -1}
+            onClick={() => unassignEventAdmin(params.row.id, eventId)}
+          >
+            Quitar ADMIN
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            size="small"
+            style={{ marginLeft: 16 }}
+            tabIndex={params.hasFocus ? 0 : -1}
+            onClick={() => removeSuperAdmin(params.row.id)}
+          >
+            Quitar SUPERADMIN
+          </Button>
+        )}
       </strong>
     )
   };
@@ -52,8 +56,8 @@ export function RolesListTable(props: {
   }));
   columns.push(removeRoleButtons);
 
-  const getUserDataValues = ({ id, email, roles }: UserRolesListData) => {
-    return { id, email, admin: roles?.admin, superadmin: roles?.superadmin };
+  const getUserDataValues = ({ id, email, roles, adminOf }: UserRolesListData) => {
+    return { id, email, admin: adminOf, [UserRoles.SUPER_ADMIN]: roles?.[UserRoles.SUPER_ADMIN] };
   };
 
   return (

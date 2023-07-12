@@ -20,7 +20,7 @@ import AdminTools from './AdminTools';
 import { SCOPES } from '../../helpers/constants/i18n';
 import { EtiEvent } from '../../shared/etiEvent';
 import SignupSummary from './SignupSummary';
-import { isAdmin } from '../../helpers/firestore/users';
+import { isAdmin, isAdminOfEvent } from '../../helpers/firestore/users';
 
 const SignupList = (props: { isAttendance: boolean }) => {
   const { user } = useContext(UserContext);
@@ -48,11 +48,13 @@ const SignupList = (props: { isAttendance: boolean }) => {
     const fetchData = async () => {
       setIsLoading(true);
       if (etiEvent?.id) {
-        return getSignups(etiEvent.id, isAdmin(user), setSignups, setIsLoading);
+        return getSignups(etiEvent.id, isAdminOfEvent(user, etiEvent.id), setSignups, setIsLoading);
       }
     };
 
-    fetchData();
+    fetchData().catch((error) => {
+      console.error(error);
+    });
   }, [etiEvent]);
 
   // @ts-ignore
@@ -73,7 +75,7 @@ const SignupList = (props: { isAttendance: boolean }) => {
           </Grid>
           <Grid item>
             {alert.text && <Alert {...alert.props}>{alert.text}</Alert>}
-            {isAdmin(user) && (
+            {isAdminOfEvent(user, etiEvent?.id) && (
               <AdminTools signups={signups} selectedRows={selectedRows} setAlert={setAlert} />
             )}
             <TableContainer component={Paper}>
@@ -84,6 +86,7 @@ const SignupList = (props: { isAttendance: boolean }) => {
                 isLoading={isLoading}
                 isAttendance={props.isAttendance}
                 markAttendance={markAttendance}
+                disabled={props.isAttendance && !isAdminOfEvent(user, etiEvent?.id)}
               />
             </TableContainer>
           </Grid>
