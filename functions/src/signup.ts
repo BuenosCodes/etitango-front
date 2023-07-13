@@ -2,7 +2,7 @@ import * as functions from "firebase-functions";
 import {CallableContext} from "firebase-functions/lib/common/providers/https";
 import {db} from "./index";
 import {validateUserIsLoggedIn} from "./validators";
-import {SignupCreate} from "../../src/shared/signup";
+import {SignupCreate, SignupStatus} from "../../src/shared/signup";
 import {getIncrement} from "./counters";
 import {UserData} from "../../src/shared/User";
 
@@ -11,6 +11,7 @@ const validateSingleSignup = async (userId: string, etiEventId: string) => {
   const signup = await signupRef
       .where("userId", "==", userId)
       .where("etiEventId", "==", etiEventId)
+      .where("status", "!=", SignupStatus.CANCELLED)
       .get();
   if (!signup.empty) {
     throw new functions.https.HttpsError(
