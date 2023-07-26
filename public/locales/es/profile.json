@@ -1,4 +1,5 @@
 {
   "title": "Perfil de Usuario",
-  "save": "Actualizar mis datos personales"
+  "save": "Actualizar mis datos personales",
+  "alreadySignedUpReason": "Tenés una inscripción abierta. Podrás cambiar tus datos cuando el evento termine o tu inscripción se cancele"
 }
