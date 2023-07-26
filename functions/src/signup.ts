@@ -15,7 +15,8 @@ const validateSingleSignup = async (userId: string, etiEventId: string) => {
   if (!signup.empty) {
     throw new functions.https.HttpsError(
         "already-exists",
-        "You are already signed up for this event"
+        "You are already signed up for this event",
+        {signUpId: signup.docs[0].id}
     );
   }
 };

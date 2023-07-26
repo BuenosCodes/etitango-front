@@ -1,0 +1,15 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() {
+        return request.auth.uid != null;
+    }
+
+    match /eventReceipts/{eventId}/{document=**} {
+      allow read: if signedIn();
+      allow write: if signedIn() &&
+                        request.resource.size < 10 * 1024 * 1024 &&
+                        (request.resource.contentType.matches('image/.*') || request.resource.contentType.matches('application/pdf'));
+    }
+  }
+}

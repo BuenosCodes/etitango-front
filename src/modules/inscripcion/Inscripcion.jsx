@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, CircularProgress, Container, Grid, MenuItem, Typography } from '@mui/material';
 import WithAuthentication from '../withAuthentication';
-import { createSignup, validateSignUp } from '../../helpers/firestore/signups';
+import { createSignup, uploadEventReceipt, validateSignUp } from '../../helpers/firestore/signups';
 import { getFutureEti } from '../../helpers/firestore/events';
 import { auth } from '../../etiFirebase';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +18,8 @@ import { ROUTES } from '../../App.js';
 import { ERROR_CODES } from '../../helpers/constants/errorCodes.ts';
 import { NotificationContext } from '../../helpers/NotificationContext';
 import { ETIDatePicker } from '../../components/form/DatePicker.tsx';
+import { FileUploadOutlined } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
 
 export default function Inscripcion() {
   const { t } = useTranslation([SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP], {
@@ -27,13 +29,14 @@ export default function Inscripcion() {
   const [etiEvent, setEtiEvent] = useState();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [isSignedUp, setIsSignedUp] = useState(false);
+  const [uploadingReceipt, setUploadingReceipt] = useState(false);
+  const [signUpId, setSignUpId] = useState(null);
 
   const { setNotification } = useContext(NotificationContext);
 
   const handleError = (error) => {
     if (error.code === ERROR_CODES.SIGNUPS.ALREADY_SIGNED_UP) {
-      setIsSignedUp(true);
+      setSignUpId(error.details?.signUpId);
       setNotification(t(`${SCOPES.MODULES.SIGN_UP}.alreadySignedUpReason`), { severity: 'info' });
     }
   };
@@ -115,6 +118,39 @@ export default function Inscripcion() {
       //TODO global error handling this.setState({errors: error.response.data})
     }
   };
+
+  const handleReceiptUpload = async (receipt) => {
+    setUploadingReceipt(true);
+    try {
+      await uploadEventReceipt(signUpId, etiEvent?.id, receipt);
+      setNotification(t(`${SCOPES.MODULES.SIGN_UP}.receiptUploadSuccess`), { severity: 'info' });
+    } catch (error) {
+      setNotification(t(`${SCOPES.MODULES.SIGN_UP}.receiptUploadError`), { severity: 'error' });
+    } finally {
+      setUploadingReceipt(false);
+    }
+  };
+
+  const renderReceiptButton = () => (
+    <Grid item>
+      <LoadingButton
+        variant="contained"
+        color="secondary"
+        component="label"
+        loading={uploadingReceipt}
+      >
+        {t(`${SCOPES.MODULES.SIGN_UP}.uploadReceipt`).toUpperCase()}
+        <FileUploadOutlined />
+        <input
+          style={{display:"none"}}
+          type="file"
+          hidden
+          onChange={e => handleReceiptUpload(e.target.files[0])}
+          accept="image/*, .pdf"
+        />
+      </LoadingButton>
+    </Grid>
+  );
 
   return (
     <>
@@ -224,15 +260,16 @@ export default function Inscripcion() {
                               variant="contained"
                               color="secondary"
                               type="submit"
-                              disabled={isSignedUp || isSubmitting}
+                              disabled={!!signUpId || isSubmitting}
                             >
                               {t(
                                 `${SCOPES.MODULES.SIGN_UP}.${
-                                  isSignedUp ? 'alreadySignedUp' : 'signUp'
+                                  signUpId ? 'alreadySignedUp' : 'signUp'
                                 }`
                               ).toUpperCase()}
                             </Button>
                           </Grid>
+                          {!!signUpId && renderReceiptButton()}
                         </Grid>
                         <Grid item style={{ textAlign: 'center' }}>
                           <Typography variant="caption">

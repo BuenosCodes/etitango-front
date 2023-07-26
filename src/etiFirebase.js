@@ -6,6 +6,7 @@ import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
 import { createUserInDbIfNotExists } from './helpers/functions/index';
 import { sendVerificationEmail } from './helpers/firebaseAuthentication';
+import { connectStorageEmulator, getStorage } from 'firebase/storage';
 
 /* eslint-disable no-undef */
 
@@ -25,12 +26,14 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 export const db = getFirestore(app);
 export const functions = getFunctions(app);
+export const storage = getStorage(app);
 
 if (process.env.NODE_ENV === 'development') {
   console.log('connecting to emulators');
   connectFunctionsEmulator(functions, 'localhost', 5001);
   connectFirestoreEmulator(db, 'localhost', 8080);
   connectAuthEmulator(auth, 'http://localhost:9099');
+  connectStorageEmulator(storage, 'localhost', 9199);
 }
 
 // // Configure FirebaseUI.

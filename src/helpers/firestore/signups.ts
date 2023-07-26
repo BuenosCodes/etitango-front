@@ -1,12 +1,21 @@
 import { createOrUpdateDoc, getCollection, getDocument } from './index';
 import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
-import { db, functions } from '../../etiFirebase';
+import { db, functions, storage } from '../../etiFirebase';
 import { Signup, SignupFirestore, SignupStatus } from '../../shared/signup';
 import { httpsCallable } from 'firebase/functions';
 import { BankFirestore, BANKS } from './banks';
+import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 
 const SIGNUPS = `signups`;
 const SIGNUP = (signupId: string) => `${SIGNUPS}/${signupId}`;
+
+const ALLOWED_RECEIPT_FILE_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'image/bmp',
+  'application/pdf'
+];
 
 interface SignupDetails extends Signup {
   alias?: string;
@@ -127,4 +136,14 @@ export async function updateSignupsStatus(selectedStatus: SignupStatus, selected
 
 export async function markAttendance(signup: Signup) {
   return createOrUpdateDoc('signups', { didAttend: !signup.didAttend }, signup.id);
+}
+
+export async function uploadEventReceipt(signupId: string, eventId: string, file: File) {
+  if (!ALLOWED_RECEIPT_FILE_TYPES.includes(file.type)) {
+    throw new Error('Invalid file extension');
+  }
+  const storageRef = ref(storage, `eventReceipts/${eventId}/${file.name}`);
+  const uploadFileTask = await uploadBytesResumable(storageRef, file);
+  const fileUrl = await getDownloadURL(uploadFileTask.ref);
+  return createOrUpdateDoc('signups', { receipt: fileUrl }, signupId);
 }
