@@ -51,7 +51,7 @@ const WithAuthentication = ({
   return (
     <>
       {!ran && <CircularProgress />}
-      {ran && (unverified || !hasRequiredRole) && (
+      {ran && (unverified || !hasRequiredRole()) && (
         // eslint-disable-next-line react/prop-types
         <Navigate to={ROUTES.SIGN_IN} replace state={{ redirectUrl: redirectUrl }} />
       )}
