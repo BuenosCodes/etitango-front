@@ -8,7 +8,7 @@ service firebase.storage {
     match /eventReceipts/{eventId}/{document=**} {
       allow read: if signedIn();
       allow write: if signedIn() &&
-                        request.resource.size < 10 * 1024 * 1024 &&
+                        request.resource.size < 2 * 1024 * 1024 &&
                         (request.resource.contentType.matches('image/.*') || request.resource.contentType.matches('application/pdf'));
     }
   }
