@@ -60,17 +60,6 @@ export default function Inscripcion() {
     getFormData().catch(handleError);
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (auth.currentUser?.uid) {
-        const user = await getDocument(`${USERS}/${auth.currentUser.uid}`);
-        setUserData(user);
-        setLoading(false);
-      }
-    };
-    fetchData().catch((error) => console.error(error));
-  }, [auth.currentUser?.uid]);
-
   const SignupSchema = object({
     helpWith: string().required('Este campo no puede estar vacío'),
     food: string().required('Este campo no puede estar vacío'),
