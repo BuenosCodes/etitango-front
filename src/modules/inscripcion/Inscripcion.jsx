@@ -1,5 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, CircularProgress, Container, Grid, MenuItem, Typography } from '@mui/material';
+import {
+  Button,
+  CircularProgress,
+  Container,
+  Grid,
+  MenuItem,
+  Typography
+} from '@mui/material';
 import WithAuthentication from '../withAuthentication';
 import { createSignup, uploadEventReceipt, validateSignUp } from '../../helpers/firestore/signups';
 import { getFutureEti } from '../../helpers/firestore/events';
@@ -30,14 +37,13 @@ export default function Inscripcion() {
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
   const [uploadingReceipt, setUploadingReceipt] = useState(false);
-  const [signUpId, setSignUpId] = useState(null);
+  const [signUpDetails, setSignUpDetails] = useState(null);
 
   const { setNotification } = useContext(NotificationContext);
 
   const handleError = (error) => {
     if (error.code === ERROR_CODES.SIGNUPS.ALREADY_SIGNED_UP) {
-      setSignUpId(error.details?.signUpId);
-      setNotification(t(`${SCOPES.MODULES.SIGN_UP}.alreadySignedUpReason`), { severity: 'info' });
+      setSignUpDetails(error.details);
     }
   };
 
@@ -49,6 +55,7 @@ export default function Inscripcion() {
       if (etiEventId) {
         await validateSignUp(etiEventId);
       }
+      setLoading(false);
     };
     getFormData().catch(handleError);
   }, []);
@@ -95,6 +102,7 @@ export default function Inscripcion() {
     };
     fetchData().catch((error) => console.error(error));
   }, [auth.currentUser?.uid]);
+
   const navigate = useNavigate();
   const save = async (values, setSubmitting) => {
     const { dateArrival, dateDeparture, helpWith, food, isCeliac, country, province, city } =
@@ -122,8 +130,14 @@ export default function Inscripcion() {
   const handleReceiptUpload = async (receipt) => {
     setUploadingReceipt(true);
     try {
-      await uploadEventReceipt(signUpId, etiEvent?.id, auth.currentUser?.uid, receipt);
+      const fileUrl = await uploadEventReceipt(
+        signUpDetails?.signUpId,
+        etiEvent?.id,
+        auth.currentUser?.uid,
+        receipt
+      );
       setNotification(t(`${SCOPES.MODULES.SIGN_UP}.receiptUploadSuccess`), { severity: 'info' });
+      setSignUpDetails({ ...signUpDetails, receipt: fileUrl });
     } catch (error) {
       setNotification(t(`${SCOPES.MODULES.SIGN_UP}.receiptUploadError`), { severity: 'error' });
     } finally {
@@ -131,24 +145,36 @@ export default function Inscripcion() {
     }
   };
 
-  const renderReceiptButton = () => (
-    <Grid item>
-      <LoadingButton
-        variant="contained"
-        color="secondary"
-        component="label"
-        loading={uploadingReceipt}
-      >
-        {t(`${SCOPES.MODULES.SIGN_UP}.uploadReceipt`).toUpperCase()}
-        <FileUploadOutlined />
-        <input
-          style={{display:"none"}}
-          type="file"
-          hidden
-          onChange={e => handleReceiptUpload(e.target.files[0])}
-          accept="image/*, .pdf"
-        />
-      </LoadingButton>
+  const renderReceiptButton = () =>
+    signUpDetails?.receipt ? (
+      <Button href={signUpDetails?.receipt} variant="contained" color="secondary">
+        {t(`${SCOPES.MODULES.SIGN_UP}.viewReceipt`).toUpperCase()}
+      </Button>
+    ) : (
+      <Grid item>
+        <LoadingButton
+          variant="contained"
+          color="secondary"
+          component="label"
+          loading={uploadingReceipt}
+        >
+          {t(`${SCOPES.MODULES.SIGN_UP}.uploadReceipt`).toUpperCase()}
+          <FileUploadOutlined />
+          <input
+            style={{ display: 'none' }}
+            type="file"
+            hidden
+            onChange={(e) => handleReceiptUpload(e.target.files[0])}
+            accept="image/*, .pdf"
+          />
+        </LoadingButton>
+      </Grid>
+    );
+
+  const renderAlreadySignedUpMessage = () => (
+    <Grid item style={{ textAlign: 'center' }}>
+      <Typography variant="h6">{t(`${SCOPES.MODULES.SIGN_UP}.alreadySignedUpReason`)}</Typography>
+      {renderReceiptButton()}
     </Grid>
   );
 
@@ -178,6 +204,8 @@ export default function Inscripcion() {
             </Grid>
             {loading ? (
               <CircularProgress />
+            ) : signUpDetails?.signUpId ? (
+              renderAlreadySignedUpMessage()
             ) : (
               <Formik
                 enableReinitialize
@@ -260,16 +288,11 @@ export default function Inscripcion() {
                               variant="contained"
                               color="secondary"
                               type="submit"
-                              disabled={!!signUpId || isSubmitting}
+                              disabled={!!signUpDetails?.signUpId || isSubmitting}
                             >
-                              {t(
-                                `${SCOPES.MODULES.SIGN_UP}.${
-                                  signUpId ? 'alreadySignedUp' : 'signUp'
-                                }`
-                              ).toUpperCase()}
+                              {t(`${SCOPES.MODULES.SIGN_UP}.${'signUp'}`).toUpperCase()}
                             </Button>
                           </Grid>
-                          {!!signUpId && renderReceiptButton()}
                         </Grid>
                         <Grid item style={{ textAlign: 'center' }}>
                           <Typography variant="caption">

@@ -151,5 +151,6 @@ export async function uploadEventReceipt(
   const storageRef = ref(storage, `eventReceipts/${eventId}/${userId}.${fileExtension}`);
   const uploadFileTask = await uploadBytesResumable(storageRef, file);
   const fileUrl = await getDownloadURL(uploadFileTask.ref);
-  return createOrUpdateDoc('signups', { receipt: fileUrl }, signupId);
+  createOrUpdateDoc('signups', { receipt: fileUrl }, signupId);
+  return fileUrl;
 }

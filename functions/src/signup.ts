@@ -13,10 +13,11 @@ const validateSingleSignup = async (userId: string, etiEventId: string) => {
       .where("etiEventId", "==", etiEventId)
       .get();
   if (!signup.empty) {
+    const signUpData = signup.docs[0].data();
     throw new functions.https.HttpsError(
         "already-exists",
         "You are already signed up for this event",
-        {signUpId: signup.docs[0].id}
+        {signUpId: signup.docs[0].id, receipt: signUpData.receipt}
     );
   }
 };
