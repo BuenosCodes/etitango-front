@@ -113,6 +113,7 @@ export function SignupListTable(props: {
     columns.push({
       field: 'bank',
       headerName: 'Datos Bancarios',
+      width: 200,
       renderCell: (params: GridRenderCellParams<String>) => (
         <strong>
           <Button
@@ -125,6 +126,25 @@ export function SignupListTable(props: {
             Ver Datos Bancarios
           </Button>
         </strong>
+      )
+    },
+    {
+      field: 'receipt',
+      headerName: t('receipt'),
+      width: 250,
+      renderCell: (params: GridRenderCellParams<String>) => (
+      <strong>
+        <Button
+          variant="contained"
+          size="small"
+          style={{ marginLeft: 16 }}
+          tabIndex={params.hasFocus ? 0 : -1}
+          href={params.row.receipt}
+          disabled={!params.row.receipt}
+        >
+          {t('receiptButton')}
+        </Button>
+      </strong>
       )
     });
   }

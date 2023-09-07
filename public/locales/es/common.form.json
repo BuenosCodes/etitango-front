@@ -33,5 +33,7 @@
   "role": "Rol de baile",
   "leader": "Conductorx",
   "follower": "Conducidx",
-  "both": "ambos"
+  "both": "ambos",
+  "receipt": "Comprobante de pago",
+  "receiptButton": "Ver comprobante de pago"
 }
