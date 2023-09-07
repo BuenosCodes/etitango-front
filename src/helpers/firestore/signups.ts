@@ -138,11 +138,17 @@ export async function markAttendance(signup: Signup) {
   return createOrUpdateDoc('signups', { didAttend: !signup.didAttend }, signup.id);
 }
 
-export async function uploadEventReceipt(signupId: string, eventId: string, file: File) {
+export async function uploadEventReceipt(
+  signupId: string,
+  eventId: string,
+  userId: string,
+  file: File
+) {
   if (!ALLOWED_RECEIPT_FILE_TYPES.includes(file.type)) {
     throw new Error('Invalid file extension');
   }
-  const storageRef = ref(storage, `eventReceipts/${eventId}/${file.name}`);
+  const fileExtension = file.name.split('.').pop();
+  const storageRef = ref(storage, `eventReceipts/${eventId}/${userId}.${fileExtension}`);
   const uploadFileTask = await uploadBytesResumable(storageRef, file);
   const fileUrl = await getDownloadURL(uploadFileTask.ref);
   return createOrUpdateDoc('signups', { receipt: fileUrl }, signupId);

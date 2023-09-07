@@ -122,7 +122,7 @@ export default function Inscripcion() {
   const handleReceiptUpload = async (receipt) => {
     setUploadingReceipt(true);
     try {
-      await uploadEventReceipt(signUpId, etiEvent?.id, receipt);
+      await uploadEventReceipt(signUpId, etiEvent?.id, auth.currentUser?.uid, receipt);
       setNotification(t(`${SCOPES.MODULES.SIGN_UP}.receiptUploadSuccess`), { severity: 'info' });
     } catch (error) {
       setNotification(t(`${SCOPES.MODULES.SIGN_UP}.receiptUploadError`), { severity: 'error' });
