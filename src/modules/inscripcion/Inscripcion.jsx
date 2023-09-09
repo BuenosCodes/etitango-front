@@ -211,8 +211,10 @@ export default function Inscripcion() {
                           <Typography variant="h3" color="primary" align="center">
                             {t(`${SCOPES.MODULES.SIGN_UP}.combo`)}
                           </Typography>
-                          <Typography>15/05 HASTA 31/05 $ 7000</Typography>
-                          <Typography>01/06 HASTA AGOTAR EL CUPO $ 8000</Typography>
+                          <Typography>$12000 hasta el 16/10.</Typography>
+                          <Typography>$14000 a partir del 16/10.</Typography>
+                          Incluye 72 hs corridas de Tango. Milonga de bienvenida, 3 milongas
+                          nocturnas, 2 afters, almuerzo sabado, asado domingo.
                         </Grid>
                         <Grid container justifyContent="flex-end">
                           <Grid item>
@@ -229,7 +231,7 @@ export default function Inscripcion() {
                         <Grid item style={{ textAlign: 'center' }}>
                           <Typography variant="caption">
                             {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer`)}
-                            <b>lunes 19 de Junio</b>.<br />
+                            <b>13 de octubre</b>.<br />
                             {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer2`)}
                           </Typography>
                         </Grid>

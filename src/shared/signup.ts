@@ -12,7 +12,8 @@ export enum SignupStatus {
 
 export enum SignupHelpWith {
   CLEANING = 'cleaning',
-  COOKING = 'cooking'
+  COOKING = 'cooking',
+  BAR = 'bar'
 }
 
 export enum Genders {

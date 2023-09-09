@@ -75,7 +75,7 @@ const AdminTools = (props: {
   );
   return (
     <>
-      {signupsForWarning.length >= 600 && (
+      {signupsForWarning.length >= 850 && (
         <Alert severity={'error'}>
           <div style={{ background: 'maroon' }}>
             <Typography variant={'h2'} color={'white'}>
