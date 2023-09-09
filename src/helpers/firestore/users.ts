@@ -86,12 +86,18 @@ export async function assignEventAdmin(email: string, etiEventId: string) {
   await batch.commit();
 }
 
-export async function removeSuperAdmin(id: string) {
-  return createOrUpdateDoc(USERS, { roles: { [UserRoles.SUPER_ADMIN]: deleteField() } }, id);
+export async function removeSuperAdmin(email: string) {
+  const userDoc = await getUserByEmail(email);
+  return createOrUpdateDoc(
+    USERS,
+    { roles: { [UserRoles.SUPER_ADMIN]: deleteField() } },
+    userDoc.id
+  );
 }
 
-export async function unassignEventAdmin(userId: string, etiEventId: string) {
-  const userDoc = await getUser(userId);
+export async function unassignEventAdmin(email: string, etiEventId: string) {
+  const userDoc = await getUserByEmail(email);
+  const { id: userId } = userDoc;
   const eventRef = doc(db, `${EVENTS}/${etiEventId}`);
   const batch = writeBatch(db);
   // @ts-ignore

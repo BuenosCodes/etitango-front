@@ -38,14 +38,12 @@ const WithAuthentication = ({
   const hasRequiredRole = () => {
     const userRoles = user?.data?.roles;
     const isSuperAdmin = !!userRoles?.[UserRoles.SUPER_ADMIN];
-    const isAdminOfThisEvent = user?.data?.adminOf.find((e) => e === eventId);
-    if (roles?.length) {
-      return isSuperAdmin || !!userRoles?.[UserRoles.ADMIN];
+    const isAdminOfThisEvent = user?.data?.adminOf?.find((e) => e === eventId);
+    if (!roles?.length || isSuperAdmin) {
+      return true;
+    } else {
+      return isAdminOfThisEvent;
     }
-    if (eventId) {
-      return isSuperAdmin || isAdminOfThisEvent;
-    }
-    return false;
   };
 
   return (

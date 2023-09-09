@@ -30,7 +30,7 @@ export function RolesListTable(props: {
             size="small"
             style={{ marginLeft: 16 }}
             tabIndex={params.hasFocus ? 0 : -1}
-            onClick={() => unassignEventAdmin(params.row.id, eventId)}
+            onClick={() => unassignEventAdmin(params.row.email, eventId)}
           >
             Quitar ADMIN
           </Button>
@@ -40,7 +40,7 @@ export function RolesListTable(props: {
             size="small"
             style={{ marginLeft: 16 }}
             tabIndex={params.hasFocus ? 0 : -1}
-            onClick={() => removeSuperAdmin(params.row.id)}
+            onClick={() => removeSuperAdmin(params.row.email)}
           >
             Quitar SUPERADMIN
           </Button>

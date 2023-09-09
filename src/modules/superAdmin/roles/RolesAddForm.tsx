@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { assignEventAdmin, assignSuperAdmin } from '../../../helpers/firestore/users';
+import {
+  assignEventAdmin,
+  assignSuperAdmin,
+  removeSuperAdmin,
+  unassignEventAdmin
+} from '../../../helpers/firestore/users';
 import { Button, TextField } from '@mui/material';
 
 export const RolesAddForm = ({ etiEventId }: { etiEventId?: string }) => {
@@ -29,6 +34,25 @@ export const RolesAddForm = ({ etiEventId }: { etiEventId?: string }) => {
             onClick={() => assignSuperAdmin(email)}
           >
             Make Super Admin
+          </Button>
+        )}
+        {etiEventId ? (
+          <Button
+            variant="contained"
+            size="small"
+            style={{ marginLeft: 16 }}
+            onClick={() => unassignEventAdmin(email, etiEventId)}
+          >
+            Remove Admin
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            size="small"
+            style={{ marginLeft: 16 }}
+            onClick={() => removeSuperAdmin(email)}
+          >
+            Remove Super Admin
           </Button>
         )}
       </strong>
