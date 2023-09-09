@@ -110,43 +110,45 @@ export function SignupListTable(props: {
     width: fieldName === 'email' ? 300 : 150
   }));
   if (isAdmin && !isAttendance) {
-    columns.push({
-      field: 'bank',
-      headerName: 'Datos Bancarios',
-      width: 200,
-      renderCell: (params: GridRenderCellParams<String>) => (
-        <strong>
-          <Button
-            variant="contained"
-            size="small"
-            style={{ marginLeft: 16 }}
-            tabIndex={params.hasFocus ? 0 : -1}
-            onClick={() => navigate(`${ROUTES.BANKS}/${params.row.userId}`)}
-          >
-            Ver Datos Bancarios
-          </Button>
-        </strong>
-      )
-    },
-    {
-      field: 'receipt',
-      headerName: t('receipt'),
-      width: 250,
-      renderCell: (params: GridRenderCellParams<String>) => (
-      <strong>
-        <Button
-          variant="contained"
-          size="small"
-          style={{ marginLeft: 16 }}
-          tabIndex={params.hasFocus ? 0 : -1}
-          href={params.row.receipt}
-          disabled={!params.row.receipt}
-        >
-          {t('receiptButton')}
-        </Button>
-      </strong>
-      )
-    });
+    columns.push(
+      {
+        field: 'bank',
+        headerName: 'Datos Bancarios',
+        width: 200,
+        renderCell: (params: GridRenderCellParams<String>) => (
+          <strong>
+            <Button
+              variant="contained"
+              size="small"
+              style={{ marginLeft: 16 }}
+              tabIndex={params.hasFocus ? 0 : -1}
+              onClick={() => navigate(`${ROUTES.BANKS}/${params.row.userId}`)}
+            >
+              Ver Datos Bancarios
+            </Button>
+          </strong>
+        )
+      },
+      {
+        field: 'receipt',
+        headerName: t('receipt'),
+        width: 250,
+        renderCell: (params: GridRenderCellParams<String>) => (
+          <strong>
+            <Button
+              variant="contained"
+              size="small"
+              style={{ marginLeft: 16 }}
+              tabIndex={params.hasFocus ? 0 : -1}
+              href={params.row.receipt}
+              disabled={!params.row.receipt}
+            >
+              {t('receiptButton')}
+            </Button>
+          </strong>
+        )
+      }
+    );
   }
   if (isAttendance) {
     columns.push({

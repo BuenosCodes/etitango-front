@@ -1,12 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {
-  Button,
-  CircularProgress,
-  Container,
-  Grid,
-  MenuItem,
-  Typography
-} from '@mui/material';
+import { Button, CircularProgress, Container, Grid, MenuItem, Typography } from '@mui/material';
 import WithAuthentication from '../withAuthentication';
 import { createSignup, uploadEventReceipt, validateSignUp } from '../../helpers/firestore/signups';
 import { getFutureEti } from '../../helpers/firestore/events';
