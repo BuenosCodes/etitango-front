@@ -3,7 +3,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     function notUpdating(fields) {
-      return !request.resource.data.keys().hasAny(fields);
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
     }
 
 

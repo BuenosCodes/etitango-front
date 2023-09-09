@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, CircularProgress, Container, Grid, MenuItem, Typography } from '@mui/material';
 import WithAuthentication from '../withAuthentication';
-import { createSignup, validateSignUp } from '../../helpers/firestore/signups';
+import { createSignup, getSignupForUserAndEvent } from '../../helpers/firestore/signups';
 import { getFutureEti } from '../../helpers/firestore/events';
 import { auth } from '../../etiFirebase';
 import { useTranslation } from 'react-i18next';
@@ -15,9 +15,9 @@ import { getDocument } from '../../helpers/firestore/index.js';
 import { USERS } from '../../helpers/firestore/users';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../App.js';
-import { ERROR_CODES } from '../../helpers/constants/errorCodes.ts';
 import { ETIDatePicker } from '../../components/form/DatePicker.tsx';
 import ReceiptUpload from '../../components/receiptUpload/index';
+import { UserContext } from '../../helpers/UserContext';
 
 export default function Inscripcion() {
   const { t } = useTranslation([SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP], {
@@ -29,24 +29,18 @@ export default function Inscripcion() {
   const [loading, setLoading] = useState(true);
   const [signUpDetails, setSignUpDetails] = useState(null);
 
-  const handleError = (error) => {
-    if (error.code === ERROR_CODES.SIGNUPS.ALREADY_SIGNED_UP) {
-      setSignUpDetails(error.details);
-    }
-  };
-
+  const { user } = useContext(UserContext);
   useEffect(() => {
-    const getFormData = async () => {
+    async function fetch() {
       const futureEtiEvent = await getFutureEti();
       setEtiEvent(futureEtiEvent);
-      const etiEventId = futureEtiEvent?.id;
-      if (etiEventId) {
-        await validateSignUp(etiEventId);
+      if (user.uid && getFutureEti) {
+        setSignUpDetails(await getSignupForUserAndEvent(user.uid, futureEtiEvent.id));
       }
-      setLoading(false);
-    };
-    getFormData().catch(handleError);
-  }, []);
+    }
+
+    fetch();
+  }, [user, etiEvent]);
 
   const SignupSchema = object({
     helpWith: string().required('Este campo no puede estar vacío'),
@@ -142,7 +136,7 @@ export default function Inscripcion() {
             </Grid>
             {loading ? (
               <CircularProgress />
-            ) : signUpDetails?.signUpId ? (
+            ) : signUpDetails?.id ? (
               renderAlreadySignedUpMessage()
             ) : (
               <Formik
@@ -226,7 +220,7 @@ export default function Inscripcion() {
                               variant="contained"
                               color="secondary"
                               type="submit"
-                              disabled={!!signUpDetails?.signUpId || isSubmitting}
+                              disabled={!!signUpDetails?.id || isSubmitting}
                             >
                               {t(`${SCOPES.MODULES.SIGN_UP}.${'signUp'}`).toUpperCase()}
                             </Button>

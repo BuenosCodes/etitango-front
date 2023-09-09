@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions';
 import { CallableContext } from 'firebase-functions/lib/common/providers/https';
 import { db } from './index';
 import { validateUserIsLoggedIn } from './validators';
-import { SignupCreate } from '../../src/shared/signup';
+import { SignupCreate, SignupStatus } from '../../src/shared/signup';
 import { getIncrement } from './counters';
 import { UserData } from '../../src/shared/User';
 
@@ -11,6 +11,7 @@ const validateSingleSignup = async (userId: string, etiEventId: string) => {
   const signupDoc = await signupRef
     .where('userId', '==', userId)
     .where('etiEventId', '==', etiEventId)
+    .where('status', '!=', SignupStatus.CANCELLED)
     .get();
   if (!signupDoc.empty) {
     const signup = signupDoc.docs[0];
@@ -18,7 +19,7 @@ const validateSingleSignup = async (userId: string, etiEventId: string) => {
     throw new functions.https.HttpsError(
       'already-exists',
       'You are already signed up for this event',
-      { signUpData }
+      { ...signUpData, id: signup.id }
     );
   }
 };
@@ -44,7 +45,7 @@ export const createSignup = functions.https.onCall(
   async (data: SignupCreate, context: CallableContext) => {
     await validateUserIsLoggedIn(context);
     const userId = getUserIdOrFail(context);
-    return db.runTransaction(async (transaction) => {
+    await db.runTransaction(async (transaction) => {
       await validateSignupIsOpen(data.etiEventId);
       await validateSingleSignup(userId, data.etiEventId);
       const userRef = db.collection('users').doc(userId);
@@ -61,6 +62,7 @@ export const createSignup = functions.https.onCall(
       const docRef = db.collection('signups').doc();
       return transaction.set(docRef, { ...signupData, orderNumber });
     });
+    return { success: true };
   }
 );
 

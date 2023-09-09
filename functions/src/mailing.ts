@@ -4,7 +4,6 @@ import { Signup, SignupFirestore, SignupStatus } from '../../src/shared/signup';
 import { firestore } from 'firebase-admin';
 import DocumentSnapshot = firestore.DocumentSnapshot;
 import QueryDocumentSnapshot = firestore.QueryDocumentSnapshot;
-import FieldValue = firestore.FieldValue;
 
 const functions = require('firebase-functions');
 
@@ -22,7 +21,7 @@ exports.onUpdateSignup = functions.firestore
       const ref = change.after.ref;
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      ref.set({ lastModifiedAt: FieldValue.serverTimestamp() }, { merge: true });
+      ref.set({ lastModifiedAt: new Date() }, { merge: true });
       const mailRef = db.collection('mail');
       await mailRef.add({
         to: [after.email],
@@ -46,7 +45,7 @@ exports.onCreateSignup = functions.firestore
         status: SignupStatus.WAITLIST,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        lastModifiedAt: FieldValue.serverTimestamp()
+        lastModifiedAt: new Date()
       },
       { merge: true }
     );

@@ -19,8 +19,6 @@ function ReceiptUpload({ signUpDetails, setSignUpDetails }) {
   const handleReceiptUpload = async (receipt) => {
     setUploadingReceipt(true);
     try {
-      console.log(signUpDetails);
-      console.log(signUpDetails?.id);
       const fileUrl = await uploadEventReceipt(signUpId, etiEventId, userId, receipt);
       setNotification(t(`${SCOPES.MODULES.SIGN_UP}.receiptUploadSuccess`), { severity: 'info' });
       setSignUpDetails({

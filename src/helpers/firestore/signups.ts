@@ -163,6 +163,10 @@ export async function uploadEventReceipt(
   const storageRef = ref(storage, `eventReceipts/${eventId}/${userId}.${fileExtension}`);
   const uploadFileTask = await uploadBytesResumable(storageRef, file);
   const fileUrl = await getDownloadURL(uploadFileTask.ref);
-  await createOrUpdateDoc(SIGNUPS, { userId, receipt: fileUrl }, signupId);
+  await createOrUpdateDoc(
+    SIGNUPS,
+    { status: SignupStatus.PAYMENT_TO_CONFIRM, receipt: fileUrl },
+    signupId
+  );
   return fileUrl;
 }
