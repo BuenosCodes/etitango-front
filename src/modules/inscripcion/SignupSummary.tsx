@@ -64,7 +64,12 @@ export default function SignupSummary(props: { signups: Signup[] }) {
         <SignupSummaryByStatus
           signups={signups.filter(
             (i) =>
-              i.status && [SignupStatus.CONFIRMED, SignupStatus.PAYMENT_PENDING].includes(i.status)
+              i.status &&
+              [
+                SignupStatus.CONFIRMED,
+                SignupStatus.PAYMENT_TO_CONFIRM,
+                SignupStatus.PAYMENT_PENDING
+              ].includes(i.status)
           )}
           label={'Confirmada/Pendiente de Pago'}
         />

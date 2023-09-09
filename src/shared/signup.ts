@@ -4,6 +4,7 @@ import { Timestamp } from 'firebase/firestore';
 export enum SignupStatus {
   WAITLIST = 'waitlist',
   PAYMENT_PENDING = 'payment-pending',
+  PAYMENT_TO_CONFIRM = 'payment-to-confirm',
   PAYMENT_DELAYED = 'payment-delayed',
   CONFIRMED = 'confirmed',
   CANCELLED = 'cancelled'

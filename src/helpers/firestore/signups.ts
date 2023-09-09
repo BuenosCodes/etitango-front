@@ -1,5 +1,5 @@
 import { createOrUpdateDoc, getCollection, getDocument } from './index';
-import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
+import { collection, getDocs, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { db, functions, storage } from '../../etiFirebase';
 import { Signup, SignupFirestore, SignupStatus } from '../../shared/signup';
 import { httpsCallable } from 'firebase/functions';
@@ -72,6 +72,18 @@ const toJs = (signup: SignupFirestore) =>
   } as Signup);
 
 export const getSignup = async (signupId: string) => getDocument(SIGNUP(signupId));
+
+export const getSignupForUserAndEvent = async (userId: string, etiEventId: string) => {
+  const ref = collection(db, SIGNUPS);
+  const q = query(ref, where('etiEventId', '==', etiEventId), where('userId', '==', userId));
+  const querySnapshot = await getDocs(q);
+  return (
+    querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data()
+    })) as Signup[]
+  )[0];
+};
 
 export const createSignup = async (etiEventId: string, userId: string, data: Signup) => {
   const signupData = {
@@ -151,6 +163,6 @@ export async function uploadEventReceipt(
   const storageRef = ref(storage, `eventReceipts/${eventId}/${userId}.${fileExtension}`);
   const uploadFileTask = await uploadBytesResumable(storageRef, file);
   const fileUrl = await getDownloadURL(uploadFileTask.ref);
-  createOrUpdateDoc('signups', { receipt: fileUrl }, signupId);
+  await createOrUpdateDoc(SIGNUPS, { userId, receipt: fileUrl }, signupId);
   return fileUrl;
 }
