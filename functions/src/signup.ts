@@ -42,7 +42,7 @@ export const createSignup = functions.https.onCall(
   async (data: SignupCreate, context: CallableContext) => {
     await validateUserIsLoggedIn(context);
     const userId = getUserIdOrFail(context);
-    return db.runTransaction(async (transaction) => {
+    await db.runTransaction(async (transaction) => {
       await validateSignupIsOpen(data.etiEventId);
       await validateSingleSignup(userId, data.etiEventId);
       const userRef = db.collection('users').doc(userId);
@@ -59,6 +59,7 @@ export const createSignup = functions.https.onCall(
       const docRef = db.collection('signups').doc();
       return transaction.set(docRef, { ...signupData, orderNumber });
     });
+    return { success: true };
   }
 );
 
