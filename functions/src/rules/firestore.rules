@@ -3,8 +3,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     function notUpdating(fields) {
-      return !request.resource.data.keys().hasAny(
-        ['average_score', 'rating_count']);
+      return !request.resource.data.keys().hasAny(fields);
     }
 
 
@@ -28,6 +27,7 @@ service cloud.firestore {
       return getUserData().roles['admin'] == true;
     }
 
+
     function isSuperAdmin(){
       return getUserData().roles['superadmin'] == true;
     }
@@ -39,7 +39,7 @@ service cloud.firestore {
 
     match /users/{userId} {
       allow read: if true;
-      allow write: if request.auth.uid == userId || isSuperAdmin();
+      allow write: if request.auth.uid == userId && notUpdating(['roles', 'adminOf']) || isSuperAdmin();
     }
 
     match /banks/{documentId} {
@@ -49,13 +49,13 @@ service cloud.firestore {
 
     match /signups/{document=**} {
       allow read: if signedIn();
-      allow create: if requestBelongsToUser();
-      allow update: if (resourceBelongsToUser() || isAdmin()) && notUpdating(['userId', 'etiEventId']);
+      allow create: if requestBelongsToUser() && notUpdating(['userId', 'etiEventId']);
+      allow update: if (resourceBelongsToUser() && notUpdating(['userId', 'etiEventId']) || isAdmin()) ;
     }
 
-    match /events/{document=**} {
-      allow read: if signedIn() || isAdmin();
-      allow write: if isAdmin();
+    match /events/{eventId} {
+      allow read: if signedIn();
+      allow write: if (eventId in getUserData().adminOf) || isSuperAdmin();
     }
 
     match /templates/{document=**} {

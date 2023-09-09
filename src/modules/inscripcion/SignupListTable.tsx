@@ -27,6 +27,7 @@ export function SignupListTable(props: {
   isAttendance: boolean;
   // eslint-disable-next-line no-unused-vars
   markAttendance: (signup: Signup) => void;
+  disabled: boolean;
 }) {
   const { signups, setSelectedRows, isAdmin, isLoading, isAttendance, markAttendance } = props;
   const navigate = useNavigate();
@@ -51,7 +52,6 @@ export function SignupListTable(props: {
     'dniNumber',
     'food',
     'isCeliac'
-    //'didAttend'
   ];
 
   const publicFields: SignupField[] = [
@@ -157,7 +157,7 @@ export function SignupListTable(props: {
       renderCell: (params: GridRenderCellParams) => (
         <Checkbox
           checked={!!params.row.didAttend}
-          disabled={!!params.row.didAttend}
+          disabled={!!params.row.didAttend || props.disabled}
           onChange={() => askForAttendanceConfirmation(params)}
           inputProps={{ 'aria-label': 'controlled' }}
         />

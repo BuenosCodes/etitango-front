@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { deleteField } from 'firebase/firestore';
 import { Button, CircularProgress, Container, Grid, MenuItem } from '@mui/material';
 import WithAuthentication from '../../withAuthentication';
@@ -15,6 +15,11 @@ import { USERS } from 'helpers/firestore/users';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
 import { BANKS } from 'helpers/firestore/banks';
+import { ERROR_CODES } from '../../../helpers/constants/errorCodes.ts';
+import { NotificationContext } from '../../../helpers/NotificationContext.ts';
+import { getFutureEti } from '../../../helpers/firestore/events.ts';
+import { validateSignUp } from '../../../helpers/firestore/signups.ts';
+import { t } from 'i18next';
 
 export default function Profile() {
   const ProfileSchema = object({
@@ -64,7 +69,9 @@ export default function Profile() {
   });
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [isPendingSignup, setIsPendingSignup] = useState(false);
 
+  const { setNotification } = useContext(NotificationContext);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
@@ -123,6 +130,29 @@ export default function Profile() {
     }
   };
 
+  const handleError = (error) => {
+    console.log('*******_debug  index.jsx:134 handleError '); // TODO
+    if (error.code === ERROR_CODES.SIGNUPS.ALREADY_SIGNED_UP) {
+      setIsPendingSignup(true);
+      setNotification(t(`${SCOPES.MODULES.PROFILE}.alreadySignedUpReason`), { severity: 'info' });
+      console.log('*******_debug  index.jsx:137 handleError '); // TODO
+    }
+  };
+
+  useEffect(() => {
+    const getFormData = async () => {
+      const futureEtiEvent = await getFutureEti();
+      const etiEventId = futureEtiEvent?.id;
+      console.log('*******_debug  index.jsx:146 getFormData '); // TODO
+      if (etiEventId) {
+        await validateSignUp(etiEventId);
+        console.log('*******_debug  index.jsx:147 getFormData '); // TODO
+      }
+    };
+    console.log('*******_debug  index.jsx:151  '); // TODO
+    getFormData().catch(handleError);
+  }, []);
+
   return (
     <Translation
       ns={[SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP, SCOPES.MODULES.PROFILE]}
@@ -175,6 +205,7 @@ export default function Profile() {
                             component={TextField}
                             required
                             fullWidth
+                            disabled={isPendingSignup}
                           />
                         </Grid>
                         <Grid item md={6} sm={6} xs={12}>
@@ -184,6 +215,7 @@ export default function Profile() {
                             component={TextField}
                             required
                             fullWidth
+                            disabled={isPendingSignup}
                           />
                         </Grid>
                         <Grid item md={6} sm={6} xs={12}>
@@ -205,6 +237,7 @@ export default function Profile() {
                             component={TextField}
                             required
                             fullWidth
+                            disabled={isPendingSignup}
                           />
                         </Grid>
                         <Grid item md={4} sm={4} xs={12}>

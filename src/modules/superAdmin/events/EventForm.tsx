@@ -13,6 +13,7 @@ import { getEvent } from '../../../helpers/firestore/events';
 import { EtiEvent } from '../../../shared/etiEvent';
 import { UserRoles } from '../../../shared/User';
 import { ETIDatePicker } from '../../../components/form/DatePicker';
+import RolesList from '../roles/RolesList';
 
 export default function EventForm() {
   const EventFormSchema = object({
@@ -38,10 +39,8 @@ export default function EventForm() {
   }, [id]);
 
   const save = async (values: any, setSubmitting: Function) => {
-    const data = values;
-
     try {
-      await createOrUpdateDoc('events', data, id === 'new' ? undefined : id);
+      await createOrUpdateDoc('events', values, id === 'new' ? undefined : id);
       navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
     } catch (error) {
       console.error(error);
@@ -152,6 +151,7 @@ export default function EventForm() {
                   )}
                 </Formik>
               </Grid>
+              <RolesList eventId={id} />
             </Container>
           )}
         </>
