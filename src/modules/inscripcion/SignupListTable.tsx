@@ -27,6 +27,7 @@ export function SignupListTable(props: {
   isAttendance: boolean;
   // eslint-disable-next-line no-unused-vars
   markAttendance: (signup: Signup) => void;
+  disabled: boolean;
 }) {
   const { signups, setSelectedRows, isAdmin, isLoading, isAttendance, markAttendance } = props;
   const navigate = useNavigate();
@@ -51,7 +52,6 @@ export function SignupListTable(props: {
     'dniNumber',
     'food',
     'isCeliac'
-    //'didAttend'
   ];
 
   const publicFields: SignupField[] = [
@@ -110,23 +110,45 @@ export function SignupListTable(props: {
     width: fieldName === 'email' ? 300 : 150
   }));
   if (isAdmin && !isAttendance) {
-    columns.push({
-      field: 'bank',
-      headerName: 'Datos Bancarios',
-      renderCell: (params: GridRenderCellParams<String>) => (
-        <strong>
-          <Button
-            variant="contained"
-            size="small"
-            style={{ marginLeft: 16 }}
-            tabIndex={params.hasFocus ? 0 : -1}
-            onClick={() => navigate(`${ROUTES.BANKS}/${params.row.userId}`)}
-          >
-            Ver Datos Bancarios
-          </Button>
-        </strong>
-      )
-    });
+    columns.push(
+      {
+        field: 'bank',
+        headerName: 'Datos Bancarios',
+        width: 200,
+        renderCell: (params: GridRenderCellParams<String>) => (
+          <strong>
+            <Button
+              variant="contained"
+              size="small"
+              style={{ marginLeft: 16 }}
+              tabIndex={params.hasFocus ? 0 : -1}
+              onClick={() => navigate(`${ROUTES.BANKS}/${params.row.userId}`)}
+            >
+              Ver Datos Bancarios
+            </Button>
+          </strong>
+        )
+      },
+      {
+        field: 'receipt',
+        headerName: t('receipt'),
+        width: 250,
+        renderCell: (params: GridRenderCellParams<String>) => (
+          <strong>
+            <Button
+              variant="contained"
+              size="small"
+              style={{ marginLeft: 16 }}
+              tabIndex={params.hasFocus ? 0 : -1}
+              href={params.row.receipt}
+              disabled={!params.row.receipt}
+            >
+              {t('receiptButton')}
+            </Button>
+          </strong>
+        )
+      }
+    );
   }
   if (isAttendance) {
     columns.push({
@@ -135,7 +157,7 @@ export function SignupListTable(props: {
       renderCell: (params: GridRenderCellParams) => (
         <Checkbox
           checked={!!params.row.didAttend}
-          disabled={!!params.row.didAttend}
+          disabled={!!params.row.didAttend || props.disabled}
           onChange={() => askForAttendanceConfirmation(params)}
           inputProps={{ 'aria-label': 'controlled' }}
         />

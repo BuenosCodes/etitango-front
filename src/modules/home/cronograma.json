@@ -1,39 +1,49 @@
 {
   "dias": [
     {
-      "dia": "Viernes 7 de Julio",
+      "dia": "Viernes 27 de Octubre?",
       "actividades": [
         "UBICACIÓN: Salón Prado Español-González Camarero 121- Villa Nueva",
-        "15:00 a 20:00 - Acreditación y Milonga Bienvenida",
-        "18:00 - Charla Bienvenida al ETI (charla para primerxs etianxs para contar el espíritu del ETI)",
-        "21:30 - Milonga Temática: Personajes de ficción",
-        "00:30 - Desfile Etianx",
-        "05:00 - Hasta mañana…."
+        "12 a 19 hs - Acreditaciones Casa del Tango + milonguita.",
+        "18 a 19 hs - Clase de cumbia cruzada.",
+        "21 a 04 hs - Milonga de apertura. Temática “Manuel Belgrano y su gesta”.",
+        "04 a 07 hs - After milonguero."
       ]
     },
     {
-      "dia": "Sábado 8 de Julio",
+      "dia": "Sábado 28 de Octubre?",
       "actividades": [
-        "10:00 a 12:30 -Intervención Etiana en el Playón del Parque de la Vida (Ubicación: Av. Sabattini 46 - Villa María)",
-        "UBICACIÓN: Salón Prado Español- González Camarero 121-Villa Nueva",
-        "13:00 -  Milonga Vespertina y Almuerzo a la canasta, opción servicio de buffet",
-        "15:00 a 18:00 - Asamblea Etiana",
-        "18:00 a 20:00 - Milonga Vespertina",
-        "21:30 - Milonga de gala",
-        "12:00 - Bautismo Etianx",
-        "01:00 - Orquesta Municipal de Música Ciudadana Alberto Bacci",
-        "03:00 a 06:00 - After"
+        "07 a 12 hs - Desayuno + milonga mañanera.",
+        "08 a 12 hs - Comenzamos a cocinar.",
+        "12 a 13.30 hs - Almuerzo (incluido en el combo).",
+        "13.30 a 16 hs - Asamblea.",
+        "15 a 19 hs - Milonga Monumental, Monumento Nacional a la Bandera. Visitas guiadas al Monumento.",
+        "22 a 04 hs - Milonga de Gala.",
+        "04 a 07 hs - After milonguero."
+
       ]
     },
     {
-      "dia": "Domingo 9 de Julio",
+      "dia": "Domingo 29 de Octubre?",
       "actividades": [
-        "10:00 - Desayuno a la canasta y Milonga",
-        "11:00 a 12:30 - Clase de Diego y Diana (Etianxs de Cba Capital)",
-        "13:00 - Almuerzo Etianx",
-        "15:30 - Abrazo Etiano. Pase de bandera. Foto grupal",
-        "Seguimos bailando hasta las 19:00"
+        "07 a 12 hs - Desayuno + milonga mañanera.",
+        "12 a 21 hs - Asado + fiesta + traspaso bandera + foto + milonga.",
+        "21 a 04 hs - Milonga de cierre."
       ]
+    }
+  ],
+  "ubicaciones": [
+    {
+      "name": "Salón principal del evento",
+      "link": "https://www.google.com/maps/place/Predio+Ferial+Parque+Independencia+Ex+Sociedad+Rural/@-32.9637769,-60.6587001,15z/data=!4m6!3m5!1s0x95b7ab714abc3d29:0xe571cfec4aed4774!8m2!3d-32.9637769!4d-60.6587001!16s%2Fg%2F1td7phjn?entry=ttu"
+    },
+    {
+      "name": "Inscripciones",
+      "link": "https://www.google.com/maps/place/Centro+Cultural+La+Casa+del+Tango/@-32.9347353,-60.6468983,17z/data=!3m1!4b1!4m6!3m5!1s0x95b7ab5d841c963f:0xc7b2824435ff8665!8m2!3d-32.9347398!4d-60.644318!16s%2Fg%2F1tzgktyj?entry=ttu"
+    },
+    {
+      "name": "Monumento",
+      "link": "https://www.google.com/maps/place/Monumento+Hist%C3%B3rico+Nacional+a+la+Bandera/@-32.9477087,-60.6330461,17z/data=!3m1!4b1!4m6!3m5!1s0x95b7ab1dc9b6d36f:0x97b9e9584d94d851!8m2!3d-32.9477132!4d-60.6304658!16zL20vMDY0cmRj?entry=ttu"
     }
   ]
 }

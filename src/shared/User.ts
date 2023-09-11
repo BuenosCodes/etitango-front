@@ -10,6 +10,7 @@ export enum UserRoles {
 
 export interface UserData extends UserPersonalInfo {
   roles: { [role: string]: boolean };
+  adminOf: string[];
 }
 
 export interface UserFullData extends UserData {
@@ -28,11 +29,12 @@ export interface UserPersonalInfo {
   province?: string;
 }
 
-export type UserRolesListData = Pick<UserFullData, 'email' | 'roles' | 'id'>;
+export type UserRolesListData = Pick<UserFullData, 'email' | 'roles' | 'id' | 'adminOf'>;
 
 export interface IUser extends User {
-  data?: UserData;
+  data?: UserFullData;
 }
+
 export type UserChange = {
   // eslint-disable-next-line no-unused-vars
   [key in keyof IUser]: IUser[keyof IUser];

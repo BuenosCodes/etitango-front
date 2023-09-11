@@ -22,7 +22,7 @@ export default function Portada() {
         }}
       >
         <Typography color="white" variant="h6" textAlign="center">
-          VillamariETI - 7,8 y 9 de Julio de 2023
+          Rosarigas - 27, 28 y 29 de Octubre? de 2023
         </Typography>
       </Box>
     </React.Fragment>

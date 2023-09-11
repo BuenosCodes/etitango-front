@@ -1,12 +1,21 @@
 import { createOrUpdateDoc, getCollection, getDocument } from './index';
-import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
-import { db, functions } from '../../etiFirebase';
+import { collection, getDocs, onSnapshot, orderBy, query, where } from 'firebase/firestore';
+import { db, functions, storage } from '../../etiFirebase';
 import { Signup, SignupFirestore, SignupStatus } from '../../shared/signup';
 import { httpsCallable } from 'firebase/functions';
 import { BankFirestore, BANKS } from './banks';
+import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 
 const SIGNUPS = `signups`;
 const SIGNUP = (signupId: string) => `${SIGNUPS}/${signupId}`;
+
+const ALLOWED_RECEIPT_FILE_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'image/bmp',
+  'application/pdf'
+];
 
 interface SignupDetails extends Signup {
   alias?: string;
@@ -63,6 +72,18 @@ const toJs = (signup: SignupFirestore) =>
   } as Signup);
 
 export const getSignup = async (signupId: string) => getDocument(SIGNUP(signupId));
+
+export const getSignupForUserAndEvent = async (userId: string, etiEventId: string) => {
+  const ref = collection(db, SIGNUPS);
+  const q = query(ref, where('etiEventId', '==', etiEventId), where('userId', '==', userId));
+  const querySnapshot = await getDocs(q);
+  return (
+    querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data()
+    })) as Signup[]
+  )[0];
+};
 
 export const createSignup = async (etiEventId: string, userId: string, data: Signup) => {
   const signupData = {
@@ -127,4 +148,25 @@ export async function updateSignupsStatus(selectedStatus: SignupStatus, selected
 
 export async function markAttendance(signup: Signup) {
   return createOrUpdateDoc('signups', { didAttend: !signup.didAttend }, signup.id);
+}
+
+export async function uploadEventReceipt(
+  signupId: string,
+  eventId: string,
+  userId: string,
+  file: File
+) {
+  if (!ALLOWED_RECEIPT_FILE_TYPES.includes(file.type)) {
+    throw new Error('Invalid file extension');
+  }
+  const fileExtension = file.name.split('.').pop();
+  const storageRef = ref(storage, `eventReceipts/${eventId}/${userId}.${fileExtension}`);
+  const uploadFileTask = await uploadBytesResumable(storageRef, file);
+  const fileUrl = await getDownloadURL(uploadFileTask.ref);
+  await createOrUpdateDoc(
+    SIGNUPS,
+    { status: SignupStatus.PAYMENT_TO_CONFIRM, receipt: fileUrl },
+    signupId
+  );
+  return fileUrl;
 }
