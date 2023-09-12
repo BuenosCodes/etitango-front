@@ -2,9 +2,12 @@
   "title": "Formulario de inscripción",
   "combo": "Combo",
   "signUp": "¡Inscribirme!",
-  "alreadySignedUp": "¡Ya estás inscriptx!",
-  "alreadySignedUpReason": "Ya estás inscriptx a este evento",
+  "alreadySignedUpReason": "¡Ya estás inscriptx a este evento!",
   "disclaimer": "* Si por alguna razón no podés asistir al ETI, tenés tiempo de pedir la devolución de tu combo hasta el ",
   "disclaimer2": "Pasada esa fecha, no se te devolverá tu dinero aunque no asistas al ETI.",
-  "signupClosed": "Las Inscripciones abren el"
+  "signupClosed": "Las Inscripciones abren el",
+  "uploadReceipt": "Subí tu comprobante de transferencia",
+  "viewReceipt": "Ver comprobante de transferencia",
+  "receiptUploadError": "Se produjo un error al subir tu comprobante de transferencia, intentá nuevamente",
+  "receiptUploadSuccess": "Su comprobante se ha subido satisfactoriamente. Cuando los organizadores procesen su pago, le llegará una notificación via mail"
 }

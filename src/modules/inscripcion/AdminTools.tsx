@@ -65,11 +65,17 @@ const AdminTools = (props: {
     setAlert({ props: { severity: 'success', onClose: () => setAlert({}) }, text: 'Listo!' });
   }
   const signupsForWarning = signups.filter(
-    (s) => s.status && [SignupStatus.PAYMENT_PENDING, SignupStatus.CONFIRMED].includes(s.status!)
+    (s) =>
+      s.status &&
+      [
+        SignupStatus.PAYMENT_PENDING,
+        SignupStatus.PAYMENT_TO_CONFIRM,
+        SignupStatus.CONFIRMED
+      ].includes(s.status!)
   );
   return (
     <>
-      {signupsForWarning.length >= 600 && (
+      {signupsForWarning.length >= 850 && (
         <Alert severity={'error'}>
           <div style={{ background: 'maroon' }}>
             <Typography variant={'h2'} color={'white'}>

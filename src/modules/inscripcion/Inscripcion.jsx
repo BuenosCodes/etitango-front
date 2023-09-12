@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, CircularProgress, Container, Grid, MenuItem, Typography } from '@mui/material';
 import WithAuthentication from '../withAuthentication';
-import { createSignup, validateSignUp } from '../../helpers/firestore/signups';
+import { createSignup, getSignupForUserAndEvent } from '../../helpers/firestore/signups';
 import { getFutureEti } from '../../helpers/firestore/events';
 import { auth } from '../../etiFirebase';
 import { useTranslation } from 'react-i18next';
@@ -15,9 +15,9 @@ import { getDocument } from '../../helpers/firestore/index.js';
 import { USERS } from '../../helpers/firestore/users';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../App.js';
-import { ERROR_CODES } from '../../helpers/constants/errorCodes.ts';
-import { NotificationContext } from '../../helpers/NotificationContext';
 import { ETIDatePicker } from '../../components/form/DatePicker.tsx';
+import ReceiptUpload from '../../components/receiptUpload/index';
+import { UserContext } from '../../helpers/UserContext';
 
 export default function Inscripcion() {
   const { t } = useTranslation([SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP], {
@@ -27,39 +27,20 @@ export default function Inscripcion() {
   const [etiEvent, setEtiEvent] = useState();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [isSignedUp, setIsSignedUp] = useState(false);
+  const [signUpDetails, setSignUpDetails] = useState(null);
 
-  const { setNotification } = useContext(NotificationContext);
-
-  const handleError = (error) => {
-    if (error.code === ERROR_CODES.SIGNUPS.ALREADY_SIGNED_UP) {
-      setIsSignedUp(true);
-      setNotification(t(`${SCOPES.MODULES.SIGN_UP}.alreadySignedUpReason`), { severity: 'info' });
-    }
-  };
-
+  const { user } = useContext(UserContext);
   useEffect(() => {
-    const getFormData = async () => {
+    async function fetch() {
       const futureEtiEvent = await getFutureEti();
       setEtiEvent(futureEtiEvent);
-      const etiEventId = futureEtiEvent?.id;
-      if (etiEventId) {
-        await validateSignUp(etiEventId);
+      if (user.uid && getFutureEti) {
+        setSignUpDetails(await getSignupForUserAndEvent(user.uid, futureEtiEvent.id));
       }
-    };
-    getFormData().catch(handleError);
-  }, []);
+    }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (auth.currentUser?.uid) {
-        const user = await getDocument(`${USERS}/${auth.currentUser.uid}`);
-        setUserData(user);
-        setLoading(false);
-      }
-    };
-    fetchData().catch((error) => console.error(error));
-  }, [auth.currentUser?.uid]);
+    fetch();
+  }, [user, etiEvent]);
 
   const SignupSchema = object({
     helpWith: string().required('Este campo no puede estar vacío'),
@@ -92,6 +73,7 @@ export default function Inscripcion() {
     };
     fetchData().catch((error) => console.error(error));
   }, [auth.currentUser?.uid]);
+
   const navigate = useNavigate();
   const save = async (values, setSubmitting) => {
     const { dateArrival, dateDeparture, helpWith, food, isCeliac, country, province, city } =
@@ -115,6 +97,18 @@ export default function Inscripcion() {
       //TODO global error handling this.setState({errors: error.response.data})
     }
   };
+
+  const renderAlreadySignedUpMessage = () => (
+    <Grid item style={{ textAlign: 'center' }}>
+      <Typography variant="h6">{t(`${SCOPES.MODULES.SIGN_UP}.alreadySignedUpReason`)}</Typography>
+      <ReceiptUpload
+        etiEventId={etiEvent?.id}
+        signUpDetails={signUpDetails}
+        userId={auth.currentUser?.uid}
+        setSignUpDetails={setSignUpDetails}
+      />
+    </Grid>
+  );
 
   return (
     <>
@@ -142,6 +136,8 @@ export default function Inscripcion() {
             </Grid>
             {loading ? (
               <CircularProgress />
+            ) : signUpDetails?.id ? (
+              renderAlreadySignedUpMessage()
             ) : (
               <Formik
                 enableReinitialize
@@ -215,8 +211,10 @@ export default function Inscripcion() {
                           <Typography variant="h3" color="primary" align="center">
                             {t(`${SCOPES.MODULES.SIGN_UP}.combo`)}
                           </Typography>
-                          <Typography>15/05 HASTA 31/05 $ 7000</Typography>
-                          <Typography>01/06 HASTA AGOTAR EL CUPO $ 8000</Typography>
+                          <Typography>$12000 hasta el 16/10.</Typography>
+                          <Typography>$14000 a partir del 16/10.</Typography>
+                          Incluye 72 hs corridas de Tango. Milonga de bienvenida, 3 milongas
+                          nocturnas, 2 afters, almuerzo sabado, asado domingo.
                         </Grid>
                         <Grid container justifyContent="flex-end">
                           <Grid item>
@@ -224,20 +222,16 @@ export default function Inscripcion() {
                               variant="contained"
                               color="secondary"
                               type="submit"
-                              disabled={isSignedUp || isSubmitting}
+                              disabled={!!signUpDetails?.id || isSubmitting}
                             >
-                              {t(
-                                `${SCOPES.MODULES.SIGN_UP}.${
-                                  isSignedUp ? 'alreadySignedUp' : 'signUp'
-                                }`
-                              ).toUpperCase()}
+                              {t(`${SCOPES.MODULES.SIGN_UP}.${'signUp'}`).toUpperCase()}
                             </Button>
                           </Grid>
                         </Grid>
                         <Grid item style={{ textAlign: 'center' }}>
                           <Typography variant="caption">
                             {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer`)}
-                            <b>lunes 19 de Junio</b>.<br />
+                            <b>13 de octubre</b>.<br />
                             {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer2`)}
                           </Typography>
                         </Grid>

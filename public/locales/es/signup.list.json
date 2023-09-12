@@ -6,6 +6,7 @@
   "exportFilename": "inscripciones-{{date}}.csv",
   "waitlist": "Lista de Espera",
   "payment-pending": "Pendiente de Pago",
+  "payment-to-confirm": "Pendiente de Confirmación",
   "payment-delayed": "Pago Demorado",
   "confirmed": "Confirmada",
   "cancelled": "Cancelada",

@@ -35,5 +35,19 @@
         "21:00 a 04:00 - Milonga de cierre"
       ]
     }
+  ],
+  "ubicaciones": [
+    {
+      "name": "Salón principal del evento",
+      "link": "https://www.google.com/maps/place/Predio+Ferial+Parque+Independencia+Ex+Sociedad+Rural/@-32.9637769,-60.6587001,15z/data=!4m6!3m5!1s0x95b7ab714abc3d29:0xe571cfec4aed4774!8m2!3d-32.9637769!4d-60.6587001!16s%2Fg%2F1td7phjn?entry=ttu"
+    },
+    {
+      "name": "Inscripciones",
+      "link": "https://www.google.com/maps/place/Centro+Cultural+La+Casa+del+Tango/@-32.9347353,-60.6468983,17z/data=!3m1!4b1!4m6!3m5!1s0x95b7ab5d841c963f:0xc7b2824435ff8665!8m2!3d-32.9347398!4d-60.644318!16s%2Fg%2F1tzgktyj?entry=ttu"
+    },
+    {
+      "name": "Monumento",
+      "link": "https://www.google.com/maps/place/Monumento+Hist%C3%B3rico+Nacional+a+la+Bandera/@-32.9477087,-60.6330461,17z/data=!3m1!4b1!4m6!3m5!1s0x95b7ab1dc9b6d36f:0x97b9e9584d94d851!8m2!3d-32.9477132!4d-60.6304658!16zL20vMDY0cmRj?entry=ttu"
+    }
   ]
 }

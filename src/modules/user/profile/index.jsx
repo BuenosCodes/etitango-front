@@ -131,11 +131,9 @@ export default function Profile() {
   };
 
   const handleError = (error) => {
-    console.log('*******_debug  index.jsx:134 handleError '); // TODO
     if (error.code === ERROR_CODES.SIGNUPS.ALREADY_SIGNED_UP) {
       setIsPendingSignup(true);
       setNotification(t(`${SCOPES.MODULES.PROFILE}.alreadySignedUpReason`), { severity: 'info' });
-      console.log('*******_debug  index.jsx:137 handleError '); // TODO
     }
   };
 
@@ -143,13 +141,10 @@ export default function Profile() {
     const getFormData = async () => {
       const futureEtiEvent = await getFutureEti();
       const etiEventId = futureEtiEvent?.id;
-      console.log('*******_debug  index.jsx:146 getFormData '); // TODO
       if (etiEventId) {
         await validateSignUp(etiEventId);
-        console.log('*******_debug  index.jsx:147 getFormData '); // TODO
       }
     };
-    console.log('*******_debug  index.jsx:151  '); // TODO
     getFormData().catch(handleError);
   }, []);
 

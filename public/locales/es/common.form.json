@@ -16,12 +16,14 @@
   "dateEnd": "Fecha de finalización de ETI",
   "status": "Estado de la inscripción",
   "cooking": "Cocina",
-  "cleaning": "Limpieza",
+  "cleaning": "Limpieza (Salón/mesas)",
+  "bar": "Barra",
   "vegan": "Vegana",
   "vegetarian": "Vegetariana",
   "omnivore": "Omnívora",
   "waitlist": "Lista de Espera",
   "payment-pending": "Pendiente de Pago",
+  "payment-to-confirm": "Pendiente de Confirmación",
   "payment-delayed": "Pago Demorado",
   "confirmed": "Confirmada",
   "cancelled": "Cancelada",
@@ -33,5 +35,7 @@
   "role": "Rol de baile",
   "leader": "Conductorx",
   "follower": "Conducidx",
-  "both": "ambos"
+  "both": "ambos",
+  "receipt": "Comprobante de pago",
+  "receiptButton": "Ver comprobante de pago"
 }
