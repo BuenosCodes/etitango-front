@@ -1,34 +1,38 @@
 {
   "dias": [
     {
-      "dia": "Viernes 27 de Octubre?",
+      "dia": "Viernes 27 de Octubre",
       "actividades": [
-        "UBICACIÓN: Salón Prado Español-González Camarero 121- Villa Nueva",
-        "12 a 19 hs - Acreditaciones Casa del Tango + milonguita.",
-        "18 a 19 hs - Clase de cumbia cruzada.",
-        "21 a 04 hs - Milonga de apertura. Temática “Manuel Belgrano y su gesta”.",
-        "04 a 07 hs - After milonguero."
+        "UBICACIÓN: Centro Cultural La Casa del Tango - Av. Illía 1750, Rosario",
+        "12:00 a 19:00 - Acreditaciones Casa del Tango + milonguita",
+        "18:00 a 19:00 - Clase de cumbia cruzada",
+        "UBICACIÓN: Predio Ferial Parque Independencia Ex Sociedad Rural - Blvd. Oroño 2493, Rosario",
+        "21:00 a 04:00 - Milonga de apertura. Temática 'Manuel Belgrano y su gesta'",
+        "04:00 a 08:00 - After milonguero"
       ]
     },
     {
-      "dia": "Sábado 28 de Octubre?",
+      "dia": "Sábado 28 de Octubre",
       "actividades": [
-        "07 a 12 hs - Desayuno + milonga mañanera.",
-        "08 a 12 hs - Comenzamos a cocinar.",
-        "12 a 13.30 hs - Almuerzo (incluido en el combo).",
-        "13.30 a 16 hs - Asamblea.",
-        "15 a 19 hs - Milonga Monumental, Monumento Nacional a la Bandera. Visitas guiadas al Monumento.",
-        "22 a 04 hs - Milonga de Gala.",
-        "04 a 07 hs - After milonguero."
-
+        "UBICACIÓN: Predio Ferial Parque Independencia Ex Sociedad Rural - Blvd. Oroño 2493, Rosario",
+        "08:00 a 12:00 - Desayuno + milonga mañanera",
+        "09:00 a 12:00 - Comenzamos a cocinar",
+        "12:00 a 13:30 - Almuerzo (incluido en el combo)",
+        "13:30 a 16:00 - Asamblea",
+        "UBICACIÓN: Monumento Histórico Nacional a la Bandera - Santa Fe 581, Rosario",
+        "16:00 a 19:00 - Milonga Monumental. Visitas guiadas al Monumento.",
+        "UBICACIÓN: Predio Ferial Parque Independencia Ex Sociedad Rural - Blvd. Oroño 2493, Rosario",
+        "22:00 a 04:00 - Milonga de Gala",
+        "04:00 a 08:00 - After milonguero"
       ]
     },
     {
-      "dia": "Domingo 29 de Octubre?",
+      "dia": "Domingo 29 de Octubre",
       "actividades": [
-        "07 a 12 hs - Desayuno + milonga mañanera.",
-        "12 a 21 hs - Asado + fiesta + traspaso bandera + foto + milonga.",
-        "21 a 04 hs - Milonga de cierre."
+        "UBICACIÓN: Predio Ferial Parque Independencia Ex Sociedad Rural - Blvd. Oroño 2493, Rosario",
+        "08:00 a 12:00 - Desayuno + milonga mañanera",
+        "12:00 a 21:00 - Asado + fiesta + traspaso de bandera + foto + milonga",
+        "21:00 a 04:00 - Milonga de cierre"
       ]
     }
   ],
