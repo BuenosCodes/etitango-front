@@ -75,14 +75,19 @@ export const getSignup = async (signupId: string) => getDocument(SIGNUP(signupId
 
 export const getSignupForUserAndEvent = async (userId: string, etiEventId: string) => {
   const ref = collection(db, SIGNUPS);
-  const q = query(ref, where('etiEventId', '==', etiEventId), where('userId', '==', userId));
+  const q = query(
+    ref,
+    where('etiEventId', '==', etiEventId),
+    where('userId', '==', userId),
+    orderBy('orderNumber', 'desc')
+  );
   const querySnapshot = await getDocs(q);
-  return (
-    querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data()
-    })) as Signup[]
+  const list = querySnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data()
+  })) as Signup[];
   )[0];
+  return list[0];
 };
 
 export const createSignup = async (etiEventId: string, userId: string, data: Signup) => {
@@ -94,6 +99,15 @@ export const createSignup = async (etiEventId: string, userId: string, data: Sig
   const createSignup = httpsCallable(functions, 'signup-createSignup');
   try {
     return createSignup(signupData);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const resetSignup = async (etiEventId: string, signupId: string) => {
+  const resetSignup = httpsCallable(functions, 'signup-resetSignup');
+  try {
+    return resetSignup({ etiEventId, signupId });
   } catch (e) {
     console.log(e);
   }
@@ -126,6 +140,15 @@ export const upsertTemplates = async () => {
   const seeds = httpsCallable(functions, 'seeds-upsertTemplates');
   try {
     await seeds();
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const fixMailing = async (etiEventId: string) => {
+  const fn = httpsCallable(functions, 'mailing-retryFailedMails');
+  try {
+    await fn(etiEventId);
   } catch (e) {
     console.log(e);
   }

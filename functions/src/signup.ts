@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions';
 import { CallableContext } from 'firebase-functions/lib/common/providers/https';
 import { db } from './index';
 import { validateUserIsLoggedIn } from './validators';
-import { SignupCreate, SignupStatus } from '../../src/shared/signup';
+import { Signup, SignupCreate, SignupStatus } from '../../src/shared/signup';
 import { getIncrement } from './counters';
 import { UserData } from '../../src/shared/User';
 
@@ -61,6 +61,27 @@ export const createSignup = functions.https.onCall(
       const orderNumber = await getIncrement({ transaction, counterName: data.etiEventId });
       const docRef = db.collection('signups').doc();
       return transaction.set(docRef, { ...signupData, orderNumber });
+    });
+    return { success: true };
+  }
+);
+
+export const resetSignup = functions.https.onCall(
+  async (data: { signupId: string; etiEventId: string }, context: CallableContext) => {
+    await validateUserIsLoggedIn(context);
+    const userId = getUserIdOrFail(context);
+    await db.runTransaction(async (transaction) => {
+      await validateSignupIsOpen(data.etiEventId);
+      await validateSingleSignup(userId, data.etiEventId);
+      const signupRef = db.collection('signups').doc(data.signupId);
+      const signup = await signupRef.get();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { id, status, ...signupData } = <Signup>signup.data();
+      const orderNumber: number = await getIncrement({ transaction, counterName: data.etiEventId });
+      const docRef = db.collection('signups').doc();
+      const finalData = { ...signupData, orderNumber, status: SignupStatus.WAITLIST };
+      console.log('saving', finalData);
+      return transaction.set(docRef, finalData);
     });
     return { success: true };
   }
