@@ -79,7 +79,7 @@ const AdminTools = (props: {
         <Alert severity={'error'}>
           <div style={{ background: 'maroon' }}>
             <Typography variant={'h2'} color={'white'}>
-              La suma de Inscriptxs y Pendientes de Pago es mayor o igual a 600 (total:{' '}
+              La suma de Inscriptxs y Pendientes de Pago es mayor o igual a 850 (total:{' '}
               {signupsForWarning.length})
             </Typography>
           </div>

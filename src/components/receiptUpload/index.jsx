@@ -7,10 +7,9 @@ import React, { useContext, useState } from 'react';
 import { NotificationContext } from '../../helpers/NotificationContext';
 import { useTranslation } from 'react-i18next';
 import { SignupStatus } from '../../shared/signup';
-
+/* eslint-disable react/prop-types */
 function ReceiptUpload({ signUpDetails, setSignUpDetails }) {
   const { id: signUpId, userId, etiEventId } = signUpDetails;
-  console.log(signUpDetails);
   const { setNotification } = useContext(NotificationContext);
   const { t } = useTranslation([SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP], {
     useSuspense: false
@@ -60,6 +59,7 @@ function ReceiptUpload({ signUpDetails, setSignUpDetails }) {
   return (
     <>
       <Typography> Tu Inscripcion está {t(signUpDetails.status)}</Typography>
+
       {signUpDetails?.receipt ? (
         <Button href={signUpDetails?.receipt} variant="contained" color="secondary">
           {t(`${SCOPES.MODULES.SIGN_UP}.viewReceipt`).toUpperCase()}

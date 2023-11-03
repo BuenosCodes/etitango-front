@@ -2,7 +2,7 @@ import * as React from 'react';
 import Portada from './portada/Portada';
 import Cronograma from './cronograma/Cronograma';
 
-const ImgBackground = 'img/logo/eti-currentEvent.png';
+const ImgBackground = 'img/logo/eti-currentEvent.jpeg';
 function Index() {
   return (
     <React.Fragment>

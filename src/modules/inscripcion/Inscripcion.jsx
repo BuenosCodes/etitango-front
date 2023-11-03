@@ -1,7 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, CircularProgress, Container, Grid, MenuItem, Typography } from '@mui/material';
 import WithAuthentication from '../withAuthentication';
-import { createSignup, getSignupForUserAndEvent } from '../../helpers/firestore/signups';
+import {
+  createSignup,
+  getSignupForUserAndEvent,
+  resetSignup
+} from '../../helpers/firestore/signups';
 import { getFutureEti } from '../../helpers/firestore/events';
 import { auth } from '../../etiFirebase';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +13,7 @@ import { SCOPES } from 'helpers/constants/i18n.ts';
 import { Field, Form, Formik } from 'formik';
 import { Select } from 'formik-mui';
 import { bool, date, object, string } from 'yup';
-import { SignupHelpWith } from '../../shared/signup';
+import { SignupHelpWith, SignupStatus } from '../../shared/signup';
 import { LocationPicker } from '../../components/form/LocationPicker.tsx';
 import { getDocument } from '../../helpers/firestore/index.js';
 import { USERS } from '../../helpers/firestore/users';
@@ -18,6 +22,22 @@ import { ROUTES } from '../../App.js';
 import { ETIDatePicker } from '../../components/form/DatePicker.tsx';
 import ReceiptUpload from '../../components/receiptUpload/index';
 import { UserContext } from '../../helpers/UserContext';
+/* eslint-disable react/prop-types */
+function ResetSignup({ etiEventId, signupId }) {
+  const navigate = useNavigate();
+  const handleClick = async () => {
+    await resetSignup(etiEventId, signupId);
+    navigate(ROUTES.SIGNUPS);
+  };
+  return (
+    <>
+      <Typography>Tu inscripción está Cancelada</Typography>
+      <Button onClick={handleClick} variant={'contained'} color={'secondary'}>
+        <Typography>Reinscribirme</Typography>
+      </Button>
+    </>
+  );
+}
 
 export default function Inscripcion() {
   const { t } = useTranslation([SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP], {
@@ -40,7 +60,7 @@ export default function Inscripcion() {
     }
 
     fetch();
-  }, [user, etiEvent]);
+  }, [user]);
 
   const SignupSchema = object({
     helpWith: string().required('Este campo no puede estar vacío'),
@@ -101,12 +121,16 @@ export default function Inscripcion() {
   const renderAlreadySignedUpMessage = () => (
     <Grid item style={{ textAlign: 'center' }}>
       <Typography variant="h6">{t(`${SCOPES.MODULES.SIGN_UP}.alreadySignedUpReason`)}</Typography>
-      <ReceiptUpload
-        etiEventId={etiEvent?.id}
-        signUpDetails={signUpDetails}
-        userId={auth.currentUser?.uid}
-        setSignUpDetails={setSignUpDetails}
-      />
+      {signUpDetails.status === SignupStatus.CANCELLED ? (
+        <ResetSignup user={user} etiEventId={etiEvent.id} signupId={signUpDetails.id} />
+      ) : (
+        <ReceiptUpload
+          etiEventId={etiEvent?.id}
+          signUpDetails={signUpDetails}
+          userId={auth.currentUser?.uid}
+          setSignUpDetails={setSignUpDetails}
+        />
+      )}
     </Grid>
   );
 

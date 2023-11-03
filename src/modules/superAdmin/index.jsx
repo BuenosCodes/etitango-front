@@ -1,5 +1,5 @@
 import WithAuthentication from '../withAuthentication';
-import { upsertTemplates, fixNumbering } from '../../helpers/firestore/signups';
+import { upsertTemplates, fixNumbering, fixMailing } from '../../helpers/firestore/signups';
 import { Button, Divider } from '@mui/material';
 import { UserRoles } from '../../shared/User';
 import { useNavigate } from 'react-router-dom';
@@ -30,9 +30,14 @@ const SuperAdmin = () => {
         <Button onClick={() => navigate(ROUTES.SUPERADMIN + ROUTES.ROLES)}>ROLES</Button>
         <Divider />
         {events.map((e) => (
-          <Button onClick={() => fixNumbering(e.id)} key={e.id}>
-            Fix numbers on event {e.name}
-          </Button>
+          <>
+            <Button onClick={() => fixNumbering(e.id)} key={e.id}>
+              Fix numbers on event {e.name}
+            </Button>
+            <Button onClick={() => fixMailing(e.id)} key={e.id}>
+              Fix mailing on event {e.name}
+            </Button>
+          </>
         ))}
       </>
     </>

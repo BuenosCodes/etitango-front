@@ -8,7 +8,7 @@ import { CallableContext } from 'firebase-functions/lib/common/providers/https';
 const templateSubjects = {
   [SignupStatus.WAITLIST]: 'ETI - En lista de espera',
   [SignupStatus.PAYMENT_PENDING]: 'ETI - Esperando pago',
-  [SignupStatus.PAYMENT_TO_CONFIRM]: 'ETI - Esperando pago',
+  [SignupStatus.PAYMENT_TO_CONFIRM]: 'ETI - Procesando Pago',
   [SignupStatus.PAYMENT_DELAYED]: 'ETI - Pago demorado',
   [SignupStatus.CONFIRMED]: 'ETI - Inscripcion confirmada',
   [SignupStatus.CANCELLED]: 'ETI - Inscripcion anulada'
