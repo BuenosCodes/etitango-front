@@ -86,8 +86,7 @@ export const getSignupForUserAndEvent = async (userId: string, etiEventId: strin
     id: doc.id,
     ...doc.data()
   })) as Signup[];
-  )[0];
-  return list[0];
+  return list.length > 0 ? list[0] : null;
 };
 
 export const createSignup = async (etiEventId: string, userId: string, data: Signup) => {
