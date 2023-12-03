@@ -16,7 +16,7 @@ import { UserRoles } from '../../../shared/User';
 import { ETIDatePicker } from '../../../components/form/DatePicker';
 import RolesList from '../roles/RolesList';
 
-export default function EventForm() {
+export default function EditEvent() {
   
   const alertText: string = 'Este campo no puede estar vacío';
 
