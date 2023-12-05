@@ -31,21 +31,52 @@ export default function EventForm() {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
-        const event = await getEvent(id);
-        setEvent(event);
-        setLoading(false);
+        const isValidId: RegExp = /^new$|^[\w\d]{20}$/;
+
+        if (id === "new" || isValidId.test(id)) {
+          try {
+            const event = await getEvent(id);
+            setEvent(event);
+            setLoading(false);
+          } catch (error) {
+            console.error(error);
+          }
+        } else {
+          navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
+        }
       }
     };
-    fetchData().catch((error) => console.error(error));
+
+    fetchData();
   }, [id]);
+  
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (id) {
+  //       const isValidId: RegExp = /^new$|^[\w\d]{20}$/;
+  //       if (id === "new" || isValidId.test(id)) {
+  //         const event = await getEvent(id);
+  //         setEvent(event);
+  //         setLoading(false);
+  //     } else {
+  //       navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`)
+  //     }
+  //   };
+  //   fetchData().catch((error) => console.error(error));
+  // }}, [id]);
 
   const save = async (values: any, setSubmitting: Function) => {
     try {
-      await createOrUpdateDoc('events', values, id === 'new' ? undefined : id);
-      navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
+      if (id) {
+        const validateRuote: RegExp = /^[a-zA-Z0-9]{20,}$/; 
+        const idV : boolean = validateRuote.test(id);
+        await createOrUpdateDoc('events', values, id === 'new' ? undefined : idV);
+        navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
+      }
     } catch (error) {
       console.error(error);
       setSubmitting(false);
