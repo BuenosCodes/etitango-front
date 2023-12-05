@@ -7,7 +7,7 @@ import { SCOPES } from 'helpers/constants/i18n';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 import { date, object, string } from 'yup';
-import { createOrUpdateDoc } from 'helpers/firestore';
+import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
 import { getEvent } from '../../../helpers/firestore/events';
@@ -16,7 +16,7 @@ import { UserRoles } from '../../../shared/User';
 import { ETIDatePicker } from '../../../components/form/DatePicker';
 import RolesList from '../roles/RolesList';
 
-export default function EventForm() {
+export default function EditEvent() {
   
   const alertText: string = 'Este campo no puede estar vacío';
 
@@ -27,20 +27,31 @@ export default function EventForm() {
     location: string().required(alertText),
     name: string().required(alertText)
   });
-  const [event, setEvent] = useState<EtiEvent>();
+
+  const [event, setEvent] = useState<EtiEvent | null>(null);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
-        const event = await getEvent(id);
-        setEvent(event);
+        const eventExists = await getDocument(`events/${id}`);
+        if (eventExists) {
+          const event = await getEvent(id);
+          setEvent(event);
+        } else {
+          navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
+        }
         setLoading(false);
       }
     };
-    fetchData().catch((error) => console.error(error));
+    fetchData().catch((error) => {
+      console.error(error);
+      setLoading(false);
+    });
   }, [id]);
+
 
   const save = async (values: any, setSubmitting: Function) => {
     try {
@@ -53,6 +64,7 @@ export default function EventForm() {
     }
   };
 
+
   return (
     <Translation
       ns={[SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP, SCOPES.MODULES.PROFILE]}
@@ -61,7 +73,7 @@ export default function EventForm() {
       {(t) => (
         <>
           <WithAuthentication
-            roles={[UserRoles.SUPER_ADMIN]}
+            roles={[UserRoles.ADMIN]}
             redirectUrl={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`}
           />
           {loading ? (

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { User } from 'firebase/auth';
 import { FoodChoices } from './signup';
 

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { createOrUpdateDoc, getCollection, getDocument } from './index';
 import { collection, getDocs, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { db, functions, storage } from '../../etiFirebase';
