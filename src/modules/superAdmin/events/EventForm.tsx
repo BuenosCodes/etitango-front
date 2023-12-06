@@ -17,9 +17,9 @@ import RolesList from '../roles/RolesList';
 
 export default function EventForm() {
   const EventFormSchema = object({
-    dateEnd: date().required('Este campo no puede estar vacío'),
-    dateSignupOpen: date().required('Este campo no puede estar vacío'),
     dateStart: date().required('Este campo no puede estar vacío'),
+    dateEnd: date().when('dateStart', (dateStart, schema) => (dateStart && schema.min(dateStart, "No puede ser menor a la fecha de inicio"))).required('Este campo no puede estar vacío'),
+    dateSignupOpen: date().when('dateStart', (dateStart, schema) => (dateStart && schema.max(dateStart, "No puede ser mayor a la fecha de inicio"))).required('Este campo no puede estar vacío'),
     location: string().required('Este campo no puede estar vacío'),
     name: string().required('Este campo no puede estar vacío')
   });
