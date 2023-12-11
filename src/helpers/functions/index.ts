@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '../../etiFirebase';
 import { SampleInterface, SampleResponse } from '../../shared/example';

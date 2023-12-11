@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
 import WithAuthentication from '../../withAuthentication';
 import { UserRoles } from 'shared/User';

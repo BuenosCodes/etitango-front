@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { addDoc, collection, doc, getDoc, getDocs, query, setDoc } from 'firebase/firestore';
 import { db } from '../../etiFirebase';
 

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Route, Routes } from 'react-router-dom';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -25,6 +26,7 @@ import Home from './modules/home/Home';
 import Bank from './modules/user/profile/bank';
 import withUserMenu from './components/withUserMenu';
 import EventForm from './modules/superAdmin/events/EventForm';
+import  EditEvent  from 'modules/superAdmin/events/EditEvent';
 import TemplatesList from './modules/superAdmin/templates';
 import EditTemplate from './modules/superAdmin/templates/EditTemplate';
 import RolesList from './modules/superAdmin/roles/RolesList';
@@ -46,6 +48,7 @@ i18n
 export const ROUTES = {
   HOME: '/',
   EVENTS: '/events',
+  EDIT: '/editEvent',
   SUPERADMIN: '/super-admin',
   PROFILE: '/user/profile',
   USER: '/user',
@@ -113,6 +116,7 @@ function App() {
             <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
             <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`} element={<EventsList />} />
+            <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}${ROUTES.EDIT}/:id`} element={<EditEvent />} />
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`} element={<EventForm />} />
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.ROLES}`} element={<RolesList />} />
             <Route path={ROUTES.USER} element={withUserMenu(UserHome)()} />
