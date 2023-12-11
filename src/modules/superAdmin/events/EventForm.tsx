@@ -14,6 +14,7 @@ import { EtiEvent } from '../../../shared/etiEvent';
 import { UserRoles } from '../../../shared/User';
 import { ETIDatePicker } from '../../../components/form/DatePicker';
 import RolesList from '../roles/RolesList';
+import { LocationPicker } from 'components/form/LocationPicker';
 
 export default function EventForm() {
   const EventFormSchema = object({
@@ -21,7 +22,20 @@ export default function EventForm() {
     dateEnd: date().when('dateStart', (dateStart, schema) => (dateStart && schema.min(dateStart, "No puede ser menor a la fecha de inicio"))).required('Este campo no puede estar vacío'),
     dateSignupOpen: date().when('dateStart', (dateStart, schema) => (dateStart && schema.max(dateStart, "No puede ser mayor a la fecha de inicio"))).required('Este campo no puede estar vacío'),
     location: string().required('Este campo no puede estar vacío'),
-    name: string().required('Este campo no puede estar vacío')
+    name: string().required('Este campo no puede estar vacío'),
+    country: string().nullable(true).required('Este campo no puede estar vacío'),
+    province: string()
+      .nullable(true)
+      .when('country', {
+        is: 'Argentina',
+        then: string().nullable(true).required('Este campo no puede estar vacío')
+      }),
+    city: string()
+      .nullable(true)
+      .when('country', {
+        is: 'Argentina',
+        then: string().nullable(true).required('Este campo no puede estar vacío')
+      }),
   });
   const [event, setEvent] = useState<EtiEvent>();
   const [loading, setLoading] = useState(true);
@@ -81,14 +95,16 @@ export default function EventForm() {
                     dateSignupOpen: event?.dateSignupOpen || '',
                     dateStart: event?.dateStart || '',
                     location: event?.location || '',
-                    name: event?.name || ''
+                    name: event?.name || '',
+                    
+
                   }}
                   validationSchema={EventFormSchema}
                   onSubmit={async (values, { setSubmitting }) => {
                     await save(values, setSubmitting);
                   }}
                 >
-                  {({ isSubmitting, setFieldValue }) => (
+                  {({ isSubmitting, setFieldValue, touched, errors, values }) => (
                     <Form>
                       <Grid container spacing={2}>
                         <Grid item md={6} sm={6} xs={12}>
@@ -131,6 +147,17 @@ export default function EventForm() {
                             label={t('dateSignupOpen')}
                             fieldName="dateSignupOpen"
                             setFieldValue={setFieldValue}
+                          />
+                        </Grid>
+
+                        <Grid item xs={12} lg={12} style={{ display: 'flex' }}>
+                          <LocationPicker
+                            values={values}
+                            errors={errors}
+                            t={t}
+                            setFieldValue={setFieldValue}
+                            touched={touched}
+                            location={event}
                           />
                         </Grid>
 
