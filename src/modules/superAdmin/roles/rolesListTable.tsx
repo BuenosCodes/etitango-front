@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable prettier/prettier */
+// import React, { useEffect } from 'react';
 import { Button, Paper } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +17,7 @@ export function RolesListTable(props: {
   const { t } = useTranslation([SCOPES.COMMON.FORM], {
     useSuspense: false
   });
+  
 
   const removeRoleButtons = {
     field: 'removeRoles',
@@ -57,7 +59,8 @@ export function RolesListTable(props: {
   columns.push(removeRoleButtons);
 
   const getUserDataValues = ({ id, email, roles, adminOf }: UserRolesListData) => {
-    return { id, email, admin: adminOf, [UserRoles.SUPER_ADMIN]: roles?.[UserRoles.SUPER_ADMIN] };
+    const isAdmin = adminOf && adminOf.length > 0; 
+    return { id, email, admin: isAdmin, [UserRoles.SUPER_ADMIN]: roles?.[UserRoles.SUPER_ADMIN] };
   };
 
   return (

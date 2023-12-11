@@ -25,7 +25,8 @@ import UserHome from './modules/user/index';
 import Home from './modules/home/Home';
 import Bank from './modules/user/profile/bank';
 import withUserMenu from './components/withUserMenu';
-import EventForm from './modules/superAdmin/events/EventForm';
+// import EventForm from './modules/superAdmin/events/EventForm';
+import NewEvent from './modules/superAdmin/events/NewEvent';
 import  EditEvent  from 'modules/superAdmin/events/EditEvent';
 import TemplatesList from './modules/superAdmin/templates';
 import EditTemplate from './modules/superAdmin/templates/EditTemplate';
@@ -117,7 +118,7 @@ function App() {
             <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`} element={<EventsList />} />
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}${ROUTES.EDIT}/:id`} element={<EditEvent />} />
-            <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`} element={<EventForm />} />
+            <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`} element={<NewEvent />} />
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.ROLES}`} element={<RolesList />} />
             <Route path={ROUTES.USER} element={withUserMenu(UserHome)()} />
             <Route path={`${ROUTES.BANKS}/:id`} element={<Bank />} />
