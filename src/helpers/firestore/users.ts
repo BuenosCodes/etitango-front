@@ -22,6 +22,47 @@ const USER = (userId: string) => `${USERS}/${userId}`;
 
 export const getUser = (userId: string) => <Promise<UserFullData>>getDocument(USER(userId));
 
+// export const getAllUsers = async () => {
+//   const ref = collection(db, USERS);
+//   const q = query(ref);
+//   const querySnapshot = await getDocs(q);
+//   const users = querySnapshot.docs.map((doc) => ({
+//     id: doc.id,
+//     ...doc.data()
+//   })) as UserFullData[];
+//   return users;
+// };
+
+export const getAllUsers = async (setUsuarios: Function, setIsLoading: Function) => {
+  try {
+    // Configura la referencia a la colección de usuarios
+    const usersRef = collection(db, USERS);
+
+    // Obtiene todos los documentos de la colección
+    const querySnapshot = await getDocs(usersRef);
+
+    // Mapea los documentos a un array de usuarios
+    const usersData = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data()
+    })) as UserFullData[];
+
+    // Actualiza el estado con la lista de usuarios
+    setUsuarios(usersData);
+
+    // Indica que la carga ha finalizado
+    setIsLoading(false);
+
+    // No se utiliza el patrón de suscripción para obtener usuarios,
+    // por lo que simplemente se devuelve una función vacía como "unsubscribe"
+    return () => {};
+  } catch (error) {
+    console.error('Error al obtener usuarios:', error);
+    throw error;
+  }
+};
+
+
 export async function getAdmins(setUsers: Function, setIsLoading: Function, etiEventId?: string) {
   const ref = collection(db, USERS);
 
@@ -63,6 +104,7 @@ const getUserByEmail = async (email: string) => {
   })) as UserFullData[];
   return docs[0];
 };
+
 export async function assignSuperAdmin(email: string) {
   const doc = await getUserByEmail(email);
   return createOrUpdateDoc(USERS, { roles: { [UserRoles.SUPER_ADMIN]: true } }, doc.id);
@@ -134,3 +176,4 @@ export const isAdminOfEvent = (user: IUser, etiEventId?: string) => {
     !!user?.data?.adminOf?.find((e) => e === etiEventId)
   );
 };
+
