@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
 import { Button, CircularProgress, Container, Grid } from '@mui/material';
@@ -15,9 +16,31 @@ import { EtiEvent } from '../../../shared/etiEvent';
 import { UserRoles } from '../../../shared/User';
 import { ETIDatePicker } from '../../../components/form/DatePicker';
 import RolesList from '../roles/RolesList';
+import CloudinaryUploadWidget from 'components/CloudinaryUploadWidget';
+import { Cloudinary } from "@cloudinary/url-gen";
+import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
 
 export default function EditEvent() {
-  
+
+  const [publicId, setPublicId] = useState("");
+  // Replace with your own cloud name
+  const [cloudName] = useState("dg2py4um1");
+  // Replace with your own upload preset
+  const [uploadPreset] = useState("wx4mlrt5");
+
+  const [uwConfig] = useState({
+    cloudName,
+    uploadPreset
+  })
+
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName
+    }
+  });
+
+  const myImage = cld.image(publicId);
+
   const alertText: string = 'Este campo no puede estar vacío';
 
   const EventFormSchema = object({
@@ -167,6 +190,14 @@ export default function EditEvent() {
                   )}
                 </Formik>
               </Grid>
+              <CloudinaryUploadWidget uwConfig={uwConfig} setPublicId={setPublicId} />
+              <div style={{width: "200px"}}>
+                <AdvancedImage
+                  style={{ maxWidth: "100%" }}
+                  cldImg={myImage}
+                  plugins={[responsive(), placeholder()]}
+                />
+              </div>
               <RolesList eventId={id} />
             </Container>
           )}
