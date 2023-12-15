@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-undef */
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
@@ -8,7 +9,7 @@ import { SCOPES } from 'helpers/constants/i18n';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 import { date, object, string } from 'yup';
-import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
+import { createOrUpdateDoc, getDocument, updateEventWithImageUrl } from 'helpers/firestore';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
 import { getEvent } from '../../../helpers/firestore/events';
@@ -19,10 +20,10 @@ import RolesList from '../roles/RolesList';
 import CloudinaryUploadWidget from 'components/CloudinaryUploadWidget';
 import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
-
 export default function EditEvent() {
 
   const [publicId, setPublicId] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   // Replace with your own cloud name
   const [cloudName] = useState("dg2py4um1");
   // Replace with your own upload preset
@@ -78,7 +79,13 @@ export default function EditEvent() {
 
   const save = async (values: any, setSubmitting: Function) => {
     try {
-      await createOrUpdateDoc('events', values, id === 'new' ? undefined : id);
+      const eventId = await createOrUpdateDoc('events', values, id === 'new' ? undefined : id);
+      console.log('la id del evento ', eventId);
+      
+      if(eventId && imageUrl) {
+        await updateEventWithImageUrl(eventId, imageUrl)
+
+      }
       navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
     } catch (error) {
       console.error(error);
@@ -86,7 +93,6 @@ export default function EditEvent() {
       //TODO global error handling this.setState({errors: error.response.event})
     }
   };
-
 
   return (
     <Translation
@@ -190,7 +196,11 @@ export default function EditEvent() {
                   )}
                 </Formik>
               </Grid>
-              <CloudinaryUploadWidget uwConfig={uwConfig} setPublicId={setPublicId} />
+              <CloudinaryUploadWidget 
+                uwConfig={uwConfig} 
+                setPublicId={setPublicId} 
+                onImageUpload={(uploadedImageUrl: string) => setImageUrl(uploadedImageUrl)}
+              />
               <div style={{width: "200px"}}>
                 <AdvancedImage
                   style={{ maxWidth: "100%" }}
