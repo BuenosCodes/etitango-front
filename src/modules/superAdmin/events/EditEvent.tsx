@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import { Button, CircularProgress, Container, Grid } from '@mui/material';
+import { Button, CircularProgress, Container, Grid, Box } from '@mui/material';
 import WithAuthentication from '../../withAuthentication';
 import { Translation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n';
@@ -24,6 +24,8 @@ export default function EditEvent() {
 
   const [publicId, setPublicId] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [imageEvent, setImageEvent] = useState("");
+  const ImageNotFound = 'https://res.cloudinary.com/dg2py4um1/image/upload/v1702652908/imageNotFound_rnryge.jpg'
   // Replace with your own cloud name
   const [cloudName] = useState("dg2py4um1");
   // Replace with your own upload preset
@@ -64,6 +66,8 @@ export default function EditEvent() {
         if (eventExists) {
           const event = await getEvent(id);
           setEvent(event);
+          setImageEvent(event.imageUrl);
+          //console.log('este es la imagen url del evento: ', event.imageUrl);
         } else {
           navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
         }
@@ -208,6 +212,19 @@ export default function EditEvent() {
                   plugins={[responsive(), placeholder()]}
                 />
               </div>
+
+              <Box
+                component="img"
+                sx={{
+                  height: 233,
+                  width: 350,
+                  maxHeight: { xs: 233, md: 167 },
+                  maxWidth: { xs: 350, md: 250 },
+                }}
+                alt="Imagen representativa del evento"
+                src={imageEvent ? imageEvent : ImageNotFound}
+              />
+              
               <RolesList eventId={id} />
             </Container>
           )}
