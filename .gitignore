@@ -40,4 +40,4 @@ firebase.json
 
 firebaserc
 
-firebase-export*
+firebase-export-*/

@@ -19,22 +19,27 @@ import { ETIDatePicker } from '../../../components/form/DatePicker';
 import RolesList from '../roles/RolesList';
 import CloudinaryUploadWidget from 'components/CloudinaryUploadWidget';
 import { Cloudinary } from "@cloudinary/url-gen";
-import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
+//import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
+
 export default function EditEvent() {
 
   const [publicId, setPublicId] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [imageEvent, setImageEvent] = useState("");
-  const ImageNotFound = 'https://res.cloudinary.com/dg2py4um1/image/upload/v1702652908/imageNotFound_rnryge.jpg'
-  // Replace with your own cloud name
-  const [cloudName] = useState("dg2py4um1");
-  // Replace with your own upload preset
-  const [uploadPreset] = useState("wx4mlrt5");
 
-  const [uwConfig] = useState({
+  // Replace with your own cloud name
+  const cloudNameCredencial = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+  const cloudPresetCredencial = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
+
+  
+  const cloudName = cloudNameCredencial;
+  // Replace with your own upload preset
+  const uploadPreset = cloudPresetCredencial;
+
+  const uwConfig = {
     cloudName,
     uploadPreset
-  })
+  }
 
   const cld = new Cloudinary({
     cloud: {
@@ -42,7 +47,7 @@ export default function EditEvent() {
     }
   });
 
-  const myImage = cld.image(publicId);
+  //const myImage = cld.image(publicId);
 
   const alertText: string = 'Este campo no puede estar vacío';
 
@@ -58,6 +63,7 @@ export default function EditEvent() {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -97,7 +103,7 @@ export default function EditEvent() {
       //TODO global error handling this.setState({errors: error.response.event})
     }
   };
-
+  //console.log('este es image event: ', imageEvent)
   return (
     <Translation
       ns={[SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP, SCOPES.MODULES.PROFILE]}
@@ -205,13 +211,14 @@ export default function EditEvent() {
                 setPublicId={setPublicId} 
                 onImageUpload={(uploadedImageUrl: string) => setImageUrl(uploadedImageUrl)}
               />
-              <div style={{width: "200px"}}>
+
+              {/* <div style={{width: "200px"}}>
                 <AdvancedImage
                   style={{ maxWidth: "100%" }}
                   cldImg={myImage}
                   plugins={[responsive(), placeholder()]}
                 />
-              </div>
+              </div> */}
 
               <Box
                 component="img"
@@ -222,7 +229,8 @@ export default function EditEvent() {
                   maxWidth: { xs: 350, md: 250 },
                 }}
                 alt="Imagen representativa del evento"
-                src={imageEvent ? imageEvent : ImageNotFound}
+                src={imageEvent ? imageEvent : '/img/imageNotFound.png'}
+                
               />
               
               <RolesList eventId={id} />
