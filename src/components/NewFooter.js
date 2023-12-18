@@ -43,14 +43,16 @@ export default function NewFooter() {
       justifyContent={'space-between'}
       >
         
-        <Typography pl={6}  fontWeight={'bold'} color={'#5FB4FC'} >
+        <Typography fontFamily={'roboto'} fontWeight={'bold'} pl={6} color={'#5FB4FC'} >
             Más sobre ETI
             {/* {t('links.title').toUpperCase()} */}
           </Typography>
         
 
             {links.map((link) => (
-                  <Link 
+                  <Link
+                    fontFamily={'roboto'}
+                    fontWeight={'normal'} 
                     variant="p"
                     color="#5FB4FC"
                     underline="none"
@@ -72,12 +74,12 @@ export default function NewFooter() {
         item xs={12} sm={6} md={3}
         
         >
-            <Typography fontWeight={'bold'} color={'#5FB4FC'}>
+            <Typography fontFamily={'roboto'} fontWeight={'bold'} color={'#5FB4FC'}>
               Quienes somos
               {/* {t('about.title').toUpperCase()} */}
             </Typography>
         
-          <Typography pl={2} mt={2} color={'white'}>
+          <Typography fontFamily={'roboto'} fontWeight={'medium'} pl={2} mt={2} color={'white'}>
             {t('about.description')}
           </Typography>
          
@@ -89,12 +91,12 @@ export default function NewFooter() {
           item xs={12} sm={6} md={3}
           >
 
-          <Typography pl={6} fontWeight={'bold'}  color={'#5FB4FC'}>
+          <Typography fontFamily={'roboto'} fontWeight={'bold'} pl={6}  color={'#5FB4FC'}>
             Encuéntranos en 
             {/* {t('socialNetworks.title').toUpperCase()} */}
           </Typography>
          
-          <Link pl={8} mt={2} sx={{ display: 'flex', alignItems: 'center' }} underline='none' color={'#5FB4FC'} href="http://facebook.com/groups/305562943758" target="_blank">
+          <Link fontFamily={'roboto'} pl={8} mt={2} sx={{ display: 'flex', alignItems: 'center' }} underline='none' color={'#5FB4FC'} href="http://facebook.com/groups/305562943758" target="_blank">
             Facebook
             <Avatar
               src="/img/icon/facebook.png"
