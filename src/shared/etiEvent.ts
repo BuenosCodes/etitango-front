@@ -1,3 +1,5 @@
+import { SetStateAction } from "react";
+
 /* eslint-disable prettier/prettier */
 export interface EtiEventBase {
   id: string;
@@ -9,6 +11,7 @@ export interface EtiEventBase {
 }
 
 export interface EtiEvent extends EtiEventBase {
+  imageUrl: SetStateAction<string>;
   dateStart: Date;
   dateEnd: Date;
   dateSignupOpen: Date;
