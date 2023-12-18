@@ -33,6 +33,8 @@ import EditTemplate from './modules/superAdmin/templates/EditTemplate';
 import RolesList from './modules/superAdmin/roles/RolesList';
 import { Notification } from './components/notification/Notification';
 import Instructions from './modules/instructions/index';
+import NewAppBar from 'components/NewBar';
+import NewFooter from 'components/NewFooter';
 
 i18n
   .use(initReactI18next)
@@ -99,7 +101,7 @@ function App() {
     <div className="">
       <UserContext.Provider value={{ user, setUser }}>
         <NotificationContext.Provider value={{ notification, setNotification }}>
-          <EtiAppBar />
+          <NewAppBar />
           <Notification {...notification} />
           <Routes>
             <Route path="historia-del-eti" element={<HistoriaEti />} exact />
@@ -131,7 +133,7 @@ function App() {
             />
             <Route path={ROUTES.INSTRUCTIONS} element={<Instructions />} />
           </Routes>
-          <AppFooter />
+          <NewFooter />
         </NotificationContext.Provider>
       </UserContext.Provider>
     </div>
