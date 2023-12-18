@@ -38,6 +38,6 @@ emulatordb
 
 firebase.json
 
-firebaserc
+.firebaserc
 
 firebase-export-*/
