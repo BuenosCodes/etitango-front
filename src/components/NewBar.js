@@ -87,7 +87,7 @@ const NewAppBar = () => {
                       <Typography fontFamily={'Work Sans'} variant='h4b' color={'white'} sx={!userData.roles || userData.roles.admin ? {mt: 1.5} : {}}>
                         {userData.nameFirst} {userData.nameLast}
                       </Typography>
-                      {userData.roles && userData.roles.superAdmin ? (
+                      {userData.roles && (userData.roles.superadmin || userData.roles.Superadmin || userData.roles.superAdmin) ? (
                         <Typography fontFamily={'Work Sans'} variant='h7' color={'white'} sx={{ textAlign: 'end' }}>
                           Superadmin
                         </Typography>
