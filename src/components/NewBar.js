@@ -17,7 +17,7 @@ const NewAppBar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
   const { pathname: currentRoute } = useLocation();
-  const superAdmin = userData.roles
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,7 +27,6 @@ const NewAppBar = () => {
           
         ]);
         setUserData({ ...user});
-        console.log(user)
       }
     };
     fetchData().catch((error) => console.error(error));
@@ -85,10 +84,10 @@ const NewAppBar = () => {
                 <>  
                   <Box  sx={{ height: 70, }}>
                     <Stack direction="column" sx={{ height: 20, mt: '5px',  }}>
-                      <Typography fontFamily={'Work Sans'} variant='h4b' color={'white'} sx={!superAdmin ? {mt: 1.5} : {}}>
+                      <Typography fontFamily={'Work Sans'} variant='h4b' color={'white'} sx={!userData.roles || userData.roles.admin ? {mt: 1.5} : {}}>
                         {userData.nameFirst} {userData.nameLast}
                       </Typography>
-                      {superAdmin ? (
+                      {userData.roles && userData.roles.superAdmin ? (
                         <Typography fontFamily={'Work Sans'} variant='h7' color={'white'} sx={{ textAlign: 'end' }}>
                           Superadmin
                         </Typography>
