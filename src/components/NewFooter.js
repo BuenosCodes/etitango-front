@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as React from 'react';
 import { Grid, Link, Typography, Avatar, Paper, Box} from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -19,9 +20,8 @@ export default function NewFooter() {
   return (
 
     <Box
-      
-      mt={2}
-      mb={2}
+      mt={0}
+      mb={0}
       spacing={1}
       paddingX={12}
       paddingY={6}

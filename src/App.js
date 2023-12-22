@@ -6,8 +6,8 @@ import Backend from 'i18next-http-backend';
 import { useState } from 'react';
 
 import withRoot from './components/withRoot';
-import EtiAppBar from './components/EtiAppBar';
-import AppFooter from './components/AppFooter';
+// import EtiAppBar from './components/EtiAppBar';
+// import AppFooter from './components/AppFooter';
 import { UserContext } from './helpers/UserContext';
 import { NotificationContext } from './helpers/NotificationContext';
 import HistoriaEti from './modules/home/historia-del-ETI/HistoriaEti';
@@ -35,6 +35,10 @@ import { Notification } from './components/notification/Notification';
 import Instructions from './modules/instructions/index';
 import NewAppBar from 'components/NewBar';
 import NewFooter from 'components/NewFooter';
+import UserPanel from 'modules/user/components/panel/userPanel';
+
+
+
 
 i18n
   .use(initReactI18next)
@@ -63,7 +67,8 @@ export const ROUTES = {
   ROLES: '/roles',
   TEMPLATES: '/templates',
   INSTRUCTIONS: '/instructions',
-  ATTENDANCE: '/attendance'
+  ATTENDANCE: '/attendance',
+  DASHBOARD: '/dashboard'
 };
 
 export const PRIVATE_ROUTES = [
@@ -104,6 +109,7 @@ function App() {
           <NewAppBar />
           <Notification {...notification} />
           <Routes>
+            <Route path={ROUTES.DASHBOARD} element={<UserPanel />}/>
             <Route path="historia-del-eti" element={<HistoriaEti />} exact />
             <Route path="manifiesto-etiano" element={<ManifiestoETiano />} exact />
             <Route path="comision-de-genero-contact" element={<ComisionGeneroContact />} exact />
