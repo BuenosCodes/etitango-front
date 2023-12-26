@@ -18,7 +18,7 @@ import RolesList from '../roles/RolesList';
 import { LocationPicker } from 'components/form/LocationPicker';
 
 
-export default function NewEvent() {
+export default function NewEvent(props:{etiEventId:string, onChange:Function}) {
 
   const alertText: string = 'Este campo no puede estar vacío';
 
