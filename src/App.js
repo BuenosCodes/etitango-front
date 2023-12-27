@@ -27,7 +27,6 @@ import Bank from './modules/user/profile/bank';
 import withUserMenu from './components/withUserMenu';
 // import EventForm from './modules/superAdmin/events/EventForm';
 import NewEvent from './modules/superAdmin/events/NewEvent';
-import  EditEvent  from 'modules/superAdmin/events/EditEvent';
 import TemplatesList from './modules/superAdmin/templates';
 import EditTemplate from './modules/superAdmin/templates/EditTemplate';
 import RolesList from './modules/superAdmin/roles/RolesList';
@@ -36,7 +35,7 @@ import Instructions from './modules/instructions/index';
 import NewAppBar from 'components/NewBar';
 import NewFooter from 'components/NewFooter';
 import UserPanel from 'modules/user/components/panel/userPanel';
-import { NewEditEvent } from 'modules/superAdmin/events/NewEditEvent';
+import NewEditEvent from 'modules/superAdmin/events/NewEditEvent';
 
 i18n
   .use(initReactI18next)
