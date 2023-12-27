@@ -113,7 +113,7 @@ function App() {
             <Route path="comision-de-genero-contact" element={<ComisionGeneroContact />} exact />
             <Route path="comision-de-genero-protocol" element={<ComisionGeneroProtocol />} exact />
             <Route path="comision-de-genero-who" element={<ComisionGeneroWho />} exact />
-            <Route path="info-general" element={<NewEditEvent />} exact />
+            {/* <Route path="info-general" element={<NewEditEvent />} exact /> */}
             <Route path={ROUTES.SIGNUP} element={withUserMenu(Inscripcion)()} exact />
             <Route path={ROUTES.SIGNUPS} element={withUserMenu(SignupList)()} exact />
             <Route

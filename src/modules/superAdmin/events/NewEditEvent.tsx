@@ -20,8 +20,9 @@ import { LocationPicker } from 'components/form/LocationPicker';
 
 import * as firestoreUserHelper from 'helpers/firestore/users';
 import { forEach } from 'lodash';
-
+import { unsubscribe } from 'diagnostics_channel';
 //import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
+
 const useStyles = makeStyles({
   root: {
     '& .MuiOutlinedInput-root': {
@@ -37,16 +38,24 @@ const useStyles = makeStyles({
       '&.Mui-focused fieldset': {
         borderColor: '#E68650',
         borderRadius: '8px',
-      } 
+      },
     },
   },
+  // disabledTextField: {
+  //   '& .MuiInputBase-input': {
+  //     borderColor: '#E68650', // Usa el color del texto heredado
+  //      // Usa la familia de fuente heredada
+  //     // Aquí puedes añadir otros estilos que desees para el TextField deshabilitado
+  //   },
+  // }, 
   icon: {
     width: '24px',
     height: '24px',
   },
 });
 
-export default function EditEvent({ eventId }: { eventId?: string }) {
+export default function NewEditEvent({ eventId }: { eventId?: string }) {
+  
   const classes = useStyles()
   const alertText: string = 'Este campo no puede estar vacío';
   const EventFormSchema = object({
@@ -74,11 +83,10 @@ export default function EditEvent({ eventId }: { eventId?: string }) {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const [users, setUsers] = useState<UserFullData[]>([]);
-  const [usuarios, setUsuarios] = useState([]);
-  // const [usuarioss, setUsuarioss] = useState<UserData | {}>({});
+  const [usuarios, setUsuarios] = useState<UserFullData[]>([]);
+  const [adminsData, setAdminsData] = useState<{ id: string; fullName: string }[]>([]);
   const [IsLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,50 +95,7 @@ export default function EditEvent({ eventId }: { eventId?: string }) {
         if (eventExists) {
           const event = await getEvent(id);
           setEvent(event);
-          
-         
-            // if (event.admins && event.admins.length > 0) {
-            //   const usuarios = await firestoreUserHelper.getAllUsers(setUsuarioss, setIsLoading)
-            //   usuarios.filter((usuario) => usuario.nameFirst && usuario.nameLast)
-
-
-              //   const fetchData = async () => {
-                 
-              //     const user = await firestoreUserHelper.getUser(id);
-              //     if (user) setUsuarioss(usuarioss)
-              //     console.log(usuarioss)
-              //   };
-              //   fetchData().catch((error) => console.error(error));
-              // }
-
-            //   try {
-            //     const usersData = await Promise.all(
-            //       event.admins.map(adminId => firestoreUserHelper.getUser(adminId))
-            //     );
-            //     setUsuarioss(usersData);
-                
-            //   } catch (error) {
-            //     console.error("Error fetching admin users:", error);
-                
-            //   }
-            // }
-            //   // Obtener la información de los usuarios de manera asíncrona
-            //   const usersPromises = event.admins.map(async adminId => {
-            //     return await firestoreUserHelper.getUser(adminId);
-            //   });
-    
-            //   // Esperar a que todas las consultas se completen
-            //   const usersData = await Promise.all(usersPromises);
-            //   setUsuarioss(usersData);
-            // }
-            // event.admins.map(async id => {
-            //   const usuarioss = await firestoreUserHelper.getUser(id)
-            // })
-            // setUsuarioss(usuarioss)
-            
           }
-          
-          
         } else {
           navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
         }
@@ -143,37 +108,49 @@ export default function EditEvent({ eventId }: { eventId?: string }) {
     });
   }, [id]);
 
-  // useEffect(() => {
+  useEffect(() => {
+    setIsLoading(true);
 
+    let unsubscribe: Function;
+    let usuarios2: Function;
+    console.log('eventid aqui en roles list',eventId);
     
-  //   const fetchData = async () => {
-  //    const ussers = await firestoreUserHelper.getUser(id)
-    
-    
-  //   setIsLoading(true);
-  //   let unsubscribe: Function;
-  //   let usuarios2: Function;
-  //   console.log('eventid aqui en roles list',eventId);
-
-  //   const fetchData = async () => {
-  //     unsubscribe = await firestoreUserHelper.getAdmins(setUsers, setIsLoading, eventId);
-  //     usuarios2 = await firestoreUserHelper.getAllUsers(setUsuarios, setIsLoading)
+    const fetchData = async () => {
+      unsubscribe = await firestoreUserHelper.getAdmins(setUsers, setIsLoading, eventId);
+      usuarios2 = await firestoreUserHelper.getAllUsers(setUsuarios, setIsLoading)
       
-  //   };
+    };
 
-  //   fetchData().catch((error) => {
-  //     console.error(error);
-  //   });
-  //   return () => {
-  //     if (unsubscribe) {
-  //       unsubscribe();
-        
-  //     } if (usuarios2) {
-  //       usuarios2()
-  //     }
-      
-  //   };
-  // }, [eventId]);
+    fetchData().catch((error) => {
+      console.error(error);
+    });
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      } if (usuarios2) {
+        usuarios2()
+      }
+    };
+  }, [eventId]);
+
+  useEffect(() => {
+    if (event && event.admins && users.length > 0) {
+      const adminsArray: { id: string; fullName: string }[] = [];
+      event.admins.forEach((element: string) => {
+        users.forEach((user) => {
+          if (element === user.id) {
+            adminsArray.push({
+              id: user.id,
+              fullName: `${user.nameFirst} ${user.nameLast}`,
+            })
+          }
+        });
+      });
+      setAdminsData(adminsArray)
+    }
+  }, [event, users]); 
+
+ 
 
 
   const save = async (values: any, setSubmitting: Function) => {
@@ -183,7 +160,6 @@ export default function EditEvent({ eventId }: { eventId?: string }) {
     } catch (error) {
       console.error(error);
       setSubmitting(false);
-      //TODO global error handling this.setState({errors: error.response.event})
     }
   };
 
@@ -200,19 +176,16 @@ export default function EditEvent({ eventId }: { eventId?: string }) {
           {loading ? (
             <CircularProgress />
           ) : (
-            <Container maxWidth="lg" sx={{ marginTop: 3, mx: 3 }}>
+            <Container maxWidth="lg" sx={{ marginTop: 3, mx: 3,  }}>
               <Grid
                 container
                 direction="column"
                 alignItems="center"
                 justifyContent="center"
-                spacing={3}
-                mb={40}
-                ml={40}
+                sx={{padding: '30px 0px 20px 30px'}}
+                
               >
-                <Grid item xs = {12} sx={{ my: 3, typography: 'h4', color: 'black' }}>
-                  Informacion General
-                </Grid>
+                
 
                 <Formik
                   enableReinitialize
@@ -225,8 +198,7 @@ export default function EditEvent({ eventId }: { eventId?: string }) {
                     country: event?.country || '',
                     province: event?.province || '',
                     city: event?.city || ''
-                    
-                    
+
                   }}
                   validationSchema={EventFormSchema}
                   onSubmit={async (values, { setSubmitting }) => {
@@ -236,7 +208,7 @@ export default function EditEvent({ eventId }: { eventId?: string }) {
                   {({ isSubmitting, setFieldValue, touched, errors, values }) => (
                     <Form>
                       <Grid container spacing={2}>
-                        <Grid  item md={6} sm={6} xs={12}>
+                        {/* <Grid  item md={6} sm={6} xs={12}>
                           <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
                             Nombre del evento
                           </Typography>
@@ -249,24 +221,8 @@ export default function EditEvent({ eventId }: { eventId?: string }) {
                             inputProps={{
                               style: {
                                 fontFamily: 'Inter', 
-                              }
-                              
-                              
+                              } 
                             }} />
-                       
-
-                           {/* <Box 
-                           border={1} borderColor={'red'}
-                          //  sx={{display:'flex' , direction: 'column', flexDirection:'flex-end', alignItems: 'center'}}
-                           >
-                                  <Avatar
-                                      src="/img/icon/location.svg"
-                                      alt="ETI"
-                                      className={classes.icon}
-                                      
-                                  />
-                           </Box> */}
-
                         </Grid>
                         <Grid item md={6} sm={6} xs={12}>
                         <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
@@ -287,7 +243,7 @@ export default function EditEvent({ eventId }: { eventId?: string }) {
                             
 
                           />
-                        </Grid>
+                        </Grid> */}
 
                         <Grid item xs={12} lg={12} style={{ display: 'flex' }}>
                         
@@ -336,8 +292,34 @@ export default function EditEvent({ eventId }: { eventId?: string }) {
                             setFieldValue={setFieldValue}
                           />
                         </Grid>
+                        <Grid item md={12} sm={12} xs={12}>
+                        <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
                         
-                        <Grid container justifyContent="flex-end">
+                        Organizadores
+                        </Typography>
+                            
+                            {adminsData.map((admin, index) => (
+                              <TextField
+                                key={index}
+                                //disabled
+                                classes={{ root: classes.root}}
+                              //   sx={{
+                              //     "& .MuiInputBase-input.Mui-disabled": {
+                              //       WebkitTextFillColor: "#E68650",
+                              //       borderColor: "'#E68650 !important",
+                              //   },
+                              // }}
+                                inputProps={{
+                                  style: {
+                                    fontFamily: 'inter',
+                                  },
+                                }}
+                                defaultValue={admin.fullName}
+                          />
+                          ))}
+                        </Grid>
+
+                        {/* <Grid container justifyContent="flex-end">
                           <Grid item>
                             <Button
                               variant="contained"
@@ -349,33 +331,14 @@ export default function EditEvent({ eventId }: { eventId?: string }) {
                             </Button>
                           </Grid>
 
-                        </Grid>
-                       
+                        </Grid> */}
 
-                     
                       </Grid>
                     </Form>
                   )}
                 </Formik>
 
-                <Grid item md={12} sm={12} xs={12}>
-                        <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
-                        {/* {usuarioss.length > 0 ? `${usuarioss[0].nameLast} ${usuarioss[0].nameFirst}` : ''} */}
-                        Organizadores
-                        </Typography>
-                            <TextField
-                            classes={{root: classes.root}}
-                            inputProps={{
-                              style: {
-                                fontFamily: 'inter',
-
-                              },
-                            }}
-                            defaultValue={'Hola'}
-                            
-
-                          />
-                        </Grid>
+               
               </Grid>  
             </Container>
           )}
