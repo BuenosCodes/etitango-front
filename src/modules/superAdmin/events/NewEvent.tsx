@@ -61,6 +61,7 @@ export default function NewEvent(props:{etiEventId:string, onChange:Function}) {
             const event = await getEvent(id);
             setEvent(event);
             setLoading(false);
+            console.log(JSON.stringify(event.city))
           } catch (error) {
             console.error(error);
           }
@@ -125,6 +126,7 @@ export default function NewEvent(props:{etiEventId:string, onChange:Function}) {
                     dateStart: event?.dateStart || '',
                     location: event?.location || '',
                     name: event?.name || ''
+
                   }}
                   validationSchema={EventFormSchema}
                   onSubmit={async (values, { setSubmitting }) => {
@@ -155,7 +157,7 @@ export default function NewEvent(props:{etiEventId:string, onChange:Function}) {
                         <Grid item md={4} sm={4} xs={12}>
                           <ETIDatePicker
                             textFieldProps={{ fullWidth: true }}
-                            label={t('dateStart')}
+                            
                             fieldName="dateStart"
                             setFieldValue={setFieldValue}
                           />
@@ -163,7 +165,7 @@ export default function NewEvent(props:{etiEventId:string, onChange:Function}) {
                         <Grid item md={4} sm={4} xs={12}>
                           <ETIDatePicker
                             textFieldProps={{ fullWidth: true }}
-                            label={t('dateEnd')}
+                            
                             fieldName="dateEnd"
                             setFieldValue={setFieldValue}
                           />
@@ -171,7 +173,7 @@ export default function NewEvent(props:{etiEventId:string, onChange:Function}) {
                         <Grid item md={4} sm={4} xs={12}>
                           <ETIDatePicker
                             textFieldProps={{ fullWidth: true }}
-                            label={t('dateSignupOpen')}
+                          
                             fieldName="dateSignupOpen"
                             setFieldValue={setFieldValue}
                           />

@@ -167,7 +167,7 @@ export default function EditEvent() {
                         <Grid item md={4} sm={4} xs={12}>
                           <ETIDatePicker
                             textFieldProps={{ fullWidth: true }}
-                            label={t('dateStart')}
+                            
                             fieldName="dateStart"
                             setFieldValue={setFieldValue}
                           />
@@ -175,7 +175,7 @@ export default function EditEvent() {
                         <Grid item md={4} sm={4} xs={12}>
                           <ETIDatePicker
                             textFieldProps={{ fullWidth: true }}
-                            label={t('dateEnd')}
+                            
                             fieldName="dateEnd"
                             setFieldValue={setFieldValue}
                           />
@@ -183,7 +183,7 @@ export default function EditEvent() {
                         <Grid item md={4} sm={4} xs={12}>
                           <ETIDatePicker
                             textFieldProps={{ fullWidth: true }}
-                            label={t('dateSignupOpen')}
+                            
                             fieldName="dateSignupOpen"
                             setFieldValue={setFieldValue}
                           />

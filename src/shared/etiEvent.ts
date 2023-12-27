@@ -7,7 +7,8 @@ export interface EtiEventBase {
   location: string;
   country: string;
   province: string;
-  city: string
+  city: string;
+  admins: [];
 }
 
 export interface EtiEvent extends EtiEventBase {
