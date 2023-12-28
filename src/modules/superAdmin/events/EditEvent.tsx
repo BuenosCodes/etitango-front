@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import { Button, CircularProgress, Container, Grid, Box } from '@mui/material';
+import { Button, CircularProgress, Container, Grid, Box, Typography, Paper } from '@mui/material';
 import WithAuthentication from '../../withAuthentication';
 import { Translation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n';
@@ -19,7 +19,11 @@ import { ETIDatePicker } from '../../../components/form/DatePicker';
 import RolesList from '../roles/RolesList';
 import CloudinaryUploadWidget from 'components/CloudinaryUploadWidget';
 import { Cloudinary } from "@cloudinary/url-gen";
+import EventListTable from './eventsListTable';
+import * as firestoreEventHelper from 'helpers/firestore/events';
+import EditEventsTable from 'components/EditEventsTable';
 //import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
+import ETIAgenda from 'components/ETIAgenda';
 
 export default function EditEvent() {
 
@@ -27,11 +31,13 @@ export default function EditEvent() {
   const [imageUrl, setImageUrl] = useState("");
   const [imageEvent, setImageEvent] = useState("");
 
+  const [events, setEvents] = useState<EtiEvent[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   // Replace with your own cloud name
   const cloudNameCredencial = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
   const cloudPresetCredencial = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
 
-  
   const cloudName = cloudNameCredencial;
   // Replace with your own upload preset
   const uploadPreset = cloudPresetCredencial;
@@ -64,7 +70,6 @@ export default function EditEvent() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
@@ -86,15 +91,24 @@ export default function EditEvent() {
     });
   }, [id]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const evts = await firestoreEventHelper.getEvents();
+      setEvents(evts);
+    };
+    setIsLoading(true);
+    fetchData().catch((error) => console.error(error));
+    setIsLoading(false);
+  }, []);
+
 
   const save = async (values: any, setSubmitting: Function) => {
     try {
       const eventId = await createOrUpdateDoc('events', values, id === 'new' ? undefined : id);
       console.log('la id del evento ', eventId);
-      
-      if(eventId && imageUrl) {
-        await updateEventWithImageUrl(eventId, imageUrl)
 
+      if (eventId && imageUrl) {
+        await updateEventWithImageUrl(eventId, imageUrl)
       }
       navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
     } catch (error) {
@@ -115,10 +129,29 @@ export default function EditEvent() {
             roles={[UserRoles.ADMIN]}
             redirectUrl={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`}
           />
+          <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center',}}>
+            {/* Lista de eventos */}
+          <Box sx={{
+            marginLeft: '100px',
+            maxHeight: '300px',
+            maxWidth: '90%',
+            width: '100%',
+            overflow: 'auto',
+            //border: '2px solid red'
+          }}
+          >
+            {/* <EventListTable events={events} isLoading={isLoading} /> */}
+          </Box>
           {loading ? (
             <CircularProgress />
           ) : (
-            <Container maxWidth="lg" sx={{ marginTop: 3, mx: 3 }}>
+            <Container maxWidth="lg"
+              sx={{
+                //border: '2px solid red',
+                marginTop: 3, mx: 3,
+                marginBottom: '30px',
+                marginLeft: '100px',
+              }}>
               <Grid
                 container
                 direction="column"
@@ -126,10 +159,11 @@ export default function EditEvent() {
                 justifyContent="center"
                 spacing={3}
               >
-                <Grid item sx={{ my: 3, typography: 'h5', color: 'secondary.main' }}>
+                {/* Form para crear el evento */}
+                {/* <Grid item sx={{ my: 3, typography: 'h5', color: 'secondary.main' }}>
                   EVENTS
-                </Grid>
-                <Formik
+                </Grid> */}
+                {/* <Formik
                   enableReinitialize
                   initialValues={{
                     dateEnd: event?.dateEnd || '',
@@ -188,7 +222,7 @@ export default function EditEvent() {
                             setFieldValue={setFieldValue}
                           />
                         </Grid>
-
+                    
                         <Grid container justifyContent="flex-end">
                           <Grid item>
                             <Button
@@ -204,38 +238,55 @@ export default function EditEvent() {
                       </Grid>
                     </Form>
                   )}
-                </Formik>
-              </Grid>
-              <CloudinaryUploadWidget 
-                uwConfig={uwConfig} 
-                setPublicId={setPublicId} 
-                onImageUpload={(uploadedImageUrl: string) => setImageUrl(uploadedImageUrl)}
-              />
+                </Formik> */}
 
-              {/* <div style={{width: "200px"}}>
-                <AdvancedImage
-                  style={{ maxWidth: "100%" }}
-                  cldImg={myImage}
-                  plugins={[responsive(), placeholder()]}
-                />
-              </div> */}
-
-              <Box
-                component="img"
-                sx={{
-                  height: 233,
-                  width: 350,
-                  maxHeight: { xs: 233, md: 167 },
-                  maxWidth: { xs: 350, md: 250 },
+                <Box sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  //border: '2px solid black',
+                  flexDirection: 'column',
+                  width: '100%',
                 }}
-                alt="Imagen representativa del evento"
-                src={imageEvent ? imageEvent : '/img/imageNotFound.png'}
-                
-              />
-              
-              <RolesList eventId={id} />
+                >
+                  {/* <EditEventsTable title={'Agenda'} subtitles={['Fecha', 'Descripcion']}/> */}
+                  <ETIAgenda />
+                  <EditEventsTable title={'Lugar del evento'} subtitles={['Nombre del establecimiento', 'Direccion de Google Maps']}/>
+                  <EditEventsTable title={'Datos Bancarios'} subtitles={['Nombre', 'Alias', 'CBU/CVU']}/>
+                  <EditEventsTable title={'Mercadopago'} subtitles={['Link de cobro']}/>
+                </Box>
+              </Grid>
+
+              {/* Carga de imagen para el Evento */}
+              {/* <Box sx={{
+                marginLeft: '100px',
+                maxHeight: '300px',
+                maxWidth: '50%',
+                width: '100%',
+                overflow: 'auto',
+                //border: '2px solid red'
+              }}>
+                <Box
+                  component="img"
+                  sx={{
+                    height: 233,
+                    width: 350,
+                    maxHeight: { xs: 233, md: 167 },
+                    maxWidth: { xs: 350, md: 250 },
+                  }}
+                  alt="Imagen representativa del evento"
+                  src={imageEvent ? imageEvent : '/img/imageNotFound.png'}
+                />
+
+                <CloudinaryUploadWidget
+                  uwConfig={uwConfig}
+                  setPublicId={setPublicId}
+                  onImageUpload={(uploadedImageUrl: string) => setImageUrl(uploadedImageUrl)}
+                />
+              </Box> */}
             </Container>
           )}
+          </Box>
+          
         </>
       )}
     </Translation>

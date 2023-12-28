@@ -40,7 +40,7 @@ export function EventListTable(props: { events: EtiEvent[]; isLoading: boolean }
   const columns: GridColDef[] = fields?.map((fieldName) => ({
     field: fieldName,
     headerName: t(fieldName),
-    width: 200
+    width: 120,
   }));
   columns.push(button);
 
