@@ -58,15 +58,15 @@ export function RolesListTable(props: {
   }));
   columns.push(removeRoleButtons);
 
-  const getUserDataValues = ({ id, email, roles, adminOf }: UserRolesListData) => {
-    const isAdmin = adminOf && adminOf.length > 0; 
-    return { id, email, admin: isAdmin, [UserRoles.SUPER_ADMIN]: roles?.[UserRoles.SUPER_ADMIN] };
-  };
+  // const getUserDataValues = ({ id, email, roles, adminOf }: UserRolesListData) => {
+  //   const isAdmin = adminOf && adminOf.length > 0; 
+  //   return { id, email, admin: isAdmin, [UserRoles.SUPER_ADMIN]: roles?.[UserRoles.SUPER_ADMIN] };
+  // };
 
   return (
     <>
       <Paper style={{ height: '100vh', marginTop: 3 }}>
-        <DataGrid rows={users.map(getUserDataValues)} columns={columns} loading={isLoading} />
+        {/* <DataGrid rows={users.map(getUserDataValues)} columns={columns} loading={isLoading} /> */}
       </Paper>
     </>
   );

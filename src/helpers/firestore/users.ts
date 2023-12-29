@@ -109,6 +109,36 @@ export async function assignSuperAdmin(email: string) {
   const doc = await getUserByEmail(email);
   return createOrUpdateDoc(USERS, { roles: { [UserRoles.SUPER_ADMIN]: true } }, doc.id);
 }
+
+// Para hacer admins a varios usuarios
+export const assignEventAdmins = async (emails: string[], eventId: string) => {
+  const batch = writeBatch(db);
+
+  for (const email of emails) {
+    const userDoc = await getUserByEmail(email);
+
+    if (userDoc) {
+      const eventRef = doc(db, `${EVENTS}/${eventId}`);
+      batch.update(eventRef, { admins: arrayUnion(userDoc.id) });
+
+      const userRef = doc(db, `${USERS}/${userDoc.id}`);
+      batch.update(
+        userRef,
+        {
+          // @ts-ignore
+          roles: { [UserRoles.ADMIN]: true },
+          adminOf: arrayUnion(eventId),
+        },
+        { merge: true }
+      );
+    }
+  }
+
+  await batch.commit();
+};
+
+
+// Para hacer admin a un usuario
 export async function assignEventAdmin(email: string, etiEventId: string) {
   const userDoc = await getUserByEmail(email);
   const eventRef = doc(db, `${EVENTS}/${etiEventId}`);
