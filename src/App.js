@@ -27,7 +27,6 @@ import Bank from './modules/user/profile/bank';
 import withUserMenu from './components/withUserMenu';
 // import EventForm from './modules/superAdmin/events/EventForm';
 import NewEvent from './modules/superAdmin/events/NewEvent';
-import  EditEvent  from 'modules/superAdmin/events/EditEvent';
 import TemplatesList from './modules/superAdmin/templates';
 import EditTemplate from './modules/superAdmin/templates/EditTemplate';
 import RolesList from './modules/superAdmin/roles/RolesList';
@@ -36,9 +35,7 @@ import Instructions from './modules/instructions/index';
 import NewAppBar from 'components/NewBar';
 import NewFooter from 'components/NewFooter';
 import UserPanel from 'modules/user/components/panel/userPanel';
-
-
-
+import NewEditEvent from 'modules/superAdmin/events/NewEditEvent';
 
 i18n
   .use(initReactI18next)
@@ -55,7 +52,7 @@ i18n
 export const ROUTES = {
   HOME: '/',
   EVENTS: '/events',
-  EDIT: '/editEvent',
+  EDIT: '/newEditEvent',
   SUPERADMIN: '/super-admin',
   PROFILE: '/user/profile',
   USER: '/user',
@@ -116,6 +113,7 @@ function App() {
             <Route path="comision-de-genero-contact" element={<ComisionGeneroContact />} exact />
             <Route path="comision-de-genero-protocol" element={<ComisionGeneroProtocol />} exact />
             <Route path="comision-de-genero-who" element={<ComisionGeneroWho />} exact />
+            {/* <Route path="info-general" element={<NewEditEvent />} exact /> */}
             <Route path={ROUTES.SIGNUP} element={withUserMenu(Inscripcion)()} exact />
             <Route path={ROUTES.SIGNUPS} element={withUserMenu(SignupList)()} exact />
             <Route
@@ -126,7 +124,7 @@ function App() {
             <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
             <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`} element={<EventsList />} />
-            <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}${ROUTES.EDIT}/:id`} element={<EditEvent />} />
+            <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}${ROUTES.EDIT}/:id`} element={<NewEditEvent />} />
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`} element={<NewEvent />} />
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.ROLES}`} element={<RolesList />} />
             <Route path={ROUTES.USER} element={withUserMenu(UserHome)()} />

@@ -1,9 +1,41 @@
-import { Grid, TextField as TextFieldMUI } from '@mui/material';
+import { Grid, TextField as TextFieldMUI, Typography, InputAdornment } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
+import IconButton from '@mui/material/IconButton';
+import { makeStyles } from '@mui/styles';
 import React, { useEffect, useState } from 'react';
 import { getCountries } from 'helpers/thirdParties/restCountries';
 import { getProvinces, getCities } from 'helpers/thirdParties/georef';
 import { FormikValues } from 'formik';
+import { IosShare, Style } from '@mui/icons-material';
+import { color } from '@cloudinary/url-gen/qualifiers/background';
+import { end } from '@cloudinary/url-gen/qualifiers/textAlignment';
+
+const useStyles = makeStyles({
+  root: {
+    '& .MuiOutlinedInput-root': {
+      fontFamily: 'inter',
+      '& fieldset': {
+        borderColor: '#E68650',
+        borderRadius: '8px',
+        borderWidth: '2px',
+          
+      },
+      '&:hover fieldset ': {
+        borderColor: '#E68650',
+        borderRadius: '8px',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#E68650',
+        borderRadius: '8px',
+      },
+      '& .MuiIconButton-root': { // Estilos para el icono del DatePicker
+        color: '#A82548', // Cambiar el color del icono aquí
+      }
+      
+    },
+  },
+});
+
 
 export const LocationPicker = ({
   values,
@@ -65,9 +97,15 @@ export const LocationPicker = ({
     }
   };
 
+  const classes = useStyles()
+
   return (
     <Grid container spacing={3}>
       <Grid item md={4} sm={4} xs={12}>
+        <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
+            Pais
+        </Typography>
+
         <Autocomplete
           disablePortal
           fullWidth
@@ -76,13 +114,15 @@ export const LocationPicker = ({
           onChange={(_, value) => handleCountryChange(value, true)}
           value={values?.country || null}
           defaultValue={location?.country}
+          classes={{root: classes.root}}
           renderInput={(params) => (
+            
             <TextFieldMUI
               {...params}
               name="country"
               error={touched['country'] && !!errors['country']}
               helperText={touched['country'] && errors['country']}
-              label={t('country')}
+              classes={{root: classes.root}}
             />
           )}
         />
@@ -90,6 +130,9 @@ export const LocationPicker = ({
       {isArgentina && (
         <>
           <Grid item md={4} sm={4} xs={12}>
+            <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
+                Provincia            
+            </Typography>
             <Autocomplete
               disablePortal
               fullWidth
@@ -104,13 +147,17 @@ export const LocationPicker = ({
                   name="province"
                   error={touched['province'] && !!errors['province']}
                   helperText={touched['province'] && errors['province']}
-                  label={t('province')}
                   variant="outlined"
+                  classes={{root: classes.root}}
+                  
                 />
               )}
             />
           </Grid>
           <Grid item md={4} sm={4} xs={12}>
+          <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
+                Ciudad            
+            </Typography>
             <Autocomplete
               disablePortal
               fullWidth
@@ -125,8 +172,9 @@ export const LocationPicker = ({
                   name="city"
                   error={touched['city'] && !!errors['city']}
                   helperText={touched['city'] && errors['city']}
-                  label={t('city')}
                   variant="outlined"
+                  classes={{root: classes.root}}
+                  
                 />
               )}
             />

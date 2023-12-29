@@ -75,6 +75,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
             const event = await getEvent(etiEventId);
             setEvent(event);
             setLoading(false);
+            console.log(JSON.stringify(event.city))
           } catch (error) {
             console.error(error);
           }
@@ -219,7 +220,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                               <Grid item md={4} sm={4} xs={4}>
                                 <ETIDatePicker
                                   textFieldProps={{ fullWidth: true }}
-                                  label={t('Comienza el')}
+                                  
                                   fieldName="dateStart"
                                   setFieldValue={setFieldValue}
                                 />
@@ -227,7 +228,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                               <Grid item md={4} sm={4} xs={4}>
                                 <ETIDatePicker
                                   textFieldProps={{ fullWidth: true }}
-                                  label={t('Termina el')}
+                                 
                                   fieldName="dateEnd"
                                   setFieldValue={setFieldValue}
                                 />
@@ -235,7 +236,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                               <Grid item md={4} sm={4} xs={4}>
                                 <ETIDatePicker
                                   textFieldProps={{ fullWidth: true }}
-                                  label={t('La inscripcion comienza el')}
+                                 
                                   fieldName="dateSignupOpen"
                                   setFieldValue={setFieldValue}
                                 />
