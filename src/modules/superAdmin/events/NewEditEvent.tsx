@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
 import { Button, CircularProgress, Container, Grid, Box, styled, Avatar, Typography, Modal} from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -240,7 +241,9 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
                             setFieldValue={setFieldValue}
                             touched={touched}
                             location={event}
-
+                            borderColor={false}
+                            specialCase={true}
+                            colorFont={'#0075D9'}
                           />
                         </Grid>
 
@@ -253,6 +256,9 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
                             textFieldProps={{ fullWidth: true }}
                             fieldName="dateStart"
                             setFieldValue={setFieldValue}
+                            borderColor={false}
+                            specialCase={true}
+
                           />
                         </Grid>
                         
@@ -280,7 +286,8 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
                             textFieldProps={{ fullWidth: true }}
                             fieldName="dateEnd"
                             setFieldValue={setFieldValue}
-                            
+                            borderColor={false}
+                            specialCase={true}
                           />
                            
                         </Grid>
@@ -306,20 +313,9 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
                             textFieldProps={{ fullWidth: true }}
                             fieldName="dateSignupOpen"
                             setFieldValue={setFieldValue}
+                            borderColor={false}
+                            specialCase={true}
                           />
-
-                        </Grid>
-
-                        <Grid item md={2} sm={2} xs={12}>
-                        <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
-                            Hora
-                          </Typography>
-                          <ETITimePickerEdit
-                                textFieldProps={{ fullWidth: true }}
-                                fieldName="dateSignupOpen"
-                                setFieldValue={setFieldValue}
-                              />
-
                         </Grid>
 
                         <Grid item md={12} sm={12} xs={12}>

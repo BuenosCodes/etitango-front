@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import { Button, CircularProgress, Grid, Box, Typography, Modal, Chip } from '@mui/material';
+import { Button, CircularProgress, Grid, Box, Typography, Modal, Chip, Icon } from '@mui/material';
 import WithAuthentication from '../../withAuthentication';
 import { Translation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n';
@@ -17,6 +17,7 @@ import { ETIDatePicker } from '../../../components/form/DatePicker';
 import RolesNewEvent from '../roles/RolesNewEvent';
 import { LocationPicker } from 'components/form/LocationPicker';
 import { unassignEventAdmin } from '../../../helpers/firestore/users';
+import { makeStyles } from '@mui/styles';
 
 
 export default function NewEvent(props: { etiEventId: string, onChange: Function }) {
@@ -57,10 +58,10 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
   const handleClose = (values: string[] | null) => {
     setOpen(false)
     setCreateEvent(false)
-    if (values || []){
-    const newAdmins = values || []
-    setAdmins((prevAdmins) => [...new Set([...prevAdmins, ...newAdmins])]);
-    setShowAdmins(true)
+    if (values || []) {
+      const newAdmins = values || []
+      setAdmins((prevAdmins) => [...new Set([...prevAdmins, ...newAdmins])]);
+      setShowAdmins(true)
     }
   };
 
@@ -123,16 +124,16 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
   };
 
 
-  const handleDelete = async (email:string) => {
+  const handleDelete = async (email: string) => {
     try {
       // setLoading(true);      
-  if (idNuevo) {
-    await unassignEventAdmin(email, idNuevo)
-    setAdmins((currentAdmins) => currentAdmins.filter((admin) => admin !== email));
-  } else {
-    console.error('idNuevo es undefined. No se puede asignar administrador.');
-  }
-  
+      if (idNuevo) {
+        await unassignEventAdmin(email, idNuevo)
+        setAdmins((currentAdmins) => currentAdmins.filter((admin) => admin !== email));
+      } else {
+        console.error('idNuevo es undefined. No se puede asignar administrador.');
+      }
+
     } catch (error) {
       console.error('Error al borrar administrador:', error);
     } finally {
@@ -140,6 +141,43 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
     }
   };
 
+  const handleCreateEvent = async (values: any) => {
+    try {
+      await createOrUpdateDoc('events', values, idNuevo === 'new' ? undefined : idNuevo);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const useStyles = makeStyles({
+    root: {
+      '& .MuiOutlinedInput-root': {
+        fontFamily: 'inter',
+        '& fieldset': {
+          borderColor: enable ? '#E68650' : '#FDE4AA',
+          borderRadius: '8px',
+          borderWidth: '1.5px',
+          pointerEvents: 'none'
+        },
+        '&:hover fieldset ': {
+          borderColor: enable ? '#E68650' : '#FDE4AA',
+          borderRadius: '8px',
+          pointerEvents: 'none'
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: enable ? '#E68650' : '#FDE4AA',
+          borderRadius: '8px',
+          pointerEvents: 'none'
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+          borderColor: enable ? '#E68650' : '#FDE4AA',
+        }
+
+      },
+    },
+  });
+
+  const classes = useStyles()
 
   return (
     <Translation
@@ -180,19 +218,19 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                       {({ setFieldValue, touched, errors, values }) => (
                         <Form>
                           <Grid container gap={2}>
-                            <Typography>¿Nombre para el evento?</Typography>
+                            <Typography sx={{ color: '#212121' }}>Nombre para el evento</Typography>
                             <Grid item md={12} sm={12} xs={12}>
                               <Field
                                 name="name"
-                                label={t('Nombre del evento')}
+                                // label={t('Nombre del evento')}
+                                placeholder="Nuevo ETI"
                                 component={TextField}
                                 required
                                 fullWidth
+                                classes={{ root: classes.root }}
+                              // disabled={enable}                
                               />
                             </Grid>
-
-                            <Typography>¿Lugar del evento?</Typography>
-
                             <Grid item md={12} sm={12} xs={12}>
                               <LocationPicker
                                 values={values}
@@ -201,44 +239,53 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                 setFieldValue={setFieldValue}
                                 touched={touched}
                                 location={event}
+                                borderColor={enable}
+                                specialCase={false}
+                                colorFont={'#424242'}
                               />
                             </Grid>
                             <Grid item md={12} sm={12} xs={12}>
                               <Field
                                 name="location"
-                                label={t('Lugar')}
+                                // label={t('Lugar')}
+                                placeholder="Lugar"
                                 component={TextField}
                                 required
                                 fullWidth
+                                classes={{ root: classes.root }}
+                              // disabled={enable}      
                               />
                             </Grid>
 
-                            <Typography>¿Fechas del evento?</Typography>
+                            <Typography>Fechas del evento</Typography>
 
                             <Grid container spacing={2}>
 
                               <Grid item md={4} sm={4} xs={4}>
                                 <ETIDatePicker
                                   textFieldProps={{ fullWidth: true }}
-                                  label={t('Comienza el')}
                                   fieldName="dateStart"
                                   setFieldValue={setFieldValue}
+                                  borderColor={enable}
+                                  specialCase={false}
                                 />
                               </Grid>
                               <Grid item md={4} sm={4} xs={4}>
                                 <ETIDatePicker
                                   textFieldProps={{ fullWidth: true }}
-                                  label={t('Termina el')}
                                   fieldName="dateEnd"
                                   setFieldValue={setFieldValue}
+                                  borderColor={enable}
+                                  specialCase={false}
                                 />
                               </Grid>
                               <Grid item md={4} sm={4} xs={4}>
                                 <ETIDatePicker
                                   textFieldProps={{ fullWidth: true }}
-                                  label={t('La inscripcion comienza el')}
                                   fieldName="dateSignupOpen"
                                   setFieldValue={setFieldValue}
+                                  borderColor={enable}
+                                  specialCase={false}
                                 />
                               </Grid>
                             </Grid>
@@ -249,53 +296,63 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                   color="secondary"
                                   type="submit"
                                   disabled={enable}
+                                  sx={{ width: '115px', padding: '12px, 32px, 12px, 32px', borderRadius: '25px', backgroundColor: enable ? '#CCCCCC' : '#A82548', height: '44px', '&:hover': { backgroundColor: enable ? '#CCCCCC' : '#A82548' } }}
                                 >
-                                  Continuar
+                                  <Typography sx={{ color: '#FAFAFA', fontWeight: 500, fontSize: '14px', lineHeight: '20px' }}>
+                                    Continuar
+                                  </Typography>
                                 </Button>
                               </Grid>
                             </Grid>
+                            {idNuevo && (<>
+                              <Grid item xs={12}>
+                                <Grid container gap={2}>
+                                  <Typography sx={{ color: '##424242' }}>Colaboradores en la organización del evento</Typography>
+                                  <Grid item xs={12} sx={{ border: '1.5px solid #E68650', borderRadius: '8px' }}>
+                                    <Button sx={{ width: '100%', padding: '12px, 16px, 12px, 16px', display: 'flex', justifyContent: 'space-between' }} onClick={handleOpen}>
+                                      <Typography>
+                                        Organizadores
+                                      </Typography>
+                                      <Icon sx={{ display: 'flex', width: '4em' }}>
+                                        <Typography sx={{ mr: 1, color: '#A82548' }}>
+                                          Agregar
+                                        </Typography>
+                                        <img src='/img/icon/user-cirlce-add.svg' height={25} width={25} />
+                                      </Icon>
+                                    </Button>
+                                  </Grid>
+                                </Grid>
+                                <Modal open={open} onClose={() => handleClose([])}>
+                                  <Box sx={{ ...style, display: 'flex', flexDirection: 'column' }}>
+                                    <RolesNewEvent eventId={idNuevo} handleClose={handleClose} />
+                                  </Box>
+                                </Modal>
+
+                                {showAdmins && (<>
+                                  <Grid item xs={12} sx={{ border: '1.5px solid #E68650', borderRadius: '8px', mt: 2 }}>
+                                    {admins.map((admin, index) => (
+                                      <Chip key={index} label={admin} onDelete={() => handleDelete(admin)} variant="outlined" sx={{ m: 1, borderRadius: '8px', color: '#A82548', fontFamily: 'Roboto', fontWeight: 500, fontSize: '14px' }} />
+                                    ))}
+                                  </Grid>
+                                </>)}
+
+                                <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                                  <Button disabled={createEvent} sx={{ width: '115px', padding: '12px, 32px, 12px, 32px', borderRadius: '25px', backgroundColor: createEvent ? '#CCCCCC' : '#A82548', height: '44px', '&:hover': { backgroundColor: createEvent ? '#CCCCCC' : '#A82548' } }} onClick={() => { onChange(), handleCreateEvent(values) }}>
+                                    <Typography sx={{ color: '#FAFAFA', fontWeight: 500, fontSize: '14px', lineHeight: '20px' }}>
+                                      Crear
+                                    </Typography>
+                                  </Button>
+                                </Box>
+
+                              </Grid>
+                            </>
+                            )}
                           </Grid>
                         </Form>
                       )}
                     </Formik>
                   </Grid>
-                  <Grid item xs={12}>
-                    {idNuevo && (<>
-                      <Grid container gap={2}>
-                        <Typography>¿Quiénes colaborarán en la organización del evento?</Typography>
-                        <Grid item xs={12} sx={{ border: '1.5px solid #FDE4AA', borderRadius: '8px' }}>
-                          <Button sx={{ width: '100%', justifyContent: 'flex-start', padding: '12px, 16px, 12px, 16px' }} onClick={handleOpen}>
-                            <Typography>
-                              Organizadores
-                            </Typography>
-                          </Button>
-                        </Grid>
-                      </Grid>
-                      <Modal open={open} onClose={() => handleClose([])}>
-                        <Box sx={{ ...style, display: 'flex', flexDirection: 'column' }}>
-                          <RolesNewEvent eventId={idNuevo} handleClose={handleClose} />
-                        </Box>
-                      </Modal>
 
-                      {showAdmins && (<>
-                        <Grid item xs={12} sx={{ border: '1.5px solid #FDE4AA', borderRadius: '8px', mt: 2 }}>
-                          {admins.map((admin, index) => (
-                            <Chip key={index} label={admin} onDelete={()=> handleDelete(admin)} variant="outlined" sx={{ m: 1, borderRadius: '8px', color: '#A82548', fontFamily: 'Roboto', fontWeight: 500, fontSize: '14px' }} />
-                          ))}
-                        </Grid>
-                      </>)}
-
-                      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                        <Button disabled={createEvent} sx={{ width: '115px', padding: '12px, 32px, 12px, 32px', borderRadius: '25px', backgroundColor: createEvent ? '#CCCCCC' : '#A82548', height: '44px', '&:hover': { backgroundColor: createEvent ? '#CCCCCC' : '#A82548' } }} onClick={() => onChange()}>
-                          <Typography sx={{ color: '#FAFAFA', fontWeight: 500, fontSize: '14px', lineHeight: '20px' }}>
-                            Crear
-                          </Typography>
-                        </Button>
-                      </Box>
-
-                    </>
-                    )}
-                  </Grid>
                 </Grid>
               </Box>
             </Box>

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Grid, TextField as TextFieldMUI, Typography, InputAdornment } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import IconButton from '@mui/material/IconButton';
@@ -10,31 +11,31 @@ import { IosShare, Style } from '@mui/icons-material';
 import { color } from '@cloudinary/url-gen/qualifiers/background';
 import { end } from '@cloudinary/url-gen/qualifiers/textAlignment';
 
-const useStyles = makeStyles({
-  root: {
-    '& .MuiOutlinedInput-root': {
-      fontFamily: 'inter',
-      '& fieldset': {
-        borderColor: '#E68650',
-        borderRadius: '8px',
-        borderWidth: '2px',
+// const useStyles = makeStyles({
+//   root: {
+//     '& .MuiOutlinedInput-root': {
+//       fontFamily: 'inter',
+//       '& fieldset': {
+//         borderColor: '#E68650',
+//         borderRadius: '8px',
+//         borderWidth: '1.5px',
           
-      },
-      '&:hover fieldset ': {
-        borderColor: '#E68650',
-        borderRadius: '8px',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: '#E68650',
-        borderRadius: '8px',
-      },
-      '& .MuiIconButton-root': { // Estilos para el icono del DatePicker
-        color: '#A82548', // Cambiar el color del icono aquí
-      }
+//       },
+//       '&:hover fieldset ': {
+//         borderColor: '#E68650',
+//         borderRadius: '8px',
+//       },
+//       '&.Mui-focused fieldset': {
+//         borderColor: '#E68650',
+//         borderRadius: '8px',
+//       },
+//       '& .MuiIconButton-root': { // Estilos para el icono del DatePicker
+//         color: '#A82548', // Cambiar el color del icono aquí
+//       }
       
-    },
-  },
-});
+//     },
+//   },
+// });
 
 
 export const LocationPicker = ({
@@ -43,11 +44,17 @@ export const LocationPicker = ({
   errors,
   t,
   location,
-  setFieldValue
+  setFieldValue,
+  borderColor,
+  specialCase,
+  colorFont
 }: {
   values: FormikValues;
   touched: any;
   errors: any;
+  borderColor: any;
+  specialCase: any;
+  colorFont: string;
   t: any;
   setFieldValue: any;
   location?: { country: string; province?: string; city?: string };
@@ -97,18 +104,47 @@ export const LocationPicker = ({
     }
   };
 
+  const useStyles = makeStyles({
+    root: {
+      '& .MuiOutlinedInput-root': {
+        fontFamily: 'inter',
+        '& fieldset': {
+          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderRadius: '8px',
+          borderWidth: '1.5px',
+          pointerEvents: 'none'
+        },
+        '&:hover fieldset ': {
+          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderRadius: '8px',
+          pointerEvents: 'none'
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderRadius: '8px',
+          pointerEvents: 'none'
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+        }
+        
+      },
+    },
+  });
+
   const classes = useStyles()
 
   return (
     <Grid container spacing={3}>
       <Grid item md={4} sm={4} xs={12}>
-        <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
+        <Typography style={{fontFamily: 'inter', color: colorFont}}>
             Pais
         </Typography>
 
         <Autocomplete
           disablePortal
           fullWidth
+
           options={countries}
           getOptionLabel={(option) => option}
           onChange={(_, value) => handleCountryChange(value, true)}
@@ -123,6 +159,7 @@ export const LocationPicker = ({
               error={touched['country'] && !!errors['country']}
               helperText={touched['country'] && errors['country']}
               classes={{root: classes.root}}
+              placeholder='Pais'
             />
           )}
         />
@@ -130,7 +167,7 @@ export const LocationPicker = ({
       {isArgentina && (
         <>
           <Grid item md={4} sm={4} xs={12}>
-            <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
+            <Typography style={{fontFamily: 'inter', color: colorFont}}>
                 Provincia            
             </Typography>
             <Autocomplete
@@ -149,13 +186,14 @@ export const LocationPicker = ({
                   helperText={touched['province'] && errors['province']}
                   variant="outlined"
                   classes={{root: classes.root}}
+              placeholder='Provincia'
                   
                 />
               )}
             />
           </Grid>
           <Grid item md={4} sm={4} xs={12}>
-          <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
+          <Typography style={{fontFamily: 'inter', color: colorFont}}>
                 Ciudad            
             </Typography>
             <Autocomplete
@@ -174,6 +212,7 @@ export const LocationPicker = ({
                   helperText={touched['city'] && errors['city']}
                   variant="outlined"
                   classes={{root: classes.root}}
+              placeholder='Ciudad'
                   
                 />
               )}

@@ -8,31 +8,31 @@ const CustomSVGIcon = () => (
   <img src="/img/icon/calendar-add.svg" alt="Custom Icon" width="24" height="24" /> // Usar la ruta a tu SVG externo
 );
 
-const useStyles = makeStyles({
-  root: {
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: '#E68650',
-        borderRadius: '8px',
-        borderWidth: '2px'   
-      },
-      '&:hover fieldset ': {
-        borderColor: '#E68650',
-        borderRadius: '8px',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: '#E68650',
-        borderRadius: '8px',
-      },
-      '& .MuiIconButton-root': { // Estilos para el icono del DatePicker
-        color: '#A82548', // Cambiar el color del icono aquí
+// const useStyles = makeStyles({
+//   root: {
+//     '& .MuiOutlinedInput-root': {
+//       '& fieldset': {
+//         borderColor: '#E68650',
+//         borderRadius: '8px',
+//         borderWidth: '2px'   
+//       },
+//       '&:hover fieldset ': {
+//         borderColor: '#E68650',
+//         borderRadius: '8px',
+//       },
+//       '&.Mui-focused fieldset': {
+//         borderColor: '#E68650',
+//         borderRadius: '8px',
+//       },
+//       '& .MuiIconButton-root': { // Estilos para el icono del DatePicker
+//         color: '#A82548', // Cambiar el color del icono aquí
         
-      //}
-      }
-    }
+//       //}
+//       }
+//     }
 
-  },
-});
+//   },
+// });
 
 
 export const ETIDatePicker = ({
@@ -40,15 +40,46 @@ export const ETIDatePicker = ({
   fieldName,
   setFieldValue,
   textFieldProps,
+  specialCase,
+  borderColor,
   
 }: {
   fieldName: string;
   // eslint-disable-next-line no-unused-vars
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
   textFieldProps: any;
-  
+  specialCase: boolean;
+  borderColor: boolean;
 }) => {
   
+  const useStyles = makeStyles({
+    root: {
+      '& .MuiOutlinedInput-root': {
+        fontFamily: 'inter',
+        '& fieldset': {
+          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderRadius: '8px',
+          borderWidth: '1.5px',
+          pointerEvents: 'none'
+        },
+        '&:hover fieldset ': {
+          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderRadius: '8px',
+          pointerEvents: 'none'
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderRadius: '8px',
+          pointerEvents: 'none'
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+        }
+        
+      },
+    },
+  });
+
   const classes = useStyles();
 
 return (
@@ -69,7 +100,7 @@ return (
       inputIcon= {<CustomSVGIcon />}
       mask="__-__-____"
       onChange={(value: any) => setFieldValue(fieldName, value.toDate())}
-    />
+  />
 
 
  
