@@ -1,41 +1,10 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import { DatePicker } from 'formik-mui-x-date-pickers';
+import React, { useState } from 'react';
+import { TimePicker } from 'formik-mui-x-date-pickers';
 import { makeStyles } from '@mui/styles';
 import { Field } from 'formik';
 
-const CustomSVGIcon = () => (
-  <img src="/img/icon/calendar-add.svg" alt="Custom Icon" width="24" height="24" /> // Usar la ruta a tu SVG externo
-);
-
-// const useStyles = makeStyles({
-//   root: {
-//     '& .MuiOutlinedInput-root': {
-//       '& fieldset': {
-//         borderColor: '#E68650',
-//         borderRadius: '8px',
-//         borderWidth: '2px'   
-//       },
-//       '&:hover fieldset ': {
-//         borderColor: '#E68650',
-//         borderRadius: '8px',
-//       },
-//       '&.Mui-focused fieldset': {
-//         borderColor: '#E68650',
-//         borderRadius: '8px',
-//       },
-//       '& .MuiIconButton-root': { // Estilos para el icono del DatePicker
-//         color: '#A82548', // Cambiar el color del icono aquí
-        
-//       //}
-//       }
-//     }
-
-//   },
-// });
-
-
-export const ETIDatePicker = ({
+export const ETITimePicker = ({
   
   fieldName,
   setFieldValue,
@@ -75,18 +44,18 @@ export const ETIDatePicker = ({
         '& .MuiOutlinedInput-notchedOutline': {
           borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
         },
-        '& .MuiIconButton-root': { 
-          color: '#A82548', 
-        }      
+        '& .MuiIconButton-root': {
+            color: '#A82548', 
+          }   
       },
     },
   });
 
   const classes = useStyles();
-
+  const [hora, setHora] = useState()
 return (
   <Field
-      component={DatePicker}
+      component={TimePicker}
       disablePast
       textField={{
         ...textFieldProps,
@@ -97,13 +66,16 @@ return (
           fontFamily: 'inter',
         },
       }}
+      label={hora}
       name={fieldName}
-      inputFormat="DD-MM-YYYY"
-      inputIcon= {<CustomSVGIcon />}
-      mask="__-__-____"
-      onChange={(value: any) => setFieldValue(fieldName, value.toDate())}
+      inputFormat="00:00"
+      onChange={(value:any) => {
+        if (value && value.format) {
+            const horaComoString = value.format('HH:mm A');
+            console.log('hora como string ->', horaComoString);
+            setHora(horaComoString)
+            setFieldValue(fieldName, horaComoString);
+          }
+      }}
   />
-
-
- 
 )};

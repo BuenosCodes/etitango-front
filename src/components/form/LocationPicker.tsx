@@ -29,9 +29,9 @@ import { end } from '@cloudinary/url-gen/qualifiers/textAlignment';
 //         borderColor: '#E68650',
 //         borderRadius: '8px',
 //       },
-//       '& .MuiIconButton-root': { // Estilos para el icono del DatePicker
-//         color: '#A82548', // Cambiar el color del icono aquí
-//       }
+      // '& .MuiIconButton-root': { // Estilos para el icono del DatePicker
+      //   color: '#A82548', // Cambiar el color del icono aquí
+      // }
       
 //     },
 //   },
@@ -126,6 +126,9 @@ export const LocationPicker = ({
         },
         '& .MuiOutlinedInput-notchedOutline': {
           borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+        },
+        '& .MuiIconButton-root': { // Estilos para el icono del DatePicker
+          color: '#A82548', // Cambiar el color del icono aquí
         }
         
       },
