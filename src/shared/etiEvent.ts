@@ -8,6 +8,10 @@ export interface EtiEventBase {
   country: string;
   province: string;
   city: string;
+  timeStart: string;
+  timeEnd: string;
+  timeSignupOpen: string;
+  timeSignupEnd: string;
   admins: [];
 }
 
@@ -16,4 +20,5 @@ export interface EtiEvent extends EtiEventBase {
   dateStart: Date;
   dateEnd: Date;
   dateSignupOpen: Date;
+  dateSignupEnd: Date;
 }
