@@ -4,9 +4,13 @@
 import React, { useState } from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import ModalForm from './ModalForm';
+import ETITable from './ETITable';
+import MyDataGrid from './ejemplo';
 
-const ETIAgenda = () => {
 
+const ETIAgenda = ({ dateStart, name, additionalFields }) => {
+
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -17,6 +21,7 @@ const ETIAgenda = () => {
     setIsModalOpen(false);
   };
 
+  console.log('datos traidos -> ', dateStart, name, additionalFields);
 
   return (
     <Box sx={{
@@ -52,6 +57,8 @@ const ETIAgenda = () => {
               <Typography variant="subtitle2" fontWeight="600" color='white'>Descripcion</Typography>
             </Grid>
         </Grid>
+        {/* <CollapsibleTable /> */}
+        <ETITable dateStart={dateStart} name={name} additionalFields={additionalFields} />
       </Grid>
     </Box>
   );

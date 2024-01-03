@@ -1,11 +1,11 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import { Box, Button, Grid, Stack, TextField } from '@mui/material';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
+import { Formik, Form, Field } from 'formik';
+import { createOrUpdateDoc } from 'helpers/firestore';
 import { ROUTES } from 'App';
 import { getEvent } from 'helpers/firestore/events';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -72,7 +72,9 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose }) => {
 
 
 
-  const [additionalFields, setAdditionalFields] = useState<{ description: string, time: string }[]>([]);
+  const [additionalFields, setAdditionalFields] = useState<{ description: string, time: string }[]>([
+    { description: '', time: '' } // Inicializa con al menos una sección
+  ]);
 
   useEffect(() => {
     console.log('Valor actual de additionalFields:', additionalFields);
@@ -81,8 +83,7 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose }) => {
 
   const handleDateTimeChange = (index: number, type: FieldType, value: string) => {
     const newFields = [...additionalFields];
-    const adjustedDate = moment(value).tz(moment.tz.guess());
-    newFields[index][type] = adjustedDate.toISOString();
+    newFields[index][type] = value; // Almacena el valor directamente
     setAdditionalFields(newFields);
   };
   
@@ -221,6 +222,7 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose }) => {
                     <Grid item xs={3}>
                       <Stack>
                         <TimePickerField value={field.time} onChange={(value) => handleDateTimeChange(index, 'time', value)} />
+                        {/* <ETITimePickerField value={field.time} onChange={(value) => handleDateTimeChange(index, 'time', value)}/> */}
                       </Stack>
                     </Grid>
                     <Grid item xs={9}>
@@ -296,19 +298,20 @@ const TimePickerField: React.FC<TimePickerFieldProps> = ({ value, onChange }) =>
   }, [value]);
 
   const handleTimeChange = (newValue: Moment | null) => {
-      if (newValue !== null) {
-          const newTime: Date = newValue.toDate();
-          console.log('newValue:', newTime);
-          setSelectedTime(newTime);
-          onChange(newTime.toISOString());
-      }
+    if (newValue !== null) {
+      const horaComoString = newValue.format('HH:mm A');
+      console.log('hora como string ->', horaComoString);
+      //setSelectedTime(newValue.toDate());
+      onChange(horaComoString);
+    }
   };
 
   return (
       <TimePicker
           label="Hora"
           renderInput={(params) => <TextField {...params} />}
-          value={selectedTime || new Date()}
+          //value={selectedTime}
+          value={value ? moment(value, 'HH:mm A') : null}
           onChange={handleTimeChange}
       />
   );

@@ -6,6 +6,7 @@ import { EtiEvent } from 'shared/etiEvent';
 import * as firestoreEventHelper from 'helpers/firestore/events';
 import EventListTable from './eventsListTable';
 
+
 const EventsList = () => {
   // eslint-disable-next-line no-unused-vars
   const [events, setEvents] = useState<EtiEvent[]>([]);

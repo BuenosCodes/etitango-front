@@ -24,6 +24,9 @@ import * as firestoreEventHelper from 'helpers/firestore/events';
 import EditEventsTable from 'components/EditEventsTable';
 //import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
 import ETIAgenda from 'components/ETIAgenda';
+import ETIAlojamiento from 'components/ETIAlojamiento';
+import ETIDataBanks from 'components/ETIDataBanks';
+import ETIMercadoPago from 'components/ETIMercadoPago';
 
 export default function EditEvent() {
 
@@ -33,6 +36,8 @@ export default function EditEvent() {
 
   const [events, setEvents] = useState<EtiEvent[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [eventExists, setEventExists] = useState()
 
   // Replace with your own cloud name
   const cloudNameCredencial = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
@@ -67,6 +72,7 @@ export default function EditEvent() {
 
   const [event, setEvent] = useState<EtiEvent | null>(null);
   const [loading, setLoading] = useState(true);
+  const [eventData, setEventData] = useState<EtiEvent | null>(null);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -75,8 +81,12 @@ export default function EditEvent() {
       if (id) {
         const eventExists = await getDocument(`events/${id}`);
         if (eventExists) {
+          //const { dateStart, name, additionalFields } = eventExists;
+          //console.log('datos: ', new Date(dateStart.seconds * 1000), name, additionalFields);
           const event = await getEvent(id);
           setEvent(event);
+          console.log('Evento: ', event);
+          
           setImageEvent(event.imageUrl);
           //console.log('este es la imagen url del evento: ', event.imageUrl);
         } else {
@@ -249,10 +259,17 @@ export default function EditEvent() {
                 }}
                 >
                   {/* <EditEventsTable title={'Agenda'} subtitles={['Fecha', 'Descripcion']}/> */}
-                  <ETIAgenda />
-                  <EditEventsTable title={'Lugar del evento'} subtitles={['Nombre del establecimiento', 'Direccion de Google Maps']}/>
-                  <EditEventsTable title={'Datos Bancarios'} subtitles={['Nombre', 'Alias', 'CBU/CVU']}/>
-                  <EditEventsTable title={'Mercadopago'} subtitles={['Link de cobro']}/>
+                  <ETIAgenda 
+                    dateStart={event?.dateStart}
+                    name={event?.name}
+                    additionalFields={event?.additionalFields}
+                  />
+                  {/* <EditEventsTable title={'Lugar del evento'} subtitles={['Nombre del establecimiento', 'Direccion de Google Maps']}/> */}
+                  <ETIAlojamiento />
+                  {/* <EditEventsTable title={'Datos Bancarios'} subtitles={['Nombre', 'Alias', 'CBU/CVU']}/> */}
+                  <ETIDataBanks />
+                  {/* <EditEventsTable title={'Mercadopago'} subtitles={['Link de cobro']}/> */}
+                  <ETIMercadoPago />
                 </Box>
               </Grid>
 
