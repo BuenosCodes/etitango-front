@@ -47,7 +47,9 @@ export const LocationPicker = ({
   setFieldValue,
   borderColor,
   specialCase,
-  colorFont
+  colorFont,
+  fontWeight,
+  fontFamily
 }: {
   values: FormikValues;
   touched: any;
@@ -55,37 +57,43 @@ export const LocationPicker = ({
   borderColor: any;
   specialCase: any;
   colorFont: string;
+  fontWeight: number;
+  fontFamily: string;
   t: any;
   setFieldValue: any;
   location?: { country: string; province?: string; city?: string };
 }) => {
-  const [countries, setCountries] = useState<string[]>([]);
+  // const [countries, setCountries] = useState<string[]>([]);
   const [provinces, setProvinces] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
-  const [isArgentina, setIsArgentina] = useState(false);
+  // const [isArgentina, setIsArgentina] = useState(false);
 
-  const handleCountryChange = async (value: string | null, userControlled?: boolean) => {
-    const isArgentina = value === 'Argentina';
-    if (isArgentina) {
-      const provinces = (await getProvinces()) as string[];
-      setProvinces(provinces);
-      location?.province && handleProvinceChange(location.province);
-    } else {
-      setProvinces([]);
-    }
-    setIsArgentina(isArgentina);
-    setFieldValue('country', value);
-    if (userControlled) {
-      setFieldValue('province', null);
-      setFieldValue('city', null);
-    }
-  };
+  // const handleCountryChange = async (value: string | null, userControlled?: boolean) => {
+  //   const isArgentina = value === 'Argentina';
+  //   if (isArgentina) {
+  //     const provinces = (await getProvinces()) as string[];
+  //     setProvinces(provinces);
+  //     location?.province && handleProvinceChange(location.province);
+  //   } else {
+  //     setProvinces([]);
+  //   }
+  //   setIsArgentina(isArgentina);
+  //   setFieldValue('country', value);
+  //   if (userControlled) {
+  //     setFieldValue('province', null);
+  //     setFieldValue('city', null);
+  //   }
+  // };
 
   useEffect(() => {
     const getFormData = async () => {
-      const countries = await getCountries();
-      setCountries(countries);
-      location?.country && handleCountryChange(location.country);
+      // const countries = await getCountries();
+      // setCountries(countries);
+      // location?.country && handleCountryChange(location.country);
+
+      const provinces = (await getProvinces()) as string[];
+      setProvinces(provinces);
+      location?.province && handleProvinceChange(location.province);
     };
     getFormData().catch((error) => console.error(error));
   }, []);
@@ -94,7 +102,7 @@ export const LocationPicker = ({
     if (value) {
       const cities = await getCities(value);
       setCities(cities);
-      isArgentina && location?.city && setFieldValue('city', location.city);
+      location?.city && setFieldValue('city', location.city);
     } else {
       setCities([]);
     }
@@ -137,9 +145,14 @@ export const LocationPicker = ({
 
   const classes = useStyles()
 
+  const CustomSVGIcon = () => (
+    <img src="/img/icon/location.svg" alt="Location Icon" height={25} width={25} /> // Usar la ruta a tu SVG externo
+  );
+  
+
   return (
     <Grid container spacing={3}>
-      <Grid item md={4} sm={4} xs={12}>
+      {/* <Grid item md={4} sm={4} xs={12}>
         <Typography style={{fontFamily: 'inter', color: colorFont}}>
             Pais
         </Typography>
@@ -168,9 +181,9 @@ export const LocationPicker = ({
         />
       </Grid>
       {isArgentina && (
-        <>
-          <Grid item md={4} sm={4} xs={12}>
-            <Typography style={{fontFamily: 'inter', color: colorFont}}>
+        <> */}
+          <Grid item md={6} sm={6} xs={12}>
+            <Typography style={{fontFamily: fontFamily, color: colorFont, fontWeight: fontWeight}}>
                 Provincia            
             </Typography>
             <Autocomplete
@@ -189,14 +202,14 @@ export const LocationPicker = ({
                   helperText={touched['province'] && errors['province']}
                   variant="outlined"
                   classes={{root: classes.root}}
-              placeholder='Provincia'
-                  
+                  placeholder='Provincia'     
+                  InputProps={{...params.InputProps, startAdornment: (<CustomSVGIcon /> )}}
                 />
               )}
             />
           </Grid>
-          <Grid item md={4} sm={4} xs={12}>
-          <Typography style={{fontFamily: 'inter', color: colorFont}}>
+          <Grid item md={6} sm={6} xs={12}>
+          <Typography style={{fontFamily: fontFamily, color: colorFont, fontWeight: fontWeight}}>
                 Ciudad            
             </Typography>
             <Autocomplete
@@ -215,14 +228,14 @@ export const LocationPicker = ({
                   helperText={touched['city'] && errors['city']}
                   variant="outlined"
                   classes={{root: classes.root}}
-              placeholder='Ciudad'
-                  
+                  placeholder='Ciudad'
+                  InputProps={{...params.InputProps, startAdornment: (<CustomSVGIcon /> )}}              
                 />
               )}
             />
           </Grid>
-        </>
-      )}
+        {/* </>
+      )} */}
     </Grid>
   );
 };

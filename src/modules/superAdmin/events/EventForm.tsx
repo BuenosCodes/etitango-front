@@ -200,6 +200,8 @@ export default function EventForm() {
                             borderColor={false}
                             specialCase={true}
                             colorFont={'#0075D9'}
+                            fontFamily={'Inter'}
+                            fontWeight={400}
                           />
                         </Grid>
 

@@ -40,13 +40,18 @@ const RolesNewEvent = ({ eventId, handleClose}: { eventId?: string, handleClose:
     }, [eventId]);
 
     useEffect(() => {
-        const filteredData = usuarios.filter((usuario) =>
-            usuario.nameFirst.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            usuario.nameLast.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            usuario.email.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-
-        setFilteredUsuarios(filteredData);
+        const filteredData = usuarios.filter((usuario) => {
+            const isSuperadmin = usuario.roles && usuario.roles.superadmin === true;
+        
+            return !isSuperadmin &&
+              (
+                usuario.nameFirst.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                usuario.nameLast.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                usuario.email.toLowerCase().includes(searchTerm.toLowerCase())
+              );
+          });
+        
+          setFilteredUsuarios(filteredData);
     }, [usuarios, searchTerm]);
 
     const columns: GridColDef[] = [

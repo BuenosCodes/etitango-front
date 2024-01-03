@@ -23,8 +23,20 @@ export const ETITimePicker = ({
   
   const useStyles = makeStyles({
     root: {
+      '& .MuiFormHelperText-root': {
+        width: '110px',
+        margin: '2px 0px 0px 2px'
+         },   
+        '& .MuiFormLabel-root': {
+          left: '30%',
+          top: '5%'
+        },
       '& .MuiOutlinedInput-root': {
         fontFamily: 'inter',
+        width: '110px',
+        display: 'flex',
+        flexDirection: 'row-reverse',
+        padding: '2px',
         '& fieldset': {
           borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
           borderRadius: '8px',
@@ -46,7 +58,10 @@ export const ETITimePicker = ({
         },
         '& .MuiIconButton-root': {
             color: '#A82548', 
-          }   
+          },
+          '& .MuiFormHelperText-root': {
+            width: '110px'
+          }       
       },
     },
   });
@@ -73,7 +88,7 @@ return (
         if (value && value.format) {
             const horaComoString = value.format('HH:mm A');
             console.log('hora como string ->', horaComoString);
-            setHora(horaComoString)
+            setHora(horaComoString.slice(0,-3))
             setFieldValue(fieldName, horaComoString);
           }
       }}
