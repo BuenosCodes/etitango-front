@@ -53,9 +53,17 @@ export const ETIDatePicker = ({
 }) => {
   
   const useStyles = makeStyles({
-    root: {
+    root: { 
+       '& .MuiFormHelperText-root': {
+        width: '165px',
+        margin: '2px 0px 0px 2px',
+         },   
       '& .MuiOutlinedInput-root': {
         fontFamily: 'inter',
+        width: '165px',
+        display: 'flex',
+        flexDirection: 'row-reverse',
+        padding: '2px',
         '& fieldset': {
           borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
           borderRadius: '8px',
@@ -77,7 +85,7 @@ export const ETIDatePicker = ({
         },
         '& .MuiIconButton-root': { 
           color: '#A82548', 
-        }      
+        },   
       },
     },
   });
@@ -103,7 +111,4 @@ return (
       mask="__-__-____"
       onChange={(value: any) => setFieldValue(fieldName, value.toDate())}
   />
-
-
- 
 )};

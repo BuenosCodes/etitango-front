@@ -258,6 +258,8 @@ export default function NewEditEvent({ eventId }: { eventId?: string }) {
                             borderColor={false}
                             specialCase={true}
                             colorFont={'#0075D9'}
+                            fontFamily={'Inter'}
+                            fontWeight={400}
                           />
                         </Grid>
                         <Grid item md={4} sm={4} xs={12}>
