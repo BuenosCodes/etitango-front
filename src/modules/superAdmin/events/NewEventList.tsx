@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Paper, Box, Typography, Grid } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
@@ -8,9 +8,12 @@ import { ROUTES } from '../../../App';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import { RFC_2822 } from 'moment';
+import { deleteDoc, doc } from 'firebase/firestore';
+import { db } from 'etiFirebase';
+import { useState } from 'react';
 
-export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean }) {
-  const { events, isLoading } = props;
+export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, onDeleteEvent: (id: string) => Promise<void>, onSelectEvent: Function }) {
+  const { events, isLoading, onDeleteEvent, onSelectEvent } = props;
 
   const { t } = useTranslation([SCOPES.COMMON.FORM, SCOPES.MODULES.EVENT_LIST], {
     useSuspense: false
@@ -18,7 +21,7 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean }) 
   const navigate = useNavigate();
 
   const fields = events[0] ? Object.keys(events[0]) : [];
-
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const sortedEvents = [...events].sort((a, b) => {
     const dateA = new Date(a.dateStart).getTime();
     const dateB = new Date(b.dateStart).getTime();
@@ -30,29 +33,25 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean }) 
       field: 'dateStart',
       headerName: 'Fecha',
       width: 250,
-      
     },
     {
     field: 'name',
     headerName: 'Nombre',
-    width: 100,
-    
+    width: 600,
   },
   {
-    field: 'icon',
+    field: 'trash',
     headerName: '',
-    width: 400,
-    renderCell: () => (
-      <img src={"/img/icon/edit-2.svg"} alt="Icono" />
-    )
-  },
-  {
-    field: 'icondos',
-    headerName: '',
-    width: 100,
-    renderCell: () => (
-      <img src={"/img/icon/trash.svg"} alt="Icono" />
-    )
+    width: 50,
+    renderCell: (params: GridRenderCellParams) => (
+      <img
+        src={"/img/icon/trash.svg"}
+        alt="Icono"
+        onClick={() => {
+          onDeleteEvent(params.id as string)
+        }}
+      />
+    ),
   }
 ]
   
@@ -68,30 +67,96 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean }) 
     return output;
   };
 
+
   return (
     <>
     <Box
     
-    sx={{padding: '12px 24px 24px 24px'}}>
+    sx={{padding: '12px 0px 50px 0px'}}>
 
        <Paper 
        elevation={4}
-       sx={{width: '101vh', height: '24vh', borderRadius: '15px'}} >
+       sx={{width: '101vh', height: '30vh', borderRadius: '15px'}} >
 
         <Grid item xs={12} sx={{ backgroundColor: '#4B84DB', height: '40px', borderTopLeftRadius: '15px', borderTopRightRadius: '15px'}}>
-        <Typography sx={{fontSize: '24px', fontWeight: '600', color: '#FAFAFA', pl: '25px', pt: '3px'}} >
-        ETIs
-      </Typography>
-
+          <Typography sx={{fontSize: '24px', fontWeight: '600', color: '#FAFAFA', pl: '25px', pt: '3px'}} >
+            ETIs
+          </Typography>
         </Grid>
+      <Paper elevation={0} sx={{ height: '21vh', width: '100%', padding: '6px 24px 0px 24px'}}>
       
-    
-      <Paper elevation={0} sx={{ height: '16vh', width: '100%', padding: '6px 24px 0px 24px'}}>
-      
-        <DataGrid 
+        <DataGrid
+        
+          // onPageChange={(newPage : number) => setCurrentPage(newPage)}
+          components={{
+            Pagination: (paginationProps : any) => {
+              const { page, setPage } = paginationProps;
+              return (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <button
+                    onClick={() => setPage(page - 1)}
+                    disabled={page === 1}
+                    style={{ margin: '0 4px', backgroundColor: '#0075D9', color: '#FAFAFA', border: 'none', borderRadius: '50%', width: '32px', height: '32px' }}
+                  >
+                    {'<'}
+                  </button>
+                  {[1, 2, 3, 4].map((pageNumber) => (
+                    <button
+                      key={pageNumber}
+                      onClick={() => setPage(pageNumber)}
+                      style={{
+                        margin: '0 4px',
+                        backgroundColor: pageNumber === page ? '#4B84DB' : '#0075D9',
+                        color: pageNumber === page ? '#FAFAFA' : '#FAFAFA',
+                        border: 'none',
+                        borderRadius: '50%',
+                        width: '32px',
+                        height: '32px',
+                      }}
+                    >
+                      {pageNumber}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => setPage(page + 1)}
+                    disabled={page === Math.ceil(sortedEvents.length / 5)}
+                    style={{ margin: '0 4px', backgroundColor: '#0075D9', color: '#FAFAFA', border: 'none', borderRadius: '50%', width: '32px', height: '32px' }}
+                  >
+                    {'>'}
+                  </button>
+                </div>
+              );
+            },
+          }}
+        //   Footer: () => (
+        //     <div style={{
+        //       backgroundColor: '#5FB4FC',
+        //       color: '#FAFAFA',
+        //       padding: '8px',
+        //       display: 'flex',
+        //       justifyContent: 'space-between',
+        //       alignItems: 'center',
+        //     }}>
+        //       <div>{`${sortedEvents.length} filas`}</div>
+        //       <div>
+        //         {/* Ajusta el estilo de los botones de paginación según tus preferencias */}
+        //         <button style={{ margin: '0 4px', backgroundColor: '#0075D9', color: '#FAFAFA', border: 'none', borderRadius: '4px', padding: '4px 8px' }}>Anterior</button>
+        //         <button style={{ margin: '0 4px', backgroundColor: '#0075D9', color: '#FAFAFA', border: 'none', borderRadius: '4px', padding: '4px 8px' }}>Siguiente</button>
+        //       </div>
+        //     </div>
+        //   ),
+        // }}
+        // // // ...otras props 
         rows={sortedEvents.map(getEtiEventValues)} 
         columns={columns} 
         loading={isLoading}
+        onRowClick={(event) => {
+          const selectedEventId = event.row.id as string;
+          const selectedEvent = events.find(event => event.id === selectedEventId);
+          if (selectedEvent) {
+            onSelectEvent(selectedEvent);
+          }
+        }}
         rowsPerPageOptions={[5]}
         getRowId={(row) => row.id}
         rowHeight={22}
@@ -116,11 +181,14 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean }) 
               fontSize: '16px',
               lineHeight: '16px',
               fontFamily: 'Inter',
-              fontWeight: 400,
+              fontWeight: 400
+          },
+          '.MuiDataGrid-colCell': {
+            borderRight: 'none'
           }
       }}
         />
-        
+        {/* <Button onClick={()=>onSelectEvent(['hola'])}> Click aqui </Button> */}
       </Paper>
       </Paper>
       </Box>

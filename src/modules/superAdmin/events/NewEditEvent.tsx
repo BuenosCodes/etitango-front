@@ -16,14 +16,20 @@ import { EtiEvent } from '../../../shared/etiEvent';
 import { UserRoles, UserFullData } from '../../../shared/User';
 import { getUser } from 'helpers/firestore/users';
 import { ETIDatePicker } from '../../../components/form/DatePicker';
-import { LocationPicker } from 'components/form/LocationPicker';
 
 import * as firestoreUserHelper from 'helpers/firestore/users';
 import { forEach } from 'lodash';
 import { unsubscribe } from 'diagnostics_channel';
+import { LocationPickerEdit } from 'components/form/LocationPickerEdit';
+import { ETITimePickerEdit } from 'components/form/TimePickerEdit';
+
+
 //import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
 
 const useStyles = makeStyles({
+  interFont: {
+    fontFamily: 'inter',
+  },
   root: {
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
@@ -41,20 +47,13 @@ const useStyles = makeStyles({
       },
     },
   },
-  // disabledTextField: {
-  //   '& .MuiInputBase-input': {
-  //     borderColor: '#E68650', // Usa el color del texto heredado
-  //      // Usa la familia de fuente heredada
-  //     // Aquí puedes añadir otros estilos que desees para el TextField deshabilitado
-  //   },
-  // }, 
   icon: {
     width: '24px',
     height: '24px',
   },
 });
 
-export default function NewEditEvent({ eventId }: { eventId?: string }) {
+export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: string, selectedEvent: EtiEvent | null }) {
   
   const classes = useStyles()
   const alertText: string = 'Este campo no puede estar vacío';
@@ -87,6 +86,7 @@ export default function NewEditEvent({ eventId }: { eventId?: string }) {
   const [adminsData, setAdminsData] = useState<{ id: string; fullName: string }[]>([]);
   const [IsLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const [hora, setHora] = useState<Date | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -97,7 +97,8 @@ export default function NewEditEvent({ eventId }: { eventId?: string }) {
           setEvent(event);
           }
         } else {
-          navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
+          console.log("hola")
+          // navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
         }
         setLoading(false);
       
@@ -134,9 +135,9 @@ export default function NewEditEvent({ eventId }: { eventId?: string }) {
   }, [eventId]);
 
   useEffect(() => {
-    if (event && event.admins && users.length > 0) {
+    if (selectedEvent && selectedEvent.admins && users.length > 0) {
       const adminsArray: { id: string; fullName: string }[] = [];
-      event.admins.forEach((element: string) => {
+      selectedEvent.admins.forEach((element: string) => {
         users.forEach((user) => {
           if (element === user.id) {
             adminsArray.push({
@@ -148,9 +149,11 @@ export default function NewEditEvent({ eventId }: { eventId?: string }) {
       });
       setAdminsData(adminsArray)
     }
-  }, [event, users]); 
+  }, [selectedEvent, users]); 
 
- 
+  // useEffect(() => {
+  //   setEvent(selectedEvent);
+  // }, [selectedEvent]);
 
 
   const save = async (values: any, setSubmitting: Function) => {
@@ -176,28 +179,28 @@ export default function NewEditEvent({ eventId }: { eventId?: string }) {
           {loading ? (
             <CircularProgress />
           ) : (
-            <Container maxWidth="lg" sx={{ marginTop: 3, mx: 3,  }}>
+            <Container maxWidth="md" sx={{ marginTop: 3 }}>
               <Grid
                 container
                 direction="column"
                 alignItems="center"
                 justifyContent="center"
-                sx={{padding: '30px 0px 20px 30px'}}
-                
+
               >
                 
 
                 <Formik
                   enableReinitialize
                   initialValues={{
-                    dateEnd: event?.dateEnd || '',
-                    dateSignupOpen: event?.dateSignupOpen || '',
-                    dateStart: event?.dateStart || '',
-                    name: event?.name || '',
-                    location: event?.location || '',
-                    country: event?.country || '',
-                    province: event?.province || '',
-                    city: event?.city || ''
+                    dateEnd: selectedEvent?.dateEnd || '',
+                    dateSignupOpen: selectedEvent?.dateSignupOpen || '',
+                    dateStart: selectedEvent?.dateStart || '',
+                    nombre: selectedEvent?.name || '',
+                    location: selectedEvent?. name || '',
+                    country: selectedEvent?.country || '',
+                    province: selectedEvent?.province || '',
+                    city: selectedEvent?.city || '',
+                    admins: selectedEvent?.admins || ''
 
                   }}
                   validationSchema={EventFormSchema}
@@ -208,46 +211,29 @@ export default function NewEditEvent({ eventId }: { eventId?: string }) {
                   {({ isSubmitting, setFieldValue, touched, errors, values }) => (
                     <Form>
                       <Grid container spacing={2}>
-                        {/* <Grid  item md={6} sm={6} xs={12}>
-                          <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
+                      <Grid item md={12} sm={12} xs={12}>
+                      <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
                             Nombre del evento
                           </Typography>
                           <Field
-                            name="name"
+                            name="nombre"
                             component={TextField}
+                            value={values.nombre}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                              setFieldValue("nombre", e.target.value)
+                            }
+                            classes={{root: classes.root}}
+                            InputProps={{ classes: { input: classes.interFont } }}
                             required
                             fullWidth
-                            classes={{root: classes.root}}
-                            inputProps={{
-                              style: {
-                                fontFamily: 'Inter', 
-                              } 
-                            }} />
-                        </Grid>
-                        <Grid item md={6} sm={6} xs={12}>
-                        <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
-                            Lugar del evento           
-                        </Typography>
-                            <Field
-                            name="location"
-                            component={TextField}
-                            required
-                            fullWidth
-                            classes={{root: classes.root}}
-                            inputProps={{
-                              style: {
-                                fontFamily: 'inter',
-
-                              },
-                            }}
-                            
-
                           />
-                        </Grid> */}
+                        </Grid>
+
+                       
 
                         <Grid item xs={12} lg={12} style={{ display: 'flex' }}>
                         
-                          <LocationPicker
+                          <LocationPickerEdit
                             values={values}
                             errors={errors}
                             t={t}
@@ -257,20 +243,36 @@ export default function NewEditEvent({ eventId }: { eventId?: string }) {
 
                           />
                         </Grid>
-                        <Grid item md={4} sm={4} xs={12}>
+
+                        <Grid item md={2} sm={2} xs={12}>
                         <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
                             Desde
                           </Typography>
                           <ETIDatePicker
+
                             textFieldProps={{ fullWidth: true }}
                             fieldName="dateStart"
                             setFieldValue={setFieldValue}
-                            
-
                           />
                         </Grid>
+                        
+                        <Grid item md={2} sm={2} xs={12}>
+                        <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
+                            Hora
+                          </Typography>
+                          <ETITimePickerEdit
 
-                        <Grid item md={4} sm={4} xs={12}>
+                                textFieldProps={{ fullWidth: true }}
+                                fieldName="dateStart"
+                                setFieldValue={setFieldValue}
+                              
+                              />
+
+                        </Grid>
+                        
+
+
+                        <Grid item md={2} sm={2} xs={12}>
                         <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
                             Hasta            
                         </Typography>
@@ -278,20 +280,48 @@ export default function NewEditEvent({ eventId }: { eventId?: string }) {
                             textFieldProps={{ fullWidth: true }}
                             fieldName="dateEnd"
                             setFieldValue={setFieldValue}
+                            
                           />
+                           
                         </Grid>
+                        <Grid item md={2} sm={2} xs={12}>
+                        <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
+                            Hora
+                          </Typography>
+                          <ETITimePickerEdit
+                                textFieldProps={{ fullWidth: true }}
+                                fieldName="dateEnd"
+                                setFieldValue={setFieldValue}
+                              />
 
-                        <Grid item md={4} sm={4} xs={12}>
+                        </Grid>
+                        
+
+                        <Grid item md={2} sm={2} xs={12}>
                         <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
                             Inscripciones            
                         </Typography>
-
+                          
                           <ETIDatePicker
                             textFieldProps={{ fullWidth: true }}
                             fieldName="dateSignupOpen"
                             setFieldValue={setFieldValue}
                           />
+
                         </Grid>
+
+                        <Grid item md={2} sm={2} xs={12}>
+                        <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
+                            Hora
+                          </Typography>
+                          <ETITimePickerEdit
+                                textFieldProps={{ fullWidth: true }}
+                                fieldName="dateSignupOpen"
+                                setFieldValue={setFieldValue}
+                              />
+
+                        </Grid>
+
                         <Grid item md={12} sm={12} xs={12}>
                         <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
                         
@@ -299,8 +329,13 @@ export default function NewEditEvent({ eventId }: { eventId?: string }) {
                         </Typography>
                             
                             {adminsData.map((admin, index) => (
+                              // <Typography> 
+
+                              //   con
+                              // </Typography>
                               <TextField
                                 key={index}
+                                value={admin.fullName}
                                 //disabled
                                 classes={{ root: classes.root}}
                               //   sx={{
@@ -314,12 +349,15 @@ export default function NewEditEvent({ eventId }: { eventId?: string }) {
                                     fontFamily: 'inter',
                                   },
                                 }}
-                                defaultValue={admin.fullName}
+                                
                           />
                           ))}
                         </Grid>
 
-                        {/* <Grid container justifyContent="flex-end">
+
+                        {/* <Typography>{JSON.stringify(selectedEvent)}</Typography> */}
+                       
+                        <Grid container justifyContent="flex-end">
                           <Grid item>
                             <Button
                               variant="contained"
@@ -327,11 +365,14 @@ export default function NewEditEvent({ eventId }: { eventId?: string }) {
                               type="submit"
                               disabled={isSubmitting}
                             >
-                              Save
+                              Guardar
                             </Button>
                           </Grid>
 
-                        </Grid> */}
+                        </Grid>
+
+                        
+                        
 
                       </Grid>
                     </Form>
