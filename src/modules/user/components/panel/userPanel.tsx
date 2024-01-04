@@ -205,7 +205,7 @@ export default function UserPanel() {
           </List>
         </Grid>
 
-        <Grid item xs={10} sx={{ overflowY: 'scroll'}}>
+        <Grid item xs={10}>
           <Box sx={{display: 'flex',justifyContent: 'center',padding: 10}}>
             {activeComponent}
           </Box>

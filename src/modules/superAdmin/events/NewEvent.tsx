@@ -154,6 +154,22 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
     }
   }
 
+  const scrollbarStyles = {
+    overflowY: 'auto',
+    '&::-webkit-scrollbar': {
+      width: '8px',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: '#C0E5FF',
+      borderRadius: '12px',
+    },
+    '&::-webkit-scrollbar-track': {
+      backgroundColor: 'transparent',
+      boxShadow: '1px 0px 2px 0px #6695B7',
+      borderRadius: '12px',
+    },
+  };
+
   const useStyles = makeStyles({
     root: {
       '& .MuiFormHelperText-root': {
@@ -206,7 +222,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                 Nuevo ETI
               </Box>
 
-              <Box sx={{ display: 'flex', margin: '20px', backgroundColor: '#FAFAFA', borderRadius: '12px', p: 2 }}>
+              <Box sx={{ display: 'flex', margin: '20px', backgroundColor: '#FAFAFA', borderRadius: '12px', p: 2, ...scrollbarStyles }}>
                 <Grid container>
                   <Grid item xs={12}>
                     <Formik
@@ -363,9 +379,6 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                               </Grid>
                             </Grid>
                             </Grid>
-
-
-
                             <Grid container justifyContent="flex-end">
                               <Grid item>
                                 <Button
