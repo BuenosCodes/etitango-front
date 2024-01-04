@@ -15,6 +15,7 @@ import { isAdmin, isSuperAdmin } from 'helpers/firestore/users';
 import { UserContext } from 'helpers/UserContext';
 import ComisionGeneroContact from 'modules/home/comision-de-genero/ComisionGeneroContact';
 import ComisionGeneroProtocol from 'modules/home/comision-de-genero/ComisionGeneroProtocol';
+import GeneralInfo from 'modules/superAdmin/events/GeneralInfo';
 
 export default function UserPanel() {
 
@@ -47,7 +48,7 @@ export default function UserPanel() {
 
   ]
   const Etis = [
-    { label: 'Información general', component: <EventsList /> },
+    { label: 'Información general', component: <GeneralInfo /> },
     { label: 'Presupuesto', component: <h1>Presupuesto</h1> },
     { label: 'Inscripciones', component: <Inscripcion /> },
     { label: 'Merchandising', component: <h1>Merchandansing</h1> },
