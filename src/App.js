@@ -35,7 +35,7 @@ import Instructions from './modules/instructions/index';
 import NewAppBar from 'components/NewBar';
 import NewFooter from 'components/NewFooter';
 import UserPanel from 'modules/user/components/panel/userPanel';
-//import NewEditEvent from 'modules/superAdmin/events/NewEditEvent';
+import NewEditEvent from 'modules/superAdmin/events/NewEditEvent';
 import EditEvent from 'modules/superAdmin/events/EditEvent';
 
 i18n
@@ -125,8 +125,8 @@ function App() {
             <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
             <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`} element={<EventsList />} />
-            {/* <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}${ROUTES.EDIT}/:id`} element={<NewEditEvent />} /> */}
-            <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}${ROUTES.EDIT}/:id`} element={<EditEvent />} />
+            <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}${ROUTES.EDIT}/:id`} element={<NewEditEvent />} />
+            {/* <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}${ROUTES.EDIT}/:id`} element={<EditEvent />} /> */}
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`} element={<NewEvent />} />
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.ROLES}`} element={<RolesList />} />
             <Route path={ROUTES.USER} element={withUserMenu(UserHome)()} />
