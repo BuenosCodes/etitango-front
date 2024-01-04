@@ -48,15 +48,21 @@ const rawTheme = createTheme({
     h4: {
       fontSize: 36
     },
+    h4b: {
+      fontSize: 24
+    },
     h5: {
       fontSize: 20
     },
     h6: {
       fontSize: 18
     },
+    h7: {
+      fontSize: 14
+    },
     subtitle1: {
       fontSize: 20
-    }
+    },
   },
   components: {
     MuiButton: {
