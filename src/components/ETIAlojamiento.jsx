@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Grid, Typography, Menu, MenuItem, } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createOrUpdateDoc } from 'helpers/firestore'; 
@@ -24,18 +24,58 @@ const ETIAlojamiento = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
-  const handleAddRow = () => {
-    setIdCounter(idCounter + 1);
-    setRows([...rows, { id: idCounter, name: '', address: '' }]);
-  };
+  useEffect(() => {
+    const updatedRows = rows.map((row) => {
+      const edits = editRowsModel[row.id];
+      if (edits) {
+        const updatedEdits = Object.keys(edits).reduce((acc, key) => {
+          acc[key] = edits[key].value;
+          return acc;
+        }, {});
+        return { ...row, ...updatedEdits };
+      }
+      return row;
+    });
+    setRows(updatedRows);
+  }, [editRowsModel]);
+  
   
 
+  const handleAddRow = () => {
+    // setIdCounter(idCounter + 1);
+    // const newRow = { id: idCounter, name: '', address: ''};
+    // setRows((prevRows) => {
+    //   const updatedRows = [...prevRows, newRow];
+    //   console.log('rows after adding:', updatedRows);
+    //   return updatedRows;
+    // });
+    const updateRows = rows.map((row) => {
+      const edits = editRowsModel[row.id];
+      return edits ? {...row, ...edits} : row;
+    });
+    setRows(updateRows);
+
+    setIdCounter(idCounter + 1);
+    const newRow = { id: idCounter, name: '', address: ''};
+    setRows((prevRows) => [...prevRows, newRow]);
+  };
+  
   const handleRemoveRow = () => {
-    if (rows.length > 0) {
-      const newRows = [...rows];
-      newRows.pop();
-      setRows(newRows);
+    // if(rows.length > 0){
+    //   const newRows = rows.slice(0, -1);
+    //   setRows(newRows);
+    //   console.log('rows after removing:', newRows);
+    // }
+    const updatedRows = rows.map((row) => {
+      const edits = editRowsModel[row.id];
+      return edits ? {...row, ...edits} : row;
+    });
+
+    setRows(updatedRows);
+
+    if (rows.length > 0){
+      const newRows = rows.slice(0, -1);
+      setRows(newRows)
     }
   };
 
@@ -121,6 +161,7 @@ const ETIAlojamiento = () => {
               rows={rows}
               columns={columns}
               editRowsModel={editRowsModel}
+              
               onEditRowsModelChange={setEditRowsModel}
               hideFooter = {true}
               rowHeight={22}
@@ -128,7 +169,6 @@ const ETIAlojamiento = () => {
               disableColumnMenu={true}
               disableExport={true}
               filterable={false}
-              flex={2}
               sx={{
                 mb: 2,
                 mt: 2,

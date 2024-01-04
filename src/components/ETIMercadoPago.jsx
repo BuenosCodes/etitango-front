@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Grid, Typography, Menu, MenuItem, } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createOrUpdateDoc } from 'helpers/firestore'; 
@@ -14,17 +14,45 @@ const ETIMercadoPago = () => {
 
   const [idCounter, setIdCounter] = useState(0);
 
+  useEffect(() => {
+    const updatedRows = rows.map((row) => {
+      const edits = editRowsModel[row.id];
+      if (edits) {
+        const updatedEdits = Object.keys(edits).reduce((acc, key) => {
+          acc[key] = edits[key].value;
+          return acc;
+        }, {});
+        return { ...row, ...updatedEdits };
+      }
+      return row;
+    });
+    setRows(updatedRows);
+  }, [editRowsModel]);
+
   const handleAddRow = () => {
+    const updateRows = rows.map((row) => {
+      const edits = editRowsModel[row.id];
+      return edits ? {...row, ...edits} : row;
+    });
+    setRows(updateRows);
+
     setIdCounter(idCounter + 1);
-    setRows([...rows, { id: idCounter, name: '', address: '' }]);
+    const newRow = { id: idCounter, name: '', address: ''};
+    setRows((prevRows) => [...prevRows, newRow]);
   };
   
 
   const handleRemoveRow = () => {
-    if (rows.length > 0) {
-      const newRows = [...rows];
-      newRows.pop();
-      setRows(newRows);
+    const updatedRows = rows.map((row) => {
+      const edits = editRowsModel[row.id];
+      return edits ? {...row, ...edits} : row;
+    });
+
+    setRows(updatedRows);
+
+    if (rows.length > 0){
+      const newRows = rows.slice(0, -1);
+      setRows(newRows)
     }
   };
 
