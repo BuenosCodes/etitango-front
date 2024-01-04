@@ -1,9 +1,41 @@
-import React, { useState } from 'react';
-import { TimePicker } from 'formik-mui-x-date-pickers';
+/* eslint-disable prettier/prettier */
+import React from 'react';
+import { DatePicker } from 'formik-mui-x-date-pickers';
 import { makeStyles } from '@mui/styles';
 import { Field } from 'formik';
 
-export const ETITimePickerEdit = ({
+const CustomSVGIcon = () => (
+  <img src="/img/icon/calendar-add.svg" alt="Custom Icon" width="24" height="24" /> // Usar la ruta a tu SVG externo
+);
+
+// const useStyles = makeStyles({
+//   root: {
+//     '& .MuiOutlinedInput-root': {
+//       '& fieldset': {
+//         borderColor: '#E68650',
+//         borderRadius: '8px',
+//         borderWidth: '2px'   
+//       },
+//       '&:hover fieldset ': {
+//         borderColor: '#E68650',
+//         borderRadius: '8px',
+//       },
+//       '&.Mui-focused fieldset': {
+//         borderColor: '#E68650',
+//         borderRadius: '8px',
+//       },
+//       '& .MuiIconButton-root': { // Estilos para el icono del DatePicker
+//         color: '#A82548', // Cambiar el color del icono aquí
+        
+//       //}
+//       }
+//     }
+
+//   },
+// });
+
+
+export const ETIDatePickerEdit = ({
   
   fieldName,
   setFieldValue,
@@ -21,22 +53,17 @@ export const ETITimePickerEdit = ({
 }) => {
   
   const useStyles = makeStyles({
-    root: {
-      '& .MuiFormHelperText-root': {
-        width: '110px',
-        margin: '2px 0px 0px 2px'
+    root: { 
+       '& .MuiFormHelperText-root': {
+        width: '165px',
+        margin: '2px 0px 0px 2px',
          },   
-        '& .MuiFormLabel-root': {
-          left: '30%',
-          top: '5%'
-        },
       '& .MuiOutlinedInput-root': {
         fontFamily: 'inter',
-        width: '110px',
+        width: '165px',
         display: 'flex',
         flexDirection: 'row-reverse',
         padding: '2px',
-      
         '& fieldset': {
           borderColor: specialCase ? 'transparent' : (borderColor ? 'transparent' : 'transparent'),
           borderRadius: '8px',
@@ -56,21 +83,18 @@ export const ETITimePickerEdit = ({
         '& .MuiOutlinedInput-notchedOutline': {
           borderColor: specialCase ? 'transparent' : (borderColor ? 'transparent' : 'transparent'),
         },
-        '& .MuiIconButton-root': {
-            color: '#A82548', 
-          },
-          '& .MuiFormHelperText-root': {
-            width: '110px'
-          }       
+        '& .MuiIconButton-root': { 
+          color: '#A82548', 
+        },   
       },
     },
   });
 
   const classes = useStyles();
-  const [hora, setHora] = useState()
+
 return (
   <Field
-      component={TimePicker}
+      component={DatePicker}
       disablePast
       textField={{
         ...textFieldProps,
@@ -81,16 +105,10 @@ return (
           fontFamily: 'inter',
         },
       }}
-      label={hora}
       name={fieldName}
-      inputFormat="00:00"
-      onChange={(value:any) => {
-        if (value && value.format) {
-            const horaComoString = value.format('HH:mm A');
-            console.log('hora como string ->', horaComoString);
-            setHora(horaComoString.slice(0,-3))
-            setFieldValue(fieldName, horaComoString);
-          }
-      }}
+      inputFormat="DD-MM-YY"
+      inputIcon= {<CustomSVGIcon />}
+      mask="__-__-____"
+      onChange={(value: any) => setFieldValue(fieldName, value.toDate())}
   />
 )};
