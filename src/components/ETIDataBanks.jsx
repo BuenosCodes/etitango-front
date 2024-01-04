@@ -38,19 +38,22 @@ const ETIDataBanks = () => {
     handleMenuClose();
   };
 
-  const handleConfirmClick = async () => {
-    const updatedRows = Object.keys(editRowsModel).map((id) => {
-      const row = rows.find((r) => r.id === parseInt(id));
-      return { ...row, ...editRowsModel[id] };
-    });
-    for (const row of updatedRows) {
-      await createOrUpdateDoc('your/collection/path', row, row.id);
-    }
-    setIsEditing(false);
-  };
+  // const handleConfirmClick = async () => {
+  //   const updatedRows = Object.keys(editRowsModel).map((id) => {
+  //     const row = rows.find((r) => r.id === parseInt(id));
+  //     return { ...row, ...editRowsModel[id] };
+  //   });
+  //   for (const row of updatedRows) {
+  //     await createOrUpdateDoc('', row, row.id);
+  //   }
+  //   setIsEditing(false);
+  // };
 
   const columns = [
-    { field: 'link', headerName: 'Link de cobro',width: 1110, editable: true },
+    
+    { field: 'link', headerName: 'Nombre',width: 333, editable: true },
+    { field: 'alias', headerName: 'Alias',width: 333, editable: true },
+    { field: 'cbu', headerName: 'CBU/CVU',width: 444, editable: true },
   ];
 
   return (

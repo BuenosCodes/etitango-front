@@ -58,7 +58,7 @@ const ETIAgenda = ({ dateStart, name, additionalFields }) => {
             </Grid>
         </Grid>
         {/* <CollapsibleTable /> */}
-        <ETITable dateStart={dateStart} name={name} additionalFields={additionalFields} />
+        {/* <ETITable dateStart={dateStart} name={name} additionalFields={additionalFields} /> */}
       </Grid>
     </Box>
   );

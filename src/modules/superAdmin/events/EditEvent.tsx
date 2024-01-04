@@ -258,17 +258,13 @@ export default function EditEvent() {
                   width: '100%',
                 }}
                 >
-                  {/* <EditEventsTable title={'Agenda'} subtitles={['Fecha', 'Descripcion']}/> */}
                   <ETIAgenda 
                     dateStart={event?.dateStart}
                     name={event?.name}
                     additionalFields={event?.additionalFields}
                   />
-                  {/* <EditEventsTable title={'Lugar del evento'} subtitles={['Nombre del establecimiento', 'Direccion de Google Maps']}/> */}
                   <ETIAlojamiento />
-                  {/* <EditEventsTable title={'Datos Bancarios'} subtitles={['Nombre', 'Alias', 'CBU/CVU']}/> */}
                   <ETIDataBanks />
-                  {/* <EditEventsTable title={'Mercadopago'} subtitles={['Link de cobro']}/> */}
                   <ETIMercadoPago />
                 </Box>
               </Grid>

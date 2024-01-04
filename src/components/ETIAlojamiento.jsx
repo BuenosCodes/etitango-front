@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { Box, Button, Grid, Typography, Menu, MenuItem } from '@mui/material';
+import { Box, Button, Grid, Typography, Menu, MenuItem, GridColDef  } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createOrUpdateDoc } from 'helpers/firestore'; 
 
