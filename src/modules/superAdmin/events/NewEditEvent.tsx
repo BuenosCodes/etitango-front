@@ -23,6 +23,7 @@ import { forEach } from 'lodash';
 import { unsubscribe } from 'diagnostics_channel';
 import { LocationPickerEdit } from 'components/form/LocationPickerEdit';
 import { ETITimePickerEdit } from 'components/form/TimePickerEdit';
+import { LocationPicker } from 'components/form/LocationPicker';
 
 
 //import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
@@ -234,7 +235,7 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
 
                         <Grid item xs={12} lg={12} style={{ display: 'flex' }}>
                         
-                          <LocationPickerEdit
+                          <LocationPicker
                             values={values}
                             errors={errors}
                             t={t}
