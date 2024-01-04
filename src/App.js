@@ -100,10 +100,11 @@ function App() {
     }
   };
   return (
-    <div className="">
+    <div className="container">
       <UserContext.Provider value={{ user, setUser }}>
         <NotificationContext.Provider value={{ notification, setNotification }}>
           <NewAppBar />
+          <div className='content'>
           <Notification {...notification} />
           <Routes>
             <Route path={ROUTES.DASHBOARD} element={<UserPanel />}/>
@@ -137,6 +138,7 @@ function App() {
             />
             <Route path={ROUTES.INSTRUCTIONS} element={<Instructions />} />
           </Routes>
+          </div>
           <NewFooter />
         </NotificationContext.Provider>
       </UserContext.Provider>

@@ -164,7 +164,8 @@ export default function EventForm() {
                         <Grid item md={4} sm={4} xs={12}>
                           <ETIDatePicker
                             textFieldProps={{ fullWidth: true }}
-                            
+                            borderColor={false}
+                            specialCase={true}
                             fieldName="dateStart"
                             setFieldValue={setFieldValue}
                           />
@@ -172,7 +173,8 @@ export default function EventForm() {
                         <Grid item md={4} sm={4} xs={12}>
                           <ETIDatePicker
                             textFieldProps={{ fullWidth: true }}
-                            
+                            borderColor={false}
+                            specialCase={true}
                             fieldName="dateEnd"
                             setFieldValue={setFieldValue}
                           />
@@ -180,7 +182,8 @@ export default function EventForm() {
                         <Grid item md={4} sm={4} xs={12}>
                           <ETIDatePicker
                             textFieldProps={{ fullWidth: true }}
-                           
+                            borderColor={false}
+                            specialCase={true}
                             fieldName="dateSignupOpen"
                             setFieldValue={setFieldValue}
                           />
@@ -194,6 +197,11 @@ export default function EventForm() {
                             setFieldValue={setFieldValue}
                             touched={touched}
                             location={event}
+                            borderColor={false}
+                            specialCase={true}
+                            colorFont={'#0075D9'}
+                            fontFamily={'Inter'}
+                            fontWeight={400}
                           />
                         </Grid>
 

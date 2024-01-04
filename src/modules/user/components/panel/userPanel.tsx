@@ -116,7 +116,7 @@ export default function UserPanel() {
     <>
       <Grid container>
         <Grid item xs={2} sx={{ backgroundColor: '#5FB4FC', padding: '30px 0px 20px 30px'}}>
-          <List sx={{padding: '8px 0px 8px 15px'}}>
+          <List sx={{padding: '8px 0px 8px 15px', minHeight: '100vh'}}>
             {filteredButtons.map((button, index) => (
 
               <ListItemButton key={index} onClick={(event) => { handleButtonClick(index), handleListItemClick(event, index) }} selected={selectedIndex === index} sx={itemButtonStyle}>
@@ -204,7 +204,7 @@ export default function UserPanel() {
           </List>
         </Grid>
 
-        <Grid item xs={10} sx={{ overflowY: 'scroll'}}>
+        <Grid item xs={10}>
           <Box sx={{display: 'flex',justifyContent: 'center',padding: 10}}>
             {activeComponent}
           </Box>

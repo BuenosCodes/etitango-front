@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
 import { Button, CircularProgress, Container, Grid, Box, styled, Avatar, Typography, Modal} from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -254,7 +255,11 @@ export default function NewEditEvent({ eventId }: { eventId?: string }) {
                             setFieldValue={setFieldValue}
                             touched={touched}
                             location={event}
-
+                            borderColor={false}
+                            specialCase={true}
+                            colorFont={'#0075D9'}
+                            fontFamily={'Inter'}
+                            fontWeight={400}
                           />
                         </Grid>
                         <Grid item md={4} sm={4} xs={12}>
@@ -265,7 +270,8 @@ export default function NewEditEvent({ eventId }: { eventId?: string }) {
                             textFieldProps={{ fullWidth: true }}
                             fieldName="dateStart"
                             setFieldValue={setFieldValue}
-                            
+                            borderColor={false}
+                            specialCase={true}
 
                           />
                         </Grid>
@@ -278,6 +284,8 @@ export default function NewEditEvent({ eventId }: { eventId?: string }) {
                             textFieldProps={{ fullWidth: true }}
                             fieldName="dateEnd"
                             setFieldValue={setFieldValue}
+                            borderColor={false}
+                            specialCase={true}
                           />
                         </Grid>
 
@@ -290,6 +298,8 @@ export default function NewEditEvent({ eventId }: { eventId?: string }) {
                             textFieldProps={{ fullWidth: true }}
                             fieldName="dateSignupOpen"
                             setFieldValue={setFieldValue}
+                            borderColor={false}
+                            specialCase={true}
                           />
                         </Grid>
                         <Grid item md={12} sm={12} xs={12}>
