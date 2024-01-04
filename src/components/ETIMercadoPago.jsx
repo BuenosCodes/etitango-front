@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { Box, Button, Grid, Typography, Menu, MenuItem } from '@mui/material';
+import { Box, Button, Grid, Typography, Menu, MenuItem, } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createOrUpdateDoc } from 'helpers/firestore'; 
 
@@ -12,10 +12,13 @@ const ETIMercadoPago = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
+  const [idCounter, setIdCounter] = useState(0);
+
   const handleAddRow = () => {
-    const newId = Math.max(...rows.map((r) => r.id)) + 1;
-    setRows([...rows, { id: newId, name: '', address: '' }]);
+    setIdCounter(idCounter + 1);
+    setRows([...rows, { id: idCounter, name: '', address: '' }]);
   };
+  
 
   const handleRemoveRow = () => {
     if (rows.length > 0) {
@@ -69,6 +72,7 @@ const ETIMercadoPago = () => {
               <img src={'/img/icon/btnConfirm.png'} alt="btnDelete" style={{ width: '100%', height: 'auto' }} />
             </Button>
           )}
+          
           <Button
             variant='contained'
             style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
