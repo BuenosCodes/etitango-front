@@ -96,6 +96,23 @@ const RolesNewEvent = ({ eventId, handleClose}: { eventId?: string, handleClose:
         setSearchTerm(event.target.value);
     };
 
+
+    const scrollbarStyles = {
+        // overflowY: 'auto',
+        '&::-webkit-scrollbar': {
+          width: '8px',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: '#C0E5FF',
+          borderRadius: '12px',
+        },
+        '&::-webkit-scrollbar-track': {
+          backgroundColor: 'transparent',
+          boxShadow: '1px 0px 2px 0px #6695B7',
+          borderRadius: '12px',
+        },
+      };
+
     return (
         <>
             <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} />
@@ -125,6 +142,9 @@ const RolesNewEvent = ({ eventId, handleClose}: { eventId?: string, handleClose:
                 sx={{
                     mb: 2,
                     mt: 2,
+                    '& .MuiDataGrid-virtualScroller': {
+                        ...scrollbarStyles
+                    },
                     '& .MuiDataGrid-columnHeaders': {
                         backgroundColor: '#5FB4FC',
                         color: '#FAFAFA',
