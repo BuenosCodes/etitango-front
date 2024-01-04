@@ -6,8 +6,8 @@ import Backend from 'i18next-http-backend';
 import { useState } from 'react';
 
 import withRoot from './components/withRoot';
-import EtiAppBar from './components/EtiAppBar';
-import AppFooter from './components/AppFooter';
+// import EtiAppBar from './components/EtiAppBar';
+// import AppFooter from './components/AppFooter';
 import { UserContext } from './helpers/UserContext';
 import { NotificationContext } from './helpers/NotificationContext';
 import HistoriaEti from './modules/home/historia-del-ETI/HistoriaEti';
@@ -27,12 +27,16 @@ import Bank from './modules/user/profile/bank';
 import withUserMenu from './components/withUserMenu';
 // import EventForm from './modules/superAdmin/events/EventForm';
 import NewEvent from './modules/superAdmin/events/NewEvent';
-import  EditEvent  from 'modules/superAdmin/events/EditEvent';
 import TemplatesList from './modules/superAdmin/templates';
 import EditTemplate from './modules/superAdmin/templates/EditTemplate';
 import RolesList from './modules/superAdmin/roles/RolesList';
 import { Notification } from './components/notification/Notification';
 import Instructions from './modules/instructions/index';
+import NewAppBar from 'components/NewBar';
+import NewFooter from 'components/NewFooter';
+import UserPanel from 'modules/user/components/panel/userPanel';
+//import NewEditEvent from 'modules/superAdmin/events/NewEditEvent';
+import EditEvent from 'modules/superAdmin/events/EditEvent';
 
 i18n
   .use(initReactI18next)
@@ -49,7 +53,7 @@ i18n
 export const ROUTES = {
   HOME: '/',
   EVENTS: '/events',
-  EDIT: '/editEvent',
+  EDIT: '/newEditEvent',
   SUPERADMIN: '/super-admin',
   PROFILE: '/user/profile',
   USER: '/user',
@@ -61,7 +65,8 @@ export const ROUTES = {
   ROLES: '/roles',
   TEMPLATES: '/templates',
   INSTRUCTIONS: '/instructions',
-  ATTENDANCE: '/attendance'
+  ATTENDANCE: '/attendance',
+  DASHBOARD: '/dashboard'
 };
 
 export const PRIVATE_ROUTES = [
@@ -96,17 +101,20 @@ function App() {
     }
   };
   return (
-    <div className="">
+    <div className="container">
       <UserContext.Provider value={{ user, setUser }}>
         <NotificationContext.Provider value={{ notification, setNotification }}>
-          <EtiAppBar />
+          <NewAppBar />
+          <div className='content'>
           <Notification {...notification} />
           <Routes>
+            <Route path={ROUTES.DASHBOARD} element={<UserPanel />}/>
             <Route path="historia-del-eti" element={<HistoriaEti />} exact />
             <Route path="manifiesto-etiano" element={<ManifiestoETiano />} exact />
             <Route path="comision-de-genero-contact" element={<ComisionGeneroContact />} exact />
             <Route path="comision-de-genero-protocol" element={<ComisionGeneroProtocol />} exact />
             <Route path="comision-de-genero-who" element={<ComisionGeneroWho />} exact />
+            {/* <Route path="info-general" element={<NewEditEvent />} exact /> */}
             <Route path={ROUTES.SIGNUP} element={withUserMenu(Inscripcion)()} exact />
             <Route path={ROUTES.SIGNUPS} element={withUserMenu(SignupList)()} exact />
             <Route
@@ -117,6 +125,7 @@ function App() {
             <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
             <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`} element={<EventsList />} />
+            {/* <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}${ROUTES.EDIT}/:id`} element={<NewEditEvent />} /> */}
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}${ROUTES.EDIT}/:id`} element={<EditEvent />} />
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`} element={<NewEvent />} />
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.ROLES}`} element={<RolesList />} />
@@ -131,7 +140,8 @@ function App() {
             />
             <Route path={ROUTES.INSTRUCTIONS} element={<Instructions />} />
           </Routes>
-          <AppFooter />
+          </div>
+          <NewFooter />
         </NotificationContext.Provider>
       </UserContext.Provider>
     </div>

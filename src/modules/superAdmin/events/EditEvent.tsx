@@ -211,7 +211,8 @@ export default function EditEvent() {
                         <Grid item md={4} sm={4} xs={12}>
                           <ETIDatePicker
                             textFieldProps={{ fullWidth: true }}
-                            label={t('dateStart')}
+                            borderColor={false}
+                            specialCase={true}
                             fieldName="dateStart"
                             setFieldValue={setFieldValue}
                           />
@@ -219,7 +220,8 @@ export default function EditEvent() {
                         <Grid item md={4} sm={4} xs={12}>
                           <ETIDatePicker
                             textFieldProps={{ fullWidth: true }}
-                            label={t('dateEnd')}
+                            borderColor={false}
+                            specialCase={true}
                             fieldName="dateEnd"
                             setFieldValue={setFieldValue}
                           />
@@ -227,7 +229,8 @@ export default function EditEvent() {
                         <Grid item md={4} sm={4} xs={12}>
                           <ETIDatePicker
                             textFieldProps={{ fullWidth: true }}
-                            label={t('dateSignupOpen')}
+                            borderColor={false}
+                            specialCase={true}
                             fieldName="dateSignupOpen"
                             setFieldValue={setFieldValue}
                           />
@@ -263,6 +266,7 @@ export default function EditEvent() {
                     name={event?.name}
                     additionalFields={event?.additionalFields}
                   />
+                  
                   <ETIAlojamiento />
                   <ETIDataBanks />
                   <ETIMercadoPago />

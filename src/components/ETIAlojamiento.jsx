@@ -2,9 +2,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { Box, Button, Grid, Typography, Menu, MenuItem, GridColDef  } from '@mui/material';
+import { Box, Button, Grid, Typography, Menu, MenuItem, } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createOrUpdateDoc } from 'helpers/firestore'; 
+import ETIModalMaps from './ETIModalMaps';
 
 const ETIAlojamiento = () => {
   const [rows, setRows] = useState([]);
@@ -13,6 +14,16 @@ const ETIAlojamiento = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   const [idCounter, setIdCounter] = useState(0);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleAddRow = () => {
     setIdCounter(idCounter + 1);
@@ -41,16 +52,16 @@ const ETIAlojamiento = () => {
     handleMenuClose();
   };
 
-  // const handleConfirmClick = async () => {
-  //   const updatedRows = Object.keys(editRowsModel).map((id) => {
-  //     const row = rows.find((r) => r.id === parseInt(id));
-  //     return { ...row, ...editRowsModel[id] };
-  //   });
-  //   for (const row of updatedRows) {
-  //     await createOrUpdateDoc('', row, row.id);
-  //   }
-  //   setIsEditing(false);
-  // };
+  const handleConfirmClick = async () => {
+    const updatedRows = Object.keys(editRowsModel).map((id) => {
+      const row = rows.find((r) => r.id === parseInt(id));
+      return { ...row, ...editRowsModel[id] };
+    });
+    for (const row of updatedRows) {
+      await createOrUpdateDoc('', row, row.id);
+    }
+    setIsEditing(false);
+  };
 
   const columns = [
     { field: 'name', headerName: 'Nombre del establecimiento',width: 350, editable: true },
@@ -73,6 +84,14 @@ const ETIAlojamiento = () => {
               <img src={'/img/icon/btnConfirm.png'} alt="btnDelete" style={{ width: '100%', height: 'auto' }} />
             </Button>
           )}
+          <Button
+            variant='contained'
+            style={{ background: 'lightblue', boxShadow: 'none', border: 'none', margin: 0 }}
+            onClick={handleOpenModal}
+          >
+            <img src={'/img/icon/btnOpenModalMaps.png'} alt="btnOpenModal" style={{ width: '100%', height: 'auto' }} />
+          </Button>
+          <ETIModalMaps isOpen={isModalOpen} handleCloseModal={handleCloseModal} />
           <Button
             variant='contained'
             style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
