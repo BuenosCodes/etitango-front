@@ -105,7 +105,7 @@ const ETIAlojamiento = () => {
 
   const columns = [
     { field: 'name', headerName: 'Nombre del establecimiento',width: 350, editable: true },
-    { field: 'address', headerName: 'Dirección de Google Maps', width: 760, editable: true },
+    { field: 'address', headerName: 'Dirección de Google Maps', width: 705, editable: true },
   ];
 
   return (

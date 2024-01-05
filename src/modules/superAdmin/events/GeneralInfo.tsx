@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
 import WithAuthentication from '../../withAuthentication';
 import { UserRoles } from 'shared/User';
@@ -9,6 +10,11 @@ import NewEditEvent from './NewEditEvent';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from 'etiFirebase';
 import { Box, Typography, Paper, Grid } from '@mui/material';
+import ETIAgenda from 'components/ETIAgenda';
+import ETIAlojamiento from 'components/ETIAlojamiento';
+import ETIDataBanks from 'components/ETIDataBanks';
+import ETIMercadoPago from 'components/ETIMercadoPago';
+import ETIPacks from 'components/ETIPacks';
 
 
 
@@ -30,9 +36,9 @@ const GeneralInfo = () => {
   const handleDeleteEvent = async (id: string) => {
     try {
       await deleteDoc(doc(db, "events", id));
-      setIsLoading(true); 
+      setIsLoading(true);
       const updatedEvents = await firestoreEventHelper.getEvents();
-      setEvents(updatedEvents); 
+      setEvents(updatedEvents);
     } catch (error) {
       console.error("Error deleting event:", error);
     } finally {
@@ -44,13 +50,14 @@ const GeneralInfo = () => {
     <>
       <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} />
       {/* <EventListTable events={events} isLoading={isLoading} /> */}
-      
+
       <Box
-      
+
       justifyContent={'center'}
       >
       <NewEventList events={events} isLoading={isLoading} onDeleteEvent={handleDeleteEvent} onSelectEvent={setEventData}  />
       <Paper elevation={3}
+        sx={{height: '85%'}}
       >
         <Grid
         container>
@@ -63,17 +70,28 @@ const GeneralInfo = () => {
           <Grid item xs={6} md={6} sx={{display: 'flex', justifyContent: 'flex-end', mt: 5}}>
           <Typography sx={{fontFamily: 'inter', fontWeight: 600, fontSize: '24px', color: '#0075D9', pr: 4 }}>{eventData?.name}</Typography>
           </Grid>
-        
+
 
         </Grid>
-      
-        <NewEditEvent selectedEvent={eventData}></NewEditEvent>
+
+        
+        <Box
+          sx={{ padding: '35px'}}
+        >
+          <NewEditEvent selectedEvent={eventData}></NewEditEvent>
+          <ETIAgenda dateStart={undefined} name={undefined} additionalFields={undefined} />
+          <ETIAlojamiento />
+          <ETIDataBanks />
+          <ETIMercadoPago />
+          {/* <ETIPacks /> */}
+        </Box>
+        
       </Paper>
-      
-      
+
+
       </Box>
-      
-      
+
+
 
     </>
   );

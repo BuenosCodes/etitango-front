@@ -81,7 +81,7 @@ const ETIMercadoPago = () => {
   };
 
   const columns = [
-    { field: 'link', headerName: 'Link de cobro',width: 1110, editable: true },
+    { field: 'link', headerName: 'Link de cobro',width: 190, editable: true },
   ];
 
   return (

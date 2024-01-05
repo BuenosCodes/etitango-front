@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useEffect } from 'react';
 import { Button, Paper, Box, Typography, Grid } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
@@ -76,7 +77,7 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
 
        <Paper 
        elevation={4}
-       sx={{width: '101vh', height: '30vh', borderRadius: '15px'}} >
+       sx={{width: '123vh', height: '30vh', borderRadius: '15px'}} >
 
         <Grid item xs={12} sx={{ backgroundColor: '#4B84DB', height: '40px', borderTopLeftRadius: '15px', borderTopRightRadius: '15px'}}>
           <Typography sx={{fontSize: '24px', fontWeight: '600', color: '#FAFAFA', pl: '25px', pt: '3px'}} >

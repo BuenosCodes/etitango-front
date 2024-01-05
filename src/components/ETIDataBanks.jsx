@@ -83,7 +83,7 @@ const ETIDataBanks = () => {
   const columns = [
     { field: 'link', headerName: 'Nombre',width: 333, editable: true },
     { field: 'alias', headerName: 'Alias',width: 333, editable: true },
-    { field: 'cbu', headerName: 'CBU/CVU',width: 444, editable: true },
+    { field: 'cbu', headerName: 'CBU/CVU',width: 389, editable: true },
   ];
 
   return (
