@@ -122,7 +122,7 @@ const NewAppBar = () => {
                           color="primary"
                           variant="text"
                           underline="none"
-                          href={'/user/profile'}
+                          href={'/dashboard'}
                         >
                           PANEL GENERAL
                         </Button>
