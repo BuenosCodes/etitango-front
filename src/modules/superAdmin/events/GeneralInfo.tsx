@@ -14,7 +14,6 @@ import ETIAgenda from 'components/ETIAgenda';
 import ETIAlojamiento from 'components/ETIAlojamiento';
 import ETIDataBanks from 'components/ETIDataBanks';
 import ETIMercadoPago from 'components/ETIMercadoPago';
-import ETIPacks from 'components/ETIPacks';
 
 
 
@@ -57,7 +56,7 @@ const GeneralInfo = () => {
       >
       <NewEventList events={events} isLoading={isLoading} onDeleteEvent={handleDeleteEvent} onSelectEvent={setEventData}  />
       <Paper elevation={3}
-        sx={{height: '85%'}}
+        sx={{height: '75%'}}
       >
         <Grid
         container>
@@ -76,7 +75,7 @@ const GeneralInfo = () => {
 
         
         <Box
-          sx={{ padding: '35px'}}
+          sx={{ padding: '75px'}}
         >
           <NewEditEvent selectedEvent={eventData}></NewEditEvent>
           <ETIAgenda dateStart={undefined} name={undefined} additionalFields={undefined} />
