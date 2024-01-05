@@ -263,6 +263,8 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
                             Desde
                           </Typography>
 
+
+
                           <Box sx={{display:'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E68650', borderRadius: 2, width: '288px'}}>
 
                           <ETIDatePickerEdit
@@ -288,6 +290,7 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
                                   />
                                   </Box>
                         </Grid>
+
 
                         <Grid item xs={4} >
                         <Typography ml= {1.5} style={{fontFamily: 'inter', color: '#0075D9'}}>
@@ -318,6 +321,8 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
                                     specialCase={true}
                                   />
                                   </Box>
+
+
                         </Grid>
 
                         <Grid item xs={4} >
@@ -352,6 +357,7 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
                         </Grid>
 
                         
+
                         </Grid>
             
                         
