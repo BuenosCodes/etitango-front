@@ -27,9 +27,9 @@ export default function UserPanel() {
   const userIsAdmin = isAdmin(user)
   const userIsSuperAdmin = isSuperAdmin(user)
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const [etis , setEtis ]= React.useState(4);
-  const [nuestrosLinks , setNuestrosLinks ]= React.useState(5);
-  const [comision , setComision ]= React.useState(6);
+  const [etis, setEtis] = React.useState(4);
+  const [nuestrosLinks, setNuestrosLinks] = React.useState(5);
+  const [comision, setComision] = React.useState(6);
 
   const buttons = [
     { label: 'Inscripciones', component: <Inscripcion />, roles: ['admin', 'superAdmin'], icon: '/img/icon/taskSquare.svg', startIndex: 1 },
@@ -53,7 +53,7 @@ export default function UserPanel() {
     { label: 'Presupuesto', component: <h1>Presupuesto</h1>, startIndex: 13 },
     { label: 'Inscripciones', component: <Inscripcion />, startIndex: 14 },
     { label: 'Merchandising', component: <h1>Merchandansing</h1>, startIndex: 15 },
-    { label: 'Audio', component: <h1>Audio</h1>,  startIndex: 16 },
+    { label: 'Audio', component: <h1>Audio</h1>, startIndex: 16 },
     { label: 'Asistencia', component: <h1>Asistencia</h1>, startIndex: 17 },
   ]
 
@@ -88,59 +88,59 @@ export default function UserPanel() {
   const handleListItemClick = (
     index: any,
   ) => {
-    if(index === 7){ 
+    if (index === 7) {
       setNuestrosLinks(index)
-    setActiveComponent(nustrosLinks[0].component);
+      setActiveComponent(nustrosLinks[0].component);
 
     }
-    if(index === 8){
+    if (index === 8) {
       setNuestrosLinks(index)
-    setActiveComponent(nustrosLinks[1].component);
+      setActiveComponent(nustrosLinks[1].component);
 
     }
-    if(index === 9){
+    if (index === 9) {
       setComision(index)
-    setActiveComponent(comisionGenero[0].component);
+      setActiveComponent(comisionGenero[0].component);
 
     }
-    if(index === 10){
+    if (index === 10) {
       setComision(index)
       setActiveComponent(comisionGenero[1].component);
 
     }
-    if(index === 11){
+    if (index === 11) {
       setComision(index)
-    setActiveComponent(comisionGenero[2].component);
+      setActiveComponent(comisionGenero[2].component);
 
     }
-    if(index === 12){
+    if (index === 12) {
       setEtis(index)
-    setActiveComponent(Etis[0].component);
+      setActiveComponent(Etis[0].component);
 
     }
-    if(index === 13){
+    if (index === 13) {
       setEtis(index)
-    setActiveComponent(Etis[1].component);
+      setActiveComponent(Etis[1].component);
 
     }
-    if(index === 14){
+    if (index === 14) {
       setEtis(index)
-    setActiveComponent(Etis[2].component);
-
-    } 
-    if(index === 15){
-      setEtis(index)
-    setActiveComponent(Etis[3].component);
+      setActiveComponent(Etis[2].component);
 
     }
-    if(index === 16){
+    if (index === 15) {
       setEtis(index)
-    setActiveComponent(Etis[4].component);
+      setActiveComponent(Etis[3].component);
 
-    } 
-    if(index === 17){
+    }
+    if (index === 16) {
       setEtis(index)
-    setActiveComponent(Etis[5].component);
+      setActiveComponent(Etis[4].component);
+
+    }
+    if (index === 17) {
+      setEtis(index)
+      setActiveComponent(Etis[5].component);
 
     }
     setSelectedIndex(index);
@@ -160,19 +160,19 @@ export default function UserPanel() {
     }
   });
 
-  const tipographyStyle = {
-    fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', color: '#FAFAFA'
-  }
-
   const itemButtonStyle = {
     borderBottomLeftRadius: '25px', borderTopLeftRadius: '25px', padding: '12px 0px 12px 12px', marginBottom: '10px', color: '#FAFAFA'
+  }
+
+  const itemButtonStyle2 = {
+    borderRadius: '100px', padding: '6px 16px 6px 16px', marginBottom: '10px', color: '#FAFAFA'
   }
 
   const itemButtonHoverStyle = {
     backgroundColor: '#FFFBF0',
     color: '#212121',
   };
-  
+
   const itemButtonActiveStyle = {
     backgroundColor: '#FFFBF0',
     color: '#212121',
@@ -184,10 +184,10 @@ export default function UserPanel() {
   return (
     <>
       <Grid container>
-        <Grid item xs={2} sx={{ backgroundColor: '#5FB4FC', padding: '30px 0px 20px 30px'}}>
-          <List sx={{padding: '8px 0px 8px 15px', minHeight: '100vh'}}>
+        <Grid item xs={2} sx={{ backgroundColor: '#5FB4FC', padding: '30px 0px 20px 30px' }}>
+          <List sx={{ padding: '8px 0px 8px 15px', minHeight: '100vh' }}>
             {filteredButtons.map((button, index) => (
-              <ListItemButton key={index} onClick={() => { handleButtonClick(index), handleListItemClick(button.startIndex)}} sx={{
+              <ListItemButton key={index} onClick={() => { handleButtonClick(index), handleListItemClick(button.startIndex) }} sx={{
                 ...itemButtonStyle,
                 ...(selectedIndex === button.startIndex && itemButtonActiveStyle),
                 ':hover': {
@@ -201,31 +201,57 @@ export default function UserPanel() {
                 },
               }}
               >
-                <ListItemIcon sx={{minWidth: '35px'}}>
+                <ListItemIcon sx={{ minWidth: '35px' }}>
                   <Icon>
                     <img src={button.icon} height={25} width={25} />
                   </Icon>
                 </ListItemIcon>
-                <ListItemText primary={button.label} primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === button.startIndex && { color: '#212121' }) }}/>
+                <ListItemText primary={button.label} primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === button.startIndex && { color: '#212121' }) }} />
               </ListItemButton>
             ))}
 
             {(userIsAdmin || userIsSuperAdmin) && (<>
-              <ListItemButton onClick={() => { handleClickEtis(), handleListItemClick(etis) }} selected={selectedIndex === etis} sx={itemButtonStyle}>
-                <ListItemIcon sx={{minWidth: '35px'}}>
+              <ListItemButton onClick={() => { handleClickEtis(), handleListItemClick(etis) }} sx={{
+                ...itemButtonStyle,
+                ...(selectedIndex === etis && itemButtonActiveStyle),
+                ':hover': {
+                  ...itemButtonHoverStyle,
+                  '& .MuiListItemIcon-root img': {
+                    filter: 'saturate(0) hue-rotate(90deg) brightness(0)',
+                  },
+                  '& .MuiListItemText-primary': {
+                    color: '#212121',
+                  },
+                },
+              }}
+              >
+                <ListItemIcon sx={{ minWidth: '35px' }}>
                   <Icon>
                     <img src={'/img/icon/security-user.svg'} height={25} width={25} />
                   </Icon>
                 </ListItemIcon>
-                <ListItemText primary="ETIs" primaryTypographyProps={tipographyStyle}/>
-                {openEtis ? <ExpandLess sx={{marginRight: 1}} /> : <ExpandMore sx={{marginRight: 1}}/>}
+                <ListItemText primary="ETIs" primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === etis && { color: '#212121' }) }} />
+                {openEtis ? <ExpandLess sx={{ marginRight: 1 }} /> : <ExpandMore sx={{ marginRight: 1 }} />}
               </ListItemButton>
               <Collapse in={openEtis} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                   {Etis.map((button, index) => (
                     <ListItem key={index}>
-                      <ListItemButton onClick={() => {handleListItemClick(button.startIndex)}} selected={selectedIndex === button.startIndex} sx={itemButtonStyle}>
-                        <ListItemText primary={button.label} primaryTypographyProps={tipographyStyle}/>
+                      <ListItemButton onClick={() => { handleListItemClick(button.startIndex) }} sx={{
+                        ...itemButtonStyle2,
+                        ...(selectedIndex === button.startIndex && itemButtonActiveStyle),
+                        ':hover': {
+                          ...itemButtonHoverStyle,
+                          '& .MuiListItemIcon-root img': {
+                            filter: 'saturate(0) hue-rotate(90deg) brightness(0)',
+                          },
+                          '& .MuiListItemText-primary': {
+                            color: '#212121',
+                          },
+                        },
+                      }}
+                      >
+                        <ListItemText primary={button.label} primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 500, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === button.startIndex && { color: '#212121' }) }} />
                       </ListItemButton>
                     </ListItem>
                   ))}
@@ -235,21 +261,47 @@ export default function UserPanel() {
             )}
 
 
-            <ListItemButton onClick={() => { handleClickLinks(), handleListItemClick(nuestrosLinks) }} selected={selectedIndex === nuestrosLinks} sx={itemButtonStyle}>
-              <ListItemIcon sx={{minWidth: '35px'}}>
+            <ListItemButton onClick={() => { handleClickLinks(), handleListItemClick(nuestrosLinks) }} sx={{
+              ...itemButtonStyle,
+              ...(selectedIndex === nuestrosLinks && itemButtonActiveStyle),
+              ':hover': {
+                ...itemButtonHoverStyle,
+                '& .MuiListItemIcon-root img': {
+                  filter: 'saturate(0) hue-rotate(90deg) brightness(0)',
+                },
+                '& .MuiListItemText-primary': {
+                  color: '#212121',
+                },
+              },
+            }}
+            >
+              <ListItemIcon sx={{ minWidth: '35px' }}>
                 <Icon>
                   <img src={'/img/icon/star.svg'} height={25} width={25} />
                 </Icon>
               </ListItemIcon>
-              <ListItemText primary="Nuestros links" primaryTypographyProps={tipographyStyle}/>
-              {openLinks ? <ExpandLess sx={{marginRight: 1}}/> : <ExpandMore sx={{marginRight: 1}}/>}
+              <ListItemText primary="Nuestros links" primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === nuestrosLinks && { color: '#212121' }) }} />
+              {openLinks ? <ExpandLess sx={{ marginRight: 1 }} /> : <ExpandMore sx={{ marginRight: 1 }} />}
             </ListItemButton>
             <Collapse in={openLinks} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 {nustrosLinks.map((button, index) => (
                   <ListItem key={index}>
-                    <ListItemButton onClick={() => {handleListItemClick(button.startIndex)}} selected={selectedIndex === button.startIndex} sx={itemButtonStyle}>
-                      <ListItemText primary={button.label} primaryTypographyProps={tipographyStyle}/>
+                    <ListItemButton onClick={() => { handleListItemClick(button.startIndex) }} sx={{
+                      ...itemButtonStyle2,
+                      ...(selectedIndex === button.startIndex && itemButtonActiveStyle),
+                      ':hover': {
+                        ...itemButtonHoverStyle,
+                        '& .MuiListItemIcon-root img': {
+                          filter: 'saturate(0) hue-rotate(90deg) brightness(0)',
+                        },
+                        '& .MuiListItemText-primary': {
+                          color: '#212121',
+                        },
+                      },
+                    }}
+                    >
+                      <ListItemText primary={button.label} primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 500, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === button.startIndex && { color: '#212121' }) }} />
                     </ListItemButton>
                   </ListItem>
                 ))}
@@ -258,34 +310,56 @@ export default function UserPanel() {
 
 
 
-            <ListItemButton onClick={() => { handleClick(), handleListItemClick(comision) }} selected={selectedIndex === comision} sx={itemButtonStyle}>
-              <ListItemIcon sx={{minWidth: '35px'}}>
+            <ListItemButton onClick={() => { handleClick(), handleListItemClick(comision) }} sx={{
+              ...itemButtonStyle,
+              ...(selectedIndex === comision && itemButtonActiveStyle),
+              ':hover': {
+                ...itemButtonHoverStyle,
+                '& .MuiListItemIcon-root img': {
+                  filter: 'saturate(0) hue-rotate(90deg) brightness(0)',
+                },
+                '& .MuiListItemText-primary': {
+                  color: '#212121',
+                },
+              },
+            }}
+            >
+              <ListItemIcon sx={{ minWidth: '35px' }}>
                 <Icon>
                   <img src={'/img/icon/heart.svg'} height={25} width={25} />
                 </Icon>
               </ListItemIcon>
-              <ListItemText primary="Comisión de género" primaryTypographyProps={tipographyStyle}/>
-              {open ? <ExpandLess sx={{marginRight: 1}}/> : <ExpandMore sx={{marginRight: 1}}/>}
+              <ListItemText primary="Comisión de género" primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === comision && { color: '#212121' }) }} />
+              {open ? <ExpandLess sx={{ marginRight: 1 }} /> : <ExpandMore sx={{ marginRight: 1 }} />}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 {comisionGenero.map((button, index) => (
                   <ListItem key={index}>
-                    <ListItemButton onClick={() => {handleListItemClick(button.startIndex)}} selected={selectedIndex === button.startIndex} sx={itemButtonStyle}>
-                      <ListItemText primary={button.label} primaryTypographyProps={tipographyStyle}/>
+                    <ListItemButton onClick={() => { handleListItemClick(button.startIndex) }} sx={{
+                      ...itemButtonStyle2,
+                      ...(selectedIndex === button.startIndex && itemButtonActiveStyle),
+                      ':hover': {
+                        ...itemButtonHoverStyle,
+                        '& .MuiListItemIcon-root img': {
+                          filter: 'saturate(0) hue-rotate(90deg) brightness(0)',
+                        },
+                        '& .MuiListItemText-primary': {
+                          color: '#212121',
+                        },
+                      },
+                    }}
+                    >
+                      <ListItemText primary={button.label} primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 500, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === button.startIndex && { color: '#212121' }) }} />
                     </ListItemButton>
                   </ListItem>
                 ))}
               </List>
             </Collapse>
-
-
-
           </List>
         </Grid>
-
         <Grid item xs={10}>
-          <Box sx={{display: 'flex',justifyContent: 'center',padding: 10}}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', padding: 10}}>
             {activeComponent}
           </Box>
         </Grid>
