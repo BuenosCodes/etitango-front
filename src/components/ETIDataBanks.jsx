@@ -14,6 +14,10 @@ const ETIDataBanks = () => {
 
   const [idCounter, setIdCounter] = useState(0);
 
+  const rowHeight = 23;
+  const headerHeight = 23;
+  const totalHeight = rows.length * rowHeight + headerHeight;
+
   useEffect(() => {
     const updatedRows = rows.map((row) => {
       const edits = editRowsModel[row.id];
@@ -127,7 +131,7 @@ const ETIDataBanks = () => {
           </Button>
         </Grid>
         <Grid container>
-          <Grid item xs={12} sx={{ height: 92, width: '100%' }}>
+          <Grid item xs={12} sx={{ height: `${totalHeight}px`, width: '100%' }}>
             <DataGrid
               rows={rows}
               columns={columns}

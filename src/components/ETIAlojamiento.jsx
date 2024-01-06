@@ -17,6 +17,10 @@ const ETIAlojamiento = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const rowHeight = 23;
+  const headerHeight = 23;
+  const totalHeight = rows.length * rowHeight + headerHeight;
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -156,7 +160,7 @@ const ETIAlojamiento = () => {
           </Button>
         </Grid>
         <Grid container>
-          <Grid item xs={12} sx={{ height: 92, width: '100%' }}>
+          <Grid item xs={12} sx={{ height: `${totalHeight}px`, width: '100%' }}>
             <DataGrid
               rows={rows}
               columns={columns}

@@ -14,6 +14,10 @@ const ETIMercadoPago = () => {
 
   const [idCounter, setIdCounter] = useState(0);
 
+  const rowHeight = 22;
+  const headerHeight = 22;
+  const totalHeight = rows.length * rowHeight + headerHeight;
+  
   useEffect(() => {
     const updatedRows = rows.map((row) => {
       const edits = editRowsModel[row.id];
@@ -125,7 +129,7 @@ const ETIMercadoPago = () => {
           </Button>
         </Grid>
         <Grid container>
-          <Grid item xs={12} sx={{ height: 92, width: '100%' }}>
+          <Grid item xs={12} sx={{ height: `${totalHeight}px`, width: '100%' }}>
             <DataGrid
               rows={rows}
               columns={columns}

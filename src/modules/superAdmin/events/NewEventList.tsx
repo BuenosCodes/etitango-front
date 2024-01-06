@@ -72,19 +72,14 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
   return (
     <>
     <Box
-    
-    sx={{padding: '12px 0px 50px 0px'}}>
+      sx={{display: 'flex', flexDirection: 'column', overflow: 'auto', width: '960px', height: '290px', boxShadow: 3, borderRadius: '12px', backgroundColor: '#FFFFFF'}}
+    >
 
-       <Paper 
-       elevation={4}
-       sx={{width: '123vh', height: '30vh', borderRadius: '15px'}} >
-
-        <Grid item xs={12} sx={{ backgroundColor: '#4B84DB', height: '40px', borderTopLeftRadius: '15px', borderTopRightRadius: '15px'}}>
-          <Typography sx={{fontSize: '24px', fontWeight: '600', color: '#FAFAFA', pl: '25px', pt: '3px'}} >
-            ETIs
-          </Typography>
-        </Grid>
-      <Paper elevation={0} sx={{ height: '21vh', width: '100%', padding: '6px 24px 0px 24px'}}>
+      
+      
+              <Box sx={{ color: '#FFFFFF', backgroundColor: '#4B84DB', padding: '12px 24px 12px 24px', fontWeight: 600, fontSize: '24px', lineHeight: '16px', fontFamily: 'Montserrat', height: '40px' }}>
+                ETIs
+              </Box>
       
         <DataGrid
         
@@ -164,8 +159,7 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
         headerHeight={22}
         pageSize={5}
         sx={{
-          mb: 2,
-          mt: 2,
+          m: '20px',
           '& .MuiDataGrid-columnHeaders': {
               backgroundColor: '#5FB4FC',
               color: '#FAFAFA',
@@ -190,8 +184,7 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
       }}
         />
         {/* <Button onClick={()=>onSelectEvent(['hola'])}> Click aqui </Button> */}
-      </Paper>
-      </Paper>
+      
       </Box>
     </>
   );

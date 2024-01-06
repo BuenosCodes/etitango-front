@@ -18,6 +18,10 @@ import * as firestoreUserHelper from 'helpers/firestore/users';
 import { LocationPicker } from 'components/form/LocationPicker';
 import { ETIDatePickerEdit } from 'components/form/DatePickerEdit';
 import { ETITimePickerEdit } from 'components/form/TimePickerEdit';
+import ETIAgenda from 'components/ETIAgenda.jsx';
+import ETIAlojamiento from 'components/ETIAlojamiento.jsx';
+import ETIDataBanks from 'components/ETIDataBanks.jsx';
+import ETIMercadoPago from 'components/ETIMercadoPago.jsx';
 
 //import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
 
@@ -163,6 +167,22 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
     }
   };
 
+  const scrollbarStyles = {
+    overflowY: 'auto',
+    '&::-webkit-scrollbar': {
+      width: '8px',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: '#C0E5FF',
+      borderRadius: '12px',
+    },
+    '&::-webkit-scrollbar-track': {
+      backgroundColor: 'transparent',
+      boxShadow: '1px 0px 2px 0px #6695B7',
+      borderRadius: '12px',
+    },
+  };
+
 
   
   return (
@@ -176,7 +196,17 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
           {loading ? (
             <CircularProgress />
           ) : (
-            <Container sx={{ marginTop: 3, width: '980px' }}>
+
+            
+            <Box sx={{display: 'flex', flexDirection: 'column', overflow: 'auto', width: '960px', height: '1000px', boxShadow: 3, borderRadius: '12px', backgroundColor: '#FFFFFF'}}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between'}}>
+                <Typography sx={{fontWeight: 600, fontSize: '24px', }}>Información general</Typography>
+              </Box>
+              <Box
+                sx={{ display: 'flex', margin: '20px', backgroundColor: '#FAFAFA', borderRadius: '12px', p: 2, ...scrollbarStyles, flexDirection: 'column' }}
+              >
+
+              
               <Grid
                 container
                 
@@ -427,7 +457,12 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
 
                
               </Grid>  
-            </Container>
+              <ETIAgenda dateStart={undefined} name={undefined} additionalFields={undefined} />
+              <ETIAlojamiento />
+              <ETIDataBanks />
+              <ETIMercadoPago />
+              </Box>
+            </Box>
           )}
         </>
       )}
