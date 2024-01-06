@@ -26,10 +26,10 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
 
   const EventFormSchema = object({
 
-    dateStart: date().required(alertText),
-    dateEnd: date().when('dateStart', (dateStart, schema) => (dateStart && schema.min(dateStart, "No puede ser menor a la fecha de inicio"))).required(alertText),
-    dateSignupOpen: date().when('dateStart', (dateStart, schema) => (dateStart && schema.max(dateStart, "No puede ser mayor a la fecha de inicio"))).required(alertText),
-    dateSignupEnd: date().required(alertText),
+    dateStart: date().nullable().transform((originalValue) => {const parsedDate = new Date(originalValue);return isNaN(parsedDate.getTime()) ? undefined : parsedDate;}).required(alertText),
+    dateEnd: date().nullable().when('dateStart', (dateStart, schema) => (dateStart && schema.min(dateStart, "No puede ser menor a la fecha de inicio"))).required(alertText),
+    dateSignupOpen: date().nullable().when('dateStart', (dateStart, schema) => (dateStart && schema.max(dateStart, "No puede ser mayor a la fecha de inicio"))).required(alertText),
+    dateSignupEnd: date().nullable().required(alertText),
     // location: string().required(alertText),
     timeStart: string().required(alertText),
     timeEnd: string().required(alertText),
