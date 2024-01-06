@@ -109,6 +109,17 @@ return (
       inputFormat="DD-MM-YYYY"
       inputIcon= {<CustomSVGIcon />}
       mask="__-__-____"
-      onChange={(value: any) => setFieldValue(fieldName, value.toDate())}
+      onChange={(value: any) => {
+        
+        console.log('value date aqui -> ', value);
+        // Verifica si value no es nulo antes de llamar a toDate()
+        if (value && value.toDate) {
+          console.log('value to date ->', value.toDate());
+          setFieldValue(fieldName, value.toDate());
+        } else {
+          // Maneja el caso en el que value es nulo
+          console.warn('Fecha inválida');
+          setFieldValue(fieldName, null); // Puedes ajustar esto según tus necesidades
+      }}}
   />
 )};

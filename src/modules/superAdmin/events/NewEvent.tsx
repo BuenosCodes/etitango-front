@@ -26,10 +26,10 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
 
   const EventFormSchema = object({
 
-    dateStart: date().required(alertText),
-    dateEnd: date().when('dateStart', (dateStart, schema) => (dateStart && schema.min(dateStart, "No puede ser menor a la fecha de inicio"))).required(alertText),
-    dateSignupOpen: date().when('dateStart', (dateStart, schema) => (dateStart && schema.max(dateStart, "No puede ser mayor a la fecha de inicio"))).required(alertText),
-    dateSignupEnd: date().required(alertText),
+    dateStart: date().nullable().transform((originalValue) => {const parsedDate = new Date(originalValue);return isNaN(parsedDate.getTime()) ? undefined : parsedDate;}).required(alertText),
+    dateEnd: date().nullable().when('dateStart', (dateStart, schema) => (dateStart && schema.min(dateStart, "No puede ser menor a la fecha de inicio"))).required(alertText),
+    dateSignupOpen: date().nullable().when('dateStart', (dateStart, schema) => (dateStart && schema.max(dateStart, "No puede ser mayor a la fecha de inicio"))).required(alertText),
+    dateSignupEnd: date().nullable().required(alertText),
     // location: string().required(alertText),
     timeStart: string().required(alertText),
     timeEnd: string().required(alertText),
@@ -217,7 +217,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
           {loading ? (
             <CircularProgress />
           ) : (
-            <Box sx={{ display: 'flex', flexDirection: 'column', boxShadow: 3, width: 960, height: 780, borderRadius: '12px', overflow: 'auto' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', boxShadow: 3, width: 960, height: 780, borderRadius: '12px', overflow: 'auto', backgroundColor: '#FFFFFF' }}>
               <Box sx={{ color: '#FFFFFF', backgroundColor: '#4B84DB', padding: '12px 24px 12px 24px', fontWeight: 600, fontSize: '24px', lineHeight: '16px', fontFamily: 'Montserrat', height: '40px' }}>
                 Nuevo ETI
               </Box>
