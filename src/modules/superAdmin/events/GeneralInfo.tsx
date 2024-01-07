@@ -49,22 +49,12 @@ const GeneralInfo = () => {
     <>
       <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} />
       {/* <EventListTable events={events} isLoading={isLoading} /> */}
-      
-     <Box
-      sx={{display: 'flex', flexDirection: 'column'}}
-     >
+     <Box sx={{display: 'flex', flexDirection: 'column'}}>
       <NewEventList events={events} isLoading={isLoading} onDeleteEvent={handleDeleteEvent} onSelectEvent={setEventData}  />
-      
-      <Box
-        sx={{mt: 2, border: '1px solid red'}}
-      >
+      <Box sx={{mt: 2}}>
         <NewEditEvent selectedEvent={eventData}></NewEditEvent>
-        
       </Box>
      </Box>
-
-
-
     </>
   );
 };

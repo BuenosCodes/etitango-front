@@ -89,7 +89,7 @@ const ETIMercadoPago = () => {
   ];
 
   return (
-    <Box sx={{ margin: 2, display: 'flex', width: '95%' }}>
+    <Box sx={{display: 'flex', mt: 2}}>
       <Grid container rowSpacing={0} columnSpacing={{ md: 0 }}>
         <Grid item xs={10}>
           <Typography variant='h6' fontWeight="600">Mercadopago</Typography>
@@ -144,7 +144,6 @@ const ETIMercadoPago = () => {
               flex={2}
               sx={{
                 mb: 2,
-                mt: 2,
                 '& .MuiDataGrid-columnHeaders': {
                     backgroundColor: '#5FB4FC',
                     color: '#FAFAFA',

@@ -24,11 +24,7 @@ const ETIAgenda = ({ dateStart, name, additionalFields }) => {
   console.log('datos traidos -> ', dateStart, name, additionalFields);
 
   return (
-    <Box sx={{
-      margin: 2,
-      display: 'flex',
-      width: '95%',
-    }}>
+    <Box sx={{display: 'flex', mt: 2}}>
       <Grid container rowSpacing={0} columnSpacing={{ md: 0 }}>
         <Grid item xs={10}>
           <Typography variant='h6' fontWeight="600">Agenda</Typography>

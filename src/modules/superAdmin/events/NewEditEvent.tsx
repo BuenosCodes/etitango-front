@@ -1,7 +1,7 @@
 
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import { Button, CircularProgress, Container, Grid, Box, styled, Avatar, Typography, Modal} from '@mui/material';
+import { Button, CircularProgress, Container, Grid, Box, styled, Avatar, Typography, Modal, Icon, Chip } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Translation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n';
@@ -22,6 +22,8 @@ import ETIAgenda from 'components/ETIAgenda.jsx';
 import ETIAlojamiento from 'components/ETIAlojamiento.jsx';
 import ETIDataBanks from 'components/ETIDataBanks.jsx';
 import ETIMercadoPago from 'components/ETIMercadoPago.jsx';
+import RolesNewEvent from '../roles/RolesNewEvent';
+
 
 //import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
 
@@ -34,7 +36,7 @@ const useStyles = makeStyles({
       '& fieldset': {
         borderColor: '#E68650',
         borderRadius: '8px',
-        borderWidth: '1,5px'   
+        borderWidth: '1,5px'
       },
       '&:hover fieldset ': {
         borderColor: '#E68650',
@@ -53,7 +55,7 @@ const useStyles = makeStyles({
 });
 
 export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: string, selectedEvent: EtiEvent | null }) {
-  
+
   const classes = useStyles()
   const alertText: string = 'Este campo no puede estar vacío';
   const EventFormSchema = object({
@@ -77,7 +79,7 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
       }),
   });
 
-  const [event, setEvent] = useState<EtiEvent> ();
+  const [event, setEvent] = useState<EtiEvent>();
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const [users, setUsers] = useState<UserFullData[]>([]);
@@ -86,21 +88,26 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
   const [IsLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const [hora, setHora] = useState<Date | null>(null)
-
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false)
+  };
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
         const eventExists = await getDocument(`events/${id}`);
         if (eventExists) {
           const event = await getEvent(id);
+  console.log('event aqui ->', event);
+
           setEvent(event);
-          }
-        } else {
-          console.log("hola")
-          // navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
         }
-        setLoading(false);
-      
+      } else {
+        console.log("hola")
+        // navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
+      }
+      setLoading(false);
+
     };
     fetchData().catch((error) => {
       console.error(error);
@@ -113,12 +120,12 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
 
     let unsubscribe: Function;
     let usuarios2: Function;
-    console.log('eventid aqui en roles list',eventId);
-    
+    console.log('eventid aqui en roles list', eventId);
+
     const fetchData = async () => {
       unsubscribe = await firestoreUserHelper.getAdmins(setUsers, setIsLoading, eventId);
       usuarios2 = await firestoreUserHelper.getAllUsers(setUsuarios, setIsLoading)
-      
+
     };
 
     fetchData().catch((error) => {
@@ -146,11 +153,13 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
           }
         });
       });
+      console.log('selectedEvent aqui ->',selectedEvent);
+      
       setAdminsData(adminsArray)
     }
-  }, [selectedEvent, users]); 
+  }, [selectedEvent, users]);
 
-  
+
 
   // useEffect(() => {
   //   setEvent(selectedEvent);
@@ -183,8 +192,29 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
     },
   };
 
+  const styleModal = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: '#FAFAFA',
+    border: '1px solid #000',
+    boxShadow: 24,
+    borderRadius: 6,
+    p: 4,
+    overflow: 'auto',
+    width: '900px',
+    height: '500px',
+  };
 
-  
+  const handleOpen = () => setOpen(true);
+  const handleDelete = async () => {
+    console.log('aprete aqui xd');
+
+  };
+
+  console.log(adminsData);
+
   return (
     <Translation
       ns={[SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP, SCOPES.MODULES.PROFILE]}
@@ -192,275 +222,208 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
     >
       {(t) => (
         <>
-          
+
           {loading ? (
             <CircularProgress />
           ) : (
+            <Box sx={{ display: 'flex', flexDirection: 'column', overflow: 'auto', width: '960px', height: '1000px', boxShadow: 3, borderRadius: '12px', backgroundColor: '#FFFFFF' }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px 8px 24px 0px', margin: '20px 20px 0px 20px' }}>
+                <Typography sx={{ fontWeight: 600, fontSize: '24px', }}>Información general</Typography>
 
-            
-            <Box sx={{display: 'flex', flexDirection: 'column', overflow: 'auto', width: '960px', height: '1000px', boxShadow: 3, borderRadius: '12px', backgroundColor: '#FFFFFF'}}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between'}}>
-                <Typography sx={{fontWeight: 600, fontSize: '24px', }}>Información general</Typography>
+                <Box sx={{ display: 'flex', mr: 1, alignItems: 'center' }}>
+                  <Typography sx={{ fontWeight: 600, fontSize: '24px', color: '#0075D9', mr: 1 }}>{selectedEvent?.name}</Typography>
+                  <Button>
+                    <Icon>
+                      <img src={'/img/icon/Button_modify.svg'} height={25} width={25} />
+                    </Icon>
+                  </Button>
+                </Box>
               </Box>
-              <Box
-                sx={{ display: 'flex', margin: '20px', backgroundColor: '#FAFAFA', borderRadius: '12px', p: 2, ...scrollbarStyles, flexDirection: 'column' }}
-              >
+              <Box sx={{ display: 'flex', margin: '20px', backgroundColor: '#FAFAFA', borderRadius: '12px', p: 2, ...scrollbarStyles, flexDirection: 'column' }}>
+                <Grid container >
+                  <Formik
+                    enableReinitialize
+                    initialValues={{
+                      dateEnd: selectedEvent?.dateEnd || '',
+                      dateSignupOpen: selectedEvent?.dateSignupOpen || '',
+                      dateStart: selectedEvent?.dateStart || '',
+                      nombre: selectedEvent?.name || '',
+                      country: selectedEvent?.country || '',
+                      province: selectedEvent?.province || '',
+                      city: selectedEvent?.city || '',
+                      admins: selectedEvent?.admins || '',
+                      timeStart: selectedEvent?.timeStart || '',
+                      timeEnd: selectedEvent?.timeEnd || '',
+                      timeSignupOpen: selectedEvent?.timeSignupOpen || '',
+                      timeSignupEnd: selectedEvent?.timeSignupEnd || '',
+                    }}
+                    validationSchema={EventFormSchema}
+                    onSubmit={async (values, { setSubmitting }) => {
+                      await save(values, setSubmitting);
+                    }}
+                  >
+                    {({ setFieldValue, touched, errors, values }) => (
+                      <Form>
+                        <Grid container spacing={2}>
 
-              
-              <Grid
-                container
-                
-                // direction="column"
-                // alignItems="center"
-                // justifyContent="center"
+                          <Grid item xs={12}>
+                            <LocationPicker
+                              values={values}
+                              errors={errors}
+                              t={t}
+                              setFieldValue={setFieldValue}
+                              touched={touched}
+                              location={event}
+                              borderColor={false}
+                              specialCase={true}
+                              colorFont={'#0075D9'}
+                              fontFamily={'Inter'}
+                              fontWeight={400}
+                            />
+                          </Grid>
 
-              >
-                
-
-                <Formik
-                  enableReinitialize
-                  initialValues={{
-                    dateEnd: selectedEvent?.dateEnd || '',
-                    dateSignupOpen: selectedEvent?.dateSignupOpen || '',
-                    dateStart: selectedEvent?.dateStart || '',
-                    nombre: selectedEvent?.name || '',
-                    country: selectedEvent?.country || '',
-                    province: selectedEvent?.province || '',
-                    city: selectedEvent?.city || '',
-                    admins: selectedEvent?.admins || '',
-                    timeStart: selectedEvent?.timeStart || '',
-                    timeEnd: selectedEvent?.timeEnd || '',
-                    timeSignupOpen: selectedEvent?.timeSignupOpen || '',
-                    timeSignupEnd: selectedEvent?.timeSignupEnd || '',
-
-                  }}
-                  validationSchema={EventFormSchema}
-                  onSubmit={async (values, { setSubmitting }) => {
-                    await save(values, setSubmitting);
-                  }}
-                >
-                  {({ isSubmitting, setFieldValue, touched, errors, values }) => (
-                    <Form>
-                      <Grid container spacing={2}>
-                      {/* <Grid item md={12} sm={12} xs={12}>
-                      <Typography pl={1.4} style={{fontFamily: 'inter', color: '#0075D9'}}>
-                            Nombre del evento
-                          </Typography>
-                          <Field
-                            name="nombre"
-                            component={TextField}
-                            value={values.nombre}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                              setFieldValue("nombre", e.target.value)
-                            }
-                            classes={{root: classes.root}}
-                            InputProps={{ classes: { input: classes.interFont } }}
-                            required
-                            fullWidth
-                          />
-                        </Grid> */}
-
-                       
-
-                        <Grid item xs={12} lg={12} style={{ display: 'flex' }}>
-                        
-                          <LocationPicker
-                            values={values}
-                            errors={errors}
-                            t={t}
-                            setFieldValue={setFieldValue}
-                            touched={touched}
-                            location={event}
-                            borderColor={false}
-                            specialCase={true}
-                            colorFont={'#0075D9'}
-                            fontFamily={'Inter'}
-                            fontWeight={400}
-                          />
-                        </Grid>
-                        
-
-                        <Grid
-                        container
-                        mt={2}
-                        paddingLeft={'15px'}
-                        direction={'row'}
-                        >
-
-                        
-                        <Grid item xs={4} >
-                        <Typography style={{fontFamily: 'inter', color: '#0075D9'}}>
-                            Desde
-                          </Typography>
-
-
-
-                          <Box sx={{display:'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E68650', borderRadius: 2, width: '288px'}}>
-
-                          <ETIDatePickerEdit
+                          <Grid item md={12} sm={12} xs={12}>
+                            <Grid container spacing={2}>
+                              <Grid item md={4} sm={4} xs={4}>
+                                <Typography style={{ fontFamily: 'inter', color: '#0075D9' }}>
+                                  Desde
+                                </Typography>
+                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E68650', borderRadius: 2 }}>
+                                  <ETIDatePickerEdit
                                     textFieldProps={{ fullWidth: true }}
                                     fieldName="dateStart"
                                     setFieldValue={setFieldValue}
                                     borderColor={false}
                                     specialCase={true}
-                                    />
-                              <Box
-                              sx={{width: '100px', ml: 6}}> 
-                              <Typography  style={{fontFamily: 'inter', color: '#0075D9', fontSize: '16px'}}>
-                                        a las  
-                                </Typography>
-                             </Box>
-
-                            <ETITimePickerEdit
+                                  />
+                                  <Box sx={{ width: '100px', ml: 6 }}>
+                                    <Typography style={{ fontFamily: 'inter', color: '#0075D9', fontSize: '16px' }}>
+                                      a las
+                                    </Typography>
+                                  </Box>
+                                  <ETITimePickerEdit
                                     textFieldProps={{ fullWidth: true }}
                                     fieldName="timeStart"
                                     setFieldValue={setFieldValue}
                                     borderColor={false}
                                     specialCase={true}
                                   />
-                                  </Box>
-                        </Grid>
+                                </Box>
+                              </Grid>
 
+                              <Grid item md={4} sm={4} xs={4} >
+                                <Typography style={{ fontFamily: 'inter', color: '#0075D9' }}>
+                                  Hasta
+                                </Typography>
 
-                        <Grid item xs={4} >
-                        <Typography ml= {1.5} style={{fontFamily: 'inter', color: '#0075D9'}}>
-                            Hasta
-                          </Typography>
-
-                          <Box sx={{display:'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E68650', borderRadius: 2, width: '288px', ml: 1.5}}>
-
-                          <ETIDatePickerEdit
+                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E68650', borderRadius: 2 }}>
+                                  <ETIDatePickerEdit
                                     textFieldProps={{ fullWidth: true }}
                                     fieldName="dateEnd"
                                     setFieldValue={setFieldValue}
                                     borderColor={false}
                                     specialCase={true}
-                                    />
-                              <Box
-                              sx={{width: '100px', ml: 6}}> 
-                              <Typography  style={{fontFamily: 'inter', color: '#0075D9', fontSize: '16px'}}>
-                                        a las  
-                                </Typography>
-                             </Box>
+                                  />
+                                  <Box sx={{ width: '100px', ml: 6 }}>
+                                    <Typography style={{ fontFamily: 'inter', color: '#0075D9', fontSize: '16px' }}> a las</Typography>
+                                  </Box>
 
-                            <ETITimePickerEdit
+                                  <ETITimePickerEdit
                                     textFieldProps={{ fullWidth: true }}
                                     fieldName="timeEnd"
                                     setFieldValue={setFieldValue}
                                     borderColor={false}
                                     specialCase={true}
                                   />
-                                  </Box>
+                                </Box>
+                              </Grid>
 
+                              <Grid item md={4} sm={4} xs={4} >
+                                <Typography style={{ fontFamily: 'inter', color: '#0075D9' }}>
+                                  Inscripciones
+                                </Typography>
 
-                        </Grid>
-
-                        <Grid item xs={4} >
-                        <Typography ml={2.7} style={{fontFamily: 'inter', color: '#0075D9'}}>
-                            Inscripciones
-                          </Typography>
-
-                          <Box sx={{display:'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E68650', borderRadius: 2, width: '288px', ml: 2.7}}>
-
-                          <ETIDatePickerEdit
+                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E68650', borderRadius: 2 }}>
+                                  <ETIDatePickerEdit
                                     textFieldProps={{ fullWidth: true }}
                                     fieldName="dateSignupOpen"
                                     setFieldValue={setFieldValue}
                                     borderColor={false}
                                     specialCase={true}
-                                    />
-                              <Box
-                              sx={{width: '100px', ml: 6}}> 
-                              <Typography  style={{fontFamily: 'inter', color: '#0075D9', fontSize: '16px'}}>
-                                        a las  
-                                </Typography>
-                             </Box>
+                                  />
+                                  <Box sx={{ width: '100px', ml: 6 }}>
+                                    <Typography style={{ fontFamily: 'inter', color: '#0075D9', fontSize: '16px' }}>a las</Typography>
+                                  </Box>
 
-                            <ETITimePickerEdit
+                                  <ETITimePickerEdit
                                     textFieldProps={{ fullWidth: true }}
                                     fieldName="timeSignupOpen"
                                     setFieldValue={setFieldValue}
                                     borderColor={false}
                                     specialCase={true}
                                   />
+                                </Box>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+
+
+                          <Grid item md={12} sm={12} xs={12}>
+                            <Grid container gap={2} sx={{ border: '1.5px solid #E68650', borderRadius: '8px', display: 'flex', justifyContent: 'space-between' }} >
+                              <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                                {adminsData.map((admin, index) => (
+                                  <Chip key={index} label={admin.fullName} onDelete={() => handleDelete()} variant="outlined" sx={{ m: 1, borderRadius: '8px', color: '#A82548', fontFamily: 'Roboto', fontWeight: 500, fontSize: '14px' }} />
+                                ))}
+                              </Box>
+                              <Button sx={{ padding: '12px, 16px, 12px, 16px', alignItems: 'flex-end' }} onClick={handleOpen}>
+                                <Icon sx={{ display: 'flex', width: '4em' }}>
+                                  <Typography sx={{ mr: 1, color: '#A82548', fontFamily: 'Roboto', fontWeight: 500 }}>
+                                    Agregar
+                                  </Typography>
+                                  <img src='/img/icon/user-cirlce-add.svg' height={25} width={25} />
+                                </Icon>
+                              </Button>
+                            </Grid>
+
+                              <Modal open={open} onClose={() => handleClose()}>
+                                  <Box sx={{ ...styleModal, display: 'flex', flexDirection: 'column' }}>
+                                    <RolesNewEvent eventId={eventId} handleClose={handleClose} />
                                   </Box>
-                        </Grid>
-
+                            </Modal>
+                          </Grid>
                         
 
-                        </Grid>
-            
-                        
+                          <Grid item md={12} sm={12} xs={12}>
+                            <ETIAgenda dateStart={undefined} name={undefined} additionalFields={undefined} />
+                          </Grid>
 
+                          <Grid item md={12} sm={12} xs={12}>
+                            <ETIAlojamiento />
+                          </Grid>
 
-                        <Grid item md={12} sm={12} xs={12}>
-                        <Typography style={{fontFamily: 'inter', color: '#0075D9'}}>
-                        
-                        Organizadores
-                        </Typography>
-                            
-                            {adminsData.map((admin, index) => (
-                              // <Typography> 
+                          <Grid item md={12} sm={12} xs={12}>
+                            <ETIMercadoPago />
+                          </Grid>
 
-                              //   con
-                              // </Typography>
-                              <TextField
-                                key={index}
-                                value={admin.fullName}
-                                classes={{ root: classes.root}}
-                                inputProps={{
-                                  style: {
-                                    fontFamily: 'inter',
-                                  },
-                                }}
-                                
-                          />
-                          ))}
-                        </Grid>
+                          <Grid item md={12} sm={12} xs={12}>
+                            <ETIDataBanks />
+                          </Grid>
 
-
-                        {/* <Typography>{JSON.stringify(selectedEvent)}</Typography> */}
-                       
-                        {/* <Grid container justifyContent="flex-end">
-                          <Grid item>
-                            <Button
-                              variant="contained"
-                              color="secondary"
-                              type="submit"
-                              disabled={isSubmitting}
-                            >
-                              Guardar
+                          <Grid item md={12} sm={12} xs={12}>
+                          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                            <Button type="submit" sx={{ width: '115px', padding: '12px, 32px, 12px, 32px', borderRadius: '25px', backgroundColor: '#A82548', height: '44px', '&:hover': { backgroundColor: '#A82548' } }}>
+                              <Typography sx={{ color: '#FAFAFA', fontWeight: 500, fontSize: '14px', lineHeight: '20px' }}>
+                                Guardar
+                              </Typography>
                             </Button>
+                          </Box>
                           </Grid>
 
                         </Grid>
-
-                        <Grid container justifyContent="flex-end">
-                          <Grid item>
-                            <Button
-                              type="submit"
-                              onClick={() => console.log(values)}
-                            >
-                              Prueba 
-                            </Button>
-                          </Grid>
-
-                        </Grid> */}
-
-                        
-                        
-
-                      </Grid>
-                    </Form>
-                  )}
-                </Formik>
-
-               
-              </Grid>  
-              <ETIAgenda dateStart={undefined} name={undefined} additionalFields={undefined} />
-              <ETIAlojamiento />
-              <ETIDataBanks />
-              <ETIMercadoPago />
+                      </Form>
+                    )}
+                  </Formik>
+                </Grid>
               </Box>
             </Box>
           )}
