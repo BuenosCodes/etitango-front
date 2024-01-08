@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { TimePicker } from 'formik-mui-x-date-pickers';
 import { makeStyles } from '@mui/styles';
-import { Field } from 'formik';
+import { Field, useField } from 'formik';
 
 export const ETITimePicker = ({
   
@@ -21,6 +21,7 @@ export const ETITimePicker = ({
   borderColor: boolean;
 }) => {
   
+  const [field] = useField(fieldName)
   const useStyles = makeStyles({
     root: {
       '& .MuiFormHelperText-root': {
@@ -38,23 +39,23 @@ export const ETITimePicker = ({
         flexDirection: 'row-reverse',
         padding: '2px',
         '& fieldset': {
-          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderColor: field.value ? '#E68650' : '#FDE4AA',
           borderRadius: '8px',
           borderWidth: '1.5px',
           pointerEvents: 'none'
         },
         '&:hover fieldset ': {
-          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderColor: field.value ? '#E68650' : '#FDE4AA',
           borderRadius: '8px',
           pointerEvents: 'none'
         },
         '&.Mui-focused fieldset': {
-          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderColor: field.value ? '#E68650' : '#FDE4AA',
           borderRadius: '8px',
           pointerEvents: 'none'
         },
         '& .MuiOutlinedInput-notchedOutline': {
-          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderColor: field.value ? '#E68650' : '#FDE4AA',
         },
         '& .MuiIconButton-root': {
             color: '#A82548', 
@@ -67,6 +68,7 @@ export const ETITimePicker = ({
   });
 
   const classes = useStyles();
+
   const [hora, setHora] = useState()
 return (
   <Field

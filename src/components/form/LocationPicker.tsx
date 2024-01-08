@@ -6,7 +6,7 @@ import { makeStyles } from '@mui/styles';
 import React, { useEffect, useState } from 'react';
 import { getCountries } from 'helpers/thirdParties/restCountries';
 import { getProvinces, getCities } from 'helpers/thirdParties/georef';
-import { FormikValues } from 'formik';
+import { FormikValues, useField } from 'formik';
 import { IosShare, Style } from '@mui/icons-material';
 import { color } from '@cloudinary/url-gen/qualifiers/background';
 import { end } from '@cloudinary/url-gen/qualifiers/textAlignment';
@@ -112,28 +112,29 @@ export const LocationPicker = ({
     }
   };
 
+  const [field] = useField('province' && 'city')
   const useStyles = makeStyles({
     root: {
       '& .MuiOutlinedInput-root': {
         fontFamily: 'inter',
         '& fieldset': {
-          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderColor: field.value ? '#E68650' : '#FDE4AA',
           borderRadius: '8px',
           borderWidth: '1.5px',
           pointerEvents: 'none'
         },
         '&:hover fieldset ': {
-          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderColor: field.value ? '#E68650' : '#FDE4AA',
           borderRadius: '8px',
           pointerEvents: 'none'
         },
         '&.Mui-focused fieldset': {
-          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderColor: field.value ? '#E68650' : '#FDE4AA',
           borderRadius: '8px',
           pointerEvents: 'none'
         },
         '& .MuiOutlinedInput-notchedOutline': {
-          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderColor: field.value ? '#E68650' : '#FDE4AA',
         },
         '& .MuiIconButton-root': { // Estilos para el icono del DatePicker
           color: '#A82548', // Cambiar el color del icono aquí
@@ -142,6 +143,7 @@ export const LocationPicker = ({
       },
     },
   });
+
 
   const classes = useStyles()
 

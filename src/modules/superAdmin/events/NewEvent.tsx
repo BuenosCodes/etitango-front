@@ -174,27 +174,40 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
     root: {
       '& .MuiFormHelperText-root': {
         margin: '2px 0px 0px 2px'
-         },   
+      },   
       '& .MuiOutlinedInput-root': {
         fontFamily: 'inter',
         '& fieldset': {
-          borderColor: enable ? '#E68650' : '#FDE4AA',
           borderRadius: '8px',
           borderWidth: '1.5px',
           pointerEvents: 'none'
         },
         '&:hover fieldset ': {
-          borderColor: enable ? '#E68650' : '#FDE4AA',
           borderRadius: '8px',
           pointerEvents: 'none'
         },
         '&.Mui-focused fieldset': {
-          borderColor: enable ? '#E68650' : '#FDE4AA',
           borderRadius: '8px',
           pointerEvents: 'none'
         },
         '& .MuiOutlinedInput-notchedOutline': {
-          borderColor: enable ? '#E68650' : '#FDE4AA',
+          borderColor:  '#FDE4AA',
+        }
+      },
+    },
+    filled: {
+      '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+          borderColor: '#E68650',
+        },
+        '&:hover fieldset ': {
+          borderColor: '#E68650',
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: '#E68650',
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+          borderColor: '#E68650',
         }
       },
     },
@@ -256,7 +269,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                 component={TextField}
                                 required
                                 fullWidth
-                                classes={{ root: classes.root }}
+                                classes={{root:values.name ? classes.filled : classes.root}}
                               />
                             </Grid>
 
