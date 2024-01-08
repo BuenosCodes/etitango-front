@@ -230,7 +230,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
           {loading ? (
             <CircularProgress />
           ) : (
-            <Box sx={{ display: 'flex', flexDirection: 'column', boxShadow: 3, width: 960, height: 780, borderRadius: '12px', overflow: 'auto', backgroundColor: '#FFFFFF' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', boxShadow: 3, width: 960, height: 820, borderRadius: '12px', overflow: 'auto', backgroundColor: '#FFFFFF' }}>
               <Box sx={{ color: '#FFFFFF', backgroundColor: '#4B84DB', padding: '12px 24px 12px 24px', fontWeight: 600, fontSize: '24px', lineHeight: '16px', fontFamily: 'Montserrat', height: '40px' }}>
                 Nuevo ETI
               </Box>
