@@ -1,7 +1,7 @@
 
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import { Button, CircularProgress, Container, Grid, Box, styled, Avatar, Typography, Modal, Icon, Chip } from '@mui/material';
+import { Button, CircularProgress, Grid, Box, Typography, Modal, Icon, Chip } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Translation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n';
@@ -13,7 +13,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
 import { getEvent } from '../../../helpers/firestore/events';
 import { EtiEvent } from '../../../shared/etiEvent';
-import { UserRoles, UserFullData } from '../../../shared/User';
+import { UserFullData } from '../../../shared/User';
 import * as firestoreUserHelper from 'helpers/firestore/users';
 import { LocationPicker } from 'components/form/LocationPicker';
 import { ETIDatePickerEdit } from 'components/form/DatePickerEdit';
@@ -23,40 +23,11 @@ import ETIAlojamiento from 'components/ETIAlojamiento.jsx';
 import ETIDataBanks from 'components/ETIDataBanks.jsx';
 import ETIMercadoPago from 'components/ETIMercadoPago.jsx';
 import RolesNewEvent from '../roles/RolesNewEvent';
+import { unassignEventAdmin, assignEventAdmins } from '../../../helpers/firestore/users';
 
+export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent | null }) {
 
-//import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
-
-const useStyles = makeStyles({
-  interFont: {
-    fontFamily: 'inter',
-  },
-  root: {
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: '#E68650',
-        borderRadius: '8px',
-        borderWidth: '1,5px'
-      },
-      '&:hover fieldset ': {
-        borderColor: '#E68650',
-        borderRadius: '8px',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: '#E68650',
-        borderRadius: '8px',
-      },
-    },
-  },
-  icon: {
-    width: '24px',
-    height: '24px',
-  },
-});
-
-export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: string, selectedEvent: EtiEvent | null }) {
-
-  const classes = useStyles()
+  // const classes = useStyles()
   const alertText: string = 'Este campo no puede estar vacío';
   const EventFormSchema = object({
     dateEnd: date().required(alertText),
@@ -81,40 +52,16 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
 
   const [event, setEvent] = useState<EtiEvent>();
   const [loading, setLoading] = useState(true);
-  const { id } = useParams();
+  // const { id } = useParams();
   const idEvent = selectedEvent?.id
   const [users, setUsers] = useState<UserFullData[]>([]);
-  const [usuarios, setUsuarios] = useState<UserFullData[]>([]);
-  const [adminsData, setAdminsData] = useState<{ id: string; fullName: string }[]>([]);
+  // const [usuarios, setUsuarios] = useState<UserFullData[]>([]);
+  // const [adminsData, setAdminsData] = useState<{ id: string; fullName: string }[]>([]);
   const [IsLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   // const [hora, setHora] = useState<Date | null>(null)
   const [open, setOpen] = React.useState(false);
-  const handleClose = () => {
-    setOpen(false)
-  };
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (id) {
-  //       const eventExists = await getDocument(`events/${id}`);
-  //       if (eventExists) {
-  //         const event = await getEvent(id);
-  // console.log('event aqui ->', event);
 
-  //         setEvent(event);
-  //       }
-  //     } else {
-  //       console.log("hola")
-  //       // navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
-  //     }
-  //     setLoading(false);
-
-  //   };
-  //   fetchData().catch((error) => {
-  //     console.error(error);
-  //     setLoading(false);
-  //   });
-  // }, [id]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -122,10 +69,11 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
     let unsubscribe: Function;
     let usuarios2: Function;
     console.log('eventid aqui en newEditEvent', idEvent);
-
+    console.log('selectedEvent ->', selectedEvent);
+    
     const fetchData = async () => {
-      unsubscribe = await firestoreUserHelper.getAdmins(setUsers, setIsLoading, eventId);
-      usuarios2 = await firestoreUserHelper.getAllUsers(setUsuarios, setIsLoading)
+      unsubscribe = await firestoreUserHelper.getAdmins(setUsers, setIsLoading, idEvent);
+      // usuarios2 = await firestoreUserHelper.getAllUsers(setUsuarios, setIsLoading)
 
     };
 
@@ -143,39 +91,50 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
     };
   }, [idEvent]);
 
-  useEffect(() => {
-    if (selectedEvent && selectedEvent.admins && users.length > 0) {
-      const adminsArray: { id: string; fullName: string }[] = [];
-      selectedEvent.admins.forEach((element: string) => {
-        users.forEach((user) => {
-          if (element === user.id) {
-            adminsArray.push({
-              id: user.id,
-              fullName: `${user.nameFirst} ${user.nameLast}`,
-            })
-          }
-        });
-      });
-      console.log('selectedEvent aqui ->',selectedEvent);
-      
-      setAdminsData(adminsArray)
-    }
-  }, [selectedEvent, users]);
-
-
-
   // useEffect(() => {
-  //   setEvent(selectedEvent);
-  // }, [selectedEvent]);
+  //   console.log('users admins aqui =>', users);
+    
+  //   if (selectedEvent && selectedEvent.admins && users.length > 0) {
+  //     const adminsArray: { id: string; fullName: string }[] = [];
+  //     selectedEvent.admins.forEach((element: string) => {
+  //       users.forEach((user) => {
+  //         if (element === user.id) {
+  //           adminsArray.push({
+  //             id: user.id,
+  //             fullName: `${user.nameFirst} ${user.nameLast}`,
+  //           })
+  //         }
+  //       });
+  //     });
+  //     console.log('selectedEvent aqui ->',selectedEvent);
+      
+  //     setAdminsData(adminsArray)
+  //   }
+  // }, [selectedEvent, users]);
 
 
   const save = async (values: any, setSubmitting: Function) => {
     try {
-      const eventId = await createOrUpdateDoc('events', values, id === 'new' ? undefined : id);
+      console.log('idEvento cuando apreto save ', idEvent);
+      
+      await createOrUpdateDoc('events', values, idEvent === 'new' ? undefined : idEvent);
       navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
     } catch (error) {
       console.error(error);
       setSubmitting(false);
+    }
+  };
+
+  const handleCreateEvent = async (values: any) => {
+    try {
+      console.log('idEvento cuando apreto handel prueba ', idEvent);
+      console.log('values cuando apreto handel prueba', values);
+      
+      
+      await createOrUpdateDoc('events', values, idEvent === 'new' ? undefined : idEvent);
+      // navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -211,12 +170,39 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
   };
 
   const handleOpen = () => setOpen(true);
-  const handleDelete = async () => {
-    console.log('aprete aqui xd');
 
+  const handleDelete = async (email: string) => {
+    try {
+      // setLoading(true);      
+      if (idEvent) {
+        await unassignEventAdmin(email, idEvent)
+      } else {
+        console.error('idNuevo es undefined. No se puede asignar administrador.');
+      }
+
+    } catch (error) {
+      console.error('Error al borrar administrador:', error);
+    } finally {
+      // setLoading(false);
+    }
   };
 
-  console.log(adminsData);
+  const handleClose = async (values: string[] | null) => {
+    try {
+      // setLoading(true);  
+      if (idEvent) {
+        await assignEventAdmins(values || [], idEvent)
+        setOpen(false)
+      } else {
+        console.error('idNuevo es undefined. No se puede asignar administrador.');
+      }
+    } catch (error) {
+      console.error('Error al borrar administrador:', error);
+    } finally {
+      // setLoading(false);
+    }
+  };
+
 
   return (
     <Translation
@@ -250,11 +236,11 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
                       dateEnd: selectedEvent?.dateEnd || '',
                       dateSignupOpen: selectedEvent?.dateSignupOpen || '',
                       dateStart: selectedEvent?.dateStart || '',
-                      nombre: selectedEvent?.name || '',
-                      country: selectedEvent?.country || '',
+                      name: selectedEvent?.name || '',
+                      // country: selectedEvent?.country || '',
                       province: selectedEvent?.province || '',
                       city: selectedEvent?.city || '',
-                      admins: selectedEvent?.admins || '',
+                      // admins: selectedEvent?.admins || '',
                       timeStart: selectedEvent?.timeStart || '',
                       timeEnd: selectedEvent?.timeEnd || '',
                       timeSignupOpen: selectedEvent?.timeSignupOpen || '',
@@ -262,6 +248,8 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
                     }}
                     validationSchema={EventFormSchema}
                     onSubmit={async (values, { setSubmitting }) => {
+                      console.log('values en save aqui ', values);
+                      
                       await save(values, setSubmitting);
                     }}
                   >
@@ -374,8 +362,8 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
                           <Grid item md={12} sm={12} xs={12}>
                             <Grid container gap={2} sx={{ border: '1.5px solid #E68650', borderRadius: '8px', display: 'flex', justifyContent: 'space-between' }} >
                               <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-                                {adminsData.map((admin, index) => (
-                                  <Chip key={index} label={admin.fullName} onDelete={() => handleDelete()} variant="outlined" sx={{ m: 1, borderRadius: '8px', color: '#A82548', fontFamily: 'Roboto', fontWeight: 500, fontSize: '14px' }} />
+                                {users.map((admin, index) => (
+                                  <Chip key={index} label={`${admin.nameFirst} ${admin.nameLast}`} onDelete={() => handleDelete(admin.email)} variant="outlined" sx={{ m: 1, borderRadius: '8px', color: '#A82548', fontFamily: 'Roboto', fontWeight: 500, fontSize: '14px' }} />
                                 ))}
                               </Box>
                               <Button sx={{ padding: '12px, 16px, 12px, 16px', alignItems: 'flex-end' }} onClick={handleOpen}>
@@ -387,16 +375,15 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
                                 </Icon>
                               </Button>
                             </Grid>
-
-                              <Modal open={open} onClose={() => handleClose()}>
+                              <Modal open={open} onClose={() => handleClose([])}>
                                   <Box sx={{ ...styleModal, display: 'flex', flexDirection: 'column' }}>
-                                    <RolesNewEvent eventId={eventId} handleClose={handleClose} />
+                                    <RolesNewEvent eventId={idEvent} handleClose={handleClose} />
                                   </Box>
                             </Modal>
                           </Grid>
                         
 
-                          <Grid item md={12} sm={12} xs={12}>
+                          {/* <Grid item md={12} sm={12} xs={12}>
                             <ETIAgenda dateStart={undefined} name={undefined} additionalFields={undefined} />
                           </Grid>
 
@@ -410,11 +397,11 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
 
                           <Grid item md={12} sm={12} xs={12}>
                             <ETIDataBanks />
-                          </Grid>
+                          </Grid> */}
 
                           <Grid item md={12} sm={12} xs={12}>
                           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                            <Button type="submit" sx={{ width: '115px', padding: '12px, 32px, 12px, 32px', borderRadius: '25px', backgroundColor: '#A82548', height: '44px', '&:hover': { backgroundColor: '#A82548' } }}>
+                            <Button type='submit' sx={{ width: '115px', padding: '12px, 32px, 12px, 32px', borderRadius: '25px', backgroundColor: '#A82548', height: '44px', '&:hover': { backgroundColor: '#A82548' } }} onClick={() => {handleCreateEvent(values)}}>
                               <Typography sx={{ color: '#FAFAFA', fontWeight: 500, fontSize: '14px', lineHeight: '20px' }}>
                                 Guardar
                               </Typography>
