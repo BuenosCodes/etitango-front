@@ -82,45 +82,46 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
   const [event, setEvent] = useState<EtiEvent>();
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
+  const idEvent = selectedEvent?.id
   const [users, setUsers] = useState<UserFullData[]>([]);
   const [usuarios, setUsuarios] = useState<UserFullData[]>([]);
   const [adminsData, setAdminsData] = useState<{ id: string; fullName: string }[]>([]);
   const [IsLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  const [hora, setHora] = useState<Date | null>(null)
+  // const [hora, setHora] = useState<Date | null>(null)
   const [open, setOpen] = React.useState(false);
   const handleClose = () => {
     setOpen(false)
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      if (id) {
-        const eventExists = await getDocument(`events/${id}`);
-        if (eventExists) {
-          const event = await getEvent(id);
-  console.log('event aqui ->', event);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (id) {
+  //       const eventExists = await getDocument(`events/${id}`);
+  //       if (eventExists) {
+  //         const event = await getEvent(id);
+  // console.log('event aqui ->', event);
 
-          setEvent(event);
-        }
-      } else {
-        console.log("hola")
-        // navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
-      }
-      setLoading(false);
+  //         setEvent(event);
+  //       }
+  //     } else {
+  //       console.log("hola")
+  //       // navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
+  //     }
+  //     setLoading(false);
 
-    };
-    fetchData().catch((error) => {
-      console.error(error);
-      setLoading(false);
-    });
-  }, [id]);
+  //   };
+  //   fetchData().catch((error) => {
+  //     console.error(error);
+  //     setLoading(false);
+  //   });
+  // }, [id]);
 
   useEffect(() => {
     setIsLoading(true);
 
     let unsubscribe: Function;
     let usuarios2: Function;
-    console.log('eventid aqui en roles list', eventId);
+    console.log('eventid aqui en newEditEvent', idEvent);
 
     const fetchData = async () => {
       unsubscribe = await firestoreUserHelper.getAdmins(setUsers, setIsLoading, eventId);
@@ -131,6 +132,8 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
     fetchData().catch((error) => {
       console.error(error);
     });
+
+    setLoading(false)
     return () => {
       if (unsubscribe) {
         unsubscribe();
@@ -138,7 +141,7 @@ export default function NewEditEvent({ eventId, selectedEvent }: { eventId?: str
         usuarios2()
       }
     };
-  }, [eventId]);
+  }, [idEvent]);
 
   useEffect(() => {
     if (selectedEvent && selectedEvent.admins && users.length > 0) {

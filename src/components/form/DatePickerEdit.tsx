@@ -106,7 +106,7 @@ return (
         },
       }}
       name={fieldName}
-      inputFormat="DD-MM-YY"
+      inputFormat="DD-MM-YYYY"
       inputIcon= {<CustomSVGIcon />}
       mask="__-__-____"
       onChange={(value: any) => setFieldValue(fieldName, value.toDate())}

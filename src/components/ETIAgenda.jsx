@@ -21,7 +21,7 @@ const ETIAgenda = ({ dateStart, name, additionalFields }) => {
     setIsModalOpen(false);
   };
 
-  console.log('datos traidos -> ', dateStart, name, additionalFields);
+  // console.log('datos traidos -> ', dateStart, name, additionalFields);
 
   return (
     <Box sx={{display: 'flex', mt: 2}}>
