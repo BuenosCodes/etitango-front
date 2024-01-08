@@ -109,8 +109,16 @@ const ETIAlojamiento = () => {
 
   const columns = [
     { field: 'name', headerName: 'Nombre del establecimiento',width: 350, editable: true },
-    { field: 'address', headerName: 'Dirección de Google Maps', width: 597, editable: true },
+    { field: 'address', headerName: 'Dirección de Google Maps', width: 400, editable: true },
   ];
+
+  const NoRowsMessage = () => {
+    return (
+      <div style={{ textAlign: 'center', padding: '16px' }}>
+        ¡No hay filas!
+      </div>
+    );
+  };
 
   return (
     <Box sx={{display: 'flex', mt: 2}}>
@@ -165,7 +173,7 @@ const ETIAlojamiento = () => {
               rows={rows}
               columns={columns}
               editRowsModel={editRowsModel}
-              
+              localeText={{ noRowsLabel: '  '}}
               onEditRowsModelChange={setEditRowsModel}
               hideFooter = {true}
               rowHeight={22}

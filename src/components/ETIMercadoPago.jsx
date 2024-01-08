@@ -14,8 +14,8 @@ const ETIMercadoPago = () => {
 
   const [idCounter, setIdCounter] = useState(0);
 
-  const rowHeight = 22;
-  const headerHeight = 22;
+  const rowHeight = 23;
+  const headerHeight = 23;
   const totalHeight = rows.length * rowHeight + headerHeight;
   
   useEffect(() => {
@@ -85,7 +85,7 @@ const ETIMercadoPago = () => {
   };
 
   const columns = [
-    { field: 'link', headerName: 'Link de cobro',width: 945, editable: true },
+    { field: 'link', headerName: 'Link de cobro',width: 850, editable: true },
   ];
 
   return (
@@ -135,6 +135,7 @@ const ETIMercadoPago = () => {
               columns={columns}
               editRowsModel={editRowsModel}
               onEditRowsModelChange={setEditRowsModel}
+              localeText={{ noRowsLabel: ''}}
               hideFooter = {true}
               rowHeight={22}
               headerHeight={22}

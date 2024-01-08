@@ -85,9 +85,9 @@ const ETIDataBanks = () => {
   };
 
   const columns = [
-    { field: 'link', headerName: 'Nombre',width: 333, editable: true },
-    { field: 'alias', headerName: 'Alias',width: 300, editable: true },
-    { field: 'cbu', headerName: 'CBU/CVU',width: 312, editable: true },
+    { field: 'link', headerName: 'Nombre',width: 222, editable: true },
+    { field: 'alias', headerName: 'Alias',width: 222, editable: true },
+    { field: 'cbu', headerName: 'CBU/CVU',width: 333, editable: true },
   ];
 
   return (
@@ -137,6 +137,7 @@ const ETIDataBanks = () => {
               columns={columns}
               editRowsModel={editRowsModel}
               onEditRowsModelChange={setEditRowsModel}
+              localeText={{ noRowsLabel: ''}}
               hideFooter = {true}
               rowHeight={22}
               headerHeight={22}

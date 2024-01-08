@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 // ModalForm.jsx
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Modal, Typography } from '@mui/material';
+import { Box, Button, Modal, Typography, makeStyles } from '@mui/material';
 
 const ETIModalMaps = ({ isOpen, handleCloseModal }) => {
   const [step, setStep] = useState(1);
@@ -55,12 +55,20 @@ const ETIModalMaps = ({ isOpen, handleCloseModal }) => {
     return step < 3 ? "Siguiente" : "Finalizar";
   };
 
+  
+
   return (
     <Modal
       open={isOpen}
       onClose={handleCloseModal}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+      }}
     >
       <Box
         sx={{
@@ -70,39 +78,76 @@ const ETIModalMaps = ({ isOpen, handleCloseModal }) => {
           transform: 'translate(-50%, -50%)',
           width: 423,
           height: 700,
-          borderRadius: 10,
+          borderRadius: 3,
           bgcolor: 'background.paper',
           boxShadow: 24,
-          p: 4,
+          padding: '42px 24px 32px 24px',
+          justifyContent: 'space-between',
+          
         }}
       >
-        <Button
-          onClick={handleCloseModal}
-          sx={{ position: 'absolute', top: 0, right: 0 }}
-        >
-          X
-        </Button>
-        <Box sx={{ height: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <img src={getImageByStep()} alt={`Step ${currentImage}`} style={{ maxWidth: '100%', maxHeight: '100%' }} />
-        </Box>
-        <Box sx={{ height: '30%', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-          <Typography variant="body1">{getTextByStep()}</Typography>
-        </Box>
-        <Button
-          variant="contained"
+        <Box
           sx={{
-            width: '350px',
-            height: '54px',
-            padding: '18px 16px',
-            borderRadius: '100px',
-            mt: 2,
-            backgroundColor: '#A82548',
-            color: 'white'
+            marginLeft: '5px',
+            height: 620,
           }}
-          onClick={handleNextStep}
         >
-          {getButtonText()}
-        </Button>
+          <Button
+            onClick={handleCloseModal}
+            sx={{ position: 'absolute', top: 10, right: 0,}}
+          >
+            <img src='/img/icon/trailing-icon.png'/>
+          </Button>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '8px', alignItems: 'center',  borderBottom: '1px solid #E0E0E0', marginBottom: '16px',}}>
+            {[1, 2, 3].map((circle) => (
+              <div
+                key={circle}
+                style={{
+                  width: step === circle ? '24px' : '16px',
+                  height: step === circle ? '24px' : '16px',
+                  borderRadius: '50%',
+                  backgroundColor: step === circle ? '#E68650' : '#BDBDBD',
+                  marginRight: '8px',
+                  marginBottom: '16px',
+                }}
+              />
+            ))}
+          </div>
+          <Box sx={{ height: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <img src={getImageByStep()} alt={`Step ${currentImage}`} style={{ maxWidth: '100%', maxHeight: '100%' }} />
+          </Box>
+          <Box sx={{ height: '25%', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderBottom: '1px solid #E0E0E0' }}>
+            <Typography variant="body1" 
+            sx={{
+              fontFamily: 'Roboto', display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              color: '#0075D9',
+              fontSize: '16px',
+              fontWeight: 500
+            }}
+            >
+              {getTextByStep()}
+            </Typography>
+          </Box>
+          <Button
+            variant="contained"
+            sx={{
+              width: '350px',
+              height: '54px',
+              padding: '18px 16px', 
+              borderRadius: '100px',
+              mt: 2,
+              backgroundColor: '#A82548',
+              color: 'white',
+              
+            }}
+            onClick={handleNextStep}
+          >
+            {getButtonText()}
+          </Button>
+        </Box>
       </Box>
     </Modal>
   );
