@@ -261,12 +261,12 @@ export default function EditEvent() {
                   width: '100%',
                 }}
                 >
-                  <ETIAgenda 
+                  {/* <ETIAgenda 
                     dateStart={event?.dateStart}
                     name={event?.name}
                     additionalFields={event?.additionalFields}
                   />
-                  
+                   */}
                   <ETIAlojamiento />
                   <ETIDataBanks />
                   <ETIMercadoPago />

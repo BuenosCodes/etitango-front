@@ -402,7 +402,7 @@ export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent
                           </Grid> 
 
                           <Grid item md={12} sm={12} xs={12}>
-                            <ETICombos proPackage={''} onChange={undefined} />
+                            <ETICombos proPackage={''}/>
                           </Grid>
 
                           <Grid item md={12} sm={12} xs={12}>
