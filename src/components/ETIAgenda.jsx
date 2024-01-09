@@ -2,26 +2,29 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Collapse, IconButton } from '@mui/material';
+import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import ModalForm from './ModalForm';
-import ETITable from './ETITable';
-import MyDataGrid from './ejemplo';
-
-
-const ETIAgenda = ({ dateStart, name, additionalFields }) => {
-
-  
+const ETIAgenda = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [open, setOpen] = useState(false);
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+  const data = [
+    { fecha: '29/01/2024', descripcion: 'Evento 1', horarios: [{ hora: '12:30', actividad: 'Comida' }] },
+    { fecha: '22/02/2024', descripcion: 'Evento 2', horarios: [{ hora: '23:30', actividad: 'Limpiar' }] },
+  ];
 
-  // console.log('datos traidos -> ', dateStart, name, additionalFields);
+  const handleClick = (index) => {
+    setOpen(prevOpen => ({
+      ...prevOpen,
+      [index]: !prevOpen[index],
+    }));
+  };
 
   return (
     <Box sx={{display: 'flex', mt: 2}}>
@@ -45,19 +48,58 @@ const ETIAgenda = ({ dateStart, name, additionalFields }) => {
           </Button>
           <ModalForm open={isModalOpen} onClose={handleCloseModal} />
         </Grid>
-        <Grid container>
-            <Grid item xs={4} sx={{ backgroundColor: '#5FB4FC', padding: '1px'}}>
-              <Typography variant="subtitle2" fontWeight="600" color='white'>Fecha</Typography>
-            </Grid>
-            <Grid item xs={8} sx={{ backgroundColor: '#5FB4FC', padding: '1px'}}>
-              <Typography variant="subtitle2" fontWeight="600" color='white'>Descripcion</Typography>
-            </Grid>
+        <Grid item xs={12}>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  <TableCell>Fecha</TableCell>
+                  <TableCell>Descripción</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.map((row, index) => (
+                  <React.Fragment key={index}>
+                    <TableRow>
+                      <TableCell>
+                        <IconButton size="small" onClick={() => handleClick(index)}>
+                          {open[index] ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                        </IconButton>
+                      </TableCell>
+                      <TableCell>{row.fecha}</TableCell>
+                      <TableCell>{row.descripcion}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell colSpan={3}>
+                        <Collapse in={open[index]}>
+                          <Table>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Horario</TableCell>
+                                <TableCell>Actividad</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {row.horarios.map((horaRow, horaIndex) => (
+                                <TableRow key={horaIndex}>
+                                  <TableCell>{horaRow.hora}</TableCell>
+                                  <TableCell>{horaRow.actividad}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </Collapse>
+                      </TableCell>
+                    </TableRow>
+                  </React.Fragment>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Grid>
-        {/* <CollapsibleTable /> */}
-        {/* <ETITable dateStart={dateStart} name={name} additionalFields={additionalFields} /> */}
       </Grid>
     </Box>
   );
 };
-
 export default ETIAgenda;

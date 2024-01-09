@@ -24,6 +24,7 @@ import ETIDataBanks from 'components/ETIDataBanks.jsx';
 import ETIMercadoPago from 'components/ETIMercadoPago.jsx';
 import RolesNewEvent from '../roles/RolesNewEvent';
 import { unassignEventAdmin, assignEventAdmins } from '../../../helpers/firestore/users';
+import ETICombos from 'components/ETICombos';
 
 export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent | null }) {
 
@@ -382,10 +383,11 @@ export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent
                             </Modal>
                           </Grid>
                         
-
-                          {/* <Grid item md={12} sm={12} xs={12}>
-                            <ETIAgenda dateStart={undefined} name={undefined} additionalFields={undefined} />
-                          </Grid>
+                          
+                          <Grid item md={12} sm={12} xs={12}>
+                            <ETIAgenda />
+                          </Grid> 
+                          
 
                           <Grid item md={12} sm={12} xs={12}>
                             <ETIAlojamiento />
@@ -397,7 +399,11 @@ export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent
 
                           <Grid item md={12} sm={12} xs={12}>
                             <ETIDataBanks />
-                          </Grid> */}
+                          </Grid> 
+
+                          <Grid item md={12} sm={12} xs={12}>
+                            <ETICombos proPackage={''} onChange={undefined} />
+                          </Grid>
 
                           <Grid item md={12} sm={12} xs={12}>
                           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
