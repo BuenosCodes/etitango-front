@@ -267,9 +267,9 @@ export default function EditEvent() {
                     additionalFields={event?.additionalFields}
                   />
                    */}
-                  <ETIAlojamiento />
+                  {/* <ETIAlojamiento />
                   <ETIDataBanks />
-                  <ETIMercadoPago />
+                  <ETIMercadoPago /> */}
                 </Box>
               </Grid>
 

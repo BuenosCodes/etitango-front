@@ -6,7 +6,7 @@ import { Box, Button, Grid, Typography, Menu, MenuItem, } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createOrUpdateDoc } from 'helpers/firestore'; 
 
-const ETIMercadoPago = () => {
+const ETIMercadoPago = ( { idEvent }) => {
   const [rows, setRows] = useState([]);
   const [editRowsModel, setEditRowsModel] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
@@ -41,7 +41,7 @@ const ETIMercadoPago = () => {
     setRows(updateRows);
 
     setIdCounter(idCounter + 1);
-    const newRow = { id: idCounter, name: '', address: ''};
+    const newRow = { id: idCounter, link: ''};
     setRows((prevRows) => [...prevRows, newRow]);
   };
   
@@ -85,8 +85,19 @@ const ETIMercadoPago = () => {
   };
 
   const columns = [
-    { field: 'link', headerName: 'Link de cobro',width: 850, editable: true },
+    { field: 'link', headerName: 'Link de cobro',width: 870, editable: true },
   ];
+
+  const save = async () => {
+    try {
+      const id = idEvent
+      const linkMercadoPago = rows
+      const eventId = await createOrUpdateDoc('events', {linkMercadoPago: linkMercadoPago}, id === 'new' ? undefined : id);
+      //console.log('la id del evento ', eventId);
+    } catch (error) {
+      console.log('Error la enviar alojamiento', error);
+    }
+  };
 
   return (
     <Box sx={{display: 'flex', mt: 2}}>
@@ -99,7 +110,7 @@ const ETIMercadoPago = () => {
             <Button
               variant='contained'
               style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
-              onClick={handleConfirmClick}
+              onClick={() => save()}
             >
               <img src={'/img/icon/btnConfirm.png'} alt="btnDelete" style={{ width: '100%', height: 'auto' }} />
             </Button>

@@ -580,13 +580,13 @@ export default function ETICombos(props: { proPackage: string }) {
                               src={imageEvent ? imageEvent : '/img/imageNotFound.png'}
                             />
 
-                            <CloudinaryUploadWidget
+                            {/* <CloudinaryUploadWidget
                               uwConfig={uwConfig}
                               setPublicId={setPublicId}
                               onImageUpload={(uploadedImageUrl: string) =>
                                 setImageUrl(uploadedImageUrl)
                               }
-                            />
+                            /> */}
                           </Box>
                           {/** Add Buttons */}
                           <Grid item>

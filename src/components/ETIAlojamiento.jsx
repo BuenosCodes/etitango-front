@@ -7,7 +7,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { createOrUpdateDoc } from 'helpers/firestore'; 
 import ETIModalMaps from './ETIModalMaps';
 
-const ETIAlojamiento = () => {
+const ETIAlojamiento = ( { idEvent }) => {
   const [rows, setRows] = useState([]);
   const [editRowsModel, setEditRowsModel] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
@@ -60,7 +60,7 @@ const ETIAlojamiento = () => {
     setRows(updateRows);
 
     setIdCounter(idCounter + 1);
-    const newRow = { id: idCounter, name: '', address: ''};
+    const newRow = { id: idCounter, establecimiento: '', direccion: ''};
     setRows((prevRows) => [...prevRows, newRow]);
   };
   
@@ -97,27 +97,32 @@ const ETIAlojamiento = () => {
   };
 
   const handleConfirmClick = async () => {
+    const id = idEvent
     const updatedRows = Object.keys(editRowsModel).map((id) => {
       const row = rows.find((r) => r.id === parseInt(id));
       return { ...row, ...editRowsModel[id] };
     });
     for (const row of updatedRows) {
-      await createOrUpdateDoc('', row, row.id);
+      await createOrUpdateDoc('events', row, id);
     }
     setIsEditing(false);
   };
 
   const columns = [
-    { field: 'name', headerName: 'Nombre del establecimiento',width: 350, editable: true },
-    { field: 'address', headerName: 'Dirección de Google Maps', width: 400, editable: true },
+    { field: 'establecimiento', headerName: 'Nombre del establecimiento',width: 350, editable: true },
+    { field: 'direccion', headerName: 'Dirección de Google Maps', width: 400, editable: true },
   ];
 
-  const NoRowsMessage = () => {
-    return (
-      <div style={{ textAlign: 'center', padding: '16px' }}>
-        ¡No hay filas!
-      </div>
-    );
+  const save = async () => {
+    try {
+      const id = idEvent
+      const Alojamiento = rows
+      const eventId = await createOrUpdateDoc('events', {Alojamiento: Alojamiento}, id === 'new' ? undefined : id);
+      //console.log('la id del evento ', eventId);
+      
+    } catch (error) {
+      console.log('Error la enviar alojamiento', error);
+    }
   };
 
   return (
@@ -131,9 +136,9 @@ const ETIAlojamiento = () => {
             <Button
               variant='contained'
               style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
-              onClick={handleConfirmClick}
+              onClick={() => save()}
             >
-              <img src={'/img/icon/btnConfirm.png'} alt="btnDelete" style={{ width: '100%', height: 'auto' }} />
+              <img src={'/img/icon/btnConfirm.png'} alt="btnConfirm" style={{ width: '100%', height: 'auto' }} />
             </Button>
           )}
           <Button

@@ -17,6 +17,7 @@ import { ETIDatePicker } from './form/DatePicker';
 import moment from 'moment-timezone'
 
 interface SimpleModalProps {
+  idEvent: string;
   open: boolean;
   onClose: () => void;
 }
@@ -27,10 +28,11 @@ interface TimePickerFieldProps {
 
 type FieldType = 'description' | 'time';
 
-const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose }) => {
+const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent }) => {
 
   const handleSubmit = async (values: any, { setSubmitting }: any) => {
     try {
+      const id = idEvent;
       values.additionalFields = additionalFields;
       const eventId = await createOrUpdateDoc('events', values, id);
 

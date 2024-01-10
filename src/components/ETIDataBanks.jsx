@@ -6,7 +6,7 @@ import { Box, Button, Grid, Typography, Menu, MenuItem, } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createOrUpdateDoc } from 'helpers/firestore'; 
 
-const ETIDataBanks = () => {
+const ETIDataBanks = ({ idEvent }) => {
   const [rows, setRows] = useState([]);
   const [editRowsModel, setEditRowsModel] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
@@ -31,6 +31,7 @@ const ETIDataBanks = () => {
       return row;
     });
     setRows(updatedRows);
+    console.log('Datos ingresados en DataBanks: ', updatedRows);
   }, [editRowsModel]);
 
   const handleAddRow = () => {
@@ -41,7 +42,7 @@ const ETIDataBanks = () => {
     setRows(updateRows);
 
     setIdCounter(idCounter + 1);
-    const newRow = { id: idCounter, name: '', address: ''};
+    const newRow = { id: idCounter, nombre: '', alias: '', cbu: ''};
     setRows((prevRows) => [...prevRows, newRow]);
   };
   
@@ -85,10 +86,21 @@ const ETIDataBanks = () => {
   };
 
   const columns = [
-    { field: 'link', headerName: 'Nombre',width: 222, editable: true },
+    { field: 'nombre', headerName: 'Nombre',width: 222, editable: true },
     { field: 'alias', headerName: 'Alias',width: 222, editable: true },
     { field: 'cbu', headerName: 'CBU/CVU',width: 333, editable: true },
   ];
+
+  const save = async () => {
+    try {
+      const id = idEvent
+      const datosBancarios = rows
+      const eventId = await createOrUpdateDoc('events', {datosBancarios: datosBancarios}, id === 'new' ? undefined : id);
+      //console.log('la id del evento ', eventId);
+    } catch (error) {
+      console.log('Error la enviar alojamiento', error);
+    }
+  };
 
   return (
     <Box sx={{display: 'flex', mt: 2}}>
@@ -101,7 +113,7 @@ const ETIDataBanks = () => {
             <Button
               variant='contained'
               style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
-              onClick={handleConfirmClick}
+              onClick={() => save()}
             >
               <img src={'/img/icon/btnConfirm.png'} alt="btnDelete" style={{ width: '100%', height: 'auto' }} />
             </Button>
