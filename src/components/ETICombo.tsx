@@ -204,7 +204,7 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                         >
                           {/* Validate*/}
                           <img
-                            src={'/img/icon/btnDelete.png'}
+                            src={'/img/icon/btnDelete.svg'}
                             alt="btnDelete"
                             style={{
                               width: '100%',
@@ -226,7 +226,7 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                         >
                           {/* Validate*/}
                           <img
-                            src={'/img/icon/btnPlus.png'}
+                            src={'/img/icon/btnPlus.svg'}
                             alt="btnPlus"
                             style={{
                               width: '100%',
@@ -497,7 +497,7 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                     maxWidth: { xs: 450, md: 360 }
                   }}
                   alt="Imagen representativa del evento"
-                  src={imageEvent ? imageEvent : '/img/imageNotFound.png'}
+                  src={imageEvent ? imageEvent : '/img/imageNotFound.svg'}
                 />
 
                 <Box sx={{ display: 'flex', alignItems: 'center', ml: 5 }}>
