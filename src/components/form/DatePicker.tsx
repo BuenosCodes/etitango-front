@@ -2,7 +2,7 @@
 import React from 'react';
 import { DatePicker } from 'formik-mui-x-date-pickers';
 import { makeStyles } from '@mui/styles';
-import { Field } from 'formik';
+import { Field, useField } from 'formik';
 
 const CustomSVGIcon = () => (
   <img src="/img/icon/calendar-add.svg" alt="Custom Icon" width="24" height="24" /> // Usar la ruta a tu SVG externo
@@ -52,6 +52,7 @@ export const ETIDatePicker = ({
   borderColor: boolean;
 }) => {
   
+  const [field] = useField(fieldName)
   const useStyles = makeStyles({
     root: { 
        '& .MuiFormHelperText-root': {
@@ -65,23 +66,23 @@ export const ETIDatePicker = ({
         flexDirection: 'row-reverse',
         padding: '2px',
         '& fieldset': {
-          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderColor: field.value ? '#E68650' : '#FDE4AA',
           borderRadius: '8px',
           borderWidth: '1.5px',
           pointerEvents: 'none'
         },
         '&:hover fieldset ': {
-          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderColor: field.value ? '#E68650' : '#FDE4AA',
           borderRadius: '8px',
           pointerEvents: 'none'
         },
         '&.Mui-focused fieldset': {
-          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderColor: field.value ? '#E68650' : '#FDE4AA',
           borderRadius: '8px',
           pointerEvents: 'none'
         },
         '& .MuiOutlinedInput-notchedOutline': {
-          borderColor: specialCase ? '#E68650' : (borderColor ? '#E68650' : '#FDE4AA'),
+          borderColor: field.value ? '#E68650' : '#FDE4AA',
         },
         '& .MuiIconButton-root': { 
           color: '#A82548', 
@@ -89,6 +90,7 @@ export const ETIDatePicker = ({
       },
     },
   });
+
 
   const classes = useStyles();
 
@@ -109,6 +111,17 @@ return (
       inputFormat="DD-MM-YYYY"
       inputIcon= {<CustomSVGIcon />}
       mask="__-__-____"
-      onChange={(value: any) => setFieldValue(fieldName, value.toDate())}
+      onChange={(value: any) => {
+        
+        console.log('value date aqui -> ', value);
+        // Verifica si value no es nulo antes de llamar a toDate()
+        if (value && value.toDate) {
+          console.log('value to date ->', value.toDate());
+          setFieldValue(fieldName, value.toDate());
+        } else {
+          // Maneja el caso en el que value es nulo
+          console.warn('Fecha inválida');
+          setFieldValue(fieldName, null); // Puedes ajustar esto según tus necesidades
+      }}}
   />
 )};

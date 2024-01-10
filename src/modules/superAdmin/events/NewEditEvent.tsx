@@ -216,7 +216,7 @@ export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent
           {loading ? (
             <CircularProgress />
           ) : (
-            <Box sx={{ display: 'flex', flexDirection: 'column', overflow: 'auto', width: '960px', height: '1000px', boxShadow: 3, borderRadius: '12px', backgroundColor: '#FFFFFF' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', overflow: 'auto', width: '960px', height: '1746px', boxShadow: 3, borderRadius: '12px', backgroundColor: '#FFFFFF' }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px 8px 24px 0px', margin: '20px 20px 0px 20px' }}>
                 <Typography sx={{ fontWeight: 600, fontSize: '24px', }}>Información general</Typography>
 

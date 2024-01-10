@@ -53,8 +53,8 @@ function CloudinaryUploadWidget({ uwConfig, onImageUpload }) {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '150px',
-    padding: '12px 32px',
+    width: '171px',
+    padding: '10px 24px 10px 20px',
     borderRadius: '12px',
     backgroundColor: '#A82548',
     height: '44px',
@@ -70,7 +70,7 @@ function CloudinaryUploadWidget({ uwConfig, onImageUpload }) {
         onClick={initializeCloudinaryWidget}
         style={buttonStyles}
       >
-        Upload
+        Subir nueva portada
       </button>
     </CloudinaryScriptContext.Provider>
   );
