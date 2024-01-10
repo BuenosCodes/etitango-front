@@ -5,7 +5,7 @@ import { createContext, useEffect, useState } from "react";
 
 const CloudinaryScriptContext = createContext();
 
-function CloudinaryUploadWidget({ uwConfig, setPublicId, onImageUpload }) {
+function CloudinaryUploadWidget({ uwConfig, onImageUpload }) {
 
   const [loaded, setLoaded] = useState(false);
   //const [imageUrl, setImageUrl] = useState(null);
@@ -33,9 +33,7 @@ function CloudinaryUploadWidget({ uwConfig, setPublicId, onImageUpload }) {
         (error, result) => {
           if (!error && result && result.event === "success") {
             console.log("result info: ", result.info);
-            setPublicId(result.info.public_id);
-            //setImageUrl(result.info.url);
-            onImageUpload(result.info.url);
+            onImageUpload(result.info.url);   
           }
         }
 
@@ -51,14 +49,28 @@ function CloudinaryUploadWidget({ uwConfig, setPublicId, onImageUpload }) {
     }
   };
 
+  const buttonStyles = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '171px',
+    padding: '10px 24px 10px 20px',
+    borderRadius: '12px',
+    backgroundColor: '#A82548',
+    height: '44px',
+    color: '#fff',
+    border: 'none',
+  };
+
   return (
     <CloudinaryScriptContext.Provider value={{ loaded }}>
       <button
         id="upload_widget"
         className="cloudinary-button"
         onClick={initializeCloudinaryWidget}
+        style={buttonStyles}
       >
-        Upload
+        Subir nueva portada
       </button>
     </CloudinaryScriptContext.Provider>
   );

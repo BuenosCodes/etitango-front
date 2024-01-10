@@ -67,6 +67,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
       const newAdmins = values || []
       setAdmins((prevAdmins) => [...new Set([...prevAdmins, ...newAdmins])]);
       setShowAdmins(true)
+      console.log('Contenido de values:', values);
     }
   };
 
