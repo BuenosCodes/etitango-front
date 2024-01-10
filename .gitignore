@@ -33,3 +33,11 @@ functions/lib/
 *.log
 
 extensions/firestore-send-email.env
+
+emulatordb
+
+firebase.json
+
+.firebaserc
+
+firebase-export-*/

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import { Button, Paper } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
@@ -28,7 +29,7 @@ export function EventListTable(props: { events: EtiEvent[]; isLoading: boolean }
           size="small"
           style={{ marginLeft: 16 }}
           tabIndex={params.hasFocus ? 0 : -1}
-          onClick={() => navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/${params.row.id}`)}
+          onClick={() => navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}${ROUTES.EDIT}/${params.row.id}`)}
         >
           Editar
         </Button>
@@ -39,7 +40,7 @@ export function EventListTable(props: { events: EtiEvent[]; isLoading: boolean }
   const columns: GridColDef[] = fields?.map((fieldName) => ({
     field: fieldName,
     headerName: t(fieldName),
-    width: 200
+    width: 120,
   }));
   columns.push(button);
 
