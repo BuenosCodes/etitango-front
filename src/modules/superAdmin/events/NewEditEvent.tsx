@@ -69,17 +69,17 @@ export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent
 
   const updateAlojamientoData = (newData) => {
     setAlojamientoData(newData);
-    console.log('data de alojamiento -> ', alojamientoData);
+    //console.log('data de alojamiento -> ', alojamientoData);
   };
 
   const updateDataBanks = (newData) => {
     setDataBanks(newData);
-    console.log('data bancaria -> ', dataBanks);
+    //console.log('data bancaria -> ', dataBanks);
   }
 
   const updateDataMP = (newData) => {
     setDataMP(newData);
-    console.log('data bancaria -> ', dataMP);
+    //console.log('data MP -> ', dataMP);
   }
   
 
@@ -409,7 +409,7 @@ export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent
                         
                           
                           <Grid item md={12} sm={12} xs={12}>
-                            <ETIAgenda idEvent={idEvent}/>
+                            <ETIAgenda idEvent={idEvent} eventData={selectedEvent} />
                           </Grid> 
                           
 

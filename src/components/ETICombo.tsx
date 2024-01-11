@@ -10,6 +10,7 @@ import { EtiEvent } from 'shared/etiEvent';
 import { ETIDatePicker } from './form/DatePicker';
 import { ETITimePicker } from './form/TimePicker';
 import { createOrUpdateDoc } from 'helpers/firestore';
+import ETITimePicker2 from './ETITimePicker2';
 
 // eslint-disable-next-line no-unused-vars
 export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void, selectedEvent: EtiEvent | null }) {
@@ -183,12 +184,16 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                                         a las
                                     </Typography>
                                     <Grid item>
-                                        <ETITimePicker
+                                        {/* <ETITimePicker
                                             textFieldProps={{ fullWidth: true }}
                                             fieldName="FirstTimePay"
                                             setFieldValue={setFieldValue}
                                             borderColor={false}
                                             specialCase={false}
+                                        /> */}
+                                        <ETITimePicker2 
+                                            value="FirstTimePay" 
+                                            onChange={(value) => setFieldValue('FirstTimePay', value)}                                  
                                         />
                                     </Grid>
                                 </Grid>
@@ -240,12 +245,16 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                                         a las
                                     </Typography>
                                     <Grid item>
-                                        <ETITimePicker
+                                        {/* <ETITimePicker
                                             textFieldProps={{ fullWidth: true }}
                                             fieldName="secondTimePay"
                                             setFieldValue={setFieldValue}
                                             borderColor={false}
                                             specialCase={false}
+                                        /> */}
+                                        <ETITimePicker2 
+                                            value="secondTimePay" 
+                                            onChange={(value) => setFieldValue('secondTimePay', value)}                                  
                                         />
                                     </Grid>
                                 </Grid>
@@ -270,12 +279,16 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                                         hasta las
                                     </Typography>
                                     <Grid item>
-                                        <ETITimePicker
+                                        {/* <ETITimePicker
                                             textFieldProps={{ fullWidth: true }}
                                             fieldName="timeRefundDeadline"
                                             setFieldValue={setFieldValue}
                                             borderColor={false}
                                             specialCase={false}
+                                        /> */}
+                                        <ETITimePicker2 
+                                            value="timeRefundDeadline" 
+                                            onChange={(value) => setFieldValue('timeRefundDeadline', value)}                                  
                                         />
                                     </Grid>
                                 </Grid>
