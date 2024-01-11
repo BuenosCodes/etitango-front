@@ -52,7 +52,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
   });
   const [event, setEvent] = useState<EtiEvent>();
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [idNuevo, setIdNuevo] = useState('');
   const [enable, setEnable] = useState(false);
   const [open, setOpen] = React.useState(false);
@@ -63,37 +63,43 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
   const handleClose = (values: string[] | null) => {
     setOpen(false)
     setCreateEvent(false)
-    if (values || []) {
-      const newAdmins = values || []
-      setAdmins((prevAdmins) => [...new Set([...prevAdmins, ...newAdmins])]);
-      setShowAdmins(true)
+    if (values && values.length > 0) {
+      setAdmins((prevAdmins) => {
+        const uniqueNewAdmins = values.filter((newAdmin:any) => !prevAdmins.some((admin:any) => admin.email === newAdmin.email));
+        const combinedAdmins = [...prevAdmins, ...uniqueNewAdmins];
+        const uniqueAdmins = combinedAdmins.filter((admin:any, index, self) => self.findIndex((a:any) => a.email === admin.email) === index);
+        return uniqueAdmins;
+      });
+  
+      setShowAdmins(true);
       console.log('Contenido de values:', values);
+      console.log('Contenido de admins:', admins);
     }
   };
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (etiEventId) {
-        const isValidId: RegExp = /^new$|^[\w\d]{20}$/;
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (etiEventId) {
+  //       const isValidId: RegExp = /^new$|^[\w\d]{20}$/;
 
-        if (etiEventId === "new" || isValidId.test(etiEventId)) {
-          try {
-            const event = await getEvent(etiEventId);
-            setEvent(event);
-            setLoading(false);
-            console.log(JSON.stringify(event.city))
-          } catch (error) {
-            console.error(error);
-          }
-        } else {
-          navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
-        }
-      }
-    };
+  //       if (etiEventId === "new" || isValidId.test(etiEventId)) {
+  //         try {
+  //           const event = await getEvent(etiEventId);
+  //           setEvent(event);
+  //           setLoading(false);
+  //           console.log(JSON.stringify(event.city))
+  //         } catch (error) {
+  //           console.error(error);
+  //         }
+  //       } else {
+  //         navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
+  //       }
+  //     }
+  //   };
 
-    fetchData();
-  }, [etiEventId]);
+  //   fetchData();
+  // }, [etiEventId]);
 
   const save = async (values: any, setSubmitting: Function) => {
     try {
@@ -135,7 +141,8 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
       // setLoading(true);      
       if (idNuevo) {
         await unassignEventAdmin(email, idNuevo)
-        setAdmins((currentAdmins) => currentAdmins.filter((admin) => admin !== email));
+        // setAdmins((currentAdmins) => currentAdmins.filter((admin) => admin !== email));
+        setAdmins((currentAdmins) => currentAdmins.filter((admin:any) => admin.email !== email));
       } else {
         console.error('idNuevo es undefined. No se puede asignar administrador.');
       }
@@ -415,8 +422,8 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                   <Grid item xs={12} sx={{ border: '1.5px solid #E68650', borderRadius: '8px', display: 'flex', justifyContent: 'space-between' }} >
                                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                       {showAdmins ? (<>
-                                        {admins.map((admin, index) => (
-                                          <Chip key={index} label={admin} onDelete={() => handleDelete(admin)} variant="outlined" sx={{ m: 1, borderRadius: '8px', color: '#A82548', fontFamily: 'Roboto', fontWeight: 500, fontSize: '14px' }} />
+                                        {admins.map((admin:any, index) => (
+                                          <Chip key={index} label={admin.name} onDelete={() => handleDelete(admin.email)} variant="outlined" sx={{ m: 1, borderRadius: '8px', color: '#A82548', fontFamily: 'Roboto', fontWeight: 500, fontSize: '14px' }} />
                                         ))}
                                       </>) : <Typography sx={{display: 'flex', alignItems: 'center', ml: 1, color: '#9E9E9E', fontFamily: 'Roboto'}}> Organizadores </Typography>}
                                     </Box>

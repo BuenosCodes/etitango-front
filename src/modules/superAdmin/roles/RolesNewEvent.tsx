@@ -14,6 +14,7 @@ const RolesNewEvent = ({ eventId, handleClose}: { eventId?: string, handleClose:
     const [usuarios, setUsuarios] = useState<UserFullData[]>([]);
     // eslint-disable-next-line no-unused-vars
     const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
+    const [selectedUserInfo, setSelectedUserInfo] = React.useState({});
     const [searchTerm, setSearchTerm] = useState<string>(''); 
     const [filteredUsuarios, setFilteredUsuarios] = useState<UserFullData[]>([]); 
 
@@ -84,7 +85,7 @@ const RolesNewEvent = ({ eventId, handleClose}: { eventId?: string, handleClose:
       } else {
         console.error('etiEventId es undefined. No se puede asignar administrador.');
       }
-      handleClose(selectedRows)
+      handleClose(selectedUserInfo)
         } catch (error) {
           console.error('Error al asignar administrador:', error);
         } finally {
@@ -133,10 +134,15 @@ const RolesNewEvent = ({ eventId, handleClose}: { eventId?: string, handleClose:
                 disableSelectionOnClick
                 getRowId={(row) => row.id}
                 onSelectionModelChange={(selection) => {
-                    const selectedEmails = selection.map((selectedId) => {
+                    const selectedEmails = selection.map((selectedId:any) => {
                         const selectedUsuario = usuarios.find((usuario) => usuario.id.toString() === selectedId);
                         return selectedUsuario ? selectedUsuario.email : '';
                     });
+                    const selectedInfo = selection.map((selectedId:any) => {
+                        const selectedUsuario = usuarios.find((usuario) => usuario.id.toString() === selectedId);
+                        return selectedUsuario ? {name: `${selectedUsuario?.nameFirst} ${selectedUsuario?.nameLast}`, email: selectedUsuario.email} : '';
+                    })
+                    setSelectedUserInfo(selectedInfo)
                     setSelectedRows(selectedEmails);
                 }}
                 sx={{
