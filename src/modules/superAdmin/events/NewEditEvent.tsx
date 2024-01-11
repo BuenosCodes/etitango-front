@@ -63,6 +63,25 @@ export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent
   // const [hora, setHora] = useState<Date | null>(null)
   const [open, setOpen] = React.useState(false);
 
+  const [alojamientoData, setAlojamientoData] = useState([null]);
+  const [dataBanks, setDataBanks] = useState([null])
+  const [dataMP, setDataMP] = useState([null])
+
+  const updateAlojamientoData = (newData) => {
+    setAlojamientoData(newData);
+    console.log('data de alojamiento -> ', alojamientoData);
+  };
+
+  const updateDataBanks = (newData) => {
+    setDataBanks(newData);
+    console.log('data bancaria -> ', dataBanks);
+  }
+
+  const updateDataMP = (newData) => {
+    setDataMP(newData);
+    console.log('data bancaria -> ', dataMP);
+  }
+  
 
   useEffect(() => {
     setIsLoading(true);
@@ -70,7 +89,7 @@ export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent
     let unsubscribe: Function;
     let usuarios2: Function;
     console.log('eventid aqui en newEditEvent', idEvent);
-    console.log('selectedEvent ->', selectedEvent);
+    console.log('este es el evento en: selectedEvent ->', selectedEvent);
     
     const fetchData = async () => {
       unsubscribe = await firestoreUserHelper.getAdmins(setUsers, setIsLoading, idEvent);
@@ -117,7 +136,7 @@ export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent
   const save = async (values: any, setSubmitting: Function) => {
     try {
       console.log('idEvento cuando apreto save ', idEvent);
-      
+
       await createOrUpdateDoc('events', values, idEvent === 'new' ? undefined : idEvent);
       navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
     } catch (error) {
@@ -131,6 +150,9 @@ export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent
       console.log('idEvento cuando apreto handel prueba ', idEvent);
       console.log('values cuando apreto handel prueba', values);
       
+      values.alojamiento = alojamientoData;
+      values.datosBancarios = dataBanks;
+      values.linkMercadoPago = dataMP;
       
       await createOrUpdateDoc('events', values, idEvent === 'new' ? undefined : idEvent);
       // navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
@@ -246,11 +268,13 @@ export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent
                       timeEnd: selectedEvent?.timeEnd || '',
                       timeSignupOpen: selectedEvent?.timeSignupOpen || '',
                       timeSignupEnd: selectedEvent?.timeSignupEnd || '',
+                      alojamiento: selectedEvent?.alojamiento || null,
+                      datosBancarios: selectedEvent?.datosBancarios || null,
+                      linkMercadoPago: selectedEvent?.linkMercadoPago || null
                     }}
                     validationSchema={EventFormSchema}
                     onSubmit={async (values, { setSubmitting }) => {
                       console.log('values en save aqui ', values);
-                      
                       await save(values, setSubmitting);
                     }}
                   >
@@ -390,16 +414,16 @@ export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent
                           
 
                           <Grid item md={12} sm={12} xs={12}>
-                            <ETIAlojamiento idEvent={idEvent}/>
+                            <ETIAlojamiento idEvent={idEvent} event={selectedEvent} updateAlojamientoData={updateAlojamientoData} />
                           </Grid>
 
                           <Grid item md={12} sm={12} xs={12}>
-                            <ETIMercadoPago idEvent={idEvent}/>
-                          </Grid>
-
-                          <Grid item md={12} sm={12} xs={12}>
-                            <ETIDataBanks idEvent={idEvent}/>
+                            <ETIDataBanks idEvent={idEvent} dataBanks={updateDataBanks}/>
                           </Grid> 
+
+                          <Grid item md={12} sm={12} xs={12}>
+                            <ETIMercadoPago idEvent={idEvent} dataMP={updateDataMP}/>
+                          </Grid>
 
                           <Grid item md={12} sm={12} xs={12}>
                             <ETICombos setFieldValue={setFieldValue} selectedEvent={selectedEvent}/>

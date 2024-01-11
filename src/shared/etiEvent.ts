@@ -22,6 +22,9 @@ export interface EtiEvent extends EtiEventBase {
   dateSignupOpen: Date;
   description: string;
   hora: Date;
-  additionalFields: string[];
+  agenda: string[];
   dateSignupEnd: Date;
+  alojamiento: string[];
+  datosBancarios: string[];
+  linkMercadoPago: string[];
 }

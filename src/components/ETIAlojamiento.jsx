@@ -7,7 +7,9 @@ import { DataGrid } from '@mui/x-data-grid';
 import { createOrUpdateDoc } from 'helpers/firestore'; 
 import ETIModalMaps from './ETIModalMaps';
 
-const ETIAlojamiento = ( { idEvent }) => {
+const ETIAlojamiento = ( { idEvent, event, updateAlojamientoData }) => {
+
+  //console.log('accediendo a los datos de alojamiento del evento: ', event.Alojamiento);
   const [rows, setRows] = useState([]);
   const [editRowsModel, setEditRowsModel] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
@@ -41,7 +43,8 @@ const ETIAlojamiento = ( { idEvent }) => {
       return row;
     });
     setRows(updatedRows);
-  }, [editRowsModel]);
+    updateAlojamientoData(updatedRows)
+  }, [editRowsModel ]);
   
   
 
@@ -109,21 +112,10 @@ const ETIAlojamiento = ( { idEvent }) => {
   };
 
   const columns = [
-    { field: 'establecimiento', headerName: 'Nombre del establecimiento',width: 350, editable: true },
-    { field: 'direccion', headerName: 'Dirección de Google Maps', width: 400, editable: true },
+    { field: 'establecimiento', headerName: 'Nombre del establecimiento',width: 350, editable: isEditing },
+    { field: 'direccion', headerName: 'Dirección de Google Maps', width: 400, editable: isEditing },
   ];
 
-  const save = async () => {
-    try {
-      const id = idEvent
-      const Alojamiento = rows
-      const eventId = await createOrUpdateDoc('events', {Alojamiento: Alojamiento}, id === 'new' ? undefined : id);
-      //console.log('la id del evento ', eventId);
-      
-    } catch (error) {
-      console.log('Error la enviar alojamiento', error);
-    }
-  };
 
   return (
     <Box sx={{display: 'flex', mt: 2}}>
@@ -136,7 +128,7 @@ const ETIAlojamiento = ( { idEvent }) => {
             <Button
               variant='contained'
               style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
-              onClick={() => save()}
+              onClick={handleConfirmClick}
             >
               <img src={'/img/icon/btnConfirm.png'} alt="btnConfirm" style={{ width: '100%', height: 'auto' }} />
             </Button>

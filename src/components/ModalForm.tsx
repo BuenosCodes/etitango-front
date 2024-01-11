@@ -33,7 +33,7 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent }) => {
   const handleSubmit = async (values: any, { setSubmitting }: any) => {
     try {
       const id = idEvent;
-      values.additionalFields = additionalFields;
+      values.Agenda = additionalFields;
       const eventId = await createOrUpdateDoc('events', values, id);
 
       console.log('Datos enviados. ID del evento:', eventId);
@@ -157,7 +157,7 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent }) => {
           initialValues={{
             date: event?.dateStart || '',
             description: event?.description || '',
-            additionalFields: [ ],
+            agenda: [ ],
           }}
           // onSubmit={ (values, { setSubmitting }) => {
           //   console.log('values -> ', values);
