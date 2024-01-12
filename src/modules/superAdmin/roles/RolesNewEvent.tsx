@@ -79,15 +79,10 @@ const RolesNewEvent = ({ eventId, handleClose}: { eventId?: string, handleClose:
 
     const handleSelectEmails = async () => {
         try {
-          setIsLoading(true);      
-      if (eventId) {
-        await assignEventAdmins(selectedRows, eventId);
-      } else {
-        console.error('etiEventId es undefined. No se puede asignar administrador.');
-      }
-      handleClose(selectedUserInfo)
+        setIsLoading(true);      
+        handleClose(selectedUserInfo)
         } catch (error) {
-          console.error('Error al asignar administrador:', error);
+          console.error('Error al pasar los de usuarios seleccionados:', error);
         } finally {
           setIsLoading(false);
         }
