@@ -138,26 +138,25 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'column',
+        flexDirection: 'column'
       }}
     >
-
-
-      <Box style={{
-        background: 'white',
-        padding: '20px',
-        borderRadius: '8px',
-        flexDirection: 'column',
-        width: '50%',
-        display: 'flex',
-      }}
+      <Box
+        style={{
+          background: 'white',
+          padding: '20px',
+          borderRadius: '8px',
+          flexDirection: 'column',
+          width: '50%',
+          display: 'flex'
+        }}
       >
         <Formik
           enableReinitialize
           initialValues={{
             date: event?.dateStart || '',
             description: event?.description || '',
-            additionalFields: [ ],
+            additionalFields: []
           }}
           // onSubmit={ (values, { setSubmitting }) => {
           //   console.log('values -> ', values);
@@ -169,48 +168,72 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent }) => {
             <Form>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Typography variant='h6' fontWeight="500">Fija la fecha de tu evento</Typography>
+                  <Typography variant="h6" fontWeight="500">
+                    Fija la fecha de tu evento
+                  </Typography>
                 </Grid>
                 <Grid item xs={3}>
                   <Field
                     component={ETIDatePicker}
-                    label='Fecha'
-                    fieldName='dateStart'
-                    name='date'
+                    label="Fecha"
+                    fieldName="dateStart"
+                    name="date"
                     setFieldValue={setFieldValue}
                     textFieldProps={{
-                      fullWidth: true,
+                      fullWidth: true
                     }}
                   />
                 </Grid>
                 <Grid item xs={9}>
                   <Field
-                    label='Detalles breves del evento'
+                    label="Detalles breves del evento"
                     name="description"
                     component={TextField}
                     required
                     fullWidth
-                    onChange={(e: { target: { value: any; }; }) => setFieldValue('description', e.target.value)}
+                    onChange={(e: { target: { value: any } }) =>
+                      setFieldValue('description', e.target.value)
+                    }
                   />
                 </Grid>
                 <Grid item xs={10}>
-                  <Typography variant='h6' fontWeight="500">Define la agenda para este dia</Typography>
+                  <Typography variant="h6" fontWeight="500">
+                    Define la agenda para este dia
+                  </Typography>
                 </Grid>
                 <Grid item xs={2} sx={{ justifyContent: 'flex-end' }}>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button
-                      variant='contained'
-                      style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
+                      variant="contained"
+                      style={{
+                        background: 'transparent',
+                        boxShadow: 'none',
+                        border: 'none',
+                        margin: 0
+                      }}
                       onClick={handleDeleteField}
                     >
-                      <img src={'/img/icon/btnDelete.png'} alt="btnDelete" style={{ width: '100%', height: 'auto' }} />
+                      <img
+                        src={'/img/icon/btnDelete.svg'}
+                        alt="btnDelete"
+                        style={{ width: '100%', height: 'auto' }}
+                      />
                     </Button>
                     <Button
-                      variant='contained'
-                      style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
+                      variant="contained"
+                      style={{
+                        background: 'transparent',
+                        boxShadow: 'none',
+                        border: 'none',
+                        margin: 0
+                      }}
                       onClick={handleAddField}
                     >
-                      <img src={'/img/icon/btnPlus.png'} alt="btnAdd" style={{ width: '100%', height: 'auto' }} />
+                      <img
+                        src={'/img/icon/btnPlus.svg'}
+                        alt="btnAdd"
+                        style={{ width: '100%', height: 'auto' }}
+                      />
                     </Button>
                   </Box>
                 </Grid>
@@ -223,7 +246,10 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent }) => {
                   <>
                     <Grid item xs={3}>
                       <Stack>
-                        <TimePickerField value={field.time} onChange={(value) => handleDateTimeChange(index, 'time', value)} />
+                        <TimePickerField
+                          value={field.time}
+                          onChange={(value) => handleDateTimeChange(index, 'time', value)}
+                        />
                         {/* <ETITimePickerField value={field.time} onChange={(value) => handleDateTimeChange(index, 'time', value)}/> */}
                       </Stack>
                     </Grid>
@@ -234,7 +260,9 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent }) => {
                         component={TextField}
                         required
                         fullWidth
-                        onChange={(event: { target: { value: string; }; }) => handleDescriptionChange(index, event.target.value)}
+                        onChange={(event: { target: { value: string } }) =>
+                          handleDescriptionChange(index, event.target.value)
+                        }
                       />
                     </Grid>
                   </>
@@ -250,9 +278,9 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent }) => {
                     borderRadius: '25px',
                     gap: '8px',
                     color: 'white',
-                    backgroundColor: '#A82548',
+                    backgroundColor: '#A82548'
                   }}
-                  type='submit'
+                  type="submit"
                   disabled={isSubmitting}
                 >
                   Guardar
