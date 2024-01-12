@@ -19,6 +19,7 @@ import { LocationPicker } from 'components/form/LocationPicker';
 import { unassignEventAdmin } from '../../../helpers/firestore/users';
 import { makeStyles } from '@mui/styles';
 import { ETITimePicker } from 'components/form/TimePicker';
+import { assignEventAdmins } from '../../../helpers/firestore/users';
 
 export default function NewEvent(props: { etiEventId: string, onChange: Function }) {
   const { etiEventId, onChange } = props
@@ -56,13 +57,13 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
   const [idNuevo, setIdNuevo] = useState('');
   const [enable, setEnable] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const [createEvent, setCreateEvent] = useState(true);
+  // const [createEvent, setCreateEvent] = useState(true);
   const [showAdmins, setShowAdmins] = useState(false)
   const [admins, setAdmins] = useState<string[]>([]);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () =>setOpen(true);
   const handleClose = (values: string[] | null) => {
     setOpen(false)
-    setCreateEvent(false)
+    // setCreateEvent(false)
     if (values && values.length > 0) {
       setAdmins((prevAdmins) => {
         const uniqueNewAdmins = values.filter((newAdmin:any) => !prevAdmins.some((admin:any) => admin.email === newAdmin.email));
@@ -136,17 +137,10 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
   };
 
 
-  const handleDelete = async (email: string) => {
+  const handleDelete = (email: string) => {
     try {
-      // setLoading(true);      
-      if (idNuevo) {
-        await unassignEventAdmin(email, idNuevo)
         // setAdmins((currentAdmins) => currentAdmins.filter((admin) => admin !== email));
         setAdmins((currentAdmins) => currentAdmins.filter((admin:any) => admin.email !== email));
-      } else {
-        console.error('idNuevo es undefined. No se puede asignar administrador.');
-      }
-
     } catch (error) {
       console.error('Error al borrar administrador:', error);
     } finally {
@@ -156,9 +150,22 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
 
   const handleCreateEvent = async (values: any) => {
     try {
-      await createOrUpdateDoc('events', values, idNuevo === 'new' ? undefined : idNuevo);
+      if (etiEventId) {
+        const validateRuote: RegExp = /^[a-zA-Z0-9]{20,}$/;
+        const idV: boolean = validateRuote.test(etiEventId);
+        const idEvento = await createOrUpdateDoc('events', values, etiEventId === 'new' ? undefined : idV);
+        console.log('admins cuando creo el evento => ', admins);
+        const selectedEmails = admins.map((admin:any) => admin.email);
+        await assignEventAdmins(selectedEmails, idEvento);
+        setIdNuevo(idEvento);
+        setEnable(true)
+        // navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
+      }
+      // await createOrUpdateDoc('events', values, idNuevo === 'new' ? undefined : idNuevo);
     } catch (error) {
       console.error(error);
+      setEnable(false)
+      // setSubmitting(false);
     }
   }
 
@@ -243,7 +250,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                 Nuevo ETI
               </Box>
 
-              <Box sx={{ display: 'flex', margin: '20px', backgroundColor: '#FAFAFA', borderRadius: '12px', p: 2, ...scrollbarStyles }}>
+              <Box sx={{ display: 'flex', ...scrollbarStyles }}>
                 <Grid container>
                   <Grid item xs={12}>
                     <Formik
@@ -268,6 +275,8 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                     >
                       {({ setFieldValue, touched, errors, values }) => (
                         <Form>
+                          <Box sx={{margin: '20px', backgroundColor: '#FAFAFA', borderRadius: '12px', p: 2}}>
+
                           <Grid container gap={2}>
                             <Typography sx={{ color: '#212121', fontWeight: 500}}>Nombre para el evento</Typography>
                             <Grid item md={12} sm={12} xs={12}>
@@ -400,7 +409,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                               </Grid>
                             </Grid>
                             </Grid>
-                            <Grid container justifyContent="flex-end">
+                            {/* <Grid container justifyContent="flex-end">
                               <Grid item>
                                 <Button
                                   variant="contained"
@@ -414,11 +423,11 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                   </Typography>
                                 </Button>
                               </Grid>
-                            </Grid>
-                            {idNuevo && (<>
+                            </Grid> */}
+                            {/* {idNuevo && (<> */}
                               <Grid item xs={12}>
                                 <Grid container gap={2}>
-                                  <Typography sx={{ color: '##424242' }}>Colaboradores en la organización del evento</Typography>
+                                  <Typography sx={{ color: '##424242', fontWeight: 500}}>Colaboradores en la organización del evento</Typography>
                                   <Grid item xs={12} sx={{ border: '1.5px solid #E68650', borderRadius: '8px', display: 'flex', justifyContent: 'space-between' }} >
                                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                                       {showAdmins ? (<>
@@ -429,7 +438,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                     </Box>
 
                                     <Button sx={{ padding: '12px, 16px, 12px, 16px', alignItems: 'flex-end' }} onClick={handleOpen}>
-                                      <Icon sx={{ display: 'flex', width: '4em', mr: 1 }}>
+                                      <Icon sx={{ display: 'flex', width: '4em', mr: '-8px' }}>
                                         <Typography sx={{ mr: 1, color: '#A82548', fontFamily: 'Roboto', fontWeight: 500 }}>
                                           Agregar
                                         </Typography>
@@ -447,19 +456,22 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
 
 
 
-                                <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                                  <Button disabled={createEvent} sx={{ width: '115px', padding: '12px, 32px, 12px, 32px', borderRadius: '25px', backgroundColor: createEvent ? '#CCCCCC' : '#A82548', height: '44px', '&:hover': { backgroundColor: createEvent ? '#CCCCCC' : '#A82548' } }} onClick={() => { onChange(), handleCreateEvent(values) }}>
+                         
+                              </Grid>
+
+
+                            {/* </> */}
+                            {/* )} */}
+                          </Grid>
+                          </Box>
+
+                                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', margin: '20px' }}>
+                                  <Button sx={{ width: '115px', padding: '12px, 32px, 12px, 32px', borderRadius: '25px', backgroundColor: '#A82548', height: '44px', '&:hover': { backgroundColor: '#A82548' } }} onClick={() => { onChange(), handleCreateEvent(values) }}>
                                     <Typography sx={{ color: '#FAFAFA', fontWeight: 500, fontSize: '14px', lineHeight: '20px' }}>
                                       Crear
                                     </Typography>
                                   </Button>
                                 </Box>
-                              </Grid>
-
-
-                            </>
-                            )}
-                          </Grid>
                         </Form>
                       )}
                     </Formik>
