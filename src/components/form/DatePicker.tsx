@@ -100,7 +100,10 @@ return (
       disablePast
       textField={{
         ...textFieldProps,
-        className: classes.root, // Agregar las clases al DatePicker
+        className: classes.root,
+        onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => {
+          e.preventDefault();
+        }, // Agregar las clases al DatePicker
       }}
       inputProps={{
         style: {
