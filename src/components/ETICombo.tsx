@@ -11,11 +11,16 @@ import { ETIDatePicker } from './form/DatePicker';
 import { ETITimePicker } from './form/TimePicker';
 import { createOrUpdateDoc } from 'helpers/firestore';
 import ETITimePicker2 from './ETITimePicker2';
+import { values } from 'lodash';
 
 // eslint-disable-next-line no-unused-vars
 export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void, selectedEvent: EtiEvent | null }) {
     const idEvent = selectedEvent?.id;
     const [open, setOpen] = React.useState(false);
+    const [firstPayTime, setFirstPayTime] = useState('');
+    const [secondTimePay, setSecondTimePay] = useState('');
+    const [timeRefundDeadline, setTimeRefundDeadline] = useState('');
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
         setOpen(false);
@@ -81,8 +86,6 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
             console.error(error);
         }
     }
-
-
     const styleModal = {
         position: 'absolute' as 'absolute',
         top: '50%',
@@ -100,7 +103,6 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
 
     return (
         <>
-
             <Box
                 sx={{
                     display: 'flex'
@@ -184,17 +186,10 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                                         a las
                                     </Typography>
                                     <Grid item>
-                                        {/* <ETITimePicker
-                                            textFieldProps={{ fullWidth: true }}
-                                            fieldName="FirstTimePay"
-                                            setFieldValue={setFieldValue}
-                                            borderColor={false}
-                                            specialCase={false}
-                                        /> */}
-                                        <ETITimePicker2 
-                                            value="FirstTimePay" 
-                                            onChange={(value) => setFieldValue('FirstTimePay', value)}                                  
-                                        />
+                                    <ETITimePicker2
+                                        value={values.firstPayTime}
+                                        onChange={(newValue) => setFieldValue('firstPayTime', newValue)} // Asegúrate de usar el nombre correcto del campo
+                                    />
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -245,15 +240,9 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                                         a las
                                     </Typography>
                                     <Grid item>
-                                        {/* <ETITimePicker
-                                            textFieldProps={{ fullWidth: true }}
-                                            fieldName="secondTimePay"
-                                            setFieldValue={setFieldValue}
-                                            borderColor={false}
-                                            specialCase={false}
-                                        /> */}
+                                        
                                         <ETITimePicker2 
-                                            value="secondTimePay" 
+                                            value={values.secondTimePay}
                                             onChange={(value) => setFieldValue('secondTimePay', value)}                                  
                                         />
                                     </Grid>
@@ -279,15 +268,9 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                                         hasta las
                                     </Typography>
                                     <Grid item>
-                                        {/* <ETITimePicker
-                                            textFieldProps={{ fullWidth: true }}
-                                            fieldName="timeRefundDeadline"
-                                            setFieldValue={setFieldValue}
-                                            borderColor={false}
-                                            specialCase={false}
-                                        /> */}
+                                        
                                         <ETITimePicker2 
-                                            value="timeRefundDeadline" 
+                                            value={values.timeRefundDeadline}
                                             onChange={(value) => setFieldValue('timeRefundDeadline', value)}                                  
                                         />
                                     </Grid>
@@ -340,7 +323,6 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                                     marginTop: '20px',
                                 }}
                             >
-                  
                                     <Box
                                     component="img"
                                     sx={{
@@ -353,8 +335,6 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                                     src={imageEvent ? imageEvent : '/img/imageNotFound.png'}
                                     />  
                                     
-                                
-                                
                                 <Box sx={{ display: 'flex', alignItems: 'center', ml: 5 }}>
 
                                     <CloudinaryUploadWidget
@@ -391,8 +371,6 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                     </Grid>
                 </Grid>
             </Box>
-
-
         </>
     )
 }

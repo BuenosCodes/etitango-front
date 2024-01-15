@@ -26,9 +26,9 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
     return dataAgenda;
   }
   
-  // useEffect(() => {
-  //   console.log('dataForm desde su useEffect -> ', dataFromModalForm);
-  // })
+  useEffect(() => {
+    console.log('se actualizo eventData');
+  }, [eventData])
 
   useEffect(() => {
     if (eventData && eventData.Agenda && eventData.Agenda[0] && eventData.description && eventData.date) {

@@ -2,10 +2,8 @@
 /* eslint-disable no-unused-vars */
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
-
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import InputAdornment from '@mui/material/InputAdornment';
 
 interface ETITimePicker2Props {
   value: string;
@@ -24,8 +22,8 @@ const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange }) => {
 
   return (
     <TextField
-      label="Hora"
-      type="text"
+      label=""
+      type="time"
       value={value}
       onChange={(event) => onChange(event.target.value)}
       onBlur={handleBlur}
@@ -33,11 +31,14 @@ const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange }) => {
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
-            <IconButton size="small" edge="start">
-              <AccessTimeIcon style={{color: '#A82548'}}/>
-            </IconButton>
+            <AccessTimeIcon sx={{ color: '#A82548', fontSize: 'large' }} />
           </InputAdornment>
         ),
+      }}
+      sx={{
+        '& input[type="time"]::-webkit-calendar-picker-indicator': {
+          display: 'none',
+        },
       }}
     />
   );
