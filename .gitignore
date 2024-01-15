@@ -20,6 +20,8 @@
 .firebase
 .firebaserc
 .hintrc
+firebase.json
+tsconfig.json
 
 npm-debug.log*
 yarn-debug.log*
@@ -40,8 +42,6 @@ extensions/firestore-send-email.env
 
 emulatordb
 
-firebase.json
-
-.firebaserc
+/firebase.json
 
 firebase-export-*/
