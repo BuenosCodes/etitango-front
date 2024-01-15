@@ -64,12 +64,13 @@ const NewAppBar = () => {
           sx={{ display: 'flex', justifyContent: 'space-between' }}
         >
        
-          <Box>
+          <Box
+          sx={{ width: '128px', height: '97px'}}>
             <Link href="/">
-              <Avatar
-              src="/img/icon/ETI_logo.png"
+              <img
+              src="/img/icon/ETILogo.svg"
               alt="ETI"
-              sx={{ width: '128px', height: '97px'}}
+              
             />
             </Link>
           </Box>
@@ -99,14 +100,15 @@ const NewAppBar = () => {
                     </Stack>
                   </Box>
         
-                <Box>
+                <Box
+                sx={{ width: '48px', height: '48px' }}>
                       <Button 
                       onClick={handleOpen}
                       > 
                         <img
-                          src="/img/icon/settings_user.png"
+                          src="/img/icon/settingUser.svg"
                           alt="ETI"
-                          sx={{ width: '48px', height: '48px' }}
+                          
                         >
                         </img>
                       </Button>

@@ -122,7 +122,7 @@ const ETIDataBanks = ({ idEvent, event, dataBanks }) => {
             style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
             onClick={handleMenuClick}
           >
-            <img src={'/img/icon/btnTresPuntos.png'} alt="btnOptions" style={{ width: '100%', height: 'auto' }} />
+            <img src={'/img/icon/btnTresPuntos.svg'} alt="btnOptions" style={{ width: '100%', height: 'auto' }} />
           </Button>
           <Menu
             anchorEl={anchorEl}
@@ -137,7 +137,7 @@ const ETIDataBanks = ({ idEvent, event, dataBanks }) => {
             style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
             onClick={handleAddRow}
           >
-            <img src={'/img/icon/btnPlus.png'} alt="btnAdd" style={{ width: '100%', height: 'auto' }} />
+            <img src={'/img/icon/btnPlus.svg'} alt="btnAdd" style={{ width: '100%', height: 'auto' }} />
           </Button>
         </Grid>
         <Grid container>

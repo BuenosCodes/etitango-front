@@ -1,25 +1,21 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect } from 'react';
-import { Button, Paper, Box, Typography, Grid } from '@mui/material';
+import { Button, Paper, Box, Typography, Grid, PaginationItem } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n';
 import { EtiEvent } from 'shared/etiEvent';
-import { ROUTES } from '../../../App';
 import { useNavigate } from 'react-router-dom';
-import { makeStyles } from '@mui/styles';
-import { RFC_2822 } from 'moment';
-import { deleteDoc, doc } from 'firebase/firestore';
-import { db } from 'etiFirebase';
 import { useState } from 'react';
+import {
+  gridPageCountSelector,
+  gridPageSelector,
+  useGridApiContext,
+  useGridSelector
+} from "@mui/x-data-grid";
+import Pagination from "@mui/material/Pagination";
 
 export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, onDeleteEvent: (id: string) => Promise<void>, onSelectEvent: Function }) {
   const { events, isLoading, onDeleteEvent, onSelectEvent } = props;
-
-  const { t } = useTranslation([SCOPES.COMMON.FORM, SCOPES.MODULES.EVENT_LIST], {
-    useSuspense: false
-  });
-  const navigate = useNavigate();
 
   const fields = events[0] ? Object.keys(events[0]) : [];
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -68,6 +64,40 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
     return output;
   };
 
+  function CustomPagination() {
+    const apiRef = useGridApiContext();
+    const page = useGridSelector(apiRef, gridPageSelector);
+    const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+
+    return (
+      <Pagination
+        color='secondary'
+        count={pageCount}
+        page={page + 1}
+        onChange={(event, value) => apiRef.current.setPage(value - 1)}
+        renderItem={(item) => (
+          <PaginationItem
+            {...item}
+            sx={{
+              fontWeight: 600,
+              borderRadius: '100px',
+              fontSize: '12px',
+              minWidth: '24px',
+              minHeight: '24px',
+              height: '24px',
+              width: '24px',
+              backgroundColor: item.page === page + 1 ? '#0075D9' : '#5FB4FC',
+              color: item.page === page + 1 ? '#FAFAFA' : '#FAFAFA',
+              '&:hover': {
+                backgroundColor: item.page === page + 1 ? '#0075D9' : '#5FB4FC',
+              },
+            }}
+          />
+        )}
+      />
+    );
+  }
+
 
   return (
     <>
@@ -82,70 +112,12 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
               </Box>
       
         <DataGrid
-        
-          // onPageChange={(newPage : number) => setCurrentPage(newPage)}
-          components={{
-            Pagination: (paginationProps : any) => {
-              const { page, setPage } = paginationProps;
-              return (
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <button
-                    onClick={() => setPage(page - 1)}
-                    disabled={page === 1}
-                    style={{ margin: '0 4px', backgroundColor: '#0075D9', color: '#FAFAFA', border: 'none', borderRadius: '50%', width: '32px', height: '32px' }}
-                  >
-                    {'<'}
-                  </button>
-                  {[1, 2, 3, 4].map((pageNumber) => (
-                    <button
-                      key={pageNumber}
-                      onClick={() => setPage(pageNumber)}
-                      style={{
-                        margin: '0 4px',
-                        backgroundColor: pageNumber === page ? '#4B84DB' : '#0075D9',
-                        color: pageNumber === page ? '#FAFAFA' : '#FAFAFA',
-                        border: 'none',
-                        borderRadius: '50%',
-                        width: '32px',
-                        height: '32px',
-                      }}
-                    >
-                      {pageNumber}
-                    </button>
-                  ))}
-                  <button
-                    onClick={() => setPage(page + 1)}
-                    disabled={page === Math.ceil(sortedEvents.length / 5)}
-                    style={{ margin: '0 4px', backgroundColor: '#0075D9', color: '#FAFAFA', border: 'none', borderRadius: '50%', width: '32px', height: '32px' }}
-                  >
-                    {'>'}
-                  </button>
-                </div>
-              );
-            },
-          }}
-        //   Footer: () => (
-        //     <div style={{
-        //       backgroundColor: '#5FB4FC',
-        //       color: '#FAFAFA',
-        //       padding: '8px',
-        //       display: 'flex',
-        //       justifyContent: 'space-between',
-        //       alignItems: 'center',
-        //     }}>
-        //       <div>{`${sortedEvents.length} filas`}</div>
-        //       <div>
-        //         {/* Ajusta el estilo de los botones de paginación según tus preferencias */}
-        //         <button style={{ margin: '0 4px', backgroundColor: '#0075D9', color: '#FAFAFA', border: 'none', borderRadius: '4px', padding: '4px 8px' }}>Anterior</button>
-        //         <button style={{ margin: '0 4px', backgroundColor: '#0075D9', color: '#FAFAFA', border: 'none', borderRadius: '4px', padding: '4px 8px' }}>Siguiente</button>
-        //       </div>
-        //     </div>
-        //   ),
-        // }}
-        // // // ...otras props 
         rows={sortedEvents.map(getEtiEventValues)} 
         columns={columns} 
         loading={isLoading}
+        components={{
+          Pagination: CustomPagination,
+        }}
         onRowClick={(event) => {
           const selectedEventId = event.row.id as string;
           const selectedEvent = events.find(event => event.id === selectedEventId);
