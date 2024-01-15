@@ -24,14 +24,31 @@ import { assignEventAdmins } from '../../../helpers/firestore/users';
 export default function NewEvent(props: { etiEventId: string, onChange: Function }) {
   const { etiEventId, onChange } = props
   const alertText: string = 'Este campo no puede estar vacío';
+  
 
   const EventFormSchema = object({
 
+    
     dateStart: date().nullable().transform((originalValue) => {const parsedDate = new Date(originalValue);return isNaN(parsedDate.getTime()) ? undefined : parsedDate;}).required(alertText),
-    dateEnd: date().nullable().when('dateStart', (dateStart, schema) => (dateStart && schema.min(dateStart, "No puede ser menor a la fecha de inicio"))).required(alertText),
-    dateSignupOpen: date().nullable().when('dateStart', (dateStart, schema) => (dateStart && schema.max(dateStart, "No puede ser mayor a la fecha de inicio"))).required(alertText),
-    dateSignupEnd: date().nullable().required(alertText),
-    // location: string().required(alertText),
+    dateEnd: date().nullable().when('dateStart', (dateStart, schema) => (dateStart && schema.min(dateStart, "No puede ser anterior a la fecha de inicio"))).required(alertText),
+    dateSignupOpen: date().nullable().when('dateStart', (dateStart, schema) => {
+      if (dateStart) {
+        const dateStartEqual= new Date(dateStart.getTime() - 1);
+        return schema.max(dateStartEqual, "No puede ser igual o posterior a la fecha de inicio");
+      }
+      return schema;
+      }).required(alertText),
+    dateSignupEnd: date()
+    .nullable()
+    .when('dateStart', (dateStart, schema) => {
+      if (dateStart) {
+        const dateStartEqual = new Date(dateStart.getTime() - 1);
+        return schema.max(dateStartEqual, "No puede ser igual o posterior a la fecha de inicio");
+      }
+      return schema;
+    })
+    .when('dateSignupOpen', (dateSignuopOpen, schema) => (dateSignuopOpen && schema.min(dateSignuopOpen, "No puede ser anterior a la fecha de inscripcion")))
+    .required(alertText),
     timeStart: string().required(alertText),
     timeEnd: string().required(alertText),
     timeSignupOpen: string().required(alertText),
