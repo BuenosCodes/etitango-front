@@ -18,6 +18,7 @@ import RolesNewEvent from '../roles/RolesNewEvent';
 import { LocationPicker } from 'components/form/LocationPicker';
 import { unassignEventAdmin } from '../../../helpers/firestore/users';
 import { makeStyles } from '@mui/styles';
+import ETITimePicker2 from 'components/ETITimePicker2';
 import { ETITimePicker } from 'components/form/TimePicker';
 import { assignEventAdmins } from '../../../helpers/firestore/users';
 
@@ -346,12 +347,16 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                               </Grid>
                               <Typography sx={{ color: '#424242', mt: 2, ml: 2, mr: 2, fontWeight: 500 }}>a las</Typography>
                               <Grid item >
-                                <ETITimePicker
+                                {/* <ETITimePicker
                                   textFieldProps={{ fullWidth: true }}
                                   fieldName="timeStart"
                                   setFieldValue={setFieldValue}
                                   borderColor={enable}
                                   specialCase={false}
+                                /> */}
+                                <ETITimePicker2 
+                                  value={values['timeStart']}
+                                  onChange={(value) => setFieldValue('timeStart', value)}
                                 />
                               </Grid>
                             </Grid>
@@ -371,12 +376,16 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                               </Grid>
                               <Typography sx={{ color: '#424242', mt: 2, ml: 2, mr: 2, fontWeight: 500 }}>a las</Typography>
                               <Grid item >
-                                <ETITimePicker
+                                {/* <ETITimePicker
                                   textFieldProps={{ fullWidth: true }}
                                   fieldName="timeEnd"
                                   setFieldValue={setFieldValue}
                                   borderColor={enable}
                                   specialCase={false}
+                                /> */}
+                                <ETITimePicker2 
+                                  value={values['timeEnd']}
+                                  onChange={(value) => setFieldValue('timeEnd', value)}
                                 />
                               </Grid>
                             </Grid>
@@ -396,12 +405,16 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                               </Grid>
                               <Typography sx={{ color: '#424242', mt: 2, ml: 2, mr: 2, fontWeight: 500 }}>a las</Typography>
                               <Grid item >
-                                <ETITimePicker
+                                {/* <ETITimePicker
                                   textFieldProps={{ fullWidth: true }}
                                   fieldName="timeSignupOpen"
                                   setFieldValue={setFieldValue}
                                   borderColor={enable}
                                   specialCase={false}
+                                /> */}
+                                <ETITimePicker2 
+                                  value={values['timeSignupOpen']}
+                                  onChange={(value) => setFieldValue('timeSignupOpen', value)}
                                 />
                               </Grid>
                               <Typography sx={{ color: '#424242', mt: 2, ml: 2, mr: 2, fontWeight: 500 }}>hasta el</Typography>
@@ -416,12 +429,16 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                               </Grid>
                               <Typography sx={{ color: '#424242', mt: 2, ml: 2, mr: 2, fontWeight: 500}}>hasta las</Typography>
                               <Grid item >
-                                <ETITimePicker
+                                {/* <ETITimePicker
                                   textFieldProps={{ fullWidth: true }}
                                   fieldName="timeSignupEnd"
                                   setFieldValue={setFieldValue}
                                   borderColor={enable}
                                   specialCase={false}
+                                /> */}
+                                <ETITimePicker2 
+                                  value={values['timeSignupEnd']}
+                                  onChange={(value) => setFieldValue('timeSignupEnd', value)}
                                 />
                               </Grid>
                             </Grid>

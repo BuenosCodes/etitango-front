@@ -6,7 +6,7 @@ import { Box, Button, Grid, Typography, Menu, MenuItem, } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createOrUpdateDoc } from 'helpers/firestore'; 
 
-const ETIMercadoPago = ( { idEvent }) => {
+const ETIMercadoPago = ( { idEvent, event, dataMP }) => {
   const [rows, setRows] = useState([]);
   const [editRowsModel, setEditRowsModel] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
@@ -17,6 +17,14 @@ const ETIMercadoPago = ( { idEvent }) => {
   const rowHeight = 23;
   const headerHeight = 23;
   const totalHeight = rows.length * rowHeight + headerHeight;
+
+  useEffect(() => {
+    if(event?.linkMercadoPago) {
+      setRows(event?.linkMercadoPago);
+    } else {
+      setRows([])
+    }
+  }, [event?.linkMercadoPago])
   
   useEffect(() => {
     const updatedRows = rows.map((row) => {
@@ -31,6 +39,7 @@ const ETIMercadoPago = ( { idEvent }) => {
       return row;
     });
     setRows(updatedRows);
+    dataMP(updatedRows);
   }, [editRowsModel]);
 
   const handleAddRow = () => {
@@ -85,19 +94,8 @@ const ETIMercadoPago = ( { idEvent }) => {
   };
 
   const columns = [
-    { field: 'link', headerName: 'Link de cobro',width: 870, editable: true },
+    { field: 'link', headerName: 'Link de cobro',width: 870, editable: isEditing },
   ];
-
-  const save = async () => {
-    try {
-      const id = idEvent
-      const linkMercadoPago = rows
-      const eventId = await createOrUpdateDoc('events', {linkMercadoPago: linkMercadoPago}, id === 'new' ? undefined : id);
-      //console.log('la id del evento ', eventId);
-    } catch (error) {
-      console.log('Error la enviar alojamiento', error);
-    }
-  };
 
   return (
     <Box sx={{display: 'flex', mt: 2}}>
@@ -110,7 +108,7 @@ const ETIMercadoPago = ( { idEvent }) => {
             <Button
               variant='contained'
               style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
-              onClick={() => save()}
+              onClick={handleConfirmClick}
             >
               <img src={'/img/icon/btnConfirm.svg'} alt="btnDelete" style={{ width: '100%', height: 'auto' }} />
             </Button>
