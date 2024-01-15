@@ -107,14 +107,14 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
             variant='contained'
             style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
           >
-            <img src={'/img/icon/btnTresPuntos.png'} alt="" style={{ width: '100%', height: 'auto' }} />
+            <img src={'/img/icon/btnTresPuntos.svg'} alt="" style={{ width: '100%', height: 'auto' }} />
           </Button>
           <Button
             variant='contained'
             style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
             onClick={handleOpenModal}
           >
-            <img src={'/img/icon/btnPlus.png'} alt="btnAdd" style={{ width: '100%', height: 'auto' }} />
+            <img src={'/img/icon/btnPlus.svg'} alt="btnAdd" style={{ width: '100%', height: 'auto' }} />
           </Button>
           <ModalForm idEvent={idEvent} open={isModalOpen} onClose={handleCloseModal} setUpdatedEvent={setUpdatedEvent}/>
         </Grid>
