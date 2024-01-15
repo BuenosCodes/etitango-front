@@ -6,7 +6,7 @@ import { Box, Button, Grid, Typography, Menu, MenuItem, } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createOrUpdateDoc } from 'helpers/firestore'; 
 
-const ETIDataBanks = ({ idEvent, dataBanks }) => {
+const ETIDataBanks = ({ idEvent, event, dataBanks }) => {
   const [rows, setRows] = useState([]);
   const [editRowsModel, setEditRowsModel] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
@@ -17,6 +17,14 @@ const ETIDataBanks = ({ idEvent, dataBanks }) => {
   const rowHeight = 23;
   const headerHeight = 23;
   const totalHeight = rows.length * rowHeight + headerHeight;
+
+  useEffect(() => {
+    if(event?.datosBancarios) {
+      setRows(event?.datosBancarios);
+    } else {
+      setRows([])
+    }
+  }, [event?.datosBancarios])
 
   useEffect(() => {
     const updatedRows = rows.map((row) => {

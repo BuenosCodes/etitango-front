@@ -9,7 +9,7 @@ import ETIModalMaps from './ETIModalMaps';
 
 const ETIAlojamiento = ( { idEvent, event, updateAlojamientoData }) => {
 
-  //console.log('accediendo a los datos de alojamiento del evento: ', event.Alojamiento);
+  console.log('accediendo a los datos de alojamiento del evento: ', event?.alojamiento);
   const [rows, setRows] = useState([]);
   const [editRowsModel, setEditRowsModel] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
@@ -30,6 +30,15 @@ const ETIAlojamiento = ( { idEvent, event, updateAlojamientoData }) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    if(event?.alojamiento) {
+      setRows(event?.alojamiento);
+    } else {
+      setRows([])
+    }
+  }, [event?.alojamiento])
+
   useEffect(() => {
     const updatedRows = rows.map((row) => {
       const edits = editRowsModel[row.id];

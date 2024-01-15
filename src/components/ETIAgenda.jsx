@@ -9,12 +9,50 @@ import ModalForm from './ModalForm';
 
 const ETIAgenda = ( { idEvent, eventData } ) => {
 
-  console.log('EventData desde ETIAgenda -> ', eventData?.Agenda);
+  //console.log('EventData desde ETIAgenda -> ', eventData);
+
+  // const eventDate = eventData?.date.toDate();
+  // const eventDateTransform = eventDate?.toLocaleDateString();
+  // console.log('esta es la fecha transformada: ', eventDateTransform);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
+  const [dataFromModalForm, setDataFromModalForm] = useState([]);
   const [agendaData, setAgendaData] = useState([]);
+  const [updatedEvent, setUpdatedEvent] = useState();
 
+  const handleAgendaData = (data) => {
+    const dataAgenda = data;
+    return dataAgenda;
+  }
+  
+  // useEffect(() => {
+  //   console.log('dataForm desde su useEffect -> ', dataFromModalForm);
+  // })
+
+  useEffect(() => {
+    if (eventData && eventData.Agenda && eventData.Agenda[0] && eventData.description && eventData.date) {
+      setAgendaData([
+        {
+          0: {
+            description: eventData.Agenda[0].description,
+            time: eventData.Agenda[0].time,
+          },
+          description: eventData.description,
+          time: eventData.date.toDate().toLocaleDateString(),
+        },
+      ]);
+    } else {
+        setAgendaData([]);
+    }
+  }, [eventData, updatedEvent]);
+  
+
+  // {
+  //   0:{description: eventData?.Agenda[0]?.description, time: eventData?.Agenda[0]?.time },
+  //   description: eventData?.description, 
+  //   time: eventData?.date.toDate()?.toLocaleDateString()
+  // },
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -22,12 +60,6 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-  const data = [
-    { 
-      fecha: agendaData.time, 
-      descripcion: agendaData.description, 
-      horarios: [{ hora: '12:30', actividad: 'Comida' }] },
-  ];
 
   const handleClick = (index) => {
     setOpen(prevOpen => ({
@@ -84,7 +116,7 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
           >
             <img src={'/img/icon/btnPlus.png'} alt="btnAdd" style={{ width: '100%', height: 'auto' }} />
           </Button>
-          <ModalForm idEvent={idEvent} open={isModalOpen} onClose={handleCloseModal} setAgendaData={setAgendaData}/>
+          <ModalForm idEvent={idEvent} open={isModalOpen} onClose={handleCloseModal} setUpdatedEvent={setUpdatedEvent}/>
         </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper} className={classes.table}>
@@ -105,7 +137,7 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
                           {open[index] ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                         </IconButton>
                       </TableCell>
-                      <TableCell>{rowData.time.toLocaleDateString()}</TableCell>
+                      <TableCell>{rowData.time}</TableCell>
                       <TableCell>{rowData.description}</TableCell>
                     </TableRow>
                     <TableRow>

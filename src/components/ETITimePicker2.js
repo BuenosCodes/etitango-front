@@ -26,7 +26,7 @@ const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange }) => {
     <TextField
       label="Hora"
       type="text"
-      name={value}
+      value={value}
       onChange={(event) => onChange(event.target.value)}
       onBlur={handleBlur}
       style={{ width: '115px', height: '48px', }}

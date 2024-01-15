@@ -28,6 +28,8 @@ import ETICombos from 'components/ETICombo';
 
 export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent | null }) {
 
+  
+
   // const classes = useStyles()
   const alertText: string = 'Este campo no puede estar vacío';
   const EventFormSchema = object({
@@ -50,6 +52,8 @@ export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent
         then: string().nullable(true).required(alertText)
       }),
   });
+
+
 
   const [event, setEvent] = useState<EtiEvent>();
   const [loading, setLoading] = useState(true);
@@ -418,11 +422,11 @@ export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent
                           </Grid>
 
                           <Grid item md={12} sm={12} xs={12}>
-                            <ETIDataBanks idEvent={idEvent} dataBanks={updateDataBanks}/>
+                            <ETIDataBanks idEvent={idEvent} event={selectedEvent} dataBanks={updateDataBanks}/>
                           </Grid> 
 
                           <Grid item md={12} sm={12} xs={12}>
-                            <ETIMercadoPago idEvent={idEvent} dataMP={updateDataMP}/>
+                            <ETIMercadoPago idEvent={idEvent} event={selectedEvent} dataMP={updateDataMP}/>
                           </Grid>
 
                           <Grid item md={12} sm={12} xs={12}>

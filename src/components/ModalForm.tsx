@@ -5,7 +5,7 @@ import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import { Box, Button, Grid, Stack, TextField } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
-import { createOrUpdateDoc } from 'helpers/firestore';
+import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
 import { ROUTES } from 'App';
 import { getEvent } from 'helpers/firestore/events';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -30,22 +30,25 @@ interface TimePickerFieldProps {
 
 type FieldType = 'description' | 'time';
 
-const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent, setAgendaData }) => {
+const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent, setUpdatedEvent,  }) => {
 
+  
   const handleSubmit = async (values: any, { setSubmitting }: any) => {
     try {
       const id = idEvent;
       values.Agenda = additionalFields;
       //console.log('datos desde el modalForm -> ', values);
       
-      setAgendaData([{
-        ...additionalFields.map(field => ({ description: field.description, time: field.time })),
-         description: values.description, 
-         time: values.date 
-        }, 
-      ]);
-      
       const eventId = await createOrUpdateDoc('events', values, id);
+      const updatedEvent = await getDocument(`events/${eventId}`);
+      setUpdatedEvent(updatedEvent);
+      // setAgendaData([{
+      //   ...additionalFields.map(field => ({ description: field.description, time: field.time })),
+      //    description: values.description, 
+      //    time: values.date 
+      //   }, 
+      // ]);
+      
       //console.log('Datos enviados. ID del evento:', eventId);
     } catch (error) {
       console.error('Error al enviar el formulario:', error);

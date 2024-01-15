@@ -6,7 +6,7 @@ import { Box, Button, Grid, Typography, Menu, MenuItem, } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createOrUpdateDoc } from 'helpers/firestore'; 
 
-const ETIMercadoPago = ( { idEvent, dataMP }) => {
+const ETIMercadoPago = ( { idEvent, event, dataMP }) => {
   const [rows, setRows] = useState([]);
   const [editRowsModel, setEditRowsModel] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
@@ -17,6 +17,14 @@ const ETIMercadoPago = ( { idEvent, dataMP }) => {
   const rowHeight = 23;
   const headerHeight = 23;
   const totalHeight = rows.length * rowHeight + headerHeight;
+
+  useEffect(() => {
+    if(event?.linkMercadoPago) {
+      setRows(event?.linkMercadoPago);
+    } else {
+      setRows([])
+    }
+  }, [event?.linkMercadoPago])
   
   useEffect(() => {
     const updatedRows = rows.map((row) => {
