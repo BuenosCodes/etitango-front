@@ -15,6 +15,7 @@ const GeneralInfo = () => {
   const [events, setEvents] = useState<EtiEvent[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [eventData, setEventData] = useState<EtiEvent| null> (null);
+  const [changeEvent2, setChangeEvent2] = useState(false)
   // const [showEvent, setShowEven] = useState(false)
 
   useEffect(() => {
@@ -25,8 +26,8 @@ const GeneralInfo = () => {
         const eventosOrdenados = evts.sort((a:any, b:any) => b.dateStart - a.dateStart);
 
         const ultimoEvento = eventosOrdenados[0];
-        
-        setEventData(ultimoEvento);
+
+        setEventData(ultimoEvento); 
       } else {
         setEventData(null);
       }
@@ -35,6 +36,25 @@ const GeneralInfo = () => {
     fetchData().catch((error) => console.error(error));
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const evts = await firestoreEventHelper.getEvents();
+      setEvents(evts);
+      if (evts.length > 0) {
+        evts.forEach((element) => {
+          if(element.id === eventData?.id){
+            setEventData(element)
+          }
+        })
+      } else {
+        setEventData(null);
+      }
+    };
+    setIsLoading(true);
+    fetchData().catch((error) => console.error(error));
+    setIsLoading(false);
+  }, [changeEvent2]);
 
   const handleDeleteEvent = async (id: string) => {
     try {
@@ -51,11 +71,11 @@ const GeneralInfo = () => {
 
   return (
     <>
-      <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} />
+      {/* <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} /> */}
      <Box sx={{display: 'flex', flexDirection: 'column'}}>
       <NewEventList events={events} isLoading={isLoading} onDeleteEvent={handleDeleteEvent} onSelectEvent={setEventData}  />
         <Box sx={{mt: 5}}>
-        <NewEditEvent selectedEvent={eventData}></NewEditEvent>
+        <NewEditEvent selectedEvent={eventData} changeEvent2={setChangeEvent2}></NewEditEvent>
       </Box>
      </Box>
     </>

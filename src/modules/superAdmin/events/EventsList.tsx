@@ -69,7 +69,7 @@ const EventsList = () => {
 
         </Grid>
       
-      <NewEditEvent selectedEvent={eventData}></NewEditEvent>
+      {/* <NewEditEvent selectedEvent={eventData}></NewEditEvent> */}
       
       </Paper>
       

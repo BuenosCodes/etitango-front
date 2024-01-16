@@ -168,6 +168,7 @@ export async function removeSuperAdmin(email: string) {
   );
 }
 
+//Eliminar un admin
 export async function unassignEventAdmin(email: string, etiEventId: string) {
   const userDoc = await getUserByEmail(email);
   const { id: userId } = userDoc;
@@ -188,6 +189,35 @@ export async function unassignEventAdmin(email: string, etiEventId: string) {
   batch.update(userRef, data, { merge: true });
   await batch.commit();
 }
+
+//Eliminar varios admins
+export async function unassignEventAdmins(emails: string[], etiEventId: string) {
+  const batch = writeBatch(db);
+
+  for (const email of emails) {
+    const userDoc = await getUserByEmail(email);
+    const { id: userId } = userDoc;
+    const eventRef = doc(db, `${EVENTS}/${etiEventId}`);
+    
+    // @ts-ignore
+    batch.update(eventRef, { admins: arrayRemove(userId) }, { merge: true });
+
+    let data: any = {
+      adminOf: arrayRemove(etiEventId)
+    };
+
+    if (userDoc.adminOf.filter((e) => e !== etiEventId).length === 0) {
+      // @ts-ignore
+      data = { ...data, [`roles.${[UserRoles.ADMIN]}`]: deleteField(), adminOf: deleteField() };
+    }
+
+    const userRef = doc(db, `${USERS}/${userId}`);
+    batch.update(userRef, data, { merge: true });
+  }
+
+  await batch.commit();
+}
+
 
 export const isAdmin = (user: IUser) => {
   // @ts-ignore

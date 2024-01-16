@@ -303,6 +303,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                 colorFont={'#424242'}
                                 fontFamily={'Montserrat'}
                                 fontWeight={500}
+                                isDisabled={false}
                               />
                             </Grid>
                             {/* <Grid item md={12} sm={12} xs={12}>

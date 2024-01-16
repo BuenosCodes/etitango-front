@@ -42,9 +42,11 @@ export const ETIDatePickerEdit = ({
   textFieldProps,
   specialCase,
   borderColor,
+  isDisabled,
   
 }: {
   fieldName: string;
+  isDisabled: boolean;
   // eslint-disable-next-line no-unused-vars
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
   textFieldProps: any;
@@ -96,6 +98,7 @@ return (
   <Field
       component={DatePicker}
       disablePast
+      disabled={isDisabled}
       textField={{
         ...textFieldProps,
         className: classes.root, // Agregar las clases al DatePicker

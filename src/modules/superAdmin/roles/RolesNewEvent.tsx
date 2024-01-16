@@ -3,9 +3,8 @@ import React, { useEffect, useState } from 'react';
 import WithAuthentication from '../../withAuthentication';
 import { UserFullData, UserRoles, UserRolesListData } from 'shared/User';
 import * as firestoreUserHelper from 'helpers/firestore/users';
-import { Icon, Box, Button, Typography, Input } from '@mui/material';
+import { Icon, Box, Button, Typography, Input, CircularProgress } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { assignEventAdmins } from '../../../helpers/firestore/users';
 
 const RolesNewEvent = ({ eventId, handleClose}: { eventId?: string, handleClose: Function}) => {
     // eslint-disable-next-line no-unused-vars
@@ -173,7 +172,7 @@ const RolesNewEvent = ({ eventId, handleClose}: { eventId?: string, handleClose:
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                 <Button sx={{ width: '115px', padding: '12px, 32px, 12px, 32px', borderRadius: '25px', backgroundColor: '#A82548', height: '44px', '&:hover': { backgroundColor: '#A82548' } }} onClick={() => {handleSelectEmails()}}>
                     <Typography sx={{ color: '#FAFAFA', fontWeight: 500, fontSize: '14px', lineHeight: '20px' }}>
-                    {isLoading ? '...' : 'Agregar'}
+                    {isLoading ? <CircularProgress /> : 'Agregar'}
                     </Typography>
                 </Button>
             </Box>

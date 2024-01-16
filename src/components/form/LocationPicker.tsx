@@ -49,7 +49,8 @@ export const LocationPicker = ({
   specialCase,
   colorFont,
   fontWeight,
-  fontFamily
+  fontFamily,
+  isDisabled
 }: {
   values: FormikValues;
   touched: any;
@@ -59,6 +60,7 @@ export const LocationPicker = ({
   colorFont: string;
   fontWeight: number;
   fontFamily: string;
+  isDisabled: boolean;
   t: any;
   setFieldValue: any;
   location?: { country: string; province?: string; city?: string };
@@ -191,6 +193,7 @@ export const LocationPicker = ({
             <Autocomplete
               disablePortal
               fullWidth
+              disabled={isDisabled}
               options={provinces}
               getOptionLabel={(option) => option}
               onChange={(_, value) => handleProvinceChange(value, true)}
@@ -217,6 +220,7 @@ export const LocationPicker = ({
             <Autocomplete
               disablePortal
               fullWidth
+              disabled={isDisabled}
               options={cities}
               getOptionLabel={(option) => option}
               onChange={(_, value) => setFieldValue('city', value)}
