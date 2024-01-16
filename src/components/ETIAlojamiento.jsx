@@ -14,6 +14,7 @@ const ETIAlojamiento = ( { idEvent, event, updateAlojamientoData }) => {
   const [editRowsModel, setEditRowsModel] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [isDataModified, setIsDataModified] = useState(false);
 
   const [idCounter, setIdCounter] = useState(0);
 
@@ -34,6 +35,7 @@ const ETIAlojamiento = ( { idEvent, event, updateAlojamientoData }) => {
   useEffect(() => {
     if(event?.alojamiento) {
       setRows(event?.alojamiento);
+      updateAlojamientoData(rows)
     } else {
       setRows([])
     }
@@ -53,6 +55,8 @@ const ETIAlojamiento = ( { idEvent, event, updateAlojamientoData }) => {
     });
     setRows(updatedRows);
     updateAlojamientoData(updatedRows)
+
+    setIsDataModified(Object.keys(editRowsModel).length > 0);
   }, [editRowsModel ]);
   
   
@@ -109,14 +113,23 @@ const ETIAlojamiento = ( { idEvent, event, updateAlojamientoData }) => {
   };
 
   const handleConfirmClick = async () => {
-    const id = idEvent
-    const updatedRows = Object.keys(editRowsModel).map((id) => {
-      const row = rows.find((r) => r.id === parseInt(id));
-      return { ...row, ...editRowsModel[id] };
-    });
-    for (const row of updatedRows) {
-      await createOrUpdateDoc('events', row, id);
+    const id = idEvent;
+
+    // Verifica si hay cambios antes de enviar la información
+    if (isDataModified) {
+      const updatedRows = Object.keys(editRowsModel).map((id) => {
+        const row = rows.find((r) => r.id === parseInt(id));
+        return { ...row, ...editRowsModel[id] };
+      });
+
+      for (const row of updatedRows) {
+        await createOrUpdateDoc('events', row, id);
+      }
+
+      // Actualiza el estado isDataModified después de enviar la información
+      setIsDataModified(false);
     }
+
     setIsEditing(false);
   };
 

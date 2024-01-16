@@ -69,7 +69,7 @@ const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange }) => {
     value={value}
     onChange={(event) => onChange(event.target.value)}
     onBlur={handleBlur}
-    style={{ width: '115px', height: '48px', }}
+    style={{ width: '96px', height: '48px', borderRadius: '12px'}}
     InputProps={{
       startAdornment: (
         <InputAdornment position="start">

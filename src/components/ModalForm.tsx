@@ -249,7 +249,7 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent, setUpda
                     />
                   </Grid>
                 </Grid>
-                <Grid container sx={{backgroundColor: '#FAFAFA', padding: '16px', marginTop: '20px', borderRadius: '12px 12px 0 0'}}>
+                <Grid container sx={{backgroundColor: '#FAFAFA', padding: '16px', marginTop: '20px', borderRadius: '12px 12px 0 0', alignItems: 'center'}}>
                   <Grid item xs={10}>
                     <Typography variant="h6" fontWeight="500">
                       Define la agenda para este dia
