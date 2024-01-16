@@ -51,7 +51,7 @@ const EventsList = () => {
       
       justifyContent={'center'}
       >
-      <NewEventList events={events} isLoading={isLoading} onDeleteEvent={handleDeleteEvent} onSelectEvent={setEventData}  />
+        {/ * <NewEventList events={events} isLoading={isLoading} onDeleteEvent={handleDeleteEvent} onSelectEvent={setEventData}  /> */}
       <Paper elevation={3}
       >
         <Grid
