@@ -16,6 +16,8 @@ import { TimePicker } from '@mui/x-date-pickers';
 import { Moment } from 'moment';
 import { ETIDatePicker } from './form/DatePicker';
 import moment from 'moment-timezone'
+import { values } from 'lodash';
+import { makeStyles } from '@mui/styles';
 
 interface SimpleModalProps {
   idEvent: string;
@@ -63,6 +65,7 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent, setUpda
   const [value, setValue] = useState('')
   const { id } = useParams();
   const [timeValue, setTimeValue] = useState('');
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -136,6 +139,50 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent, setUpda
       setValue('');
     }
   };
+  const useStyles = makeStyles({
+    root: {
+      '& .MuiFormHelperText-root': {
+        margin: '2px 0px 0px 2px'
+      },   
+      '& .MuiOutlinedInput-root': {
+        fontFamily: 'inter',
+        '& fieldset': {
+          borderRadius: '8px',
+          borderWidth: '1.5px',
+          pointerEvents: 'none'
+        },
+        '&:hover fieldset ': {
+          borderRadius: '8px',
+          pointerEvents: 'none'
+        },
+        '&.Mui-focused fieldset': {
+          borderRadius: '8px',
+          pointerEvents: 'none'
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+          borderColor:  '#FDE4AA',
+        }
+      },
+    },
+    filled: {
+      '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+          borderColor: '#E68650',
+        },
+        '&:hover fieldset ': {
+          borderColor: '#E68650',
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: '#E68650',
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+          borderColor: '#E68650',
+        }
+      },
+    },
+  });
+
+  const classes = useStyles()
 
   return (
     <Modal
@@ -153,9 +200,9 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent, setUpda
       <Box style={{
         background: 'white',
         padding: '20px',
-        borderRadius: '8px',
+        borderRadius: '12px',
         flexDirection: 'column',
-        width: '50%',
+        width: '800px',
         display: 'flex',
       }}
       >
@@ -167,113 +214,118 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent, setUpda
           }}
           onSubmit={handleSubmit}
         >
-          {({ isSubmitting, setFieldValue }) => (
+          {({ isSubmitting, setFieldValue, values }) => (
             <Form>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Typography variant="h6" fontWeight="500">
-                    Fija la fecha de tu evento
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Field
-                    component={ETIDatePicker}
-                    label='Fecha'
-                    fieldName='date'
-                    name='date'
-                    setFieldValue={setFieldValue}
-                    textFieldProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={9}>
-                  <Field
-                    label="Detalles breves del evento"
-                    name="description"
-                    component={TextField}
-                    required
-                    fullWidth
-                    onChange={(e: { target: { value: any } }) =>
-                      setFieldValue('description', e.target.value)
-                    }
-                  />
-                </Grid>
-                <Grid item xs={10}>
-                  <Typography variant="h6" fontWeight="500">
-                    Define la agenda para este dia
-                  </Typography>
-                </Grid>
-                <Grid item xs={2} sx={{ justifyContent: 'flex-end' }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button
-                      variant="contained"
-                      style={{
-                        background: 'transparent',
-                        boxShadow: 'none',
-                        border: 'none',
-                        margin: 0
+              <Grid container spacing={2} sx={{padding: '16px'}}>
+                <Grid container sx={{backgroundColor: '#FAFAFA', padding: '16px', borderRadius: '12px'}}>
+                  <Grid item xs={12}>
+                    <Typography variant="h6" fontWeight="500">
+                      Fija la fecha de tu evento
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Field
+                      component={ETIDatePicker}
+                      label='Fecha'
+                      fieldName='date'
+                      name='date'
+                      setFieldValue={setFieldValue}
+                      textFieldProps={{
+                        fullWidth: true
                       }}
-                      onClick={handleDeleteField}
-                    >
-                      <img
-                        src={'/img/icon/btnDelete.svg'}
-                        alt="btnDelete"
-                        style={{ width: '100%', height: 'auto' }}
-                      />
-                    </Button>
-                    <Button
-                      variant="contained"
-                      style={{
-                        background: 'transparent',
-                        boxShadow: 'none',
-                        border: 'none',
-                        margin: 0
-                      }}
-                      onClick={handleAddField}
-                    >
-                      <img
-                        src={'/img/icon/btnPlus.svg'}
-                        alt="btnAdd"
-                        style={{ width: '100%', height: 'auto' }}
-                      />
-                    </Button>
-                  </Box>
+                    />
+                  </Grid>
+                  <Grid item xs={9}>
+                    <Field
+                      placeholder="Detalles breves del evento"
+                      name="description"
+                      component={TextField}
+                      required
+                      fullWidth
+                      onChange={(e: { target: { value: any } }) =>
+                        setFieldValue('description', e.target.value)
+                      }
+                      classes={{root:values?.description ? classes.filled : classes.root  }}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid container sx={{backgroundColor: '#FAFAFA', padding: '16px', marginTop: '20px', borderRadius: '12px 12px 0 0'}}>
+                  <Grid item xs={10}>
+                    <Typography variant="h6" fontWeight="500">
+                      Define la agenda para este dia
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={2} sx={{ justifyContent: 'flex-end' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <Button
+                        variant="contained"
+                        style={{
+                          background: 'transparent',
+                          boxShadow: 'none',
+                          border: 'none',
+                          margin: 0
+                        }}
+                        onClick={handleDeleteField}
+                      >
+                        <img
+                          src={'/img/icon/btnDelete.svg'}
+                          alt="btnDelete"
+                          style={{ width: '100%', height: 'auto' }}
+                        />
+                      </Button>
+                      <Button
+                        variant="contained"
+                        style={{
+                          background: 'transparent',
+                          boxShadow: 'none',
+                          border: 'none',
+                          margin: 0
+                        }}
+                        onClick={handleAddField}
+                      >
+                        <img
+                          src={'/img/icon/btnPlus.svg'}
+                          alt="btnAdd"
+                          style={{ width: '100%', height: 'auto' }}
+                        />
+                      </Button>
+                    </Box>
+                  </Grid>
                 </Grid>
                 {additionalFields.map((field, index) => (
                   <>
-                    <Grid item xs={3}>
-                      {/* <TextField 
-                        label='Hora'
-                        type='text'
-                        value={value}
-                        onChange={(event) => setValue(event.target.value)}
-                        onBlur={handleBlur}
-                      /> */}
-                      <ETITimePicker2
-                        value={timeValue}
-                        onChange={(value) => {
-                          handleDateTimeChange(index, 'time', value);
-                          setTimeValue(value);
-                        }}
-                      />
-                    </Grid>
-                    <Grid item xs={9}>
-                      <Field
-                        name={`descripcionDeLaActividad_${index}`}
-                        label={'Detalles de la actividad'}
-                        component={TextField}
-                        required
-                        fullWidth
-                        onChange={(event: { target: { value: string } }) =>
-                          handleDescriptionChange(index, event.target.value)
-                        }
-                      />
+                    <Grid container sx={{
+                        backgroundColor: '#FAFAFA', 
+                        padding: '16px',  
+                        borderRadius: '0 0 12px 12px'
+                      }}>
+                      <Grid item xs={2}>
+                        <ETITimePicker2
+                          value={timeValue}
+                          onChange={(value) => {
+                            handleDateTimeChange(index, 'time', value);
+                            setTimeValue(value);
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={10}>
+                        <Field
+                          name={`descripcionDeLaActividad_${index}`}
+                          label={'Detalles de la actividad'}
+                          component={TextField}
+                          required
+                          fullWidth
+                          onChange={(event: { target: { value: string } }) =>
+                            handleDescriptionChange(index, event.target.value)
+                          }
+                          classes={{ root: values[`descripcionDeLaActividad_${index}`] ? classes.filled : classes.root }}
+                        />
+                      </Grid>
                     </Grid>
                   </>
                 ))}
               </Grid>
-              <Grid>
+              <Grid container justifyContent="flex-end">
                 <Button
                   variant="contained"
                   color="primary"
@@ -283,7 +335,8 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent, setUpda
                     borderRadius: '25px',
                     gap: '8px',
                     color: 'white',
-                    backgroundColor: '#A82548'
+                    backgroundColor: '#A82548',
+                    marginLeft: 'auto'
                   }}
                   type="submit"
                   disabled={isSubmitting}
@@ -299,33 +352,33 @@ const ModalForm: React.FC<SimpleModalProps> = ({ open, onClose, idEvent, setUpda
   );
 };
 
-const TimePickerField: React.FC<TimePickerFieldProps> = ({ value, onChange }) => {
-  const [selectedTime, setSelectedTime] = useState<Date | null>(null);
+// const TimePickerField: React.FC<TimePickerFieldProps> = ({ value, onChange }) => {
+//   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
 
-  useEffect(() => {
-      if (value) {
-          setSelectedTime(new Date(value));
-      }
-  }, [value]);
+//   useEffect(() => {
+//       if (value) {
+//           setSelectedTime(new Date(value));
+//       }
+//   }, [value]);
 
-  const handleTimeChange = (newValue: Moment | null) => {
-    if (newValue !== null) {
-      const horaComoString = newValue.format('HH:mm A');
-      console.log('hora como string ->', horaComoString);
-      //setSelectedTime(newValue.toDate());
-      onChange(horaComoString);
-    }
-  };
+//   const handleTimeChange = (newValue: Moment | null) => {
+//     if (newValue !== null) {
+//       const horaComoString = newValue.format('HH:mm A');
+//       console.log('hora como string ->', horaComoString);
+//       //setSelectedTime(newValue.toDate());
+//       onChange(horaComoString);
+//     }
+//   };
 
-  return (
-      <TimePicker
-          label="Hora"
-          renderInput={(params) => <TextField {...params} />}
-          //value={selectedTime}
-          value={value ? moment(value, 'HH:mm A') : null}
-          onChange={handleTimeChange}
-      />
-  );
-};
+//   return (
+//       <TimePicker
+//           label="Hora"
+//           renderInput={(params) => <TextField {...params} />}
+//           //value={selectedTime}
+//           value={value ? moment(value, 'HH:mm A') : null}
+//           onChange={handleTimeChange}
+//       />
+//   );
+// };
 
 export default ModalForm;
