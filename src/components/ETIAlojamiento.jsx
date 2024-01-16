@@ -144,10 +144,10 @@ const ETIAlojamiento = ( { idEvent, event, updateAlojamientoData }) => {
           )}
           <Button
             variant='contained'
-            style={{ background: 'lightblue', boxShadow: 'none', border: 'none', margin: 0 }}
+            style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0, }}
             onClick={handleOpenModal}
           >
-            <img src={'/img/icon/btnOpenModalMaps.png'} alt="btnOpenModal" style={{ width: '100%', height: 'auto' }} />
+            <img src={'/img/icon/btnMoreInfoMaps.svg'} alt="btnOpenModal" style={{ width: '100%', height: 'auto' }} />
           </Button>
           <ETIModalMaps isOpen={isModalOpen} handleCloseModal={handleCloseModal} />
           <Button
