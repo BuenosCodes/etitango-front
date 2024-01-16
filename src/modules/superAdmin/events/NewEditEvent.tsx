@@ -430,7 +430,7 @@ export default function NewEditEvent({ selectedEvent }: {selectedEvent: EtiEvent
                           </Grid>
 
                           <Grid item md={12} sm={12} xs={12}>
-                            <ETICombos setFieldValue={setFieldValue} selectedEvent={selectedEvent}/>
+                            <ETICombos setFieldValue={setFieldValue} values={values} selectedEvent={selectedEvent}/>
                           </Grid>
 
                           <Grid item md={12} sm={12} xs={12}>

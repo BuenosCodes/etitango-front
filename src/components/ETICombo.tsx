@@ -14,7 +14,7 @@ import ETITimePicker2 from './ETITimePicker2';
 import { values } from 'lodash';
 
 // eslint-disable-next-line no-unused-vars
-export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void, selectedEvent: EtiEvent | null }) {
+export default function ETICombos({ setFieldValue, selectedEvent, values }: { setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void, selectedEvent: EtiEvent | null }) {
     const idEvent = selectedEvent?.id;
     const [open, setOpen] = React.useState(false);
     const [firstPayTime, setFirstPayTime] = useState('');
@@ -188,7 +188,7 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                                     <Grid item>
                                     <ETITimePicker2
                                         value={values.firstPayTime}
-                                        onChange={(newValue) => setFieldValue('firstPayTime', newValue)} // Asegúrate de usar el nombre correcto del campo
+                                        onChange={(newValue) => setFieldValue('firstPayTime', newValue)}
                                     />
                                     </Grid>
                                 </Grid>
@@ -271,7 +271,7 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                                         
                                         <ETITimePicker2 
                                             value={values.timeRefundDeadline}
-                                            onChange={(value) => setFieldValue('timeRefundDeadline', value)}                                  
+                                            onChange={(value) => setFieldValue('timeRefundDeadline', value)}
                                         />
                                     </Grid>
                                 </Grid>

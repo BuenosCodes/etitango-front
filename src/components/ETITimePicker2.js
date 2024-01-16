@@ -11,6 +11,9 @@ interface ETITimePicker2Props {
   onChange: (value: string) => void;
 }
 
+
+
+
 const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange }) => {
   
   const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -52,6 +55,7 @@ const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange }) => {
     //         <AccessTimeIcon sx={{ color: '#A82548', fontSize: 'large' }} />
     //       </InputAdornment>
     //     ),
+        
     //   }}
     //   sx={{
     //     '& input[type="time"]::-webkit-calendar-picker-indicator': {
@@ -60,25 +64,25 @@ const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange }) => {
     //   }}
     // />
     <StyledTextField
-      label=""
-      type="time"
-      value={value}
-      onChange={(event) => onChange(event.target.value)}
-      onBlur={handleBlur}
-      style={{ width: '115px', height: '48px', }}
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <AccessTimeIcon sx={{ color: '#A82548', fontSize: 'large' }} />
-          </InputAdornment>
-        ),
-      }}
-      sx={{
-        '& input[type="time"]::-webkit-calendar-picker-indicator': {
-          display: 'none',
-        },
-      }}
-    />
+    label=""
+    type="time"
+    value={value}
+    onChange={(event) => onChange(event.target.value)}
+    onBlur={handleBlur}
+    style={{ width: '115px', height: '48px', }}
+    InputProps={{
+      startAdornment: (
+        <InputAdornment position="start">
+          <AccessTimeIcon sx={{ color: '#A82548', fontSize: 'large' }} />
+        </InputAdornment>
+      ),
+    }}
+    sx={{
+      '& input[type="time"]::-webkit-calendar-picker-indicator': {
+        display: 'none',
+      },
+    }}
+  />
   );
 };
 
