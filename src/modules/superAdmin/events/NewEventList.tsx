@@ -13,9 +13,20 @@ import {
   useGridSelector
 } from "@mui/x-data-grid";
 import Pagination from "@mui/material/Pagination";
+import { makeStyles } from '@mui/styles';
 
-export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, onDeleteEvent: (id: string) => Promise<void>, onSelectEvent: Function }) {
-  const { events, isLoading, onDeleteEvent, onSelectEvent } = props;
+const useStyles = makeStyles({
+  root: {
+    '&.MuiDataGrid-root .MuiDataGrid-cell:focus': {
+      outline: 'none',
+    },
+
+  }
+});
+
+
+export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, onDeleteEvent: (id: string) => Promise<void>, onSelectEvent: Function, selectedRows: string[], setSelectedRows: Function }) {
+  const { events, isLoading, onDeleteEvent, onSelectEvent, selectedRows, setSelectedRows } = props;
 
   const fields = events[0] ? Object.keys(events[0]) : [];
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -24,6 +35,8 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
     const dateB = new Date(b.dateStart).getTime();
     return dateB - dateA;
   });
+
+  const classes = useStyles()
 
   const columns: GridColDef[] = [ 
     {
@@ -112,6 +125,7 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
               </Box>
       
         <DataGrid
+        className={classes.root}
         rows={sortedEvents.map(getEtiEventValues)} 
         columns={columns} 
         loading={isLoading}
@@ -120,7 +134,19 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
         }}
         onRowClick={(event) => {
           const selectedEventId = event.row.id as string;
-          const selectedEvent = events.find(event => event.id === selectedEventId);
+          const isSelected = selectedRows.includes(selectedEventId);
+      
+          if (isSelected) {
+            
+            setSelectedRows((prevSelectedRows : string[]) =>
+              prevSelectedRows.filter((rowId) => rowId !== selectedEventId)
+            );
+          } else {
+            
+            setSelectedRows((prevSelectedRows : string[]) => [selectedEventId]);
+          }
+      
+          const selectedEvent = events.find((event) => event.id === selectedEventId);
           if (selectedEvent) {
             onSelectEvent(selectedEvent);
           }
@@ -140,19 +166,37 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
               fontFamily: 'inter',
               fontWeight: 600
           },
+          '& .MuiDataGrid-row': {
+            '&.Mui-selected': {
+              border: '2px solid #A82548',
+              backgroundColor: 'inherit'
+            },
+          },
+          '& .MuiDataGrid-row:hover': {
+            backgroundColor: 'transparent',
+          },
+          '& .MuiDataGrid-row.Mui-selected:hover': {
+            backgroundColor: 'inherit'
+          },
+          '& .MuiDataGrid-row.Mui-selected:nth-of-type(even):hover': {
+            backgroundColor: '#DBEEFF', 
+          },
           '& .MuiDataGrid-row:nth-of-type(even)': {
-              backgroundColor: '#DBEEFF', // Color para filas pares
+              backgroundColor: '#DBEEFF'
           },
           '& .MuiDataGrid-cellContent': {
               color: '#0075D9',
               fontSize: '16px',
               lineHeight: '16px',
               fontFamily: 'Inter',
-              fontWeight: 400
+              fontWeight: 400,
+           
           },
-          '.MuiDataGrid-colCell': {
-            borderRight: 'none'
-          }
+
+      }}
+      selectionModel={selectedRows}
+      onSelectionModelChange={(newSelection) => {
+        setSelectedRows(newSelection as string[]);
       }}
         />
         {/* <Button onClick={()=>onSelectEvent(['hola'])}> Click aqui </Button> */}

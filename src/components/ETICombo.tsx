@@ -10,8 +10,11 @@ import { EtiEvent } from 'shared/etiEvent';
 import { ETIDatePicker } from './form/DatePicker';
 import { ETITimePicker } from './form/TimePicker';
 import { createOrUpdateDoc } from 'helpers/firestore';
+import ETITimePicker2 from './ETITimePicker2';
+import { values } from 'lodash';
 
 // eslint-disable-next-line no-unused-vars
+
 export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void, selectedEvent: EtiEvent | null }) {
   const idEvent = selectedEvent?.id;
   const [open, setOpen] = React.useState(false);
@@ -539,4 +542,3 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
       </Box>
     </>
   );
-}

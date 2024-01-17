@@ -18,20 +18,38 @@ import RolesNewEvent from '../roles/RolesNewEvent';
 import { LocationPicker } from 'components/form/LocationPicker';
 import { unassignEventAdmin } from '../../../helpers/firestore/users';
 import { makeStyles } from '@mui/styles';
+import ETITimePicker2 from 'components/ETITimePicker2';
 import { ETITimePicker } from 'components/form/TimePicker';
 import { assignEventAdmins } from '../../../helpers/firestore/users';
 
 export default function NewEvent(props: { etiEventId: string, onChange: Function }) {
   const { etiEventId, onChange } = props
   const alertText: string = 'Este campo no puede estar vacío';
+  
 
   const EventFormSchema = object({
 
+    
     dateStart: date().nullable().transform((originalValue) => {const parsedDate = new Date(originalValue);return isNaN(parsedDate.getTime()) ? undefined : parsedDate;}).required(alertText),
-    dateEnd: date().nullable().when('dateStart', (dateStart, schema) => (dateStart && schema.min(dateStart, "No puede ser menor a la fecha de inicio"))).required(alertText),
-    dateSignupOpen: date().nullable().when('dateStart', (dateStart, schema) => (dateStart && schema.max(dateStart, "No puede ser mayor a la fecha de inicio"))).required(alertText),
-    dateSignupEnd: date().nullable().required(alertText),
-    // location: string().required(alertText),
+    dateEnd: date().nullable().when('dateStart', (dateStart, schema) => (dateStart && schema.min(dateStart, "No puede ser anterior a la fecha de inicio"))).required(alertText),
+    dateSignupOpen: date().nullable().when('dateStart', (dateStart, schema) => {
+      if (dateStart) {
+        const dateStartEqual= new Date(dateStart.getTime() - 1);
+        return schema.max(dateStartEqual, "No puede ser igual o posterior a la fecha de inicio");
+      }
+      return schema;
+      }).required(alertText),
+    dateSignupEnd: date()
+    .nullable()
+    .when('dateStart', (dateStart, schema) => {
+      if (dateStart) {
+        const dateStartEqual = new Date(dateStart.getTime() - 1);
+        return schema.max(dateStartEqual, "No puede ser igual o posterior a la fecha de inicio");
+      }
+      return schema;
+    })
+    .when('dateSignupOpen', (dateSignuopOpen, schema) => (dateSignuopOpen && schema.min(dateSignuopOpen, "No puede ser anterior a la fecha de inscripcion")))
+    .required(alertText),
     timeStart: string().required(alertText),
     timeEnd: string().required(alertText),
     timeSignupOpen: string().required(alertText),
@@ -329,12 +347,16 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                               </Grid>
                               <Typography sx={{ color: '#424242', mt: 2, ml: 2, mr: 2, fontWeight: 500 }}>a las</Typography>
                               <Grid item >
-                                <ETITimePicker
+                                {/* <ETITimePicker
                                   textFieldProps={{ fullWidth: true }}
                                   fieldName="timeStart"
                                   setFieldValue={setFieldValue}
                                   borderColor={enable}
                                   specialCase={false}
+                                /> */}
+                                <ETITimePicker2 
+                                  value={values['timeStart']}
+                                  onChange={(value) => setFieldValue('timeStart', value)}
                                 />
                               </Grid>
                             </Grid>
@@ -354,12 +376,16 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                               </Grid>
                               <Typography sx={{ color: '#424242', mt: 2, ml: 2, mr: 2, fontWeight: 500 }}>a las</Typography>
                               <Grid item >
-                                <ETITimePicker
+                                {/* <ETITimePicker
                                   textFieldProps={{ fullWidth: true }}
                                   fieldName="timeEnd"
                                   setFieldValue={setFieldValue}
                                   borderColor={enable}
                                   specialCase={false}
+                                /> */}
+                                <ETITimePicker2 
+                                  value={values['timeEnd']}
+                                  onChange={(value) => setFieldValue('timeEnd', value)}
                                 />
                               </Grid>
                             </Grid>
@@ -379,12 +405,16 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                               </Grid>
                               <Typography sx={{ color: '#424242', mt: 2, ml: 2, mr: 2, fontWeight: 500 }}>a las</Typography>
                               <Grid item >
-                                <ETITimePicker
+                                {/* <ETITimePicker
                                   textFieldProps={{ fullWidth: true }}
                                   fieldName="timeSignupOpen"
                                   setFieldValue={setFieldValue}
                                   borderColor={enable}
                                   specialCase={false}
+                                /> */}
+                                <ETITimePicker2 
+                                  value={values['timeSignupOpen']}
+                                  onChange={(value) => setFieldValue('timeSignupOpen', value)}
                                 />
                               </Grid>
                               <Typography sx={{ color: '#424242', mt: 2, ml: 2, mr: 2, fontWeight: 500 }}>hasta el</Typography>
@@ -399,12 +429,16 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                               </Grid>
                               <Typography sx={{ color: '#424242', mt: 2, ml: 2, mr: 2, fontWeight: 500}}>hasta las</Typography>
                               <Grid item >
-                                <ETITimePicker
+                                {/* <ETITimePicker
                                   textFieldProps={{ fullWidth: true }}
                                   fieldName="timeSignupEnd"
                                   setFieldValue={setFieldValue}
                                   borderColor={enable}
                                   specialCase={false}
+                                /> */}
+                                <ETITimePicker2 
+                                  value={values['timeSignupEnd']}
+                                  onChange={(value) => setFieldValue('timeSignupEnd', value)}
                                 />
                               </Grid>
                             </Grid>

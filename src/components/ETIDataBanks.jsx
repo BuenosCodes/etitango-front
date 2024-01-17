@@ -6,7 +6,7 @@ import { Box, Button, Grid, Typography, Menu, MenuItem, } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createOrUpdateDoc } from 'helpers/firestore'; 
 
-const ETIDataBanks = ({ idEvent }) => {
+const ETIDataBanks = ({ idEvent, event, dataBanks }) => {
   const [rows, setRows] = useState([]);
   const [editRowsModel, setEditRowsModel] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
@@ -17,6 +17,14 @@ const ETIDataBanks = ({ idEvent }) => {
   const rowHeight = 23;
   const headerHeight = 23;
   const totalHeight = rows.length * rowHeight + headerHeight;
+
+  useEffect(() => {
+    if(event?.datosBancarios) {
+      setRows(event?.datosBancarios);
+    } else {
+      setRows([])
+    }
+  }, [event?.datosBancarios])
 
   useEffect(() => {
     const updatedRows = rows.map((row) => {
@@ -31,7 +39,7 @@ const ETIDataBanks = ({ idEvent }) => {
       return row;
     });
     setRows(updatedRows);
-    console.log('Datos ingresados en DataBanks: ', updatedRows);
+    dataBanks(updatedRows);
   }, [editRowsModel]);
 
   const handleAddRow = () => {
@@ -86,21 +94,11 @@ const ETIDataBanks = ({ idEvent }) => {
   };
 
   const columns = [
-    { field: 'nombre', headerName: 'Nombre',width: 222, editable: true },
-    { field: 'alias', headerName: 'Alias',width: 222, editable: true },
-    { field: 'cbu', headerName: 'CBU/CVU',width: 333, editable: true },
+    { field: 'nombre', headerName: 'Nombre',width: 222, editable: isEditing },
+    { field: 'alias', headerName: 'Alias',width: 222, editable: isEditing },
+    { field: 'cbu', headerName: 'CBU/CVU',width: 333, editable: isEditing },
   ];
 
-  const save = async () => {
-    try {
-      const id = idEvent
-      const datosBancarios = rows
-      const eventId = await createOrUpdateDoc('events', {datosBancarios: datosBancarios}, id === 'new' ? undefined : id);
-      //console.log('la id del evento ', eventId);
-    } catch (error) {
-      console.log('Error la enviar alojamiento', error);
-    }
-  };
 
   return (
     <Box sx={{display: 'flex', mt: 2}}>
@@ -113,9 +111,9 @@ const ETIDataBanks = ({ idEvent }) => {
             <Button
               variant='contained'
               style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
-              onClick={() => save()}
+              onClick={handleConfirmClick}
             >
-              <img src={'/img/icon/btnConfirm.svg'} alt="btnDelete" style={{ width: '100%', height: 'auto' }} />
+              <img src={'/img/icon/btnConfirm.png'} alt="btnConfirm" style={{ width: '100%', height: 'auto' }} />
             </Button>
           )}
           
