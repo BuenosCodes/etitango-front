@@ -17,6 +17,7 @@ const GeneralInfo = () => {
   const [eventData, setEventData] = useState<EtiEvent| null> (null);
   const [changeEvent2, setChangeEvent2] = useState(false)
   // const [showEvent, setShowEven] = useState(false)
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,8 +27,10 @@ const GeneralInfo = () => {
         const eventosOrdenados = evts.sort((a:any, b:any) => b.dateStart - a.dateStart);
 
         const ultimoEvento = eventosOrdenados[0];
-
-        setEventData(ultimoEvento); 
+        
+        setEventData(ultimoEvento);
+        setSelectedRows([ultimoEvento?.id])
+        //console.log("La bestia", ultimoEvento)
       } else {
         setEventData(null);
       }
@@ -73,7 +76,7 @@ const GeneralInfo = () => {
     <>
       {/* <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} /> */}
      <Box sx={{display: 'flex', flexDirection: 'column'}}>
-      <NewEventList events={events} isLoading={isLoading} onDeleteEvent={handleDeleteEvent} onSelectEvent={setEventData}  />
+      <NewEventList events={events} isLoading={isLoading} onDeleteEvent={handleDeleteEvent} onSelectEvent={setEventData} selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
         <Box sx={{mt: 5}}>
         <NewEditEvent selectedEvent={eventData} changeEvent2={setChangeEvent2}></NewEditEvent>
       </Box>

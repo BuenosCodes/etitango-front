@@ -1,24 +1,65 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Collapse, IconButton } from '@mui/material';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import { makeStyles } from "@mui/styles";
 import ModalForm from './ModalForm';
-const ETIAgenda = ( { idEvent } ) => {
+
+const ETIAgenda = ( { idEvent, eventData } ) => {
+
+  //console.log('EventData desde ETIAgenda -> ', eventData);
+
+  // const eventDate = eventData?.date.toDate();
+  // const eventDateTransform = eventDate?.toLocaleDateString();
+  // console.log('esta es la fecha transformada: ', eventDateTransform);
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
+  const [dataFromModalForm, setDataFromModalForm] = useState([]);
+  const [agendaData, setAgendaData] = useState([]);
+  const [updatedEvent, setUpdatedEvent] = useState();
+
+  const handleAgendaData = (data) => {
+    const dataAgenda = data;
+    return dataAgenda;
+  }
+  
+  useEffect(() => {
+    console.log('se actualizo eventData');
+  }, [eventData])
+
+  useEffect(() => {
+    if (eventData && eventData.Agenda && eventData.Agenda[0] && eventData.description && eventData.date) {
+      setAgendaData([
+        {
+          0: {
+            description: eventData.Agenda[0].description,
+            time: eventData.Agenda[0].time,
+          },
+          description: eventData.description,
+          time: eventData.date.toDate().toLocaleDateString(),
+        },
+      ]);
+    } else {
+        setAgendaData([]);
+    }
+  }, [eventData, updatedEvent]);
+  
+
+  // {
+  //   0:{description: eventData?.Agenda[0]?.description, time: eventData?.Agenda[0]?.time },
+  //   description: eventData?.description, 
+  //   time: eventData?.date.toDate()?.toLocaleDateString()
+  // },
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-  const data = [
-    { fecha: '29/01/2024', descripcion: 'Evento 1', horarios: [{ hora: '12:30', actividad: 'Comida' }] },
-    { fecha: '22/02/2024', descripcion: 'Evento 2', horarios: [{ hora: '23:30', actividad: 'Limpiar' }] },
-  ];
 
   const handleClick = (index) => {
     setOpen(prevOpen => ({
@@ -52,6 +93,9 @@ const ETIAgenda = ( { idEvent } ) => {
   
   const classes = useStyles();
 
+  // useEffect(() => {
+  //   console.log('ciudad desde ETIAgenda useEffect -> ', eventData.city);
+  // },[])
   return (
     <Box sx={{display: 'flex', mt: 2}}>
       <Grid container rowSpacing={0} columnSpacing={{ md: 0 }}>
@@ -72,7 +116,7 @@ const ETIAgenda = ( { idEvent } ) => {
           >
             <img src={'/img/icon/btnPlus.svg'} alt="btnAdd" style={{ width: '100%', height: 'auto' }} />
           </Button>
-          <ModalForm idEvent={idEvent} open={isModalOpen} onClose={handleCloseModal} />
+          <ModalForm idEvent={idEvent} open={isModalOpen} onClose={handleCloseModal} setUpdatedEvent={setUpdatedEvent}/>
         </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper} className={classes.table}>
@@ -85,7 +129,7 @@ const ETIAgenda = ( { idEvent } ) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.map((row, index) => (
+                {agendaData.map((rowData, index) => (
                   <React.Fragment key={index}>
                     <TableRow>
                       <TableCell>
@@ -93,8 +137,8 @@ const ETIAgenda = ( { idEvent } ) => {
                           {open[index] ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                         </IconButton>
                       </TableCell>
-                      <TableCell>{row.fecha}</TableCell>
-                      <TableCell>{row.descripcion}</TableCell>
+                      <TableCell>{rowData.time}</TableCell>
+                      <TableCell>{rowData.description}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell colSpan={3}>
@@ -107,12 +151,10 @@ const ETIAgenda = ( { idEvent } ) => {
                               </TableRow>
                             </TableHead>
                             <TableBody>
-                              {row.horarios.map((horaRow, horaIndex) => (
-                                <TableRow key={horaIndex}>
-                                  <TableCell sx={{color: '#000'}}>{horaRow.hora}</TableCell>
-                                  <TableCell>{horaRow.actividad}</TableCell>
+                                <TableRow >
+                                  <TableCell sx={{color: '#000'}}>{rowData[0].time}</TableCell>
+                                  <TableCell>{rowData[0].description}</TableCell>
                                 </TableRow>
-                              ))}
                             </TableBody>
                           </Table>
                         </Collapse>
