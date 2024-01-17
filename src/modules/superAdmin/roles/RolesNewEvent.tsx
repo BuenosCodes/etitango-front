@@ -6,7 +6,7 @@ import * as firestoreUserHelper from 'helpers/firestore/users';
 import { Icon, Box, Button, Typography, Input, CircularProgress } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
-const RolesNewEvent = ({ eventId, handleClose}: { eventId?: string, handleClose: Function}) => {
+const RolesNewEvent = ({ eventId, handleClose }: { eventId?: string, handleClose: Function }) => {
     // eslint-disable-next-line no-unused-vars
     const [users, setUsers] = useState<UserFullData[]>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -14,8 +14,8 @@ const RolesNewEvent = ({ eventId, handleClose}: { eventId?: string, handleClose:
     // eslint-disable-next-line no-unused-vars
     const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
     const [selectedUserInfo, setSelectedUserInfo] = React.useState({});
-    const [searchTerm, setSearchTerm] = useState<string>(''); 
-    const [filteredUsuarios, setFilteredUsuarios] = useState<UserFullData[]>([]); 
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [filteredUsuarios, setFilteredUsuarios] = useState<UserFullData[]>([]);
 
     useEffect(() => {
         setIsLoading(true);
@@ -42,16 +42,16 @@ const RolesNewEvent = ({ eventId, handleClose}: { eventId?: string, handleClose:
     useEffect(() => {
         const filteredData = usuarios.filter((usuario) => {
             const isSuperadmin = usuario.roles && usuario.roles.superadmin === true;
-        
+
             return !isSuperadmin &&
-              (
-                usuario.nameFirst.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                usuario.nameLast.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                usuario.email.toLowerCase().includes(searchTerm.toLowerCase())
-              );
-          });
-        
-          setFilteredUsuarios(filteredData);
+                (
+                    usuario.nameFirst.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    usuario.nameLast.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    usuario.email.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+        });
+
+        setFilteredUsuarios(filteredData);
     }, [usuarios, searchTerm]);
 
     const columns: GridColDef[] = [
@@ -78,14 +78,14 @@ const RolesNewEvent = ({ eventId, handleClose}: { eventId?: string, handleClose:
 
     const handleSelectEmails = async () => {
         try {
-        setIsLoading(true);      
-        handleClose(selectedUserInfo)
+            setIsLoading(true);
+            handleClose(selectedUserInfo)
         } catch (error) {
-          console.error('Error al pasar los de usuarios seleccionados:', error);
+            console.error('Error al pasar los de usuarios seleccionados:', error);
         } finally {
-          setIsLoading(false);
+            setIsLoading(false);
         }
-      };
+    };
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
@@ -95,18 +95,18 @@ const RolesNewEvent = ({ eventId, handleClose}: { eventId?: string, handleClose:
     const scrollbarStyles = {
         // overflowY: 'auto',
         '&::-webkit-scrollbar': {
-          width: '8px',
+            width: '8px',
         },
         '&::-webkit-scrollbar-thumb': {
-          backgroundColor: '#C0E5FF',
-          borderRadius: '12px',
+            backgroundColor: '#C0E5FF',
+            borderRadius: '12px',
         },
         '&::-webkit-scrollbar-track': {
-          backgroundColor: 'transparent',
-          boxShadow: '1px 0px 2px 0px #6695B7',
-          borderRadius: '12px',
+            backgroundColor: 'transparent',
+            boxShadow: '1px 0px 2px 0px #6695B7',
+            borderRadius: '12px',
         },
-      };
+    };
 
     return (
         <>
@@ -122,26 +122,29 @@ const RolesNewEvent = ({ eventId, handleClose}: { eventId?: string, handleClose:
                 rows={filteredUsuarios.map(getUserDataValues)}
                 columns={columns}
                 loading={isLoading}
+                initialState={{
+                    sorting: {
+                        sortModel: [{ field: 'Nombre', sort: 'asc' }],
+                    },
+                }}
                 checkboxSelection
                 pageSize={5}
                 rowsPerPageOptions={[10]}
                 disableSelectionOnClick
                 getRowId={(row) => row.id}
                 onSelectionModelChange={(selection) => {
-                    const selectedEmails = selection.map((selectedId:any) => {
+                    const selectedInfo = selection.map((selectedId: any) => {
                         const selectedUsuario = usuarios.find((usuario) => usuario.id.toString() === selectedId);
-                        return selectedUsuario ? selectedUsuario.email : '';
-                    });
-                    const selectedInfo = selection.map((selectedId:any) => {
-                        const selectedUsuario = usuarios.find((usuario) => usuario.id.toString() === selectedId);
-                        return selectedUsuario ? {name: `${selectedUsuario?.nameFirst} ${selectedUsuario?.nameLast}`, email: selectedUsuario.email} : '';
+                        return selectedUsuario ? { name: `${selectedUsuario?.nameFirst} ${selectedUsuario?.nameLast}`, email: selectedUsuario.email } : '';
                     })
                     setSelectedUserInfo(selectedInfo)
-                    setSelectedRows(selectedEmails);
                 }}
                 sx={{
                     mb: 2,
                     mt: 2,
+                    "& .MuiDataGrid-columnHeaderCheckbox .MuiDataGrid-columnHeaderTitleContainer": {
+                        display: "none"
+                    },
                     '& .MuiDataGrid-virtualScroller': {
                         ...scrollbarStyles
                     },
@@ -168,11 +171,11 @@ const RolesNewEvent = ({ eventId, handleClose}: { eventId?: string, handleClose:
                     }
                 }}
             />
-            
+
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                <Button sx={{ width: '115px', padding: '12px, 32px, 12px, 32px', borderRadius: '25px', backgroundColor: '#A82548', height: '44px', '&:hover': { backgroundColor: '#A82548' } }} onClick={() => {handleSelectEmails()}}>
+                <Button sx={{ width: '115px', padding: '12px, 32px, 12px, 32px', borderRadius: '25px', backgroundColor: '#A82548', height: '44px', '&:hover': { backgroundColor: '#A82548' } }} onClick={() => { handleSelectEmails() }}>
                     <Typography sx={{ color: '#FAFAFA', fontWeight: 500, fontSize: '14px', lineHeight: '20px' }}>
-                    {isLoading ? <CircularProgress /> : 'Agregar'}
+                        {isLoading ? <CircularProgress /> : 'Agregar'}
                     </Typography>
                 </Button>
             </Box>
