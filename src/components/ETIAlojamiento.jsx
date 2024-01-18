@@ -9,7 +9,6 @@ import ETIModalMaps from './ETIModalMaps';
 
 const ETIAlojamiento = ( { idEvent, event, updateAlojamientoData }) => {
 
-  console.log('accediendo a los datos de alojamiento del evento: ', event?.alojamiento);
   const [rows, setRows] = useState([]);
   const [editRowsModel, setEditRowsModel] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
