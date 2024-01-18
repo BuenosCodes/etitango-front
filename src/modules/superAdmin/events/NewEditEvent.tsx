@@ -13,7 +13,7 @@ import ETICombos from 'components/ETICombo';
 import ETIEventDate from 'components/ETIEventDates';
 
 
-export default function NewEditEvent({ selectedEvent, changeEvent2 }: { selectedEvent: EtiEvent | null, changeEvent2 : Function }) {
+export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEvent2 }: { selectedEvent: EtiEvent | null, setChangeEvent2 : Function, changeEvent2 : boolean }) {
 
   const alertText: string = 'Este campo no puede estar vacío';
   const EventFormSchema = object({
@@ -67,7 +67,7 @@ export default function NewEditEvent({ selectedEvent, changeEvent2 }: { selected
       values.alojamiento = alojamientoData;
       values.datosBancarios = dataBanks;
       values.linkMercadoPago = dataMP;  
-        await createOrUpdateDoc('events', values, idEvent === 'new' ? undefined : idEvent);
+      await createOrUpdateDoc('events', values, idEvent === 'new' ? undefined : idEvent);
       } else {
         alert('Tienes cambios que no seran guardados.')
       }
@@ -98,7 +98,7 @@ export default function NewEditEvent({ selectedEvent, changeEvent2 }: { selected
             <Box sx={{ display: 'flex', flexDirection: 'column', overflow: 'auto', width: '960px', height: '1746px', boxShadow: 3, borderRadius: '12px', backgroundColor: '#FFFFFF' }}>
               <Box sx={{ display: 'flex', ...scrollbarStyles, flexDirection: 'column' }}>
                   <Box sx={{width: '100%'}}>
-                <ETIEventDate selectedEvent={selectedEvent} changeEvent={changeEvent2} />
+                <ETIEventDate selectedEvent={selectedEvent} changeEvent={setChangeEvent2} />
                   </Box>
                 <Grid container >
                   <Formik
