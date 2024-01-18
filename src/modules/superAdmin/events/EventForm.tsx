@@ -202,6 +202,7 @@ export default function EventForm() {
                             colorFont={'#0075D9'}
                             fontFamily={'Inter'}
                             fontWeight={400}
+                            isDisabled={false}
                           />
                         </Grid>
 
