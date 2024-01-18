@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Button, Paper, Box, Typography, Grid, PaginationItem } from '@mui/material';
-import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
+import React, {useEffect} from 'react';
+import { Button, Paper, Box, Typography, Grid, PaginationItem, Modal } from '@mui/material';
+import { DataGrid, GridColDef, GridRenderCellParams, DataGridProps, GridCell } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n';
 import { EtiEvent } from 'shared/etiEvent';
@@ -20,7 +21,7 @@ import { makeStyles } from '@mui/styles';
 import Checkbox from '@mui/material/Checkbox';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from 'etiFirebase';
-
+import ETIModalDeleteEvent from 'components/ETIModalDeleteEvent';
 
 const useStyles = makeStyles({
   root: {
@@ -34,23 +35,47 @@ const useStyles = makeStyles({
   }
 });
 
-
 export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, onDeleteEvent: (id: string) => Promise<void>, onSelectEvent: Function, selectedRows : string[], setSelectedRows : Function }) {
   const { events, isLoading, onDeleteEvent, onSelectEvent, selectedRows, setSelectedRows } = props;
   // const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const fields = events[0] ? Object.keys(events[0]) : [];
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [showCheckbox, setShowCheckbox] = useState(false)
+  const [open, setOpen] = React.useState(false)
   const sortedEvents = [...events].sort((a, b) => {
     const dateA = new Date(a.dateStart).getTime();
     const dateB = new Date(b.dateStart).getTime();
     return dateB - dateA;
   });
+  const handleOpenModal = () => {
+    if (selectedRows.length > 0) {
+      setOpen(true);
+    } else {
+    setShowCheckbox(false);
+    }
+  };
 
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    if (showCheckbox) {
+      setSelectedRows([]);
+    }
+  }, [showCheckbox]);
   
+  useEffect(() => {
+      if (!showCheckbox && events.length > 0) {
+        const eventosOrdenados = events.sort((a:any, b:any) => b.dateStart - a.dateStart);
+        const ultimoEvento = eventosOrdenados[0];
+        setSelectedRows([ultimoEvento?.id])
+        onSelectEvent(ultimoEvento)
+    }
+    
+  }, [!showCheckbox]);
+
   const classes = useStyles();
-  
-
   const columns: GridColDef[] = [ 
     
     {
@@ -84,22 +109,24 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
     return output;
   };
 
-  function CustomFooter() {
-    const handleDeleteButtonClick = async () => {
-      try {
-        if (selectedRows.length > 0) {
-          await Promise.all(selectedRows.map((eventId) => onDeleteEvent(eventId)));
-          setSelectedRows([]);
-          setShowCheckbox(false);
-        }
-        if (selectedRows.length === 0) {
-          setShowCheckbox(false);
-        }
-      } catch (error) {
-        console.error('Error al eliminar eventos:', error);
+  const handleDeleteButton = async () => {
+    try {
+      if (selectedRows.length > 0) {
+        await handleCloseModal();
+        await Promise.all(selectedRows.map((eventId) => onDeleteEvent(eventId)));
+        
+        setShowCheckbox(false);
       }
-    };
-  
+      // if (selectedRows.length === 0) {
+      //   setShowCheckbox(false);
+      // }
+    } catch (error) {
+      console.error('Error al eliminar los eventos', error);
+    }
+  };
+
+  function CustomFooter() {
+    
     return (
       <Grid >
         {!showCheckbox ? (
@@ -107,11 +134,17 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
             <img src="/img/icon/btnDelete.svg" alt="Icono Trash" />
             </Button>
           ) : (
-            <Button onClick={handleDeleteButtonClick}>
-            {/* Aquí puedes agregar el mismo ícono si lo prefieres */}
+            <Button onClick={handleOpenModal}>
             <img src="/img/icon/btnTrashWhite.svg" alt="Icono Borrar" />
           </Button>
           )}
+          <Modal
+          open={open}
+          onClose={() => handleCloseModal()}>
+          <ETIModalDeleteEvent open={open} handleCloseModal={handleCloseModal} handleDeleteButton={handleDeleteButton}></ETIModalDeleteEvent>
+          </Modal>
+           
+           
       </Grid>
     );
   }
@@ -184,30 +217,46 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
         columns={columns}
         loading={isLoading}
         checkboxSelection={showCheckbox}
-        disableSelectionOnClick={!showCheckbox}
+        
         components={{
           Pagination: CustomContainer,
+          Cell: (params) => {
+            if (showCheckbox) {
+              return (
+                <div onClick={(e) => e.stopPropagation()}>
+                  <GridCell {...params} />
+                </div>
+              );
+            } else {
+              return <GridCell {...params} />;
+            }
+          },
+        
+         
           
         }}
         onRowClick={(event) => {
-          const selectedEventId = event.row.id as string;
-          const isSelected = selectedRows.includes(selectedEventId);
-      
-          if (isSelected) {
-            
-            setSelectedRows((prevSelectedRows : string[]) =>
-              prevSelectedRows.filter((rowId) => rowId !== selectedEventId)
-            );
-          } else {
-            
-            setSelectedRows((prevSelectedRows : string[]) => [selectedEventId]);
-          }
-      
-          const selectedEvent = events.find((event) => event.id === selectedEventId);
-          if (selectedEvent) {
-            onSelectEvent(selectedEvent);
+          if (!showCheckbox) {
+            const selectedEventId = event.row.id as string;
+            const isSelected = selectedRows.includes(selectedEventId);
+        
+            if (isSelected) {
+              setSelectedRows((prevSelectedRows: string[]) =>
+                prevSelectedRows.filter((rowId) => rowId !== selectedEventId)
+              );
+            } else {
+              setSelectedRows((prevSelectedRows: string[]) => [selectedEventId]);
+            }
+        
+            const selectedEvent = events.find((event) => event.id === selectedEventId);
+            if (selectedEvent) {
+              onSelectEvent(selectedEvent);
+            }
           }
         }}
+
+        
+      
         rowsPerPageOptions={[5]}
         getRowId={(row) => row.id}
         rowHeight={22}
@@ -223,11 +272,19 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
               fontFamily: 'inter',
               fontWeight: 600
           },
+          // '& .MuiDataGrid-row': {
+          //   '&.Mui-selected': {
+          //     border: '2px solid #A82548',
+          //     backgroundColor: 'inherit'
+          //   },
+          // },
           '& .MuiDataGrid-row': {
-            '&.Mui-selected': {
-              border: '2px solid #A82548',
-              backgroundColor: 'inherit'
-            },
+            ...(!showCheckbox && {
+              '&.Mui-selected': {
+                border: '2px solid #A82548',
+                backgroundColor: 'inherit'
+              },
+            }),
           },
           '& .MuiDataGrid-row:hover': {
             backgroundColor: 'transparent',
@@ -265,7 +322,9 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
       onSelectionModelChange={(newSelection) => {
         setSelectedRows(newSelection as string[]);
         console.log("IDs: " , newSelection)
-      }}
+      }
+    }
+      
         />
        
       </Box>
