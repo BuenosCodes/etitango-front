@@ -92,7 +92,7 @@ const ModalForm: React.FC<SimpleModalProps> = ({
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState('');
   const { id } = useParams();
-  const [timeValue, setTimeValue] = useState('');
+  const [timeValues, setTimeValues] = useState<string[]>(['']);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -126,8 +126,13 @@ const ModalForm: React.FC<SimpleModalProps> = ({
 
   const handleDateTimeChange = (index: number, type: FieldType, value: string) => {
     const newFields = [...additionalFields];
-    newFields[index][type] = value; // Almacena el valor directamente
+    newFields[index][type] = value;
     setAdditionalFields(newFields);
+  
+    // Actualizar el estado de la hora específico para este campo
+    const newTimeValues = [...timeValues];
+    newTimeValues[index] = value;
+    setTimeValues(newTimeValues);
   };
 
   const handleDescriptionChange = (index: number, value: string) => {
@@ -340,10 +345,9 @@ const ModalForm: React.FC<SimpleModalProps> = ({
                     >
                       <Grid item xs={2}>
                         <ETITimePicker2
-                          value={timeValue}
+                          value={timeValues[index]}
                           onChange={(value) => {
                             handleDateTimeChange(index, 'time', value);
-                            setTimeValue(value);
                           }}
                         />
                       </Grid>
