@@ -542,3 +542,4 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
       </Box>
     </>
   );
+}
