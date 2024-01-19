@@ -21,32 +21,6 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
   const [agendaData, setAgendaData] = useState([]);
   const [updatedEvent, setUpdatedEvent] = useState();
 
-  const handleAgendaData = (data) => {
-    const dataAgenda = data;
-    return dataAgenda;
-  }
-  
-  useEffect(() => {
-    console.log('este seria la fecha del envento: ', eventData?.Agenda[0]?.date);
-  }, [eventData])
-
-  // useEffect(() => {
-  //   if (eventData && eventData.Agenda && eventData.Agenda[0] && eventData.description && eventData.date) {
-  //     setAgendaData([
-  //       {
-  //         0: {
-  //           description: eventData.Agenda[0].description,
-  //           time: eventData.Agenda[0].time,
-  //         },
-  //         description: eventData.description,
-  //         time: eventData.date.toDate().toLocaleDateString(),
-  //       },
-  //     ]);
-  //   } else {
-  //       setAgendaData([]);
-  //   }
-  // }, [eventData, updatedEvent]);
-
   useEffect(() => {
     if (eventData && eventData?.Agenda) {
       setAgendaData(eventData?.Agenda.map((item) => ({
@@ -59,12 +33,6 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
     }
   }, [eventData, updatedEvent]);
   
-
-  // {
-  //   0:{description: eventData?.Agenda[0]?.description, time: eventData?.Agenda[0]?.time },
-  //   description: eventData?.description, 
-  //   time: eventData?.date.toDate()?.toLocaleDateString()
-  // },
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -173,7 +141,7 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
                             <TableBody>
                               {rowData.schedule.map((scheduleItem, scheduleIndex) =>(
                                 <TableRow key={scheduleIndex}>
-                                  <TableCell sx={{width: '4%'}}/>
+                                  <TableCell sx={{width: '6%'}}/>
                                   <TableCell sx={{width: '240px', color: '#0075D9'}}>{scheduleItem.time}</TableCell>
                                   <TableCell sx={{width: '599px', color: '#0075D9'}}>{scheduleItem.activity}</TableCell>
                                 </TableRow>
