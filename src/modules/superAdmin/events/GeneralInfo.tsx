@@ -74,7 +74,7 @@ const GeneralInfo = () => {
 
   return (
     <>
-      {/* <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} /> */}
+      <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} />
      <Box sx={{display: 'flex', flexDirection: 'column'}}>
       <NewEventList events={events} isLoading={isLoading} onDeleteEvent={handleDeleteEvent} onSelectEvent={setEventData} selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
         <Box sx={{mt: 5}}>
