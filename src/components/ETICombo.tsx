@@ -189,53 +189,26 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                 {/** Added component Modal  */}
                 <Modal open={open} onClose={() => handleClose()}>
                   <Box sx={{ ...styleModal, display: 'flex', flexDirection: 'column' }}>
-                    <Grid container alignItems="center">
+                    <Grid container alignItems="center" justifyContent="space-between">
                       <Grid>
                         {/* Title */}
                         <Typography variant="h4">Añadí más productos al combo</Typography>
                       </Grid>
                       <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                         {/* Icon add */}
-                        <Button
-                          variant="contained"
-                          style={{
-                            background: '#FF6F87',
-                            boxShadow: 'none',
-                            borderRadius: '100%',
-                            margin: 5
-                          }}
-                        >
+                        <Button>
                           {/* Validate*/}
                           <img
                             src={'/img/icon/btnDelete.svg'}
                             alt="btnDelete"
-                            style={{
-                              width: '100%',
-                              height: 'auto'
-                            }}
+                            height={50}
+                            width={50}
                           />
                         </Button>
-                      </Grid>
-                      <Grid>
                         {/* Icon remove */}
-                        <Button
-                          variant="contained"
-                          style={{
-                            background: '#00639F',
-                            boxShadow: 'none',
-                            borderRadius: '100%',
-                            margin: 5
-                          }}
-                        >
+                        <Button>
                           {/* Validate*/}
-                          <img
-                            src={'/img/icon/btnPlus.svg'}
-                            alt="btnPlus"
-                            style={{
-                              width: '100%',
-                              height: 'auto'
-                            }}
-                          />
+                          <img src={'/img/icon/btnPlus.svg'} alt="btnPlus" height={50} width={50} />
                         </Button>
                       </Grid>
                     </Grid>
