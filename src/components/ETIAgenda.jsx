@@ -9,11 +9,11 @@ import ModalForm from './ModalForm';
 
 const ETIAgenda = ( { idEvent, eventData } ) => {
 
-  //console.log('EventData desde ETIAgenda -> ', eventData);
+  // console.log('EventData desde ETIAgenda -> ', eventData);
 
-  // const eventDate = eventData?.date.toDate();
-  // const eventDateTransform = eventDate?.toLocaleDateString();
-  // console.log('esta es la fecha transformada: ', eventDateTransform);
+  // const dateStartValue = eventData?.dateStart;
+  // const dateEndValue = eventData?.dateEnd;
+  // console.log('fechas inicio fin -> ', dateStartValue, dateEndValue);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
@@ -103,6 +103,9 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
             setAgendaData={setAgendaData}
             setDataFromModalForm={setDataFromModalForm}
             setUpdatedEvent={setUpdatedEvent}
+            // startDate={dateStartValue}
+            eventData={eventData}
+            // endDate={dateEndValue}
           />
         </Grid>
         <Grid item xs={12}>

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
@@ -16,9 +17,8 @@ import { TimePicker } from '@mui/x-date-pickers';
 import { Moment } from 'moment';
 import { ETIDatePicker } from './form/DatePicker';
 import moment from 'moment-timezone';
-import { values } from 'lodash';
 import { makeStyles } from '@mui/styles';
-import { log } from 'console';
+import * as Yup from 'yup';
 
 interface SimpleModalProps {
   idEvent: string;
@@ -38,6 +38,7 @@ const ModalForm: React.FC<SimpleModalProps> = ({
   open,
   onClose,
   idEvent,
+  eventData,
   setAgendaData,
   setDataFromModalForm
 }) => {
@@ -86,8 +87,24 @@ const ModalForm: React.FC<SimpleModalProps> = ({
       onClose();
     }
   };
+  // console.log('dateStart en el modal ', eventData?.dateStart);
+  // console.log('endStart en el modal ', eventData?.dateEnd);
 
+  let validationSchema: Yup.ObjectSchema<any> | undefined;
+ 
+  if (eventData) {
+    const dateStart = eventData?.dateStart ? new Date(eventData.dateStart) : null;
+    const dateEnd = eventData?.dateEnd ? new Date(eventData.dateEnd) : null;
 
+    // Definir el esquema de validación después de asegurarse de que eventData está definido
+    validationSchema = Yup.object().shape({
+      date: Yup.date()
+        .required('La fecha es requerida')
+        .min(dateStart, 'La fecha no puede ser anterior a la fecha de inicio del evento')
+        .max(dateEnd, 'La fecha no puede ser posterior a la fecha de finalización del evento'),
+    });
+  }
+  
   const [event, setEvent] = useState<EtiEvent>();
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState('');
@@ -241,6 +258,7 @@ const ModalForm: React.FC<SimpleModalProps> = ({
             date: event?.dateStart || '',
             description: event?.description || ''
           }}
+          validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
           {({ isSubmitting, setFieldValue, values }) => (
@@ -252,7 +270,7 @@ const ModalForm: React.FC<SimpleModalProps> = ({
                 >
                   <Grid item xs={12}>
                     <Typography variant="h6" fontWeight="500">
-                      Fija la fecha de tu evento
+                      Fija la agenda para tu evento
                     </Typography>
                   </Grid>
                   <Grid item xs={3}>
@@ -398,34 +416,5 @@ const ModalForm: React.FC<SimpleModalProps> = ({
     </Modal>
   );
 };
-
-// const TimePickerField: React.FC<TimePickerFieldProps> = ({ value, onChange }) => {
-//   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
-
-//   useEffect(() => {
-//       if (value) {
-//           setSelectedTime(new Date(value));
-//       }
-//   }, [value]);
-
-//   const handleTimeChange = (newValue: Moment | null) => {
-//     if (newValue !== null) {
-//       const horaComoString = newValue.format('HH:mm A');
-//       console.log('hora como string ->', horaComoString);
-//       //setSelectedTime(newValue.toDate());
-//       onChange(horaComoString);
-//     }
-//   };
-
-//   return (
-//       <TimePicker
-//           label="Hora"
-//           renderInput={(params) => <TextField {...params} />}
-//           //value={selectedTime}
-//           value={value ? moment(value, 'HH:mm A') : null}
-//           onChange={handleTimeChange}
-//       />
-//   );
-// };
 
 export default ModalForm;
