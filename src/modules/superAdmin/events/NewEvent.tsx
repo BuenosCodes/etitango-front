@@ -167,7 +167,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
     }
   };
 
-  const handleCreateEvent = async (values: any) => {
+  const handleCreateEvent = async (values: any, setSubmitting: Function) => {
     try {
       if (etiEventId) {
         const selectedEmails = admins.map((admin: any) => admin.email);
@@ -191,7 +191,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
     } catch (error) {
       console.error(error);
       setEnable(false)
-      // setSubmitting(false);
+      setSubmitting(false);
     }
   }
 
@@ -294,12 +294,12 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                         name: event?.name || '',
                       }}
                       validationSchema={EventFormSchema}
-                      onSubmit={async (values) => {
+                      onSubmit={async (values,  { setSubmitting }) => {
                         console.log('values aqui ->', values);
-                        await handleCreateEvent(values);
+                        await handleCreateEvent(values, setSubmitting);
                       }}
                     >
-                      {({ setFieldValue, touched, errors, values }) => (
+                      {({ setFieldValue, touched, errors, values, isSubmitting}) => (
                         <Form>
                           <Box sx={{ margin: '20px', backgroundColor: '#FAFAFA', borderRadius: '12px', p: 2 }}>
 
@@ -509,7 +509,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                           </Box>
 
                           <Box sx={{ display: 'flex', justifyContent: 'flex-end', margin: '20px' }}>
-                            <Button type='submit' sx={{ width: '115px', padding: '12px, 32px, 12px, 32px', borderRadius: '25px', backgroundColor: '#A82548', height: '44px', '&:hover': { backgroundColor: '#A82548' } }} onClick={() => { handleCreateEvent(values) }}>
+                            <Button type='submit'  disabled={isSubmitting} sx={{ width: '115px', padding: '12px, 32px, 12px, 32px', borderRadius: '25px', backgroundColor: '#A82548', height: '44px', '&:hover': { backgroundColor: '#A82548' } }}>
                               <Typography sx={{ color: '#FAFAFA', fontWeight: 500, fontSize: '14px', lineHeight: '20px' }}>
                                 Crear
                               </Typography>
