@@ -11,7 +11,7 @@ import { db } from 'etiFirebase';
 import { Box } from '@mui/material';
 
 
-const GeneralInfo = () => {
+const GeneralInfo = ({ idNewEventCreate } : {idNewEventCreate: string}) => {
   const [events, setEvents] = useState<EtiEvent[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [eventData, setEventData] = useState<EtiEvent| null> (null);
@@ -25,7 +25,12 @@ const GeneralInfo = () => {
       setEvents(evts);
       if (evts.length > 0) {
         const eventosOrdenados = evts.sort((a:any, b:any) => b.dateStart - a.dateStart);
-
+        console.log('idNewEVENT CREATE EN GENERAL INFO  ------->', idNewEventCreate);
+        evts.forEach((element) => {
+          if(element.id === idNewEventCreate){
+            setEventData(element)
+          } 
+        })
         const ultimoEvento = eventosOrdenados[0];
         
         setEventData(ultimoEvento);
@@ -80,6 +85,7 @@ const GeneralInfo = () => {
     <>
       <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} />
      <Box sx={{display: 'flex', flexDirection: 'column'}}>
+     <h1>{idNewEventCreate}</h1>
       <NewEventList events={events} isLoading={isLoading} onDeleteEvent={handleDeleteEvent} onSelectEvent={setEventData} selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
         <Box sx={{mt: 5}}>
         <NewEditEvent selectedEvent={eventData} setChangeEvent2={setChangeEvent2} changeEvent2={changeEvent2}></NewEditEvent>

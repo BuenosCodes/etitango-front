@@ -184,7 +184,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
         setIdNuevo(idEvento);
         setEnable(true)
         setSelectAdmin(false)
-        onChange()
+        onChange(idEvento)
         // navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
       }
       // await createOrUpdateDoc('events', values, idNuevo === 'new' ? undefined : idNuevo);

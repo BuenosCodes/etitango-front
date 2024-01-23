@@ -31,11 +31,12 @@ export default function UserPanel() {
   const [etis, setEtis] = React.useState(4);
   const [nuestrosLinks, setNuestrosLinks] = React.useState(5);
   const [comision, setComision] = React.useState(6);
+  const [idNewEventCreate, setIdNewEventCreate] = React.useState('no cambio')
 
   const buttons = [
     { label: 'Inscripciones', component: <Inscripcion />, roles: ['admin', 'superAdmin'], icon: '/img/icon/taskSquare.svg', startIndex: 1 },
     { label: 'Mis Datos', component: <Profile />, roles: ['admin', 'superAdmin'], icon: '/img/icon/user.svg', startIndex: 2 },
-    { label: 'Nuevo ETI', component: <NewEvent etiEventId={eventId} onChange={() => { setActiveComponent(<EventsList />); handleListItemClick(12); openEtis ? null : handleClickEtis() }} />, roles: ['superAdmin'], icon: '/img/icon/security-user.svg', startIndex: 3 },
+    { label: 'Nuevo ETI', component: <NewEvent etiEventId={eventId} onChange={(idCreateNewEvent:string) => {setIdNewEventCreate(idCreateNewEvent); handleListItemClick(12); openEtis ? null : handleClickEtis()}} />, roles: ['superAdmin'], icon: '/img/icon/security-user.svg', startIndex: 3 },
   ];
 
   const nustrosLinks = [
@@ -50,7 +51,7 @@ export default function UserPanel() {
 
   ]
   const Etis = [
-    { label: 'Información general', component: <GeneralInfo />, startIndex: 12 },
+    { label: 'Información general', component: <GeneralInfo idNewEventCreate={idNewEventCreate}/>, startIndex: 12 },
     { label: 'Presupuesto', component: <h1>Presupuesto</h1>, startIndex: 13 },
     { label: 'Inscripciones', component: <Inscripcion />, startIndex: 14 },
     { label: 'Merchandising', component: <h1>Merchandansing</h1>, startIndex: 15 },
@@ -147,6 +148,7 @@ export default function UserPanel() {
     setSelectedIndex(index);
   };
 
+  console.log('newEditid en userpanel', idNewEventCreate);
 
   const filteredButtons = buttons.filter(button => {
     if (userIsSuperAdmin) {
@@ -186,6 +188,7 @@ export default function UserPanel() {
     <>
       <Grid container>
         <Grid item xs={2} sx={{ backgroundColor: '#5FB4FC', padding: '30px 0px 20px 30px' }}>
+          <h1>{idNewEventCreate}</h1>
           <List sx={{ padding: '8px 0px 8px 15px', minHeight: '100vh' }}>
             {filteredButtons.map((button, index) => (
               <ListItemButton key={index} onClick={() => { handleButtonClick(index), handleListItemClick(button.startIndex) }} sx={{
