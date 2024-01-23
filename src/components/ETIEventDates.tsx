@@ -9,7 +9,7 @@ import { LocationPicker } from "./form/LocationPicker";
 import { ETIDatePickerEdit } from "./form/DatePickerEdit";
 import { ETITimePickerEdit } from "./form/TimePickerEdit";
 import { UserContext } from "helpers/UserContext";
-import { isAdmin, isSuperAdmin } from "helpers/firestore/users";
+import { isSuperAdmin } from "helpers/firestore/users";
 import { TextField } from 'formik-mui';
 import { makeStyles } from '@mui/styles';
 import { UserFullData } from "shared/User";
@@ -22,10 +22,10 @@ interface Admin {
   email: string;
 }
 export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedEvent: EtiEvent | null, changeEvent: Function }) {
+  const [showAdmins, setShowAdmins] = useState(false)
   const idEvent = selectedEvent?.id
   const [event, setEvent] = useState<EtiEvent>();
   const { user } = useContext(UserContext)
-  const userIsAdmin = isAdmin(user)
   const userIsSuperAdmin = isSuperAdmin(user)
   const [enable, setEnable] = useState(false)
   const alertText: string = 'Este campo no puede estar vacío';
@@ -64,6 +64,7 @@ export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedE
         const uniqueAdmins = combinedAdmins.filter((admin: any, index, self) => self.findIndex((a: any) => a.email === admin.email) === index);
         return uniqueAdmins;
       });
+      setShowAdmins(false)
     }
   };
   useEffect(() => {
@@ -103,7 +104,7 @@ export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedE
             })
           }
         });
-      });
+      });    
       setAdmins(adminsArray)
     }
   }, [selectedEvent]);
@@ -132,6 +133,7 @@ export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedE
           const selectedEmails = admins.map((admin: any) => admin.email);
           if (selectedEmails.length === 0) {
             if (admins.length === 0) {
+              setShowAdmins(true)
               throw new Error('Tienes que seleccionar al menos un admin.');
             }
           }
@@ -140,6 +142,7 @@ export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedE
           await unassignEventAdmins(emailsToDelete, idEvent);
 
           await assignEventAdmins(selectedEmails, idEvent);
+          setShowAdmins(false)
           setEnable(false)
           changeEvent(false)
         }
@@ -372,7 +375,7 @@ export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedE
                 <Grid item md={12} sm={12} xs={12}>
                   <Grid container gap={2} sx={{ border: '1.5px solid #E68650', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} >
                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-                      {admins.length === 0 ? (
+                      {showAdmins === true ? (
                         <Typography variant="body2" color="error" sx={{ fontWeight: 500, p: 2 }}>
                           Debes seleccionar al menos un admin.
                         </Typography>
