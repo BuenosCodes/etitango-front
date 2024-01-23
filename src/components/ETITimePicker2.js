@@ -12,8 +12,6 @@ interface ETITimePicker2Props {
 }
 
 
-
-
 const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange }) => {
   
   const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -42,34 +40,14 @@ const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange }) => {
   //const classes = useStyles();
 
   return (
-    // <TextField
-    //   label=""
-    //   type="time"
-    //   value={value}
-    //   onChange={(event) => onChange(event.target.value)}
-    //   onBlur={handleBlur}
-    //   style={{ width: '115px', height: '48px', }}
-    //   InputProps={{
-    //     startAdornment: (
-    //       <InputAdornment position="start">
-    //         <AccessTimeIcon sx={{ color: '#A82548', fontSize: 'large' }} />
-    //       </InputAdornment>
-    //     ),
-        
-    //   }}
-    //   sx={{
-    //     '& input[type="time"]::-webkit-calendar-picker-indicator': {
-    //       display: 'none',
-    //     },
-    //   }}
-    // />
+   
     <StyledTextField
     label=""
     type="time"
     value={value}
     onChange={(event) => onChange(event.target.value)}
     onBlur={handleBlur}
-    style={{ width: '115px', height: '48px', }}
+    style={{ width: '96px', height: '48px', borderRadius: '12px'}}
     InputProps={{
       startAdornment: (
         <InputAdornment position="start">

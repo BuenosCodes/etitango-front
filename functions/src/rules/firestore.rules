@@ -1,63 +1,52 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-
     function notUpdating(fields) {
       return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
     }
-
-
     function requestBelongsToUser() {
       return request.resource.data.userId == request.auth.uid
     }
-
     function resourceBelongsToUser() {
       return resource.data.userId == request.auth.uid
     }
-
     function signedIn() {
       return request.auth.uid != null
     }
-
     function getUserData(){
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
     }
-
     function isAdmin(){
       return getUserData().roles['admin'] == true;
     }
-
-
     function isSuperAdmin(){
       return getUserData().roles['superadmin'] == true;
     }
-
-
     match /{document=**} {
       allow read, write: if false;
     }
-
     match /users/{userId} {
-      allow read: if true;
-      allow write: if request.auth.uid == userId && notUpdating(['roles', 'adminOf']) || isSuperAdmin();
-    }
-
+    allow read: if true;
+    // Permitir al propietario editar todos los campos excepto roles y adminOf
+    allow write: if request.auth.uid == userId && (
+      !('roles' in request.resource.data) && !('adminOf' in request.resource.data)
+    );
+    // Permitir al superadministrador editar todos los campos
+    allow write: if isSuperAdmin();
+  }
     match /banks/{documentId} {
       allow write: if requestBelongsToUser();
       allow read: if documentId == request.auth.uid || requestBelongsToUser() || isAdmin();
     }
-
     match /signups/{document=**} {
       allow read: if signedIn();
       allow create: if requestBelongsToUser() && notUpdating(['userId', 'etiEventId']);
       allow update: if (resourceBelongsToUser() && notUpdating(['userId', 'etiEventId']) || isAdmin()) ;
     }
-
     match /events/{eventId} {
       allow read: if signedIn();
       allow write: if (eventId in getUserData().adminOf) || isSuperAdmin();
     }
-
     match /templates/{document=**} {
       allow read, write: if isSuperAdmin();
     }

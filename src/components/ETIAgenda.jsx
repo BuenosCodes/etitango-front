@@ -9,11 +9,11 @@ import ModalForm from './ModalForm';
 
 const ETIAgenda = ( { idEvent, eventData } ) => {
 
-  //console.log('EventData desde ETIAgenda -> ', eventData);
+  // console.log('EventData desde ETIAgenda -> ', eventData);
 
-  // const eventDate = eventData?.date.toDate();
-  // const eventDateTransform = eventDate?.toLocaleDateString();
-  // console.log('esta es la fecha transformada: ', eventDateTransform);
+  // const dateStartValue = eventData?.dateStart;
+  // const dateEndValue = eventData?.dateEnd;
+  // console.log('fechas inicio fin -> ', dateStartValue, dateEndValue);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
@@ -21,38 +21,18 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
   const [agendaData, setAgendaData] = useState([]);
   const [updatedEvent, setUpdatedEvent] = useState();
 
-  const handleAgendaData = (data) => {
-    const dataAgenda = data;
-    return dataAgenda;
-  }
-  
   useEffect(() => {
-    console.log('se actualizo eventData');
-  }, [eventData])
-
-  useEffect(() => {
-    if (eventData && eventData.Agenda && eventData.Agenda[0] && eventData.description && eventData.date) {
-      setAgendaData([
-        {
-          0: {
-            description: eventData.Agenda[0].description,
-            time: eventData.Agenda[0].time,
-          },
-          description: eventData.description,
-          time: eventData.date.toDate().toLocaleDateString(),
-        },
-      ]);
+    if (eventData && eventData?.Agenda) {
+      setAgendaData(eventData?.Agenda.map((item) => ({
+        description: item.description,
+        date: item.date,
+        schedule: item.schedule,
+      })));
     } else {
-        setAgendaData([]);
+      setAgendaData([]);
     }
   }, [eventData, updatedEvent]);
   
-
-  // {
-  //   0:{description: eventData?.Agenda[0]?.description, time: eventData?.Agenda[0]?.time },
-  //   description: eventData?.description, 
-  //   time: eventData?.date.toDate()?.toLocaleDateString()
-  // },
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -116,16 +96,26 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
           >
             <img src={'/img/icon/btnPlus.svg'} alt="btnAdd" style={{ width: '100%', height: 'auto' }} />
           </Button>
-          <ModalForm idEvent={idEvent} open={isModalOpen} onClose={handleCloseModal} setUpdatedEvent={setUpdatedEvent}/>
+          <ModalForm
+            idEvent={idEvent}
+            open={isModalOpen}
+            onClose={handleCloseModal}
+            setAgendaData={setAgendaData}
+            setDataFromModalForm={setDataFromModalForm}
+            setUpdatedEvent={setUpdatedEvent}
+            // startDate={dateStartValue}
+            eventData={eventData}
+            // endDate={dateEndValue}
+          />
         </Grid>
         <Grid item xs={12}>
-          <TableContainer component={Paper} className={classes.table}>
+          <TableContainer component={Paper} className={classes.table} >
             <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell />
-                  <TableCell >Fecha</TableCell>
-                  <TableCell >Descripción</TableCell>
+              <TableHead >
+                <TableRow >
+                  <TableCell sx={{width: '1%'}}/>
+                  <TableCell sx={{width: '240px', color: '#FFF'}}>Fecha</TableCell>
+                  <TableCell sx={{width: '599px', color: '#FFF'}}>Descripción</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -137,8 +127,8 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
                           {open[index] ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                         </IconButton>
                       </TableCell>
-                      <TableCell>{rowData.time}</TableCell>
-                      <TableCell>{rowData.description}</TableCell>
+                      <TableCell sx={{color: '#0075D9'}}>{rowData.date}</TableCell>
+                      <TableCell sx={{color: '#0075D9'}}>{rowData.description}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell colSpan={3}>
@@ -146,15 +136,19 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
                           <Table>
                             <TableHead>
                               <TableRow>
-                                <TableCell>Horario</TableCell>
-                                <TableCell>Actividad</TableCell>
+                                <TableCell sx={{width: '1%'}}/>
+                                <TableCell sx={{width: '240px', color: '#FFF'}}>Horario</TableCell>
+                                <TableCell sx={{width: '599px', color: '#FFF'}}>Actividad</TableCell>
                               </TableRow>
                             </TableHead>
                             <TableBody>
-                                <TableRow >
-                                  <TableCell sx={{color: '#000'}}>{rowData[0].time}</TableCell>
-                                  <TableCell>{rowData[0].description}</TableCell>
+                              {rowData.schedule.map((scheduleItem, scheduleIndex) =>(
+                                <TableRow key={scheduleIndex}>
+                                  <TableCell sx={{width: '6%'}}/>
+                                  <TableCell sx={{width: '240px', color: '#0075D9'}}>{scheduleItem.time}</TableCell>
+                                  <TableCell sx={{width: '599px', color: '#0075D9'}}>{scheduleItem.activity}</TableCell>
                                 </TableRow>
+                              ))}
                             </TableBody>
                           </Table>
                         </Collapse>

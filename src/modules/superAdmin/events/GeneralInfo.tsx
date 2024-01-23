@@ -59,6 +59,10 @@ const GeneralInfo = () => {
     setIsLoading(false);
   }, [changeEvent2]);
 
+  useEffect(() => {
+    
+  })
+
   const handleDeleteEvent = async (id: string) => {
     try {
       await deleteDoc(doc(db, "events", id));
