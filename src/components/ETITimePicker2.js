@@ -9,21 +9,24 @@ import { styled } from '@mui/system';
 interface ETITimePicker2Props {
   value: string;
   onChange: (value: string) => void;
+  isDisabled: Boolean;
+  showBorders?: boolean;
 }
 
 
-const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange }) => {
+const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange, isDisabled, showBorders = true }) => {
   
   const StyledTextField = styled(TextField)(({ theme }) => ({
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: value ? '#E68650' : '#FDE4AA',
+        borderColor: showBorders ? (value ? '#E68650' : '#FDE4AA') : 'transparent',
+        borderWidth: showBorders ? 1 : 0,
       },
       '&:hover fieldset': {
-        borderColor: '#E68650',
+        borderColor: showBorders ? '#E68650' : 'transparent',
       },
       '&.Mui-focused fieldset': {
-        borderColor: '#E68650',
+        borderColor: showBorders ? '#E68650' : 'transparent',
       },
     },
   }));
@@ -37,7 +40,6 @@ const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange }) => {
     }
   };
 
-  //const classes = useStyles();
 
   return (
    
@@ -47,7 +49,8 @@ const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange }) => {
     value={value}
     onChange={(event) => onChange(event.target.value)}
     onBlur={handleBlur}
-    style={{ width: '96px', height: '48px', borderRadius: '12px'}}
+    disabled={isDisabled}
+    style={{ width: '102px', height: '48px', borderRadius: '12px'}}
     InputProps={{
       startAdornment: (
         <InputAdornment position="start">
