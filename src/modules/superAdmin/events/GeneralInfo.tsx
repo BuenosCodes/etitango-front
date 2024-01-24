@@ -11,7 +11,7 @@ import { db } from 'etiFirebase';
 import { Box } from '@mui/material';
 
 
-const GeneralInfo = () => {
+const GeneralInfo = ({ idNewEventCreate } : {idNewEventCreate: string}) => {
   const [events, setEvents] = useState<EtiEvent[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [eventData, setEventData] = useState<EtiEvent| null> (null);
@@ -25,11 +25,11 @@ const GeneralInfo = () => {
       setEvents(evts);
       if (evts.length > 0) {
         const eventosOrdenados = evts.sort((a:any, b:any) => b.dateStart - a.dateStart);
-
         const ultimoEvento = eventosOrdenados[0];
-        
-        setEventData(ultimoEvento);
-        setSelectedRows([ultimoEvento?.id])
+        const eventoSeleccionado = evts.find(element => element.id === idNewEventCreate) || ultimoEvento;
+
+        setEventData(eventoSeleccionado);
+        setSelectedRows([eventoSeleccionado.id])
         //console.log("La bestia", ultimoEvento)
       } else {
         setEventData(null);

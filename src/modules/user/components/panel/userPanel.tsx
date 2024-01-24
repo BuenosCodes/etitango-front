@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Grid, Box, List, ListItemButton, ListItemText, ListItemIcon, Collapse, ListItem, Icon } from '@mui/material';
 import NewEvent from '../../../superAdmin/events/NewEvent'
 import EventsList from 'modules/superAdmin/events/EventsList';
@@ -31,11 +31,23 @@ export default function UserPanel() {
   const [etis, setEtis] = React.useState(4);
   const [nuestrosLinks, setNuestrosLinks] = React.useState(5);
   const [comision, setComision] = React.useState(6);
+  const [idNewEventCreate, setIdNewEventCreate] = React.useState('no cambio')
+  const [initialLoad, setInitialLoad] = React.useState(true);
+  
+  useEffect(() => {
+    if (initialLoad) {
+      setActiveComponent(<UserHome />); // O el índice correspondiente a UserHome en tu arreglo
+      setInitialLoad(false);
+    } else {
+      handleListItemClick(12);
+    }
+  }, [idNewEventCreate]);
+
 
   const buttons = [
     { label: 'Inscripciones', component: <Inscripcion />, roles: ['admin', 'superAdmin'], icon: '/img/icon/taskSquare.svg', startIndex: 1 },
     { label: 'Mis Datos', component: <Profile />, roles: ['admin', 'superAdmin'], icon: '/img/icon/user.svg', startIndex: 2 },
-    { label: 'Nuevo ETI', component: <NewEvent etiEventId={eventId} onChange={() => { setActiveComponent(<EventsList />); handleListItemClick(12); openEtis ? null : handleClickEtis() }} />, roles: ['superAdmin'], icon: '/img/icon/security-user.svg', startIndex: 3 },
+    { label: 'Nuevo ETI', component: <NewEvent etiEventId={eventId} onChange={(idCreateNewEvent:string) => {setIdNewEventCreate(idCreateNewEvent);}} />, roles: ['superAdmin'], icon: '/img/icon/security-user.svg', startIndex: 3 },
   ];
 
   const nustrosLinks = [
@@ -50,7 +62,7 @@ export default function UserPanel() {
 
   ]
   const Etis = [
-    { label: 'Información general', component: <GeneralInfo />, startIndex: 12 },
+    { label: 'Información general', component: <GeneralInfo idNewEventCreate={idNewEventCreate}/>, startIndex: 12 },
     { label: 'Presupuesto', component: <h1>Presupuesto</h1>, startIndex: 13 },
     { label: 'Inscripciones', component: <Inscripcion />, startIndex: 14 },
     { label: 'Merchandising', component: <h1>Merchandansing</h1>, startIndex: 15 },
@@ -146,7 +158,6 @@ export default function UserPanel() {
     }
     setSelectedIndex(index);
   };
-
 
   const filteredButtons = buttons.filter(button => {
     if (userIsSuperAdmin) {
