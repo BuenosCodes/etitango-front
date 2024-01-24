@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { User } from 'firebase/auth';
 import { FoodChoices } from './signup';
 
@@ -29,7 +30,7 @@ export interface UserPersonalInfo {
   province?: string;
 }
 
-export type UserRolesListData = Pick<UserFullData, 'email' | 'roles' | 'id' | 'adminOf'>;
+export type UserRolesListData = Pick<UserFullData, 'id' | 'email' | 'nameFirst' | 'nameLast'>;
 
 export interface IUser extends User {
   data?: UserFullData;

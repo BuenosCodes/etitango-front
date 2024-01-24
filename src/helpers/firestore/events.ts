@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { collection, getDocs, limit, orderBy, query, Timestamp, where } from 'firebase/firestore';
 import { db } from '../../etiFirebase';
 import { EtiEvent, EtiEventBase } from '../../shared/etiEvent';
@@ -9,6 +10,7 @@ interface EtiEventFirestore extends EtiEventBase {
   dateStart: Timestamp;
   dateEnd: Timestamp;
   dateSignupOpen: Timestamp;
+  dateSignupEnd: Timestamp;
 }
 
 const toJs = (etiEventFromFirestore: EtiEventFirestore) =>
@@ -16,7 +18,8 @@ const toJs = (etiEventFromFirestore: EtiEventFirestore) =>
     ...etiEventFromFirestore,
     dateStart: etiEventFromFirestore?.dateStart?.toDate(),
     dateEnd: etiEventFromFirestore?.dateEnd?.toDate(),
-    dateSignupOpen: etiEventFromFirestore?.dateSignupOpen?.toDate()
+    dateSignupOpen: etiEventFromFirestore?.dateSignupOpen?.toDate(),
+    dateSignupEnd: etiEventFromFirestore?.dateSignupEnd?.toDate()
   } as EtiEvent);
 
 export async function getFutureEti() {
