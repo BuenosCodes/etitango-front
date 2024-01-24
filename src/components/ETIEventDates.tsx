@@ -16,6 +16,7 @@ import { UserFullData } from "shared/User";
 import * as firestoreUserHelper from 'helpers/firestore/users';
 import RolesNewEvent from "modules/superAdmin/roles/RolesNewEvent";
 import { assignEventAdmins, unassignEventAdmins } from '../helpers/firestore/users';
+import ETITimePicker2 from "./ETITimePicker2";
 
 interface Admin {
   name: string;
@@ -107,7 +108,6 @@ export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedE
       setAdmins(adminsArray)
     }
   }, [selectedEvent]);
-
 
 
   const handleDelete = (email: string) => {
@@ -284,31 +284,33 @@ export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedE
 
                 <Grid item md={12} sm={12} xs={12}>
                   <Grid container spacing={2}>
-                    <Grid item md={4} sm={4} xs={4}>
+                    <Grid item md={4} sm={4} xs={4} >
                       <Typography style={{ fontFamily: 'inter', color: '#0075D9' }}>
                         Desde
                       </Typography>
-                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E68650', borderRadius: 2 }}>
-                        <ETIDatePickerEdit
-                          textFieldProps={{ fullWidth: true }}
-                          fieldName="dateStart"
-                          setFieldValue={setFieldValue}
-                          borderColor={false}
-                          specialCase={true}
-                          isDisabled={!enable}
-                        />
-                        <Box sx={{ width: '100px', ml: 6 }}>
-                          <Typography style={{ fontFamily: 'inter', color: '#0075D9', fontSize: '16px' }}>
-                            a las
-                          </Typography>
+                      <Box sx={{  display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', border: '1px solid #E68650', borderRadius: 2 }}>
+                        <Box>
+                          <ETIDatePickerEdit
+                            textFieldProps={{ fullWidth: true }}
+                            fieldName="dateStart"
+                            setFieldValue={setFieldValue}
+                            borderColor={false}
+                            specialCase={true}
+                            isDisabled={!enable}
+                          />
                         </Box>
-                        <ETITimePickerEdit
-                          textFieldProps={{ fullWidth: true }}
-                          fieldName="timeStart"
-                          setFieldValue={setFieldValue}
-                          borderColor={false}
-                          specialCase={true}
-                        />
+                        <Box>
+                          <Typography style={{ fontFamily: 'inter', color: '#0075D9', fontSize: '16px', width: 'max-content' }}>a las</Typography>
+                        </Box>
+                        
+                        <Box sx={{mb: 1}}>
+                          <ETITimePicker2 
+                            value={values['timeStart']}
+                            onChange={(value) => setFieldValue('timeStart', value)}
+                            isDisabled={!enable}
+                            showBorders={false}
+                          />
+                        </Box>
                       </Box>
                     </Grid>
 
@@ -317,26 +319,28 @@ export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedE
                         Hasta
                       </Typography>
 
-                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E68650', borderRadius: 2 }}>
-                        <ETIDatePickerEdit
-                          textFieldProps={{ fullWidth: true }}
-                          fieldName="dateEnd"
-                          setFieldValue={setFieldValue}
-                          borderColor={false}
-                          specialCase={true}
-                          isDisabled={!enable}
-                        />
-                        <Box sx={{ width: '100px', ml: 6 }}>
-                          <Typography style={{ fontFamily: 'inter', color: '#0075D9', fontSize: '16px' }}> a las</Typography>
+                      <Box sx={{  display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', border: '1px solid #E68650', borderRadius: 2 }}>
+                        <Box>
+                          <ETIDatePickerEdit
+                            textFieldProps={{ fullWidth: true }}
+                            fieldName="dateEnd"
+                            setFieldValue={setFieldValue}
+                            borderColor={false}
+                            specialCase={true}
+                            isDisabled={!enable}
+                          />
                         </Box>
-
-                        <ETITimePickerEdit
-                          textFieldProps={{ fullWidth: true }}
-                          fieldName="timeEnd"
-                          setFieldValue={setFieldValue}
-                          borderColor={false}
-                          specialCase={true}
-                        />
+                        <Box>
+                          <Typography style={{ fontFamily: 'inter', color: '#0075D9', fontSize: '16px', width: 'max-content' }}>a las</Typography>
+                        </Box>
+                        <Box sx={{mb: 1}}>
+                          <ETITimePicker2 
+                            value={values['timeEnd']}
+                            onChange={(value) => setFieldValue('timeEnd', value)}
+                            isDisabled={!enable}
+                            showBorders={false}
+                          />
+                        </Box>
                       </Box>
                     </Grid>
 
@@ -345,26 +349,28 @@ export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedE
                         Inscripciones
                       </Typography>
 
-                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E68650', borderRadius: 2 }}>
-                        <ETIDatePickerEdit
-                          textFieldProps={{ fullWidth: true }}
-                          fieldName="dateSignupOpen"
-                          setFieldValue={setFieldValue}
-                          borderColor={false}
-                          specialCase={true}
-                          isDisabled={!enable}
-                        />
-                        <Box sx={{ width: '100px', ml: 6 }}>
-                          <Typography style={{ fontFamily: 'inter', color: '#0075D9', fontSize: '16px' }}>a las</Typography>
+                      <Box sx={{  display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', border: '1px solid #E68650', borderRadius: 2 }}>
+                        <Box>
+                          <ETIDatePickerEdit
+                            textFieldProps={{ fullWidth: true }}
+                            fieldName="dateSignupOpen"
+                            setFieldValue={setFieldValue}
+                            borderColor={false}
+                            specialCase={true}
+                            isDisabled={!enable}
+                          />
                         </Box>
-
-                        <ETITimePickerEdit
-                          textFieldProps={{ fullWidth: true }}
-                          fieldName="timeSignupOpen"
-                          setFieldValue={setFieldValue}
-                          borderColor={false}
-                          specialCase={true}
-                        />
+                        <Box>
+                          <Typography style={{ fontFamily: 'inter', color: '#0075D9', fontSize: '16px', width: 'max-content' }}>a las</Typography>
+                        </Box>
+                        <Box sx={{mb: 1}}>
+                          <ETITimePicker2 
+                            value={values['timeSignupOpen']}
+                            onChange={(value) => setFieldValue('timeSignupOpen', value)}
+                            isDisabled={!enable}
+                            showBorders={false}
+                          />
+                        </Box>
                       </Box>
                     </Grid>
                   </Grid>

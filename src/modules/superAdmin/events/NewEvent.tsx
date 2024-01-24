@@ -182,9 +182,9 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
         const idEvento = await createOrUpdateDoc('events', values, etiEventId === 'new' ? undefined : idV);
         await assignEventAdmins(selectedEmails, idEvento);
         setIdNuevo(idEvento);
-        setEnable(true);
-        // setSelectAdmin(false);
-        onChange();
+        setEnable(true)
+        // setSelectAdmin(false)
+        onChange(idEvento)
         // navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
       }
       // await createOrUpdateDoc('events', values, idNuevo === 'new' ? undefined : idNuevo);
@@ -366,6 +366,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                     <ETITimePicker2
                                       value={values['timeStart']}
                                       onChange={(value) => setFieldValue('timeStart', value)}
+                                      isDisabled={false}
                                     />
                                   </Grid>
                                 </Grid>
@@ -395,6 +396,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                     <ETITimePicker2
                                       value={values['timeEnd']}
                                       onChange={(value) => setFieldValue('timeEnd', value)}
+                                      isDisabled={false}
                                     />
                                   </Grid>
                                 </Grid>
@@ -424,6 +426,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                     <ETITimePicker2
                                       value={values['timeSignupOpen']}
                                       onChange={(value) => setFieldValue('timeSignupOpen', value)}
+                                      isDisabled={false}
                                     />
                                   </Grid>
                                   <Typography sx={{ color: '#424242', mt: 2, ml: 2, mr: 2, fontWeight: 500 }}>hasta el</Typography>
@@ -448,6 +451,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                     <ETITimePicker2
                                       value={values['timeSignupEnd']}
                                       onChange={(value) => setFieldValue('timeSignupEnd', value)}
+                                      isDisabled={false}
                                     />
                                   </Grid>
                                 </Grid>
@@ -471,9 +475,9 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                               <Grid item xs={12}>
                                 <Grid container gap={2}>
                                   <Typography sx={{ color: '##424242', fontWeight: 500 }}>Colaboradores en la organización del evento</Typography>
-                                  <Grid item xs={12} sx={{ border: '1.5px solid #E68650', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} >
+                                  <Grid item xs={12} sx={{ border: admins.length ? '1.5px solid #E68650' :  '1.5px solid #FDE4AA', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} >
                                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-                                      {showAdmins ? (<>
+                                      {admins.length ? (<>
                                        {admins.map((admin: any, index) => (
                                           <Chip key={index} label={admin.name} onDelete={() => handleDelete(admin.email)} variant="outlined" sx={{ m: 1, borderRadius: '8px', color: '#A82548', fontFamily: 'Roboto', fontWeight: 500, fontSize: '14px' }} />
                                         ))}
