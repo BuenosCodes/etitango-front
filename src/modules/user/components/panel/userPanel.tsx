@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Grid, Box, List, ListItemButton, ListItemText, ListItemIcon, Collapse, ListItem, Icon } from '@mui/material';
 import NewEvent from '../../../superAdmin/events/NewEvent'
 import EventsList from 'modules/superAdmin/events/EventsList';
@@ -32,11 +32,22 @@ export default function UserPanel() {
   const [nuestrosLinks, setNuestrosLinks] = React.useState(5);
   const [comision, setComision] = React.useState(6);
   const [idNewEventCreate, setIdNewEventCreate] = React.useState('no cambio')
+  const [initialLoad, setInitialLoad] = React.useState(true);
+  
+  useEffect(() => {
+    if (initialLoad) {
+      setActiveComponent(<UserHome />); // O el índice correspondiente a UserHome en tu arreglo
+      setInitialLoad(false);
+    } else {
+      handleListItemClick(12);
+    }
+  }, [idNewEventCreate]);
+
 
   const buttons = [
     { label: 'Inscripciones', component: <Inscripcion />, roles: ['admin', 'superAdmin'], icon: '/img/icon/taskSquare.svg', startIndex: 1 },
     { label: 'Mis Datos', component: <Profile />, roles: ['admin', 'superAdmin'], icon: '/img/icon/user.svg', startIndex: 2 },
-    { label: 'Nuevo ETI', component: <NewEvent etiEventId={eventId} onChange={(idCreateNewEvent:string) => {setIdNewEventCreate(idCreateNewEvent); handleListItemClick(12); openEtis ? null : handleClickEtis()}} />, roles: ['superAdmin'], icon: '/img/icon/security-user.svg', startIndex: 3 },
+    { label: 'Nuevo ETI', component: <NewEvent etiEventId={eventId} onChange={(idCreateNewEvent:string) => {setIdNewEventCreate(idCreateNewEvent);}} />, roles: ['superAdmin'], icon: '/img/icon/security-user.svg', startIndex: 3 },
   ];
 
   const nustrosLinks = [
@@ -148,8 +159,6 @@ export default function UserPanel() {
     setSelectedIndex(index);
   };
 
-  console.log('newEditid en userpanel', idNewEventCreate);
-
   const filteredButtons = buttons.filter(button => {
     if (userIsSuperAdmin) {
       // Si el usuario es superadmin, mostrar todos los botones
@@ -188,7 +197,6 @@ export default function UserPanel() {
     <>
       <Grid container>
         <Grid item xs={2} sx={{ backgroundColor: '#5FB4FC', padding: '30px 0px 20px 30px' }}>
-          <h1>{idNewEventCreate}</h1>
           <List sx={{ padding: '8px 0px 8px 15px', minHeight: '100vh' }}>
             {filteredButtons.map((button, index) => (
               <ListItemButton key={index} onClick={() => { handleButtonClick(index), handleListItemClick(button.startIndex) }} sx={{

@@ -25,16 +25,11 @@ const GeneralInfo = ({ idNewEventCreate } : {idNewEventCreate: string}) => {
       setEvents(evts);
       if (evts.length > 0) {
         const eventosOrdenados = evts.sort((a:any, b:any) => b.dateStart - a.dateStart);
-        console.log('idNewEVENT CREATE EN GENERAL INFO  ------->', idNewEventCreate);
-        evts.forEach((element) => {
-          if(element.id === idNewEventCreate){
-            setEventData(element)
-          } 
-        })
         const ultimoEvento = eventosOrdenados[0];
-        
-        setEventData(ultimoEvento);
-        setSelectedRows([ultimoEvento?.id])
+        const eventoSeleccionado = evts.find(element => element.id === idNewEventCreate) || ultimoEvento;
+
+        setEventData(eventoSeleccionado);
+        setSelectedRows([eventoSeleccionado.id])
         //console.log("La bestia", ultimoEvento)
       } else {
         setEventData(null);
@@ -85,7 +80,6 @@ const GeneralInfo = ({ idNewEventCreate } : {idNewEventCreate: string}) => {
     <>
       <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} />
      <Box sx={{display: 'flex', flexDirection: 'column'}}>
-     <h1>{idNewEventCreate}</h1>
       <NewEventList events={events} isLoading={isLoading} onDeleteEvent={handleDeleteEvent} onSelectEvent={setEventData} selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
         <Box sx={{mt: 5}}>
         <NewEditEvent selectedEvent={eventData} setChangeEvent2={setChangeEvent2} changeEvent2={changeEvent2}></NewEditEvent>
