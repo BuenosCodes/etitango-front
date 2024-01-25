@@ -23,7 +23,7 @@ interface Admin {
   email: string;
 }
 export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedEvent: EtiEvent | null, changeEvent: Function }) {
-  const [showAdmins, setShowAdmins] = useState(false)
+  // const [showAdmins, setShowAdmins] = useState(false)
   const idEvent = selectedEvent?.id
   const [event, setEvent] = useState<EtiEvent>();
   const { user } = useContext(UserContext)
@@ -65,7 +65,7 @@ export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedE
         const uniqueAdmins = combinedAdmins.filter((admin: any, index, self) => self.findIndex((a: any) => a.email === admin.email) === index);
         return uniqueAdmins;
       });
-      setShowAdmins(false)
+      // setShowAdmins(false)
     }
   };
   useEffect(() => {
@@ -77,7 +77,6 @@ export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedE
     const fetchData = async () => {
       unsubscribe = await firestoreUserHelper.getAdmins(setUsers, setIsLoading, idEvent);
       // usuarios2 = await firestoreUserHelper.getAllUsers(setUsuarios, setIsLoading)
-
     };
 
     fetchData().catch((error) => {
@@ -131,24 +130,24 @@ export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedE
       } else {
         if (idEvent) {
           const selectedEmails = admins.map((admin: any) => admin.email);
-          if (selectedEmails.length === 0) {
-            if (admins.length === 0) {
-              setShowAdmins(true)
-              throw new Error('Tienes que seleccionar al menos un admin.');
-            }
-          }
+          // if (selectedEmails.length === 0) {
+          //   if (admins.length === 0) {
+          //     setShowAdmins(true)
+          //     throw new Error('Tienes que seleccionar al menos un admin.');
+          //   }
+          // }
           await createOrUpdateDoc('events', values, idEvent === 'new' ? undefined : idEvent);
           const emailsToDelete = adminsToDelete.filter((email) => !selectedEmails.includes(email));
           await unassignEventAdmins(emailsToDelete, idEvent);
 
           await assignEventAdmins(selectedEmails, idEvent);
-          setShowAdmins(false)
+          // setShowAdmins(false)
           setEnable(false)
           changeEvent(false)
         }
       }
     } catch (error) {
-      console.log('Tienes que seleccionar al menos un admin.');
+      console.log(error);
     }
   }
 
@@ -381,9 +380,9 @@ export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedE
                 <Grid item md={12} sm={12} xs={12}>
                   <Grid container gap={2} sx={{ border: '1.5px solid #E68650', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} >
                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-                      {showAdmins === true ? (
-                        <Typography variant="body2" color="error" sx={{ fontWeight: 500, p: 2 }}>
-                          Debes seleccionar al menos un admin.
+                    {admins.length === 0 ? (
+                        <Typography variant="body2" color="text.disabled" sx={{ fontWeight: 500, p: 2 }}>
+                          En este evento no se han añadido administradores.
                         </Typography>
                       ) : (
                         admins.map((admin: any, index) => (

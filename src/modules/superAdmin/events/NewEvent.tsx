@@ -77,7 +77,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
   const [open, setOpen] = React.useState(false);
   // const [createEvent, setCreateEvent] = useState(true);
   const [showAdmins, setShowAdmins] = useState(false)
-  const [selectAdmin, setSelectAdmin] = useState(false)
+  // const [selectAdmin, setSelectAdmin] = useState(false)
   const [admins, setAdmins] = useState<string[]>([]);
   const handleOpen = () => setOpen(true);
   const handleClose = (values: string[] | null) => {
@@ -171,19 +171,19 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
     try {
       if (etiEventId) {
         const selectedEmails = admins.map((admin: any) => admin.email);
-        if (selectedEmails.length === 0) {
-          if (admins.length === 0) {
-            setSelectAdmin(true)
-            throw new Error('Tienes que seleccionar al menos un admin.');
-          }
-        }
+        // if (selectedEmails.length === 0) {
+        //   if (admins.length === 0) {
+        //     setSelectAdmin(true)
+        //     throw new Error('Tienes que seleccionar al menos un admin.');
+        //   }
+        // }
         const validateRuote: RegExp = /^[a-zA-Z0-9]{20,}$/;
         const idV: boolean = validateRuote.test(etiEventId);
         const idEvento = await createOrUpdateDoc('events', values, etiEventId === 'new' ? undefined : idV);
         await assignEventAdmins(selectedEmails, idEvento);
         setIdNuevo(idEvento);
         setEnable(true)
-        setSelectAdmin(false)
+        // setSelectAdmin(false)
         onChange(idEvento)
         // navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
       }
@@ -366,6 +366,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                     <ETITimePicker2
                                       value={values['timeStart']}
                                       onChange={(value) => setFieldValue('timeStart', value)}
+                                      isDisabled={false}
                                     />
                                   </Grid>
                                 </Grid>
@@ -395,6 +396,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                     <ETITimePicker2
                                       value={values['timeEnd']}
                                       onChange={(value) => setFieldValue('timeEnd', value)}
+                                      isDisabled={false}
                                     />
                                   </Grid>
                                 </Grid>
@@ -424,6 +426,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                     <ETITimePicker2
                                       value={values['timeSignupOpen']}
                                       onChange={(value) => setFieldValue('timeSignupOpen', value)}
+                                      isDisabled={false}
                                     />
                                   </Grid>
                                   <Typography sx={{ color: '#424242', mt: 2, ml: 2, mr: 2, fontWeight: 500 }}>hasta el</Typography>
@@ -448,6 +451,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                     <ETITimePicker2
                                       value={values['timeSignupEnd']}
                                       onChange={(value) => setFieldValue('timeSignupEnd', value)}
+                                      isDisabled={false}
                                     />
                                   </Grid>
                                 </Grid>
@@ -471,15 +475,14 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                               <Grid item xs={12}>
                                 <Grid container gap={2}>
                                   <Typography sx={{ color: '##424242', fontWeight: 500 }}>Colaboradores en la organización del evento</Typography>
-                                  <Grid item xs={12} sx={{ border: '1.5px solid #E68650', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} >
+                                  <Grid item xs={12} sx={{ border: admins.length ? '1.5px solid #E68650' :  '1.5px solid #FDE4AA', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} >
                                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-                                      {showAdmins ? (<>
-                                        {admins.map((admin: any, index) => (
+                                      {admins.length ? (<>
+                                       {admins.map((admin: any, index) => (
                                           <Chip key={index} label={admin.name} onDelete={() => handleDelete(admin.email)} variant="outlined" sx={{ m: 1, borderRadius: '8px', color: '#A82548', fontFamily: 'Roboto', fontWeight: 500, fontSize: '14px' }} />
                                         ))}
-                                      </>) : (selectAdmin ? <Typography variant="body2" color="error" sx={{ fontWeight: 500, p: 2 }}>Debes seleccionar al menos un admin.</Typography> : <Typography sx={{ display: 'flex', alignItems: 'center', ml: 1, color: '#9E9E9E', fontFamily: 'Roboto' }}> Organizadores </Typography>)}
+                                      </>) : <Typography sx={{ display: 'flex', alignItems: 'center', ml: 1, color: '#9E9E9E', fontFamily: 'Roboto' }}> Organizadores </Typography>}
                                     </Box>
-
                                     <Button sx={{ padding: '12px, 16px, 12px, 16px', alignItems: 'flex-end' }} onClick={handleOpen}>
                                       <Icon sx={{ display: 'flex', width: '4em', mr: '-8px' }}>
                                         <Typography sx={{ mr: 1, color: '#A82548', fontFamily: 'Roboto', fontWeight: 500 }}>
