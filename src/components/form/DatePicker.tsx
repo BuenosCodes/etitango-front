@@ -2,24 +2,31 @@ import React from 'react';
 import { DatePicker } from 'formik-mui-x-date-pickers';
 import { makeStyles } from '@mui/styles';
 import { Field, useField } from 'formik';
-import esLocale from 'date-fns/locale/es';
 
-const CustomSVGIcon = () => (
-  <img src="/img/icon/calendar-add.svg" alt="Icono personalizado" width="24" height="24" />
-);
+interface Localization {
+  title: {
+    [key: string]: string;
+  };
+}
+
+const l10n: Localization = {
+  title: { en: 'title', es: 'título' }
+};
 
 export const ETIDatePicker = ({
   fieldName,
   setFieldValue,
   textFieldProps,
   specialCase,
-  borderColor
+  borderColor,
+  language
 }: {
   fieldName: string;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
   textFieldProps: any;
   specialCase: boolean;
   borderColor: boolean;
+  language: 'es'; // Asegúrate de limitar los valores posibles de `language`
 }) => {
   const [field] = useField(fieldName);
   const useStyles = makeStyles({
@@ -63,34 +70,38 @@ export const ETIDatePicker = ({
   const classes = useStyles();
 
   return (
-    <Field
-      component={DatePicker}
-      disablePast
-      textField={{
-        ...textFieldProps,
-        className: classes.root,
-        onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => {
-          e.preventDefault();
-        }
-      }}
-      inputProps={{
-        style: {
-          fontFamily: 'inter'
-        }
-      }}
-      name={fieldName}
-      views={['day', 'month', 'year']}
-      onChange={(value: any) => {
-        console.log('value date aqui -> ', value);
-        if (value && value.toDate) {
-          console.log('value to date ->', value.toDate());
-          setFieldValue(fieldName, value.toDate());
-        } else {
-          console.warn('Fecha no válida');
-          setFieldValue(fieldName, null);
-        }
-      }}
-      locale={esLocale}
-    />
+    <div>
+      <p>
+        {l10n.title[language]} {/* Accede a la traducción del título */}
+      </p>
+      <Field
+        component={DatePicker}
+        disablePast
+        textField={{
+          ...textFieldProps,
+          className: classes.root,
+          onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => {
+            e.preventDefault();
+          }
+        }}
+        inputProps={{
+          style: {
+            fontFamily: 'inter'
+          }
+        }}
+        name={fieldName}
+        views={['day', 'month', 'year']}
+        onChange={(value: any) => {
+          console.log('value date aqui -> ', value);
+          if (value && value.toDate) {
+            console.log('value to date ->', value.toDate());
+            setFieldValue(fieldName, value.toDate());
+          } else {
+            console.warn('Fecha no válida');
+            setFieldValue(fieldName, null);
+          }
+        }}
+      />
+    </div>
   );
 };
