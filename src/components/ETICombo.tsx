@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import { Button, Grid, Box, Typography, Chip, Icon, Modal } from '@mui/material';
@@ -8,14 +10,20 @@ import InputAdornment from '@mui/material/InputAdornment';
 import CloudinaryUploadWidget from 'components/CloudinaryUploadWidget';
 import { EtiEvent } from 'shared/etiEvent';
 import { ETIDatePicker } from './form/DatePicker';
-import { ETITimePicker } from './form/TimePicker';
 import { createOrUpdateDoc } from 'helpers/firestore';
 import ETITimePicker2 from './ETITimePicker2';
-import { values } from 'lodash';
 
-// eslint-disable-next-line no-unused-vars
+interface ETICombosProps {
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
+  selectedEvent: EtiEvent | null;
+  values: {
+    firstDatePay?: string;
+    secondTimePay?: string;
+    timeRefundDeadline?: string;
+  };
+}
+const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, values }) => {
 
-export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void, selectedEvent: EtiEvent | null }) {
   const idEvent = selectedEvent?.id;
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -323,17 +331,16 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                       borderColor={false}
                       specialCase={false}
                     />
+                    
                   </Grid>
                   <Typography sx={{ color: '#424242', mt: 2, ml: 2, mr: 2, fontWeight: 500 }}>
                     a las
                   </Typography>
                   <Grid item>
-                    <ETITimePicker
-                      textFieldProps={{ fullWidth: true }}
-                      fieldName="FirstTimePay"
-                      setFieldValue={setFieldValue}
-                      borderColor={false}
-                      specialCase={false}
+                    <ETITimePicker2 
+                      value={values['firstDatePay']} 
+                      onChange={(value) => setFieldValue('firstDatePay', value)}
+                      isDisabled={false}                    
                     />
                   </Grid>
                 </Grid>
@@ -381,12 +388,10 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                     a las
                   </Typography>
                   <Grid item>
-                    <ETITimePicker
-                      textFieldProps={{ fullWidth: true }}
-                      fieldName="secondTimePay"
-                      setFieldValue={setFieldValue}
-                      borderColor={false}
-                      specialCase={false}
+                    <ETITimePicker2 
+                      value={values['secondTimePay']} 
+                      onChange={(value) => setFieldValue('secondTimePay', value)}
+                      isDisabled={false}                    
                     />
                   </Grid>
                 </Grid>
@@ -409,12 +414,10 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
                     hasta las
                   </Typography>
                   <Grid item>
-                    <ETITimePicker
-                      textFieldProps={{ fullWidth: true }}
-                      fieldName="timeRefundDeadline"
-                      setFieldValue={setFieldValue}
-                      borderColor={false}
-                      specialCase={false}
+                    <ETITimePicker2 
+                      value={values['timeRefundDeadline']} 
+                      onChange={(value) => setFieldValue('timeRefundDeadline', value)}
+                      isDisabled={false}                    
                     />
                   </Grid>
                 </Grid>
@@ -516,3 +519,5 @@ export default function ETICombos({ setFieldValue, selectedEvent }: { setFieldVa
     </>
   );
 }
+
+export default ETICombos;
