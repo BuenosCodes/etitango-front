@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+.dockerignore
 
 # testing
 /coverage
@@ -31,10 +32,14 @@ yarn-error.log*
 
 .env
 .env_example
+.eslintrc
 
 /.firebase/hosting.YnVpbGQ.cache
 
 functions/lib/
+.package.json
+.package-lock.json
+.tsconfig
 
 *.log
 
