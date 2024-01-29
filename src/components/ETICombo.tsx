@@ -31,6 +31,30 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
   const handleClose = () => {
     setOpen(false);
   };
+  const [fieldCount, setFieldCount] = useState(3);
+
+  const handleAddField = () => {
+    setFieldCount(fieldCount + 1);
+  };
+  
+  const handleRemoveField = () => {
+    if (fieldCount > 3) { // Asegúrate de que siempre haya al menos 3 campos
+      setFieldCount(fieldCount - 1);
+    }
+  };
+
+  // const [additionalFields, setAdditionalFields] = useState<{ product: string}[]>(
+  //   [{ product: ''}]
+  // );
+  // const handleAddField = () => {
+  //   setAdditionalFields([...additionalFields, { product: '' }]);
+  // };
+
+  // const handleDeleteField = () => {
+  //   const newFields = [...additionalFields];
+  //   newFields.pop();
+  //   setAdditionalFields(newFields);
+  // };
 
   // Make Styles
   const style = {
@@ -204,7 +228,7 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                       </Grid>
                       <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                         {/* Icon add */}
-                        <Button>
+                        <Button onClick={() => handleRemoveField()}>
                           {/* Validate*/}
                           <img
                             src={'/img/icon/btnDelete.svg'}
@@ -214,16 +238,33 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                           />
                         </Button>
                         {/* Icon remove */}
-                        <Button>
+                        <Button onClick={() => handleAddField()}>
                           {/* Validate*/}
                           <img src={'/img/icon/btnPlus.svg'} alt="btnPlus" height={50} width={50} />
                         </Button>
                       </Grid>
                     </Grid>
+
+
+
                     {/** Fields  */}
+                   
+
                     <Grid item xs={12}>
+                    {[...Array(fieldCount)].map((_, index) => (
                       <Field
-                        name="name"
+                        key={index}
+                        name={`product${index + 1}`}
+                        placeholder={`Producto ${index + 1}`}
+                        component={TextField}
+                        required
+                        fullWidth
+                        sx={{ marginTop: 3 }}
+                        classes={{ root: classes.root }}
+                      />
+                    ))}
+                      {/* <Field
+                        name="product1"
                         placeholder="Producto 1"
                         component={TextField}
                         required
@@ -233,7 +274,7 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                       />
                       <Grid item xs={12}>
                         <Field
-                          name="name"
+                          name="product2"
                           placeholder="Producto 2"
                           component={TextField}
                           required
@@ -244,7 +285,7 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                       </Grid>
                       <Grid item xs={12}>
                         <Field
-                          name="name"
+                          name="product3"
                           placeholder="Producto 3"
                           component={TextField}
                           required
@@ -252,7 +293,9 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                           sx={{ marginTop: 3 }} // Adjust the marginTop value as necessary
                           classes={{ root: classes.root }}
                         />
-                      </Grid>
+                      </Grid> */}
+
+
                       <Grid container justifyContent="flex-end">
                         <Grid item>
                           {/** Button to add  */}
