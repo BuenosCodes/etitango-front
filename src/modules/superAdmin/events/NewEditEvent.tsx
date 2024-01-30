@@ -16,6 +16,7 @@ import ETIEventDate from 'components/ETIEventDates';
 export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEvent2 }: { selectedEvent: EtiEvent | null, setChangeEvent2 : Function, changeEvent2 : boolean }) {
 
   const alertText: string = 'Este campo no puede estar vacío';
+  const alerText2: string = 'Tienes cambios que no seran guardados.'
   const EventFormSchema = object({
     dateEnd: date().required(alertText),
     dateSignupOpen: date().required(alertText),
@@ -40,6 +41,10 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
   const [alojamientoData, setAlojamientoData] = useState([null]);
   const [dataBanks, setDataBanks] = useState([null])
   const [dataMP, setDataMP] = useState([null])
+  const [isEditingAlojamiento, setIsEditingAlojamiento] = useState(true);
+  const [isEditingDataBanks, setIsEditingDataBanks] = useState(true);
+  const [isEditingDataMP, setIsEditingDataMP] = useState(true);
+  
 
   const updateAlojamientoData = (newData) => {
     setAlojamientoData(newData);
@@ -64,20 +69,25 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
   const handleCreateEvent = async (values: any) => {
     try {
       if(!changeEvent2){
-      if (alojamientoData && alojamientoData.length > 0) {
-        values.alojamiento = alojamientoData;
-      }
-  
-      if (dataBanks && dataBanks.length > 0) {
-        values.datosBancarios = dataBanks;
-      }
-  
-      if (dataMP && dataMP.length > 0) {
-        values.linkMercadoPago = dataMP;  
-      }
-      await createOrUpdateDoc('events', values, idEvent === 'new' ? undefined : idEvent);
+        if (alojamientoData && alojamientoData.length > 0) {
+          values.alojamiento = alojamientoData;
+        }
+    
+        if (dataBanks && dataBanks.length > 0) {
+          values.datosBancarios = dataBanks;
+        }
+    
+        if (dataMP && dataMP.length > 0) {
+          values.linkMercadoPago = dataMP;  
+        }
+
+        if(!isEditingAlojamiento || !isEditingDataBanks || !isEditingDataMP){
+          alert(alerText2)
+          return;
+        }
+        await createOrUpdateDoc('events', values, idEvent === 'new' ? undefined : idEvent);
       } else {
-        alert('Tienes cambios que no seran guardados.')
+        alert(alerText2)
       }
     } catch (error) {
       console.error(error);
@@ -150,15 +160,15 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
                           
 
                           <Grid item md={12} sm={12} xs={12}>
-                            <ETIAlojamiento idEvent={idEvent} event={selectedEvent} updateAlojamientoData={updateAlojamientoData} />
+                            <ETIAlojamiento idEvent={idEvent} event={selectedEvent} updateAlojamientoData={updateAlojamientoData} isEditingRows={setIsEditingAlojamiento}/>
                           </Grid>
 
                           <Grid item md={12} sm={12} xs={12}>
-                            <ETIDataBanks idEvent={idEvent} event={selectedEvent} dataBanks={updateDataBanks}/>
+                            <ETIDataBanks idEvent={idEvent} event={selectedEvent} dataBanks={updateDataBanks} isEditingRows={setIsEditingDataBanks}/> 
                           </Grid> 
 
                           <Grid item md={12} sm={12} xs={12}>
-                            <ETIMercadoPago idEvent={idEvent} event={selectedEvent} dataMP={updateDataMP}/>
+                            <ETIMercadoPago idEvent={idEvent} event={selectedEvent} dataMP={updateDataMP} isEditingRows={setIsEditingDataMP}/> 
                           </Grid>
 
                           <Grid item md={12} sm={12} xs={12}>
