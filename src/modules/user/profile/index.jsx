@@ -10,7 +10,7 @@ import { CheckboxWithLabel, Select, TextField } from 'formik-mui';
 import { bool, number, object, string } from 'yup';
 import { DanceRoles, FoodChoices } from 'shared/signup';
 import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
-import { LocationPicker } from '../../../components/form/LocationPicker.tsx';
+import { LocationPickerProfile } from 'components/form/LocationPickerProfile';
 import { USERS } from 'helpers/firestore/users';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
@@ -122,7 +122,7 @@ export default function Profile() {
         createOrUpdateDoc('users', userData, userId),
         createOrUpdateDoc('banks', { userId, bank }, userId)
       ]);
-      navigate(ROUTES.USER_HOME);
+      window.location.href = ROUTES.DASHBOARD;
     } catch (error) {
       console.error(error);
       setSubmitting(false);
@@ -260,7 +260,7 @@ export default function Profile() {
                           />
                         </Grid>
                         <Grid item xs={12} lg={12} style={{ display: 'flex' }}>
-                          <LocationPicker
+                          <LocationPickerProfile
                             values={values}
                             errors={errors}
                             t={t}
