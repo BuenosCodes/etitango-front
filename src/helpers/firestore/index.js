@@ -70,3 +70,21 @@ export const updateEventWithImageUrl = async (eventId, imageUrl) => {
     throw error;
   }
 }
+
+export const deleteImageUrlFromEvent = async (eventId) => {
+  try {
+    const event = await getDocument(`events/${eventId}`);
+
+    if(event){
+      delete event.imageUrl;
+      await setDoc(doc(db, `events/${eventId}`), event);
+      return true;
+    } else {
+      console.log(`No se encontró el evento con ID ${eventId}`);
+      return false;
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
