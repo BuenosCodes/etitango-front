@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
@@ -22,7 +23,7 @@ interface ETICombosProps {
     timeRefundDeadline?: string;
   };
 }
-const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, values }) => {
+const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, values, EventImage }) => {
 
   const idEvent = selectedEvent?.id;
   const eventImage = selectedEvent?.imageUrl;
@@ -118,7 +119,7 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
  const classes = useStyles();
 
   // Add Cloudinary
-  const [imageEvent, setImageEvent] = useState('');
+  const [imageUrlEvent, setImageUrlEvent] = useState('');
 
   const cloudNameCredencial = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
   const cloudPresetCredencial = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
@@ -131,22 +132,27 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
     uploadPreset
   };
 
-  const handleChangeImage = async (uploadedImageUrl: string) => {
-    try {
-      await createOrUpdateDoc(
-        'events',
-        { imageUrl: uploadedImageUrl },
-        idEvent === 'new' ? undefined : idEvent
-      );
-      setImageEvent(uploadedImageUrl);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const handleChangeImage = async (uploadedImageUrl: string) => {
+  //   try {
+  //     await createOrUpdateDoc(
+  //       'events',
+  //       { imageUrl: uploadedImageUrl },
+  //       idEvent === 'new' ? undefined : idEvent
+  //     );
+  //     setImageUrlEvent(uploadedImageUrl);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const handleUpdateImage = (uploadImageUrl: string) => {
+    setImageUrlEvent(uploadImageUrl);
+    EventImage(uploadImageUrl)
+  }
 
   useEffect(() => {
     if (selectedEvent?.imageUrl) {
-      setImageEvent(selectedEvent.imageUrl);
+      setImageUrlEvent(selectedEvent.imageUrl);
     }
   }, [selectedEvent?.imageUrl]);
   
@@ -487,14 +493,14 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                     borderRadius: '16px'
                   }}
                   alt="Imagen representativa del evento"
-                  src={imageEvent ? imageEvent : '/img/imageNotFound.svg'}
+                  src={imageUrlEvent ? imageUrlEvent : '/img/imageNotFound.svg'}
                 />
 
                 <Box sx={{ display: 'flex', alignItems: 'center', ml: 5 }}>
                   <CloudinaryUploadWidget
                     uwConfig={uwConfig}
                     onImageUpload={(uploadedImageUrl: string) =>
-                      handleChangeImage(uploadedImageUrl)
+                      handleUpdateImage(uploadedImageUrl)
                     }
                   />
 
@@ -514,7 +520,7 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                       try {
                         const success = await deleteImageUrlFromEvent(idEvent);
                         if (success) {
-                          setImageEvent('');
+                          setImageUrlEvent('');
                           console.log('La imagen se elimino correctamente.');
                         }
                       } catch (error) {

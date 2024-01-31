@@ -37,9 +37,13 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
       }),
   });
   const idEvent = selectedEvent?.id
+  const [eventImage, setEventImage] = useState('')
   const [alojamientoData, setAlojamientoData] = useState([null]);
   const [dataBanks, setDataBanks] = useState([null])
   const [dataMP, setDataMP] = useState([null])
+
+  console.log('Esta es la img desde editevetn ->, ', eventImage);
+  
 
   const updateAlojamientoData = (newData) => {
     setAlojamientoData(newData);
@@ -162,7 +166,7 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
                           </Grid>
 
                           <Grid item md={12} sm={12} xs={12}>
-                            <ETICombos setFieldValue={setFieldValue} values={values} selectedEvent={selectedEvent}/>
+                            <ETICombos setFieldValue={setFieldValue} values={values} selectedEvent={selectedEvent} EventImage={setEventImage}/>
                           </Grid>
 
                           <Grid item md={12} sm={12} xs={12}>
