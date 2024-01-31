@@ -7,7 +7,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { createOrUpdateDoc } from 'helpers/firestore'; 
 import ETIModalMaps from './ETIModalMaps';
 
-const ETIAlojamiento = ( { idEvent, event, updateAlojamientoData }) => {
+const ETIAlojamiento = ( { idEvent, event, updateAlojamientoData, isEditingRows }) => {
 
   const [rows, setRows] = useState([]);
   const [editRowsModel, setEditRowsModel] = useState({});
@@ -108,6 +108,7 @@ const ETIAlojamiento = ( { idEvent, event, updateAlojamientoData }) => {
 
   const handleEditClick = () => {
     setIsEditing(true);
+    isEditingRows(isEditing)
     handleMenuClose();
   };
 
@@ -130,6 +131,7 @@ const ETIAlojamiento = ( { idEvent, event, updateAlojamientoData }) => {
     }
 
     setIsEditing(false);
+    isEditingRows(isEditing)
   };
 
   const columns = [
