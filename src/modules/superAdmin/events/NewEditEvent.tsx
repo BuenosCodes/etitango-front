@@ -38,12 +38,16 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
       }),
   });
   const idEvent = selectedEvent?.id
+  const [eventImage, setEventImage] = useState('')
   const [alojamientoData, setAlojamientoData] = useState([null]);
   const [dataBanks, setDataBanks] = useState([null])
   const [dataMP, setDataMP] = useState([null])
   const [isEditingAlojamiento, setIsEditingAlojamiento] = useState(true);
   const [isEditingDataBanks, setIsEditingDataBanks] = useState(true);
   const [isEditingDataMP, setIsEditingDataMP] = useState(true);
+  
+
+  console.log('Esta es la img desde editevetn ->, ', eventImage);
   
 
   const updateAlojamientoData = (newData) => {
@@ -84,6 +88,9 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
         if(!isEditingAlojamiento || !isEditingDataBanks || !isEditingDataMP){
           alert(alerText2)
           return;
+        }
+        if(eventImage){
+          values.imageUrl = eventImage;
         }
         await createOrUpdateDoc('events', values, idEvent === 'new' ? undefined : idEvent);
       } else {
@@ -172,7 +179,7 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
                           </Grid>
 
                           <Grid item md={12} sm={12} xs={12}>
-                            <ETICombos setFieldValue={setFieldValue} values={values} selectedEvent={selectedEvent}/>
+                            <ETICombos setFieldValue={setFieldValue} values={values} selectedEvent={selectedEvent} EventImage={setEventImage}/>
                           </Grid>
 
                           <Grid item md={12} sm={12} xs={12}>

@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
+import { Button } from "@mui/material";
 import { createContext, useEffect, useState } from "react";
 
 const CloudinaryScriptContext = createContext();
@@ -33,27 +34,23 @@ function CloudinaryUploadWidget({ uwConfig, onImageUpload }) {
         (error, result) => {
           if (!error && result && result.event === "success") {
             console.log("result info: ", result.info);
-            onImageUpload(result.info.url);   
+            onImageUpload(result.info.url);
           }
         }
-
       );
-
-      document.getElementById("upload_widget").addEventListener(
-        "click",
-        function () {
-          myWidget.open();
-        },
-        false
-      );
+  
+      if (!myWidget.isShowing()) {
+        myWidget.open();
+      }
     }
   };
+  
 
   const buttonStyles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '171px',
+    width: '187px',
     padding: '10px 24px 10px 20px',
     borderRadius: '12px',
     backgroundColor: '#A82548',
@@ -64,14 +61,14 @@ function CloudinaryUploadWidget({ uwConfig, onImageUpload }) {
 
   return (
     <CloudinaryScriptContext.Provider value={{ loaded }}>
-      <button
+      <Button
         id="upload_widget"
         className="cloudinary-button"
         onClick={initializeCloudinaryWidget}
         style={buttonStyles}
       >
         Subir nueva portada
-      </button>
+      </Button>
     </CloudinaryScriptContext.Provider>
   );
 }
