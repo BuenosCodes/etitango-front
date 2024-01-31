@@ -89,6 +89,9 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
           alert(alerText2)
           return;
         }
+        if(eventImage){
+          values.imageUrl = eventImage;
+        }
         await createOrUpdateDoc('events', values, idEvent === 'new' ? undefined : idEvent);
       } else {
         alert(alerText2)
