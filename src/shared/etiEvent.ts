@@ -13,6 +13,7 @@ export interface EtiEventBase {
   timeSignupOpen: string;
   timeSignupEnd: string;
   admins: [];
+  combos: ["Dos Milongas", "Asamblea Etiana", "Comida de despedida"]
 }
 
 export interface EtiEvent extends EtiEventBase {
