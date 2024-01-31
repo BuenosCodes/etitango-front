@@ -16,6 +16,7 @@ import ETIEventDate from 'components/ETIEventDates';
 export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEvent2, setChangeEvent3 }: { selectedEvent: EtiEvent | null, setChangeEvent2: Function, changeEvent2: boolean, setChangeEvent3: Function }) {
 
   const alertText: string = 'Este campo no puede estar vacío';
+  const alerText2: string = 'Tienes cambios que no seran guardados.'
   const EventFormSchema = object({
     firstPay: string().required(alertText),
     firstDatePay: mixed()  // Hacer que acepte varios tipos, incluyendo fechas
@@ -70,11 +71,19 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
     limitParticipants: string().required(alertText),
   });
   const idEvent = selectedEvent?.id
+  const [eventImage, setEventImage] = useState('')
   const [alojamientoData, setAlojamientoData] = useState([null]);
   const [dataBanks, setDataBanks] = useState([null])
   const [dataMP, setDataMP] = useState([null])
   const [isLoading, setIsLoading] = useState(false)
   const [showSuccessImage, setShowSuccessImage] = useState(false);
+  const [isEditingAlojamiento, setIsEditingAlojamiento] = useState(true);
+  const [isEditingDataBanks, setIsEditingDataBanks] = useState(true);
+  const [isEditingDataMP, setIsEditingDataMP] = useState(true);
+  
+
+  console.log('Esta es la img desde editevetn ->, ', eventImage);
+  
 
   const updateAlojamientoData = (newData) => {
     setAlojamientoData(newData);
@@ -100,20 +109,31 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
     try {
       setIsLoading(true)
       if (!changeEvent2) {
-        if (alojamientoData && alojamientoData.length > 0) {
-          values.alojamiento = alojamientoData;
+          if (alojamientoData && alojamientoData.length > 0) {
+            values.alojamiento = alojamientoData;
+          }
+  
+          if (dataBanks && dataBanks.length > 0) {
+            values.datosBancarios = dataBanks;
+          }
+  
+          if (dataMP && dataMP.length > 0) {
+            values.linkMercadoPago = dataMP;
+          }
+
+       if(!isEditingAlojamiento || !isEditingDataBanks || !isEditingDataMP){
+          alert(alerText2)
+          return;
+        }
+        if(eventImage){
+          values.imageUrl = eventImage;
         }
 
-        if (dataBanks && dataBanks.length > 0) {
-          values.datosBancarios = dataBanks;
-        }
-
-        if (dataMP && dataMP.length > 0) {
-          values.linkMercadoPago = dataMP;
-        }
         // Simula la operación de carga con un tiempo de espera de 2350ms
         setTimeout(async () => {
-          await createOrUpdateDoc('events', values, idEvent === 'new' ? undefined : idEvent);
+    
+ 
+        await createOrUpdateDoc('events', values, idEvent === 'new' ? undefined : idEvent);
           setChangeEvent3(true);
           setIsLoading(false);
 
@@ -126,7 +146,7 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
           }, 4500);
         }, 2350);
       } else {
-        alert('Tienes cambios que no seran guardados.')
+        alert(alerText2)
         setIsLoading(false)
       }
     } catch (error) {
@@ -193,19 +213,19 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
                       </Grid>
                       
                       <Grid item md={12} sm={12} xs={12}>
-                        <ETIAlojamiento idEvent={idEvent} event={selectedEvent} updateAlojamientoData={updateAlojamientoData} />
+                        <ETIAlojamiento idEvent={idEvent} event={selectedEvent} updateAlojamientoData={updateAlojamientoData} isEditingRows={setIsEditingAlojamiento}/>
                       </Grid>
 
                       <Grid item md={12} sm={12} xs={12}>
-                        <ETIDataBanks idEvent={idEvent} event={selectedEvent} dataBanks={updateDataBanks} />
+                        <ETIDataBanks idEvent={idEvent} event={selectedEvent} dataBanks={updateDataBanks} isEditingRows={setIsEditingDataBanks} /> 
                       </Grid>
 
                       <Grid item md={12} sm={12} xs={12}>
-                        <ETIMercadoPago idEvent={idEvent} event={selectedEvent} dataMP={updateDataMP} />
+                        <ETIMercadoPago idEvent={idEvent} event={selectedEvent} dataMP={updateDataMP} isEditingRows={setIsEditingDataMP} /> 
                       </Grid>
 
                       <Grid item md={12} sm={12} xs={12}>
-                        <ETICombos setFieldValue={setFieldValue} values={values} selectedEvent={selectedEvent} errors={errors} touched={touched}/>
+                        <ETICombos setFieldValue={setFieldValue} values={values} selectedEvent={selectedEvent} errors={errors} touched={touched} EventImage={setEventImage}/>
                       </Grid>
                     </Grid>
                   </Box>

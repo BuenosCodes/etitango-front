@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
@@ -10,7 +11,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import CloudinaryUploadWidget from 'components/CloudinaryUploadWidget';
 import { EtiEvent } from 'shared/etiEvent';
 import { ETIDatePicker } from './form/DatePicker';
-import { createOrUpdateDoc } from 'helpers/firestore';
+import { createOrUpdateDoc, deleteImageUrlFromEvent } from 'helpers/firestore';
 import ETITimePicker2 from './ETITimePicker2';
 
 interface ETICombosProps {
@@ -26,16 +27,21 @@ interface ETICombosProps {
   };
   errors: any;
   touched: any;
+  EventImage: any;
 }
-const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, values, errors, touched }) => {
+const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, values, errors, touched, EventImage }) => {
 
   const idEvent = selectedEvent?.id;
+  const eventImage = selectedEvent?.imageUrl;
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const [enable, setEnable] = useState(false);
   const handleClose = () => {
     setOpen(false);
   };
+
+  console.log('imagen -> ', eventImage);
+  
 
   const useStyles = makeStyles({
     root: {
@@ -108,7 +114,7 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
  const classes = useStyles();
 
   // Add Cloudinary
-  const [imageEvent, setImageEvent] = useState('');
+  const [imageUrlEvent, setImageUrlEvent] = useState('');
 
   const cloudNameCredencial = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
   const cloudPresetCredencial = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
@@ -121,19 +127,30 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
     uploadPreset
   };
 
-  const handleChangeImage = async (uploadedImageUrl: string) => {
-    try {
-      await createOrUpdateDoc(
-        'events',
-        { imageUrl: uploadedImageUrl },
-        idEvent === 'new' ? undefined : idEvent
-      );
-      setImageEvent(uploadedImageUrl);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const handleChangeImage = async (uploadedImageUrl: string) => {
+  //   try {
+  //     await createOrUpdateDoc(
+  //       'events',
+  //       { imageUrl: uploadedImageUrl },
+  //       idEvent === 'new' ? undefined : idEvent
+  //     );
+  //     setImageUrlEvent(uploadedImageUrl);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
+  const handleUpdateImage = (uploadImageUrl: string) => {
+    setImageUrlEvent(uploadImageUrl);
+    EventImage(uploadImageUrl)
+  }
+
+  useEffect(() => {
+    if (selectedEvent?.imageUrl) {
+      setImageUrlEvent(selectedEvent.imageUrl);
+    }
+  }, [selectedEvent?.imageUrl]);
+  
 
   return (
     <>
@@ -496,17 +513,18 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                     height: 550,
                     width: 450,
                     maxHeight: { xs: 550, md: 190 },
-                    maxWidth: { xs: 450, md: 360 }
+                    maxWidth: { xs: 450, md: 360 },
+                    borderRadius: '16px'
                   }}
                   alt="Imagen representativa del evento"
-                  src={imageEvent ? imageEvent : '/img/imageNotFound.svg'}
+                  src={imageUrlEvent ? imageUrlEvent : '/img/imageNotFound.svg'}
                 />
 
                 <Box sx={{ display: 'flex', alignItems: 'center', ml: 5 }}>
                   <CloudinaryUploadWidget
                     uwConfig={uwConfig}
                     onImageUpload={(uploadedImageUrl: string) =>
-                      handleChangeImage(uploadedImageUrl)
+                      handleUpdateImage(uploadedImageUrl)
                     }
                   />
 
@@ -520,6 +538,18 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                       backgroundColor: 'transparent',
                       height: '44px',
                       '&:hover': { backgroundColor: 'transparent' }
+                    }}
+
+                    onClick={async () =>{
+                      try {
+                        const success = await deleteImageUrlFromEvent(idEvent);
+                        if (success) {
+                          setImageUrlEvent('');
+                          console.log('La imagen se elimino correctamente.');
+                        }
+                      } catch (error) {
+                        console.error('eliminar imagen fallo ', error);
+                      }
                     }}
                   >
                     <Typography

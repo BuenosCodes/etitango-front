@@ -6,7 +6,7 @@ import { Box, Button, Grid, Typography, Menu, MenuItem, } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createOrUpdateDoc } from 'helpers/firestore'; 
 
-const ETIDataBanks = ({ idEvent, event, dataBanks }) => {
+const ETIDataBanks = ({ idEvent, event, dataBanks, isEditingRows }) => {
   const [rows, setRows] = useState([]);
   const [editRowsModel, setEditRowsModel] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
@@ -79,6 +79,7 @@ const ETIDataBanks = ({ idEvent, event, dataBanks }) => {
 
   const handleEditClick = () => {
     setIsEditing(true);
+    isEditingRows(isEditing);
     handleMenuClose();
   };
 
@@ -91,6 +92,7 @@ const ETIDataBanks = ({ idEvent, event, dataBanks }) => {
       await createOrUpdateDoc('', row, row.id);
     }
     setIsEditing(false);
+    isEditingRows(isEditing);
   };
 
   const columns = [
@@ -113,7 +115,7 @@ const ETIDataBanks = ({ idEvent, event, dataBanks }) => {
               style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
               onClick={handleConfirmClick}
             >
-              <img src={'/img/icon/btnConfirm.png'} alt="btnConfirm" style={{ width: '100%', height: 'auto' }} />
+              <img src={'/img/icon/btnConfirm.svg'} alt="btnConfirm" style={{ width: '100%', height: 'auto' }} />
             </Button>
           )}
           
