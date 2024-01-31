@@ -2,14 +2,15 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Collapse, IconButton } from '@mui/material';
-import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
+import { Box, Button, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Collapse, IconButton, Menu, MenuItem } from '@mui/material';
+import { KeyboardArrowDown, KeyboardArrowUp, MoreVert } from '@mui/icons-material';
 import { makeStyles } from "@mui/styles";
 import ModalForm from './ModalForm';
 
 const ETIAgenda = ( { idEvent, eventData } ) => {
 
   // console.log('EventData desde ETIAgenda -> ', eventData);
+  // console.log('Agenda desde ETIAgenda -> ', eventData?.Agenda);
 
   // const dateStartValue = eventData?.dateStart;
   // const dateEndValue = eventData?.dateEnd;
@@ -20,6 +21,8 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
   const [dataFromModalForm, setDataFromModalForm] = useState([]);
   const [agendaData, setAgendaData] = useState([]);
   const [updatedEvent, setUpdatedEvent] = useState();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [showDeleteButton, setShowDeleteButton] = useState(false);
 
   useEffect(() => {
     if (eventData && eventData?.Agenda) {
@@ -37,6 +40,7 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -46,6 +50,35 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
       ...prevOpen,
       [index]: !prevOpen[index],
     }));
+  };
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleDelete = () => {
+    // Lógica para eliminar la agenda
+    // Puedes utilizar la información de idEvent y agendaData
+    // para implementar la eliminación.
+    console.log('Eliminar agenda');
+    handleMenuClose();
+    setShowDeleteButton(true);
+  };
+
+  const handleConfirmDelete = () => {
+    // Lógica para confirmar la eliminación
+    const updateAgenda = [...eventData.Agenda];
+    updateAgenda.pop();
+
+
+
+    console.log('Confirmar eliminación');
+    // Oculta el botón de eliminar al confirmar la eliminación
+    setShowDeleteButton(false);
   };
 
   const useStyles = makeStyles({
@@ -83,12 +116,25 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
           <Typography variant='h6' fontWeight="600">Agenda</Typography>
         </Grid>
         <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        {showDeleteButton && (
+          <Button 
+            variant="contained"
+            style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
+            onClick={handleConfirmDelete}
+          >
+            <img src={'/img/icon/btnDelete.svg'} alt="" style={{ width: '100%', height: 'auto' }} />
+          </Button>
+        )}
           <Button
             variant='contained'
             style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
+            onClick={handleMenuOpen}
           >
             <img src={'/img/icon/btnTresPuntos.svg'} alt="" style={{ width: '100%', height: 'auto' }} />
           </Button>
+          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+            <MenuItem onClick={handleDelete}>Eliminar</MenuItem>
+          </Menu>
           <Button
             variant='contained'
             style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
