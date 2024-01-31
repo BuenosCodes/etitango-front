@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Grid, Box, Typography, Chip, Icon, Modal } from '@mui/material';
 import { Field } from 'formik';
 import TextField from '@mui/material/TextField';
@@ -17,12 +17,17 @@ interface ETICombosProps {
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
   selectedEvent: EtiEvent | null;
   values: {
-    firstDatePay?: string;
+    firstPay?: string;
+    secondPay?: string;
+    limitParticipants?: string;
+    firstTimePay?: string;
     secondTimePay?: string;
     timeRefundDeadline?: string;
   };
+  errors: any;
+  touched: any;
 }
-const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, values }) => {
+const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, values, errors, touched }) => {
 
   const idEvent = selectedEvent?.id;
   const [open, setOpen] = React.useState(false);
@@ -32,67 +37,56 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
     setOpen(false);
   };
 
-  // Make Styles
-  const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    bgcolor: '#FAFAFA',
-    border: '1px solid #000',
-    boxShadow: 24,
-    borderRadius: 6,
-    p: 4,
-    overflow: 'auto',
-    width: '900px',
-    height: '500px'
-  };
-
-  const scrollbarStyles = {
-    overflowY: 'auto',
-    '&::-webkit-scrollbar': {
-      width: '8px'
-    },
-    '&::-webkit-scrollbar-thumb': {
-      backgroundColor: '#C0E5FF',
-      borderRadius: '12px'
-    },
-    '&::-webkit-scrollbar-track': {
-      backgroundColor: 'transparent',
-      boxShadow: '1px 0px 2px 0px #6695B7',
-      borderRadius: '12px'
-    }
-  };
-
   const useStyles = makeStyles({
     root: {
       '& .MuiFormHelperText-root': {
-        margin: '2px 0px 0px 2px'
+        margin: '2px 0px 0px 2px',
+        width: '120px',
       },
       '& .MuiOutlinedInput-root': {
+        width: '120px',
+        paddingLeft: '10px',
         fontFamily: 'inter',
         '& fieldset': {
-          borderColor: enable ? '#E68650' : '#FDE4AA',
           borderRadius: '8px',
           borderWidth: '1.5px',
           pointerEvents: 'none'
         },
         '&:hover fieldset ': {
-          borderColor: enable ? '#E68650' : '#FDE4AA',
           borderRadius: '8px',
           pointerEvents: 'none'
         },
         '&.Mui-focused fieldset': {
-          borderColor: enable ? '#E68650' : '#FDE4AA',
           borderRadius: '8px',
           pointerEvents: 'none'
         },
         '& .MuiOutlinedInput-notchedOutline': {
-          borderColor: enable ? '#E68650' : '#FDE4AA'
+          borderColor: '#FDE4AA'
         }
       }
-      
-    }
+    },
+    filled: {
+      '& .MuiOutlinedInput-root': {
+        width: '120px',
+        paddingLeft: '10px',
+        fontFamily: 'inter',
+        '& fieldset': {
+          borderColor: '#E68650',
+          borderRadius: '8px',
+        },
+        '&:hover fieldset ': {
+          borderColor: '#E68650',
+          borderRadius: '8px',
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: '#E68650',
+          borderRadius: '8px',
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+          borderColor: '#E68650',
+        }
+      },
+    },
   });
 
     const styleModal = {
@@ -143,6 +137,7 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
 
   return (
     <>
+    <hr style={{border: '1px solid #E0E0E0', marginLeft: '-16px', marginRight: '-16px', marginTop: '20px'}} />
       <Box
         sx={{
           display: 'flex'
@@ -291,6 +286,8 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                 </Modal>
               </Grid>
 
+
+
               {/**Dates */}
               <Grid item md={12} sm={12} xs={12}>
                 <Typography sx={{ color: '#424242', fontWeight: 500 }}>
@@ -304,8 +301,10 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                       placeholder="10000"
                       component={TextField}
                       required
+                      error={touched['firstPay'] && !!errors['firstPay']}
+                      helperText={touched['firstPay'] && errors['firstPay']}        
                       fullWidth
-                      classes={{ root: classes.root }}
+                      classes={{ root: values.firstPay ? classes.filled : classes.root }}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -313,9 +312,10 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                           </InputAdornment>
                         )
                       }}
+                      value={values?.firstPay || ''}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         const value: string = event.target.value;
-                        setFieldValue('firstPay', `$ ${value}`);
+                        setFieldValue('firstPay', value);
                       }}
                     />
                   </Grid>
@@ -330,17 +330,18 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                       setFieldValue={setFieldValue}
                       borderColor={false}
                       specialCase={false}
-                    />
-                    
+                    />               
                   </Grid>
                   <Typography sx={{ color: '#424242', mt: 2, ml: 2, mr: 2, fontWeight: 500 }}>
                     a las
                   </Typography>
                   <Grid item>
                     <ETITimePicker2 
-                      value={values['firstDatePay']} 
-                      onChange={(value) => setFieldValue('firstDatePay', value)}
-                      isDisabled={false}                    
+                         value={values['firstTimePay']} 
+                         onChange={(value) => setFieldValue('firstTimePay', value)}
+                         isDisabled={false}
+                         error={touched['firstTimePay'] && !!errors['firstTimePay']}
+                         helperText={touched['firstTimePay'] && errors['firstTimePay']}                
                     />
                   </Grid>
                 </Grid>
@@ -357,8 +358,11 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                       placeholder="10000"
                       component={TextField}
                       required
+                      error={touched['secondPay'] && !!errors['secondPay']}
+                      helperText={touched['secondPay'] && errors['secondPay']}       
                       fullWidth
-                      classes={{ root: classes.root }}
+                      classes={{ root: values.secondPay ? classes.filled : classes.root }}
+                      value={values?.secondPay || ''}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -368,7 +372,7 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                       }}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         const value: string = event.target.value;
-                        setFieldValue('secondPay', `$ ${value}`);
+                        setFieldValue('secondPay', value);
                       }}
                     />
                   </Grid>
@@ -391,11 +395,16 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                     <ETITimePicker2 
                       value={values['secondTimePay']} 
                       onChange={(value) => setFieldValue('secondTimePay', value)}
-                      isDisabled={false}                    
+                      isDisabled={false} 
+                      error={touched['secondTimePay'] && !!errors['secondTimePay']}
+                      helperText={touched['secondTimePay'] && errors['secondTimePay']}                     
                     />
                   </Grid>
+            <hr style={{border: '1px solid #E0E0E0', marginLeft: '-16px', marginRight: '-16px', marginTop: '20px'}} />
                 </Grid>
               </Grid>
+
+
               <Grid item md={12} sm={12} xs={12}>
                 <Typography sx={{ color: '#424242', fontWeight: 500 }}>
                   Fecha limites para devoluciones
@@ -417,11 +426,18 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                     <ETITimePicker2 
                       value={values['timeRefundDeadline']} 
                       onChange={(value) => setFieldValue('timeRefundDeadline', value)}
-                      isDisabled={false}                    
+                      isDisabled={false} 
+                      error={touched['timeRefundDeadline'] && !!errors['timeRefundDeadline']}
+                      helperText={touched['timeRefundDeadline'] && errors['timeRefundDeadline']}                     
                     />
                   </Grid>
                 </Grid>
+              <hr style={{border: '1px solid #E0E0E0', marginLeft: '-16px', marginRight: '-16px', marginTop: '45px'}} />
               </Grid>
+
+
+
+
               <Grid item md={12} sm={12} xs={12}>
                 <Typography sx={{ color: '#424242', fontWeight: 500 }}>
                   Limite de participantes
@@ -434,8 +450,11 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                       placeholder="1000"
                       component={TextField}
                       required
+                      error={touched['limitParticipants'] && !!errors['limitParticipants']}
+                      helperText={touched['limitParticipants'] && errors['limitParticipants']}        
                       fullWidth
-                      classes={{ root: classes.root }}
+                      classes={{  root: values.limitParticipants ? classes.filled : classes.root }}
+                      value={values?.limitParticipants || ''}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -445,12 +464,16 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                       }}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         const value: string = event.target.value;
-                        setFieldValue('limitParticipants', `${value}`);
+                        setFieldValue('limitParticipants', value);
                       }}
                     />
                   </Grid>
                 </Grid>
+              <hr style={{border: '1px solid #E0E0E0', marginLeft: '-16px', marginRight: '-16px', marginTop: '20px'}} />
               </Grid>
+
+
+
               {/**Front Page, buttons and Cloudinary*/}
               <Grid>
                 <Typography sx={{ color: '#212121', fontWeight: 500, fontSize: '20px' }}>
