@@ -3,56 +3,39 @@ import React, { useEffect, useState } from 'react';
 import WithAuthentication from '../../withAuthentication';
 import { UserFullData, UserRoles, UserRolesListData } from 'shared/User';
 import * as firestoreUserHelper from 'helpers/firestore/users';
-import { Icon, Box, Button, Typography, Input, CircularProgress } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { Box, Button, Typography, CircularProgress } from '@mui/material';
+import { DataGrid, GridColDef, GridToolbarQuickFilter } from '@mui/x-data-grid';
 
 const RolesNewEvent = ({ eventId, handleClose }: { eventId?: string, handleClose: Function }) => {
-    // eslint-disable-next-line no-unused-vars
-    const [users, setUsers] = useState<UserFullData[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [usuarios, setUsuarios] = useState<UserFullData[]>([]);
-    // eslint-disable-next-line no-unused-vars
-    const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
     const [selectedUserInfo, setSelectedUserInfo] = React.useState({});
-    const [searchTerm, setSearchTerm] = useState<string>('');
     const [filteredUsuarios, setFilteredUsuarios] = useState<UserFullData[]>([]);
 
     useEffect(() => {
         setIsLoading(true);
 
-        let unsubscribe: Function;
         let usuarios2: Function;
 
         const fetchData = async () => {
-            unsubscribe = await firestoreUserHelper.getAdmins(setUsers, setIsLoading, eventId);
             usuarios2 = await firestoreUserHelper.getAllUsers(setUsuarios, setIsLoading)
         };
         fetchData().catch((error) => {
             console.error(error);
         });
         return () => {
-            if (unsubscribe) {
-                unsubscribe();
-            } if (usuarios2) {
+            if (usuarios2) {
                 usuarios2()
             }
         };
-    }, [eventId]);
+    }, []);
 
     useEffect(() => {
         const filteredData = usuarios.filter((usuario) => {
-            const isSuperadmin = usuario.roles && usuario.roles.superadmin === true;
-
-            return !isSuperadmin &&
-                (
-                    usuario.nameFirst.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    usuario.nameLast.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    usuario.email.toLowerCase().includes(searchTerm.toLowerCase())
-                );
+            return usuario.roles && usuario.roles.superadmin !== true;
         });
-
         setFilteredUsuarios(filteredData);
-    }, [usuarios, searchTerm]);
+    }, [usuarios]);
 
     const columns: GridColDef[] = [
         {
@@ -87,11 +70,6 @@ const RolesNewEvent = ({ eventId, handleClose }: { eventId?: string, handleClose
         }
     };
 
-    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.target.value);
-    };
-
-
     const scrollbarStyles = {
         // overflowY: 'auto',
         '&::-webkit-scrollbar': {
@@ -111,13 +89,6 @@ const RolesNewEvent = ({ eventId, handleClose }: { eventId?: string, handleClose
     return (
         <>
             <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} />
-            <Box sx={{ display: 'flex', border: '1.5px solid #FDE4AA', borderRadius: '4px', padding: 1, justifyContent: 'space-between' }}>
-                <Input type="text" value={searchTerm} onChange={handleSearchChange} placeholder="Buscar" disableUnderline />
-                <Icon>
-                    <img src='/img/icon/search_normal.svg' height={25} width={25} />
-                </Icon>
-            </Box>
-
             <DataGrid
                 rows={filteredUsuarios.map(getUserDataValues)}
                 columns={columns}
@@ -132,6 +103,11 @@ const RolesNewEvent = ({ eventId, handleClose }: { eventId?: string, handleClose
                 pageSize={5}
                 rowsPerPageOptions={[10]}
                 disableSelectionOnClick
+                components={{
+                    Toolbar: ({ ...props }) => (
+                        <GridToolbarQuickFilter {...props} placeholder='Buscar' variant='outlined' sx={{ display: 'flex', borderColor: '#FDE4AA', borderRadius: '4px', mb: 2 }} />
+                    ),
+                }}
                 getRowId={(row) => row.id}
                 onSelectionModelChange={(selection) => {
                     const selectedInfo = selection.map((selectedId: any) => {
@@ -143,6 +119,28 @@ const RolesNewEvent = ({ eventId, handleClose }: { eventId?: string, handleClose
                 sx={{
                     mb: 2,
                     mt: 2,
+                    borderColor: '#ffffff',
+                    '& .MuiInputBase-input': {
+                        padding: '10px 12px 10px 12px',
+                    },
+                    '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
+                            borderWidth: '1.5px',
+                            borderColor: '#FDE4AA',
+                            pointerEvents: 'none'
+                        },
+                        '&:hover fieldset ': {
+                            borderColor: '#FDE4AA',
+                            pointerEvents: 'none'
+                        },
+                        '&.Mui-focused fieldset': {
+                            borderColor: '#FDE4AA',
+                            pointerEvents: 'none'
+                        },
+                        '& .MuiOutlinedInput-notchedOutline': {
+                            borderColor: '#FDE4AA',
+                        }
+                    },
                     "& .MuiDataGrid-columnHeaderCheckbox .MuiDataGrid-columnHeaderTitleContainer": {
                         display: "none"
                     },
