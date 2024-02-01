@@ -25,8 +25,6 @@ import { assignEventAdmins } from '../../../helpers/firestore/users';
 export default function NewEvent(props: { etiEventId: string, onChange: Function }) {
   const { etiEventId, onChange } = props
   const alertText: string = 'Este campo no puede estar vacío';
-
-
   const EventFormSchema = object({
 
 
@@ -71,6 +69,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
   });
   const [event, setEvent] = useState<EtiEvent>();
   const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
   // const navigate = useNavigate();
   const [idNuevo, setIdNuevo] = useState('');
   const [enable, setEnable] = useState(false);
@@ -169,6 +168,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
 
   const handleCreateEvent = async (values: any, setSubmitting: Function) => {
     try {
+      setIsLoading(true)
       if (etiEventId) {
         const selectedEmails = admins.map((admin: any) => admin.email);
         // if (selectedEmails.length === 0) {
@@ -186,11 +186,14 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
         // setSelectAdmin(false)
         onChange(idEvento)
         // navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
+      } else {
+        setIsLoading(false)
       }
       // await createOrUpdateDoc('events', values, idNuevo === 'new' ? undefined : idNuevo);
     } catch (error) {
       console.error(error);
       setEnable(false)
+      setIsLoading(false)
       setSubmitting(false);
     }
   }
@@ -522,9 +525,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
 
                           <Box sx={{ display: 'flex', justifyContent: 'flex-end', margin: '20px' }}>
                             <Button type='submit'  disabled={isSubmitting} sx={{ width: '115px', padding: '12px, 32px, 12px, 32px', borderRadius: '25px', backgroundColor: '#A82548', height: '44px', '&:hover': { backgroundColor: '#A82548' } }}>
-                              <Typography sx={{ color: '#FAFAFA', fontWeight: 500, fontSize: '14px', lineHeight: '20px' }}>
-                                Crear
-                              </Typography>
+                             {isLoading ? <CircularProgress sx={{color: '#ffffff'}} size={30}/> : <Typography sx={{ color: '#FAFAFA', fontWeight: 500, fontSize: '14px', lineHeight: '20px' }}>Crear</Typography>}
                             </Button>
                           </Box>
                         </Form>
