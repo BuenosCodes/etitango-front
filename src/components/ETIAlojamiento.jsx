@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Grid, Typography, Menu, MenuItem, } from '@mui/material';
+import { Box, Button, Grid, Typography, Menu, MenuItem, ListItemIcon, } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createOrUpdateDoc } from 'helpers/firestore'; 
 import ETIModalMaps from './ETIModalMaps';
@@ -176,8 +176,22 @@ const ETIAlojamiento = ( { idEvent, event, updateAlojamientoData, isEditingRows 
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
           >
-            <MenuItem onClick={handleEditClick}>Editar</MenuItem>
-            <MenuItem onClick={handleRemoveRow}>Eliminar</MenuItem>
+            <MenuItem onClick={handleEditClick}>
+            <ListItemIcon>
+                <img src={'/img/icon/btnEdit.svg'}/>
+            </ListItemIcon>
+            <Typography sx={{ fontWeight: 600, fontSize: '14px', color: '#0075D9', alignItems: 'center' }}>
+                Editar
+            </Typography>
+            </MenuItem>
+            <MenuItem onClick={handleRemoveRow}>
+            <ListItemIcon>
+                <img src={'/img/icon/btnTrash.svg'}/>
+            </ListItemIcon>
+            <Typography sx={{ fontWeight: 600, fontSize: '14px', color: '#0075D9', alignItems: 'center' }}>
+                Eliminar
+            </Typography>
+            </MenuItem>
           </Menu>
           <Button
             variant='contained'

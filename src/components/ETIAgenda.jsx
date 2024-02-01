@@ -2,8 +2,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Collapse, IconButton, Menu, MenuItem } from '@mui/material';
-import { KeyboardArrowDown, KeyboardArrowUp, MoreVert } from '@mui/icons-material';
+import { Box, Button, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Collapse, IconButton, Menu, MenuItem, ListItemIcon } from '@mui/material';
+import { KeyboardArrowDown, KeyboardArrowUp, DeleteOutlineOutlinedIcon } from '@mui/icons-material';
 import { makeStyles } from "@mui/styles";
 import ModalForm from './ModalForm';
 import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
@@ -146,8 +146,15 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
           >
             <img src={'/img/icon/btnTresPuntos.svg'} alt="" style={{ width: '100%', height: 'auto' }} />
           </Button>
-          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-            <MenuItem onClick={handleDelete}>Eliminar</MenuItem>
+          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose} sx={{ justifyContent: 'center', alignItems: 'center'}}>
+            <MenuItem onClick={handleDelete}>
+              <ListItemIcon>
+                <img src={'/img/icon/btnTrash.svg'} style={{  }}/>
+              </ListItemIcon>
+              <Typography sx={{ fontWeight: 600, fontSize: '14px', color: '#0075D9', alignItems: 'center' }}>
+                Eliminar
+              </Typography>
+            </MenuItem>
           </Menu>
           <Button
             variant='contained'
