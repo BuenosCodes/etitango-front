@@ -402,7 +402,7 @@ export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedE
                   </Grid>
                   <Modal open={open} onClose={() => handleClose([])}>
                     <Box sx={{ ...styleModal, display: 'flex', flexDirection: 'column' }}>
-                      <RolesNewEvent eventId={idEvent} handleClose={handleClose} selectedRows={admins}/>
+                      <RolesNewEvent handleClose={handleClose} selectedRows={admins}/>
                     </Box>
                   </Modal>
                 </Grid>

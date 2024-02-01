@@ -6,7 +6,7 @@ import * as firestoreUserHelper from 'helpers/firestore/users';
 import { Box, Button, Typography, CircularProgress } from '@mui/material';
 import { DataGrid, GridColDef, GridToolbarQuickFilter } from '@mui/x-data-grid';
 
-const RolesNewEvent = ({ eventId, handleClose, selectedRows }: { eventId?: string, handleClose: Function, selectedRows: any }) => {
+const RolesNewEvent = ({ handleClose, selectedRows }: { handleClose: Function, selectedRows: any }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [usuarios, setUsuarios] = useState<UserFullData[]>([]);
     const [selectedUserInfo, setSelectedUserInfo] = React.useState({});

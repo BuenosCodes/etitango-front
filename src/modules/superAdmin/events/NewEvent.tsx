@@ -384,7 +384,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                 </Grid>
                                 <Modal open={open} onClose={() => handleClose([])}>
                                   <Box sx={{ ...style, display: 'flex', flexDirection: 'column' }}>
-                                    <RolesNewEvent eventId={idNuevo} handleClose={handleClose} selectedRows={admins} />
+                                    <RolesNewEvent handleClose={handleClose} selectedRows={admins} />
                                   </Box>
                                 </Modal>
                               </Grid>
