@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Grid, Box, Typography, CircularProgress } from '@mui/material';
 import { Form, Formik } from 'formik';
-import { date, mixed, object, string } from 'yup';
+import { mixed, object, string } from 'yup';
 import { createOrUpdateDoc } from 'helpers/firestore';
 import { EtiEvent } from '../../../shared/etiEvent';
 import ETIAgenda from 'components/ETIAgenda.jsx';
@@ -81,24 +81,26 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
   const [isEditingDataBanks, setIsEditingDataBanks] = useState(true);
   const [isEditingDataMP, setIsEditingDataMP] = useState(true);
   
+  const [productValues, setProductValues] = useState([null])
 
   console.log('Esta es la img desde editevetn ->, ', eventImage);
   
 
-  const updateAlojamientoData = (newData) => {
+  const updateAlojamientoData = (newData:any) => {
     setAlojamientoData(newData);
     // console.log('data de alojamiento desde NewEditEvent -> ', alojamientoData);
   };
 
-  const updateDataBanks = (newData) => {
+  const updateDataBanks = (newData:any) => {
     setDataBanks(newData);
     //console.log('data bancaria -> ', dataBanks);
   }
 
-  const updateDataMP = (newData) => {
+  const updateDataMP = (newData:any) => {
     setDataMP(newData);
     //console.log('data MP -> ', dataMP);
   }
+
 
   useEffect(() => {
     console.log('selected event Cambio', selectedEvent);
@@ -108,18 +110,21 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
   const handleCreateEvent = async (values: any, setSubmitting: Function) => {
     try {
       setIsLoading(true)
-      if (!changeEvent2) {
-          if (alojamientoData && alojamientoData.length > 0) {
-            values.alojamiento = alojamientoData;
-          }
-  
-          if (dataBanks && dataBanks.length > 0) {
-            values.datosBancarios = dataBanks;
-          }
-  
-          if (dataMP && dataMP.length > 0) {
-            values.linkMercadoPago = dataMP;
-          }
+      if(!changeEvent2){
+        if (alojamientoData && alojamientoData.length > 0) {
+          values.alojamiento = alojamientoData;
+        }
+    
+        if (dataBanks && dataBanks.length > 0) {
+          values.datosBancarios = dataBanks;
+        }
+    
+        if (dataMP && dataMP.length > 0) {
+          values.linkMercadoPago = dataMP;  
+        }
+        if (productValues && productValues.length > 0) {
+          values.combos = productValues;
+        }
 
        if(!isEditingAlojamiento || !isEditingDataBanks || !isEditingDataMP){
           alert(alerText2)
@@ -129,18 +134,13 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
           values.imageUrl = eventImage;
         }
 
-        // Simula la operación de carga con un tiempo de espera de 2350ms
         setTimeout(async () => {
-    
- 
         await createOrUpdateDoc('events', values, idEvent === 'new' ? undefined : idEvent);
           setChangeEvent3(true);
           setIsLoading(false);
-
-          // Mostrar la imagen de éxito
+      
           setShowSuccessImage(true);
 
-          // Ocultar la imagen después de 4500 milisegundos
           setTimeout(() => {
             setShowSuccessImage(false);
           }, 4500);
@@ -225,7 +225,7 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
                       </Grid>
 
                       <Grid item md={12} sm={12} xs={12}>
-                        <ETICombos setFieldValue={setFieldValue} values={values} selectedEvent={selectedEvent} errors={errors} touched={touched} EventImage={setEventImage}/>
+                        <ETICombos setFieldValue={setFieldValue} values={values} selectedEvent={selectedEvent} setComboValues={setProductValues} errors={errors} touched={touched} EventImage={setEventImage}/>
                       </Grid>
                     </Grid>
                   </Box>

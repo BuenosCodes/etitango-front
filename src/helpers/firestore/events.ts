@@ -23,9 +23,9 @@ const toJs = (etiEventFromFirestore: EtiEventFirestore) =>
     dateEnd: etiEventFromFirestore?.dateEnd?.toDate(),
     dateSignupOpen: etiEventFromFirestore?.dateSignupOpen?.toDate(),
     dateSignupEnd: etiEventFromFirestore?.dateSignupEnd?.toDate(),
-    firstDatePay: etiEventFromFirestore.firstDatePay instanceof Timestamp ? etiEventFromFirestore.firstDatePay.toDate() : null,
-    secondDatePay: etiEventFromFirestore.secondDatePay instanceof Timestamp ? etiEventFromFirestore.secondDatePay.toDate() : null,
-    refundDeadline: etiEventFromFirestore.refundDeadline instanceof Timestamp ? etiEventFromFirestore.refundDeadline.toDate() : null,
+    firstDatePay: etiEventFromFirestore?.firstDatePay instanceof Timestamp ? etiEventFromFirestore?.firstDatePay?.toDate() : null,
+    secondDatePay: etiEventFromFirestore?.secondDatePay instanceof Timestamp ? etiEventFromFirestore?.secondDatePay?.toDate() : null,
+    refundDeadline: etiEventFromFirestore?.refundDeadline instanceof Timestamp ? etiEventFromFirestore?.refundDeadline?.toDate() : null,
   } as EtiEvent);
 
 export async function getFutureEti() {

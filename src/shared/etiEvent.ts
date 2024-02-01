@@ -19,6 +19,7 @@ export interface EtiEventBase {
   timeRefundDeadline: string;
   limitParticipants: string;
   admins: [];
+  combos: ["Dos Milongas", "Asamblea Etiana", "Comida de despedida"]
 }
 
 export interface EtiEvent extends EtiEventBase {
