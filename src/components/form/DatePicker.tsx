@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import { DatePicker } from 'formik-mui-x-date-pickers';
 import { makeStyles } from '@mui/styles';
@@ -19,14 +20,12 @@ export const ETIDatePicker = ({
   textFieldProps,
   specialCase,
   borderColor,
-  language
 }: {
   fieldName: string;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
   textFieldProps: any;
   specialCase: boolean;
   borderColor: boolean;
-  language: 'es'; // Asegúrate de limitar los valores posibles de `language`
 }) => {
   const [field] = useField(fieldName);
   const useStyles = makeStyles({
@@ -68,12 +67,9 @@ export const ETIDatePicker = ({
   });
 
   const classes = useStyles();
-
+  
   return (
     <div>
-      <p>
-        {l10n.title[language]} {/* Accede a la traducción del título */}
-      </p>
       <Field
         component={DatePicker}
         disablePast
@@ -90,14 +86,10 @@ export const ETIDatePicker = ({
           }
         }}
         name={fieldName}
-        views={['day', 'month', 'year']}
         onChange={(value: any) => {
-          console.log('value date aqui -> ', value);
           if (value && value.toDate) {
-            console.log('value to date ->', value.toDate());
             setFieldValue(fieldName, value.toDate());
           } else {
-            console.warn('Fecha no válida');
             setFieldValue(fieldName, null);
           }
         }}
