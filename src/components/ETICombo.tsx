@@ -3,6 +3,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
+
 import { Button, Grid, Box, Typography, Chip, Icon, Modal } from '@mui/material';
 import { Field } from 'formik';
 import TextField from '@mui/material/TextField';
@@ -13,31 +14,99 @@ import { EtiEvent } from 'shared/etiEvent';
 import { ETIDatePicker } from './form/DatePicker';
 import { createOrUpdateDoc, deleteImageUrlFromEvent } from 'helpers/firestore';
 import ETITimePicker2 from './ETITimePicker2';
+import { getEvent, getEvents } from 'helpers/firestore/events';
 
 interface ETICombosProps {
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
   selectedEvent: EtiEvent | null;
+  setComboValues: Function
   values: {
     firstDatePay?: string;
     secondTimePay?: string;
     timeRefundDeadline?: string;
   };
 }
-const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, values, EventImage }) => {
 
+const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, values, setComboValues, EventImage }) => {
+  
   const idEvent = selectedEvent?.id;
+  const combos = selectedEvent?.combos
   const eventImage = selectedEvent?.imageUrl;
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    setOpen(true);
+  }
+  
   const [enable, setEnable] = useState(false);
   const handleClose = () => {
     setOpen(false);
   };
+  const [IsLoading, setIsLoading] = useState(true);
+  const [fieldCount, setFieldCount] = useState(0);
+  const [productValues, setProductValues] = useState<string[]>([]);
+  const [fieldValues, setFieldValues] = useState(Array.from({ length: 1 }, (_, index) => `Producto ${index + 1}`));
+
+  useEffect(() => {
+    if (combos) {
+      setProductValues(combos);
+      setComboValues(combos)
+    }
+  }, [combos]);
+ 
+
+const handleAddField = () => {
+    setFieldCount(fieldCount + 1);
+    setFieldValues([...fieldValues, `Producto ${fieldCount + 1}`])
+  };
+  
+  
+const handleRemoveField = () => {
+  if (fieldCount > 0) {
+    setFieldCount((prevFieldCount) => prevFieldCount - 1);
+    setFieldValues((prevProductValues) => {
+      const updatedValues = [...prevProductValues];
+      updatedValues.pop();
+      return updatedValues;
+    });
+  }
+};
+
+
+const handleAddProducts = () => {
+  const nuevosProductos = fieldValues.filter((value) => value.trim() !== "");
+  const productosCombinados = [...productValues, ...nuevosProductos];
+  const productosUnicos = Array.from(new Set(productosCombinados));
+  setProductValues(productosUnicos);
+  setComboValues(productosUnicos)
+  handleClose();
+};
+
+
+const handleProductChange = (index : number, newValue : string) => {
+  setFieldValues((prevValues) => {
+    const updatedValues = [...prevValues];
+    updatedValues[index] = newValue;
+    return updatedValues;
+  });
+};
+
+const handleDelete = (productToDelete: string) => {
+  try {
+    const staticProduct = ["Dos milongas", "Asamblea Etiana", "Comida de despedida"].includes(productToDelete);
+    if (!staticProduct) {
+    setProductValues((prevProducts) => prevProducts.filter((product) => product !== productToDelete)); // Se elimina el combo de los Chips
+    setComboValues((prevProducts) => prevProducts.filter((product) => product !== productToDelete)); // Se elimina el combo del field del Modal
+    }
+  } catch (error) {
+    console.error('Error al borrar combos', error);
+  }
+};
 
   console.log('imagen -> ', eventImage);
   
 
   // Make Styles
+
   const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -179,25 +248,30 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                     border: '1.5px solid #E68650',
                     borderRadius: '8px',
                     display: 'flex',
-                    justifyContent: 'space-between'
+                    justifyContent: 'space-between',
+                    
                   }}
                 >
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-                    <Chip
-                      label="milonga"
-                      variant="outlined"
-                      sx={{
-                        m: 1,
-                        borderRadius: '8px',
-                        color: '#A82548',
-                        fontFamily: 'Roboto',
-                        fontWeight: 500,
-                        fontSize: '14px'
-                      }}
-                    />
-                  </Box>
+
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                    {productValues.length === 0 ? (
+                        <Typography variant="body2" color="text.disabled" sx={{ fontWeight: 500, p: 2 }}>
+                          En este evento no se han añadido combos.
+                        </Typography>
+                      ) : (
+                        productValues.map((product: any, index) => (
+                          <Chip 
+                              key={index} 
+                              label={product} 
+                              onDelete={index >= 3 ? () => handleDelete(product) : undefined}
+                              variant="outlined" 
+                              sx={{ m: 1, borderRadius: '8px',  color: index < 3 ? '#5FB4FC' : '#0075D9', fontFamily: 'Roboto', fontWeight: 500, fontSize: '14px' }} />
+                        ))
+                      )}
+                    </Box>
+
                   <Button
-                    sx={{ padding: '12px, 16px, 12px, 16px', alignItems: 'flex-end' }}
+                    sx={{ padding: '12px, 16px, 12px, 16px', alignItems: 'flex-end', flexDirection: 'column' }}
                     onClick={handleOpen}
                   >
                     <Icon sx={{ display: 'flex', width: '4em' }}>
@@ -220,7 +294,7 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                       </Grid>
                       <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                         {/* Icon add */}
-                        <Button>
+                        <Button onClick={() => handleRemoveField()}>
                           {/* Validate*/}
                           <img
                             src={'/img/icon/btnDelete.svg'}
@@ -230,58 +304,49 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                           />
                         </Button>
                         {/* Icon remove */}
-                        <Button>
+                        <Button onClick={() => handleAddField()}>
                           {/* Validate*/}
                           <img src={'/img/icon/btnPlus.svg'} alt="btnPlus" height={50} width={50} />
                         </Button>
                       </Grid>
                     </Grid>
+
+
+
                     {/** Fields  */}
-                    <Grid item xs={12}>
+                   
+                  <Box sx={{...scrollbarStyles, height: '100%'}}>
+                    <Grid  item xs={12}>
+                    {fieldValues.map((value, index) => (
                       <Field
-                        name="name"
-                        placeholder="Producto 1"
+                        key={index}
+                        name={`product${index + 1}`}
+                        placeholder={`Producto ${index + 1}`}
                         component={TextField}
                         required
                         fullWidth
-                        sx={{ marginTop: 3 }} // Adjust the marginTop value as necessary
+                        // disabled={index < 3}
+                        sx={{ marginTop: 3 }}
                         classes={{ root: classes.root }}
+                        
+                        onChange={(e : React.ChangeEvent<HTMLInputElement>) => handleProductChange(index, e.target.value)}
                       />
-                      <Grid item xs={12}>
-                        <Field
-                          name="name"
-                          placeholder="Producto 2"
-                          component={TextField}
-                          required
-                          fullWidth
-                          sx={{ marginTop: 3 }} // Adjust the marginTop value as necessary
-                          classes={{ root: classes.root }}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Field
-                          name="name"
-                          placeholder="Producto 3"
-                          component={TextField}
-                          required
-                          fullWidth
-                          sx={{ marginTop: 3 }} // Adjust the marginTop value as necessary
-                          classes={{ root: classes.root }}
-                        />
-                      </Grid>
-                      <Grid container justifyContent="flex-end">
-                        <Grid item>
+                    ))}
+                  </Grid>
+                  </Box>
+
+                     
+                        <Grid item sx={{height: '15%',  display: 'flex', justifyContent:"flex-end"}}>
                           {/** Button to add  */}
                           <Button
                             variant="contained"
                             color="secondary"
-                            type="submit"
+                            onClick={() => handleAddProducts()}
                             disabled={enable}
                             sx={{
                               width: '150px',
                               padding: '12px, 32px, 12px, 32px',
                               borderRadius: '25px',
-                              marginTop: '80px',
                               backgroundColor: enable ? '#CCCCCC' : '#A82548',
                               height: '44px',
                               '&:hover': {
@@ -301,13 +366,13 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                             </Typography>
                           </Button>
                         </Grid>
-                      </Grid>
-                    </Grid>
+                      
+                    
                   </Box>
                 </Modal>
               </Grid>
 
-              {/**Dates */}
+              {/**SECCION PAGOS */}
               <Grid item md={12} sm={12} xs={12}>
                 <Typography sx={{ color: '#424242', fontWeight: 500 }}>
                   Primera fecha de pago

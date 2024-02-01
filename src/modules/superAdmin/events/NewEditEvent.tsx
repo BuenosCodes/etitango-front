@@ -46,6 +46,7 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
   const [isEditingDataBanks, setIsEditingDataBanks] = useState(true);
   const [isEditingDataMP, setIsEditingDataMP] = useState(true);
   
+  const [productValues, setProductValues] = useState([null])
 
   console.log('Esta es la img desde editevetn ->, ', eventImage);
   
@@ -65,6 +66,7 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
     //console.log('data MP -> ', dataMP);
   }
 
+
   useEffect(()=>{
     console.log('selected event Cambio', selectedEvent);
     
@@ -83,6 +85,9 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
     
         if (dataMP && dataMP.length > 0) {
           values.linkMercadoPago = dataMP;  
+        }
+        if (productValues && productValues.length > 0) {
+          values.combos = productValues;
         }
 
         if(!isEditingAlojamiento || !isEditingDataBanks || !isEditingDataMP){
@@ -129,22 +134,6 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
                   <Formik
                     enableReinitialize
                     initialValues={{
-                      // dateEnd: selectedEvent?.dateEnd || '',
-                      // dateSignupOpen: selectedEvent?.dateSignupOpen || '',
-                      // dateStart: selectedEvent?.dateStart || '',
-                      // name: selectedEvent?.name || '',
-                      // country: selectedEvent?.country || '',
-                      // province: selectedEvent?.province || '',
-                      // city: selectedEvent?.city || '',
-                      // admins: selectedEvent?.admins || '',
-                      // timeStart: selectedEvent?.timeStart || '',
-                      // timeEnd: selectedEvent?.timeEnd || '',
-                      // timeSignupOpen: selectedEvent?.timeSignupOpen || '',
-                      // timeSignupEnd: selectedEvent?.timeSignupEnd || '',
-                      // timeStart: selectedEvent?.timeStart || '',
-                      // timeEnd: selectedEvent?.timeEnd || '',
-                      // timeSignupOpen: selectedEvent?.timeSignupOpen || '',
-                      // timeSignupEnd: selectedEvent?.timeSignupEnd || '',
                       alojamiento: selectedEvent?.alojamiento || null,
                       datosBancarios: selectedEvent?.datosBancarios || null,
                       linkMercadoPago: selectedEvent?.linkMercadoPago || null
@@ -179,8 +168,9 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
                           </Grid>
 
                           <Grid item md={12} sm={12} xs={12}>
-                            <ETICombos setFieldValue={setFieldValue} values={values} selectedEvent={selectedEvent} EventImage={setEventImage}/>
+                            <ETICombos setFieldValue={setFieldValue} values={values} selectedEvent={selectedEvent} setComboValues={setProductValues} EventImage={setEventImage} />
                           </Grid>
+                        
 
                           <Grid item md={12} sm={12} xs={12}>
                           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>

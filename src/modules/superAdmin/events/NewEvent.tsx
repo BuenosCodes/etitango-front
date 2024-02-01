@@ -292,6 +292,7 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                         timeSignupEnd: event?.timeSignupEnd || '',
                         location: event?.location || null,
                         name: event?.name || '',
+                        combos: event?.combos || ['Dos Milongas', 'Asamblea Etiana', 'Comida de despedida']
                       }}
                       validationSchema={EventFormSchema}
                       onSubmit={async (values,  { setSubmitting }) => {
