@@ -128,10 +128,10 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
     root: {
       '& .MuiFormHelperText-root': {
         margin: '2px 0px 0px 2px',
-        width: '120px',
+        // width: '120px',
       },
       '& .MuiOutlinedInput-root': {
-        width: '120px',
+        // width: '120px',
         paddingLeft: '10px',
         fontFamily: 'inter',
         '& fieldset': {
@@ -387,7 +387,7 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                   Primera fecha de pago
                 </Typography>
                 <Grid container alignItems={'flex-start'}>
-                  <Grid>
+                  <Grid sx={{width: '120px'}}>
                     {/**Add icons */}
                     <Field
                       name="firstPay"
@@ -403,7 +403,7 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                           <InputAdornment position="start">
                             <img src="/img/icon/dollar.svg" alt="dollar" />
                           </InputAdornment>
-                        )
+                        )                       
                       }}
                       value={values?.firstPay || ''}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -445,7 +445,7 @@ const ETICombos: React.FC<ETICombosProps> = ({ setFieldValue, selectedEvent, val
                   Segunda fecha de pago
                 </Typography>
                 <Grid container alignItems={'flex-start'}>
-                  <Grid>
+                  <Grid sx={{width: '120px'}}>
                     <Field
                       name="secondPay"
                       placeholder="10000"
