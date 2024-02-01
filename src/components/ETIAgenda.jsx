@@ -3,12 +3,12 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Collapse, IconButton, Menu, MenuItem, ListItemIcon } from '@mui/material';
-import { KeyboardArrowDown, KeyboardArrowUp, DeleteOutlineOutlinedIcon } from '@mui/icons-material';
+import { KeyboardArrowDown, KeyboardArrowUp, } from '@mui/icons-material';
 import { makeStyles } from "@mui/styles";
 import ModalForm from './ModalForm';
-import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
+import ETIModalDeleteEvent from './ETIModalDeleteEvent';
 
-const ETIAgenda = ( { idEvent, eventData } ) => {
+const ETIAgenda = ( { idEvent, eventData, updateDataAgenda } ) => {
 
   // console.log('EventData desde ETIAgenda -> ', eventData);
   // console.log('Agenda desde ETIAgenda -> ', eventData?.Agenda);
@@ -24,6 +24,10 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
   const [updatedEvent, setUpdatedEvent] = useState();
   const [anchorEl, setAnchorEl] = useState(null);
   const [showDeleteButton, setShowDeleteButton] = useState(false);
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  
 
   useEffect(() => {
     if (eventData && eventData?.Agenda) {
@@ -75,17 +79,14 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
       if (eventData?.Agenda.length > 0) {
         const updatedAgenda = [...eventData?.Agenda];
         updatedAgenda.pop();
-  
-        // Actualizar la información en Firebase
-        const id = idEvent;
-        const existingEvent = await getDocument(`events/${id}`);
-        await createOrUpdateDoc('events', {
-          ...existingEvent,
-          Agenda: updatedAgenda,
-        }, id);
-  
-        setAgendaData(updatedAgenda);
+
+        updateDataAgenda(updatedAgenda); // Setear el estado updateAgenda con la agenda actualizada
+
         setShowDeleteButton(false);
+
+        setTimeout(() => {
+          alert("Los cambios se efectuaran cuando se presione el boton Guardar!");
+        }, 0);
       } else {
         console.log('No hay elementos en la agenda para eliminar.');
       }

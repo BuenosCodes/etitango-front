@@ -1,6 +1,8 @@
+/* eslint-disable prettier/prettier */
+// eslint-disable-next-line prettier/prettier
 import { Box, Modal, Typography, Button } from "@mui/material";
 
-const ETIModalDeleteEvent = ({handleCloseModal, open, handleDeleteButton} : {handleCloseModal : Function, open : boolean, handleDeleteButton: Function}) => {
+const ETIModalDeleteEvent = ({handleCloseModal, open, handleDeleteButton, title1, title2} : {handleCloseModal : Function, open : boolean, handleDeleteButton: Function}) => {
 
 const styleModal = {
         position: 'absolute' as 'absolute',
@@ -14,6 +16,7 @@ const styleModal = {
         p: 3,
         overflow: 'none',
         width: '422px',
+        // eslint-disable-next-line prettier/prettier
         height: '209px',     
  };
 
@@ -21,7 +24,7 @@ return (
     <Box sx={{...styleModal}}>
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center'}}>
              <Box sx={{ mb: 2}}>
-                <Typography variant="h6">¿Eliminar elementos seleccionados?</Typography>
+                <Typography variant="h6">{title1}</Typography>
             </Box>
 
             <Box sx={{borderBottom: '1px solid #E0E0E0', width: '100%'}}>
@@ -29,7 +32,7 @@ return (
             </Box>
 
             <Box sx={{ mt: 2}}>
-            <Typography sx={{fontFamily: 'roboto'}}>Los ETI seleccionados serán eliminados</Typography>
+            <Typography sx={{fontFamily: 'roboto'}}>{title2}</Typography>
             </Box>
 
             <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between', width: '65%'}}>

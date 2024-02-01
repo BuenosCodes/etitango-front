@@ -11,6 +11,7 @@ import ETIDataBanks from 'components/ETIDataBanks.jsx';
 import ETIMercadoPago from 'components/ETIMercadoPago.jsx';
 import ETICombos from 'components/ETICombo';
 import ETIEventDate from 'components/ETIEventDates';
+import { update } from 'lodash';
 
 
 export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEvent2, setChangeEvent3 }: { selectedEvent: EtiEvent | null, setChangeEvent2: Function, changeEvent2: boolean, setChangeEvent3: Function }) {
@@ -80,10 +81,14 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
   const [isEditingAlojamiento, setIsEditingAlojamiento] = useState(true);
   const [isEditingDataBanks, setIsEditingDataBanks] = useState(true);
   const [isEditingDataMP, setIsEditingDataMP] = useState(true);
+  const [updateAgenda, setUpdateAgenda] = useState(null);
+
   
   const [productValues, setProductValues] = useState([null])
 
   console.log('Esta es la img desde editevetn ->, ', eventImage);
+  console.log('agenda actualizada -> ', updateAgenda);
+  
   
 
   const updateAlojamientoData = (newData:any) => {
@@ -132,6 +137,10 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
         }
         if(eventImage){
           values.imageUrl = eventImage;
+        }
+
+        if(updateAgenda){
+          await createOrUpdateDoc('events', { Agenda: updateAgenda }, idEvent);
         }
 
         setTimeout(async () => {
@@ -209,7 +218,7 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
                   <Box sx={{ margin: '0px 20px 0px 20px', backgroundColor: '#FAFAFA', borderRadius: '0px 0px 12px 12px', p: 2 }}>
                     <Grid container spacing={2}>
                       <Grid item md={12} sm={12} xs={12}>
-                        <ETIAgenda idEvent={idEvent} eventData={selectedEvent} />
+                        <ETIAgenda idEvent={idEvent} eventData={selectedEvent}  updateDataAgenda={setUpdateAgenda}/>
                       </Grid>
                       
                       <Grid item md={12} sm={12} xs={12}>
