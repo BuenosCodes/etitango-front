@@ -6,6 +6,7 @@ import { Box, Button, Grid, Typography, Table, TableBody, TableCell, TableContai
 import { KeyboardArrowDown, KeyboardArrowUp, MoreVert } from '@mui/icons-material';
 import { makeStyles } from "@mui/styles";
 import ModalForm from './ModalForm';
+import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
 
 const ETIAgenda = ( { idEvent, eventData } ) => {
 
@@ -61,7 +62,7 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
   };
 
   const handleDelete = () => {
-    // Lógica para eliminar la agenda
+    // Lógica para eliminar el ultimo item de la agenda
     // Puedes utilizar la información de idEvent y agendaData
     // para implementar la eliminación.
     console.log('Eliminar agenda');
@@ -69,17 +70,30 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
     setShowDeleteButton(true);
   };
 
-  const handleConfirmDelete = () => {
-    // Lógica para confirmar la eliminación
-    const updateAgenda = [...eventData.Agenda];
-    updateAgenda.pop();
-
-
-
-    console.log('Confirmar eliminación');
-    // Oculta el botón de eliminar al confirmar la eliminación
-    setShowDeleteButton(false);
+  const handleConfirmDelete = async () => {
+    try {
+      if (eventData?.Agenda.length > 0) {
+        const updatedAgenda = [...eventData?.Agenda];
+        updatedAgenda.pop();
+  
+        // Actualizar la información en Firebase
+        const id = idEvent;
+        const existingEvent = await getDocument(`events/${id}`);
+        await createOrUpdateDoc('events', {
+          ...existingEvent,
+          Agenda: updatedAgenda,
+        }, id);
+  
+        setAgendaData(updatedAgenda);
+        setShowDeleteButton(false);
+      } else {
+        console.log('No hay elementos en la agenda para eliminar.');
+      }
+    } catch (error) {
+      console.error('Error al confirmar la eliminación:', error);
+    }
   };
+  
 
   const useStyles = makeStyles({
     table: {
