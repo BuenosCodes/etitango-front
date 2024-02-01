@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import WithAuthentication from '../../withAuthentication';
-import { UserFullData, UserRoles, UserRolesListData } from 'shared/User';
+import { UserFullData, UserRolesListData } from 'shared/User';
 import * as firestoreUserHelper from 'helpers/firestore/users';
 import { Box, Button, Typography, CircularProgress } from '@mui/material';
 import { DataGrid, GridColDef, GridToolbarQuickFilter } from '@mui/x-data-grid';
@@ -91,7 +90,6 @@ const RolesNewEvent = ({ handleClose, selectedRows }: { handleClose: Function, s
 
     return (
         <>
-            <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} />
             <DataGrid
                 rows={filteredUsuarios.map(getUserDataValues)}
                 columns={columns}
@@ -179,7 +177,7 @@ const RolesNewEvent = ({ handleClose, selectedRows }: { handleClose: Function, s
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                 <Button sx={{ width: '115px', padding: '12px, 32px, 12px, 32px', borderRadius: '25px', backgroundColor: '#A82548', height: '44px', '&:hover': { backgroundColor: '#A82548' } }} onClick={() => { handleSelectEmails() }}>
                     <Typography sx={{ color: '#FAFAFA', fontWeight: 500, fontSize: '14px', lineHeight: '20px' }}>
-                        {isLoading ? <CircularProgress /> : 'Agregar'}
+                        {isLoading ? <CircularProgress sx={{ color: '#ffffff' }} size={30}/> : 'Agregar'}
                     </Typography>
                 </Button>
             </Box>
