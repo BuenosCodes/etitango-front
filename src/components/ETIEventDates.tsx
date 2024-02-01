@@ -94,11 +94,12 @@ export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedE
 
   useEffect(() => {
     if (selectedEvent && selectedEvent.admins && users.length > 0) {
-      const adminsArray: { name: string; email: string }[] = [];
+      const adminsArray: {id: string; name: string; email: string }[] = [];
       selectedEvent.admins.forEach((element: string) => {
         users.forEach((user: any) => {
           if (element === user.id) {
             adminsArray.push({
+              id: user.id,
               name: `${user.nameFirst} ${user.nameLast}`,
               email: user.email,
             })
@@ -401,7 +402,7 @@ export default function ETIEventDate({ selectedEvent, changeEvent }: { selectedE
                   </Grid>
                   <Modal open={open} onClose={() => handleClose([])}>
                     <Box sx={{ ...styleModal, display: 'flex', flexDirection: 'column' }}>
-                      <RolesNewEvent eventId={idEvent} handleClose={handleClose} />
+                      <RolesNewEvent eventId={idEvent} handleClose={handleClose} selectedRows={admins}/>
                     </Box>
                   </Modal>
                 </Grid>

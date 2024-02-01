@@ -6,11 +6,12 @@ import * as firestoreUserHelper from 'helpers/firestore/users';
 import { Box, Button, Typography, CircularProgress } from '@mui/material';
 import { DataGrid, GridColDef, GridToolbarQuickFilter } from '@mui/x-data-grid';
 
-const RolesNewEvent = ({ eventId, handleClose }: { eventId?: string, handleClose: Function }) => {
+const RolesNewEvent = ({ eventId, handleClose, selectedRows }: { eventId?: string, handleClose: Function, selectedRows: any }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [usuarios, setUsuarios] = useState<UserFullData[]>([]);
     const [selectedUserInfo, setSelectedUserInfo] = React.useState({});
     const [filteredUsuarios, setFilteredUsuarios] = useState<UserFullData[]>([]);
+    const [selecteTabledData, setSelectedTableData] = React.useState([]);
 
     useEffect(() => {
         setIsLoading(true);
@@ -31,13 +32,15 @@ const RolesNewEvent = ({ eventId, handleClose }: { eventId?: string, handleClose
     }, []);
 
     useEffect(() => {
+        const adminsSelected = selectedRows.map((item:any) => item.id);
+        setSelectedTableData(adminsSelected)
         const filteredData = usuarios.filter((usuario) => {
             return usuario.roles && usuario.roles.superadmin !== true;
         });
         setFilteredUsuarios(filteredData);
-    }, [usuarios]);
-
-    const columns: GridColDef[] = [
+    }, [usuarios, selectedRows]);
+ 
+ const columns: GridColDef[] = [
         {
             field: 'Nombre',
             width: 150,
@@ -108,12 +111,14 @@ const RolesNewEvent = ({ eventId, handleClose }: { eventId?: string, handleClose
                         <GridToolbarQuickFilter {...props} placeholder='Buscar' variant='outlined' sx={{ display: 'flex', borderColor: '#FDE4AA', borderRadius: '4px', mb: 2 }} />
                     ),
                 }}
-                getRowId={(row) => row.id}
-                onSelectionModelChange={(selection) => {
+                getRowId={(row) => row.id}           
+                selectionModel={selecteTabledData}
+                onSelectionModelChange={(selection:any) => {
                     const selectedInfo = selection.map((selectedId: any) => {
                         const selectedUsuario = usuarios.find((usuario) => usuario.id.toString() === selectedId);
-                        return selectedUsuario ? { name: `${selectedUsuario?.nameFirst} ${selectedUsuario?.nameLast}`, email: selectedUsuario.email } : '';
+                        return selectedUsuario ? {id: selectedId, name: `${selectedUsuario?.nameFirst} ${selectedUsuario?.nameLast}`, email: selectedUsuario.email } : '';
                     })
+                    setSelectedTableData(selection)     
                     setSelectedUserInfo(selectedInfo)
                 }}
                 sx={{
