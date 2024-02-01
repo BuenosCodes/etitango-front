@@ -12,6 +12,12 @@ export interface EtiEventBase {
   timeEnd: string;
   timeSignupOpen: string;
   timeSignupEnd: string;
+  firstPay: string;
+  firstTimePay: string;
+  secondPay: string;
+  secondTimePay: string;
+  timeRefundDeadline: string;
+  limitParticipants: string;
   admins: [];
   combos: ["Dos Milongas", "Asamblea Etiana", "Comida de despedida"]
 }
@@ -21,6 +27,9 @@ export interface EtiEvent extends EtiEventBase {
   dateStart: Date;
   dateEnd: Date;
   dateSignupOpen: Date;
+  firstDatePay: Date;
+  secondDatePay: Date;
+  refundDeadline: Date;
   description: string;
   hora: Date;
   agenda: string[];

@@ -11,9 +11,11 @@ interface ETITimePicker2Props {
   onChange: (value: string) => void;
   isDisabled: boolean;
   showBorders?: boolean;
+  error: any;
+  helperText: any;   
 }
 
-const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange, isDisabled, showBorders = true }) => {
+const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange, isDisabled, showBorders = true, error, helperText}) => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
@@ -54,6 +56,8 @@ const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange, isDisa
       onChange={handleInputChange}
       onBlur={handleInputChange}
       disabled={isDisabled}
+      error={error}
+      helperText={helperText}    
       style={{ width: '102px', height: '48px', borderRadius: '12px'}}
       InputProps={{
         startAdornment: (
@@ -63,6 +67,10 @@ const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange, isDisa
         ),
       }}
       sx={{
+        '& .MuiFormHelperText-root': {
+          margin: '2px 0px 0px 2px',
+          width: '110px',
+        },
         '& input[type="text"]::-webkit-inner-spin-button, & input[type="text"]::-webkit-outer-spin-button': {
           '-webkit-appearance': 'none',
           margin: 0,
@@ -72,13 +80,16 @@ const ETITimePicker2: React.FC<ETITimePicker2Props> = ({ value, onChange, isDisa
         },
         '& .MuiOutlinedInput-root': {
           '& fieldset': {
+            borderRadius: '8px',
             borderColor: showBorders ? (value ? '#E68650' : '#FDE4AA') : 'transparent',
             borderWidth: showBorders ? 1 : 0,
           },
           '&:hover fieldset': {
+            borderRadius: '8px',
             borderColor: showBorders ? '#E68650' : 'transparent',
           },
           '&.Mui-focused fieldset': {
+            borderRadius: '8px',
             borderColor: showBorders ? '#E68650' : 'transparent',
           },
         },

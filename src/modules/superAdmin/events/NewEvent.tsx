@@ -368,6 +368,8 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                       value={values['timeStart']}
                                       onChange={(value) => setFieldValue('timeStart', value)}
                                       isDisabled={false}
+                                      error={touched['timeStart'] && !!errors['timeStart']}
+                                      helperText={touched['timeStart'] && errors['timeStart']}      
                                     />
                                   </Grid>
                                 </Grid>
@@ -398,6 +400,8 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                       value={values['timeEnd']}
                                       onChange={(value) => setFieldValue('timeEnd', value)}
                                       isDisabled={false}
+                                      error={touched['timeEnd'] && !!errors['timeEnd']}
+                                      helperText={touched['timeEnd'] && errors['timeEnd']}      
                                     />
                                   </Grid>
                                 </Grid>
@@ -428,6 +432,8 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                       value={values['timeSignupOpen']}
                                       onChange={(value) => setFieldValue('timeSignupOpen', value)}
                                       isDisabled={false}
+                                      error={touched['timeSignupOpen'] && !!errors['timeSignupOpen']}
+                                      helperText={touched['timeSignupOpen'] && errors['timeSignupOpen']}      
                                     />
                                   </Grid>
                                   <Typography sx={{ color: '#424242', mt: 2, ml: 2, mr: 2, fontWeight: 500 }}>hasta el</Typography>
@@ -453,6 +459,8 @@ export default function NewEvent(props: { etiEventId: string, onChange: Function
                                       value={values['timeSignupEnd']}
                                       onChange={(value) => setFieldValue('timeSignupEnd', value)}
                                       isDisabled={false}
+                                      error={touched['timeSignupEnd'] && !!errors['timeSignupEnd']}
+                                      helperText={touched['timeSignupEnd'] && errors['timeSignupEnd']}      
                                     />
                                   </Grid>
                                 </Grid>

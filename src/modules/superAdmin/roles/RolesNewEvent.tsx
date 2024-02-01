@@ -128,6 +128,7 @@ const RolesNewEvent = ({ eventId, handleClose }: { eventId?: string, handleClose
                     },
                 }}
                 checkboxSelection
+                hideFooter={true}
                 pageSize={5}
                 rowsPerPageOptions={[10]}
                 disableSelectionOnClick

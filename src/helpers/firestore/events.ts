@@ -11,6 +11,9 @@ interface EtiEventFirestore extends EtiEventBase {
   dateEnd: Timestamp;
   dateSignupOpen: Timestamp;
   dateSignupEnd: Timestamp;
+  firstDatePay: Timestamp;
+  secondDatePay: Timestamp;
+  refundDeadline: Timestamp;
 }
 
 const toJs = (etiEventFromFirestore: EtiEventFirestore) =>
@@ -19,7 +22,10 @@ const toJs = (etiEventFromFirestore: EtiEventFirestore) =>
     dateStart: etiEventFromFirestore?.dateStart?.toDate(),
     dateEnd: etiEventFromFirestore?.dateEnd?.toDate(),
     dateSignupOpen: etiEventFromFirestore?.dateSignupOpen?.toDate(),
-    dateSignupEnd: etiEventFromFirestore?.dateSignupEnd?.toDate()
+    dateSignupEnd: etiEventFromFirestore?.dateSignupEnd?.toDate(),
+    firstDatePay: etiEventFromFirestore?.firstDatePay instanceof Timestamp ? etiEventFromFirestore?.firstDatePay?.toDate() : null,
+    secondDatePay: etiEventFromFirestore?.secondDatePay instanceof Timestamp ? etiEventFromFirestore?.secondDatePay?.toDate() : null,
+    refundDeadline: etiEventFromFirestore?.refundDeadline instanceof Timestamp ? etiEventFromFirestore?.refundDeadline?.toDate() : null,
   } as EtiEvent);
 
 export async function getFutureEti() {
