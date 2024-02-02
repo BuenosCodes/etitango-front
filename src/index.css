@@ -20,3 +20,7 @@ code {
   flex: 1;
   background-color: #FFFBF0;
 } 
+
+.custom-icon-container img {
+  fill: red; /* Cambia 'red' al color que desees */
+}

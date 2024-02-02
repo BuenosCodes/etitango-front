@@ -141,9 +141,8 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
           <Modal
           open={open}
           onClose={() => handleCloseModal()}>
-          <ETIModalDeleteEvent open={open} handleCloseModal={handleCloseModal} handleDeleteButton={handleDeleteButton}></ETIModalDeleteEvent>
+          <ETIModalDeleteEvent open={open} handleCloseModal={handleCloseModal} handleDeleteButton={handleDeleteButton} title1={'¿Eliminar elementos seleccionados?'} title2={'Los ETI seleccionados serán eliminados'}></ETIModalDeleteEvent>
           </Modal>
-           
            
       </Grid>
     );
@@ -232,8 +231,6 @@ export function NewEventList(props: { events: EtiEvent[]; isLoading: boolean, on
             }
           },
         
-         
-          
         }}
         onRowClick={(event) => {
           if (!showCheckbox) {
