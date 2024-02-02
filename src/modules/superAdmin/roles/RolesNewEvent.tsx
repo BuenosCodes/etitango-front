@@ -34,7 +34,7 @@ const RolesNewEvent = ({ handleClose, selectedRows }: { handleClose: Function, s
         const adminsSelected = selectedRows.map((item:any) => item.id);
         setSelectedTableData(adminsSelected)
         const filteredData = usuarios.filter((usuario) => {
-            return usuario.roles && usuario.roles.superadmin !== true;
+            return !usuario.roles || !usuario.roles.superadmin;
         });
         setFilteredUsuarios(filteredData);
     }, [usuarios, selectedRows]);
