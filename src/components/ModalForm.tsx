@@ -372,7 +372,7 @@ const ModalForm: React.FC<SimpleModalProps> = ({
                       <Grid item xs={10}>
                         <Field
                           name={`descripcionDeLaActividad_${index}`}
-                          label={'Detalles de la actividad'}
+                          placeholder={'Detalles de la actividad'}
                           component={TextField}
                           required
                           fullWidth
