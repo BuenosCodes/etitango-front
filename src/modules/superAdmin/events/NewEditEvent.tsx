@@ -11,7 +11,6 @@ import ETIDataBanks from 'components/ETIDataBanks.jsx';
 import ETIMercadoPago from 'components/ETIMercadoPago.jsx';
 import ETICombos from 'components/ETICombo';
 import ETIEventDate from 'components/ETIEventDates';
-import { update } from 'lodash';
 
 
 export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEvent2, setChangeEvent3 }: { selectedEvent: EtiEvent | null, setChangeEvent2: Function, changeEvent2: boolean, setChangeEvent3: Function }) {
@@ -109,7 +108,6 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
 
   useEffect(() => {
     console.log('selected event Cambio', selectedEvent);
-
   }, [selectedEvent])
 
   const handleCreateEvent = async (values: any, setSubmitting: Function) => {
@@ -118,21 +116,26 @@ export default function NewEditEvent({ selectedEvent, setChangeEvent2, changeEve
       if(!changeEvent2){
         if (alojamientoData && alojamientoData.length > 0) {
           values.alojamiento = alojamientoData;
+          
         }
     
         if (dataBanks && dataBanks.length > 0) {
           values.datosBancarios = dataBanks;
+          
         }
     
         if (dataMP && dataMP.length > 0) {
           values.linkMercadoPago = dataMP;  
+          
         }
         if (productValues && productValues.length > 0) {
           values.combos = productValues;
+          
         }
 
        if(!isEditingAlojamiento || !isEditingDataBanks || !isEditingDataMP){
           alert(alerText2)
+          setIsLoading(false);
           return;
         }
         if(eventImage){
