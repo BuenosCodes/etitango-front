@@ -28,6 +28,7 @@ const ETIAgenda = ( { idEvent, eventData, updateDataAgenda } ) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   
+  console.log('este es la data del modal desde agenda ->', dataFromModalForm);
 
   useEffect(() => {
     if (eventData && eventData?.Agenda) {
@@ -76,14 +77,15 @@ const ETIAgenda = ( { idEvent, eventData, updateDataAgenda } ) => {
 
   const handleConfirmDelete = async () => {
     try {
-      if (eventData?.Agenda.length > 0) {
-        const updatedAgenda = [...eventData?.Agenda];
+      if ((dataFromModalForm && dataFromModalForm.length > 0) || (eventData?.Agenda && eventData.Agenda.length > 0)) {
+        const updatedAgenda = [...(dataFromModalForm || eventData.Agenda)];
         updatedAgenda.pop();
-
-        updateDataAgenda(updatedAgenda); // Setear el estado updateAgenda con la agenda actualizada
-
+        dataFromModalForm.pop();
+  
+        updateDataAgenda(updatedAgenda);
+  
         setShowDeleteButton(false);
-
+  
         setTimeout(() => {
           alert("Los cambios se efectuaran cuando se presione el boton Guardar!");
         }, 0);
@@ -94,6 +96,7 @@ const ETIAgenda = ( { idEvent, eventData, updateDataAgenda } ) => {
       console.error('Error al confirmar la eliminación:', error);
     }
   };
+  
   
 
   const useStyles = makeStyles({

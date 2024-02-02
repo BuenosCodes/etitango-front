@@ -26,6 +26,7 @@ interface SimpleModalProps {
   onClose: () => void;
   setAgendaData: (data: any[]) => void;
   setDataFromModalForm: (data: any[]) => void;
+  setUpdatedEvent: any
 }
 interface TimePickerFieldProps {
   value: string;
@@ -40,7 +41,8 @@ const ModalForm: React.FC<SimpleModalProps> = ({
   idEvent,
   eventData,
   setAgendaData,
-  setDataFromModalForm
+  setDataFromModalForm,
+  setUpdatedEvent
 }) => {
   const handleSubmit = async (values: any, { setSubmitting }: any) => {
     try {
@@ -79,7 +81,7 @@ const ModalForm: React.FC<SimpleModalProps> = ({
 
       // Actualizar los datos en el componente padre
       setAgendaData(updatedAgenda);
-      setDataFromModalForm(updatedEvent);
+      setDataFromModalForm(updatedAgenda);
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
     } finally {
@@ -136,10 +138,6 @@ const ModalForm: React.FC<SimpleModalProps> = ({
   const [additionalFields, setAdditionalFields] = useState<{ description: string; time: string }[]>(
     [{ description: '', time: '' }]
   );
-
-  useEffect(() => {
-    console.log('Valor actual de additionalFields:', additionalFields);
-  }, [additionalFields]);
 
   const handleDateTimeChange = (index: number, type: FieldType, value: string) => {
     const newFields = [...additionalFields];
