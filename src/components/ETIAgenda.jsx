@@ -2,14 +2,16 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Collapse, IconButton } from '@mui/material';
-import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
+import { Box, Button, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Collapse, IconButton, Menu, MenuItem, ListItemIcon } from '@mui/material';
+import { KeyboardArrowDown, KeyboardArrowUp, } from '@mui/icons-material';
 import { makeStyles } from "@mui/styles";
 import ModalForm from './ModalForm';
+import ETIModalDeleteEvent from './ETIModalDeleteEvent';
 
-const ETIAgenda = ( { idEvent, eventData } ) => {
+const ETIAgenda = ( { idEvent, eventData, updateDataAgenda } ) => {
 
   // console.log('EventData desde ETIAgenda -> ', eventData);
+  // console.log('Agenda desde ETIAgenda -> ', eventData?.Agenda);
 
   // const dateStartValue = eventData?.dateStart;
   // const dateEndValue = eventData?.dateEnd;
@@ -20,6 +22,13 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
   const [dataFromModalForm, setDataFromModalForm] = useState([]);
   const [agendaData, setAgendaData] = useState([]);
   const [updatedEvent, setUpdatedEvent] = useState();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [showDeleteButton, setShowDeleteButton] = useState(false);
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  
+  console.log('este es la data del modal desde agenda ->', dataFromModalForm);
 
   useEffect(() => {
     if (eventData && eventData?.Agenda) {
@@ -37,6 +46,7 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -47,6 +57,47 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
       [index]: !prevOpen[index],
     }));
   };
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleDelete = () => {
+    // Lógica para eliminar el ultimo item de la agenda
+    // Puedes utilizar la información de idEvent y agendaData
+    // para implementar la eliminación.
+    console.log('Eliminar agenda');
+    handleMenuClose();
+    setShowDeleteButton(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      if ((dataFromModalForm && dataFromModalForm.length > 0) || (eventData?.Agenda && eventData.Agenda.length > 0)) {
+        const updatedAgenda = [...(dataFromModalForm || eventData.Agenda)];
+        updatedAgenda.pop();
+        dataFromModalForm.pop();
+  
+        updateDataAgenda(updatedAgenda);
+  
+        setShowDeleteButton(false);
+  
+        setTimeout(() => {
+          alert("Los cambios se efectuaran cuando se presione el boton Guardar!");
+        }, 0);
+      } else {
+        console.log('No hay elementos en la agenda para eliminar.');
+      }
+    } catch (error) {
+      console.error('Error al confirmar la eliminación:', error);
+    }
+  };
+  
+  
 
   const useStyles = makeStyles({
     table: {
@@ -83,12 +134,32 @@ const ETIAgenda = ( { idEvent, eventData } ) => {
           <Typography variant='h6' fontWeight="600">Agenda</Typography>
         </Grid>
         <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        {showDeleteButton && (
+          <Button 
+            variant="contained"
+            style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
+            onClick={handleConfirmDelete}
+          >
+            <img src={'/img/icon/btnDelete.svg'} alt="" style={{ width: '100%', height: 'auto' }} />
+          </Button>
+        )}
           <Button
             variant='contained'
             style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
+            onClick={handleMenuOpen}
           >
             <img src={'/img/icon/btnTresPuntos.svg'} alt="" style={{ width: '100%', height: 'auto' }} />
           </Button>
+          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose} sx={{ justifyContent: 'center', alignItems: 'center'}}>
+            <MenuItem onClick={handleDelete}>
+              <ListItemIcon>
+                <img src={'/img/icon/btnTrash.svg'} style={{  }}/>
+              </ListItemIcon>
+              <Typography sx={{ fontWeight: 600, fontSize: '14px', color: '#0075D9', alignItems: 'center' }}>
+                Eliminar
+              </Typography>
+            </MenuItem>
+          </Menu>
           <Button
             variant='contained'
             style={{ background: 'transparent', boxShadow: 'none', border: 'none', margin: 0 }}
