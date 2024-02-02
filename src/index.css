@@ -9,3 +9,18 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+} 
+
+.content {
+  flex: 1;
+  background-color: #FFFBF0;
+} 
+
+.custom-icon-container img {
+  fill: red; /* Cambia 'red' al color que desees */
+}

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { config } from 'dotenv';
 import { initializeApp } from 'firebase/app';
 import * as firebaseAuth from 'firebase/auth';

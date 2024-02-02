@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { auth, uiConfig } from 'etiFirebase';
@@ -54,7 +55,7 @@ function SignInScreen() {
       </div>
     );
   }
-  return <Navigate to={ROUTES.USER_HOME} />;
+  return <Navigate to={ROUTES.DASHBOARD} />;
 }
 
 export default SignInScreen;

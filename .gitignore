@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+.dockerignore
 
 # testing
 /coverage
@@ -17,6 +18,11 @@
 .env.development.local
 .env.test.local
 .env.production.local
+.firebase
+.firebaserc
+.hintrc
+firebase.json
+tsconfig.json
 
 npm-debug.log*
 yarn-debug.log*
@@ -25,11 +31,22 @@ yarn-error.log*
 .idea/
 
 .env
+.env_example
+.eslintrc
 
 /.firebase/hosting.YnVpbGQ.cache
 
 functions/lib/
+.package.json
+.package-lock.json
+.tsconfig
 
 *.log
 
 extensions/firestore-send-email.env
+
+emulatordb
+
+/firebase.json
+
+firebase-export-*/
