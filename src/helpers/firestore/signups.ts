@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { createOrUpdateDoc, getCollection, getDocument } from './index';
 import { collection, getDocs, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { db, functions, storage } from '../../etiFirebase';
@@ -86,8 +87,7 @@ export const getSignupForUserAndEvent = async (userId: string, etiEventId: strin
     id: doc.id,
     ...doc.data()
   })) as Signup[];
-  )[0];
-  return list[0];
+  return list.length > 0 ? list[0] : null;
 };
 
 export const createSignup = async (etiEventId: string, userId: string, data: Signup) => {

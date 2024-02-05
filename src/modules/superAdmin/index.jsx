@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import WithAuthentication from '../withAuthentication';
 import { upsertTemplates, fixNumbering, fixMailing } from '../../helpers/firestore/signups';
 import { Button, Divider } from '@mui/material';

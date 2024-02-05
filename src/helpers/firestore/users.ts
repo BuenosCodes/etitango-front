@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   arrayRemove,
   arrayUnion,
@@ -20,6 +21,47 @@ export const USERS = 'users';
 const USER = (userId: string) => `${USERS}/${userId}`;
 
 export const getUser = (userId: string) => <Promise<UserFullData>>getDocument(USER(userId));
+
+// export const getAllUsers = async () => {
+//   const ref = collection(db, USERS);
+//   const q = query(ref);
+//   const querySnapshot = await getDocs(q);
+//   const users = querySnapshot.docs.map((doc) => ({
+//     id: doc.id,
+//     ...doc.data()
+//   })) as UserFullData[];
+//   return users;
+// };
+
+export const getAllUsers = async (setUsuarios: Function, setIsLoading: Function) => {
+  try {
+    // Configura la referencia a la colección de usuarios
+    const usersRef = collection(db, USERS);
+
+    // Obtiene todos los documentos de la colección
+    const querySnapshot = await getDocs(usersRef);
+
+    // Mapea los documentos a un array de usuarios
+    const usersData = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data()
+    })) as UserFullData[];
+
+    // Actualiza el estado con la lista de usuarios
+    setUsuarios(usersData);
+
+    // Indica que la carga ha finalizado
+    setIsLoading(false);
+
+    // No se utiliza el patrón de suscripción para obtener usuarios,
+    // por lo que simplemente se devuelve una función vacía como "unsubscribe"
+    return () => {};
+  } catch (error) {
+    console.error('Error al obtener usuarios:', error);
+    throw error;
+  }
+};
+
 
 export async function getAdmins(setUsers: Function, setIsLoading: Function, etiEventId?: string) {
   const ref = collection(db, USERS);
@@ -62,10 +104,41 @@ const getUserByEmail = async (email: string) => {
   })) as UserFullData[];
   return docs[0];
 };
+
 export async function assignSuperAdmin(email: string) {
   const doc = await getUserByEmail(email);
   return createOrUpdateDoc(USERS, { roles: { [UserRoles.SUPER_ADMIN]: true } }, doc.id);
 }
+
+// Para hacer admins a varios usuarios
+export const assignEventAdmins = async (emails: string[], eventId: string) => {
+  const batch = writeBatch(db);
+
+  for (const email of emails) {
+    const userDoc = await getUserByEmail(email);
+
+    if (userDoc) {
+      const eventRef = doc(db, `${EVENTS}/${eventId}`);
+      batch.update(eventRef, { admins: arrayUnion(userDoc.id) });
+
+      const userRef = doc(db, `${USERS}/${userDoc.id}`);
+      batch.update(
+        userRef,
+        {
+          // @ts-ignore
+          roles: { [UserRoles.ADMIN]: true },
+          adminOf: arrayUnion(eventId),
+        },
+        { merge: true }
+      );
+    }
+  }
+
+  await batch.commit();
+};
+
+
+// Para hacer admin a un usuario
 export async function assignEventAdmin(email: string, etiEventId: string) {
   const userDoc = await getUserByEmail(email);
   const eventRef = doc(db, `${EVENTS}/${etiEventId}`);
@@ -95,6 +168,7 @@ export async function removeSuperAdmin(email: string) {
   );
 }
 
+//Eliminar un admin
 export async function unassignEventAdmin(email: string, etiEventId: string) {
   const userDoc = await getUserByEmail(email);
   const { id: userId } = userDoc;
@@ -116,6 +190,35 @@ export async function unassignEventAdmin(email: string, etiEventId: string) {
   await batch.commit();
 }
 
+//Eliminar varios admins
+export async function unassignEventAdmins(emails: string[], etiEventId: string) {
+  const batch = writeBatch(db);
+
+  for (const email of emails) {
+    const userDoc = await getUserByEmail(email);
+    const { id: userId } = userDoc;
+    const eventRef = doc(db, `${EVENTS}/${etiEventId}`);
+    
+    // @ts-ignore
+    batch.update(eventRef, { admins: arrayRemove(userId) }, { merge: true });
+
+    let data: any = {
+      adminOf: arrayRemove(etiEventId)
+    };
+
+    if (userDoc.adminOf.filter((e) => e !== etiEventId).length === 0) {
+      // @ts-ignore
+      data = { ...data, [`roles.${[UserRoles.ADMIN]}`]: deleteField(), adminOf: deleteField() };
+    }
+
+    const userRef = doc(db, `${USERS}/${userId}`);
+    batch.update(userRef, data, { merge: true });
+  }
+
+  await batch.commit();
+}
+
+
 export const isAdmin = (user: IUser) => {
   // @ts-ignore
   return !!Object.values(user?.data?.roles || {}).filter((v) => v).length > 0;
@@ -133,3 +236,4 @@ export const isAdminOfEvent = (user: IUser, etiEventId?: string) => {
     !!user?.data?.adminOf?.find((e) => e === etiEventId)
   );
 };
+

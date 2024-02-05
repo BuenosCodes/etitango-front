@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { addDoc, collection, doc, getDoc, getDocs, query, setDoc } from 'firebase/firestore';
 import { db } from '../../etiFirebase';
 
@@ -45,5 +46,45 @@ export const createOrUpdateDoc = async (path, data, id) => {
   } catch (e) {
     console.error(e);
     throw e;
+  }
+};
+
+export const updateEventWithImageUrl = async (eventId, imageUrl) => {
+  try {
+    const event = await getDocument(`events/${eventId}`);
+
+    if(event){
+      const updateEventData = {
+        ...event,
+        imageUrl: imageUrl,
+      };
+
+      await setDoc(doc(db, `events/${eventId}`), updateEventData, {merge: true});
+      return eventId;
+    } else{
+      console.log(`no se encontro el evento con ID ${eventId}`);
+      return undefined;
+    };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export const deleteImageUrlFromEvent = async (eventId) => {
+  try {
+    const event = await getDocument(`events/${eventId}`);
+
+    if(event){
+      delete event.imageUrl;
+      await setDoc(doc(db, `events/${eventId}`), event);
+      return true;
+    } else {
+      console.log(`No se encontró el evento con ID ${eventId}`);
+      return false;
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 };
