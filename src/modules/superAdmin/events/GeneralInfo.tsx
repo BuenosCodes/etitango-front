@@ -78,7 +78,6 @@ const GeneralInfo = ({ idNewEventCreate } : {idNewEventCreate: string}) => {
 
   return (
     <>
-      <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} />
         <Box sx={{display: 'flex', flexDirection: 'column'}}>
           {events.length > 0 ? (
             <>
