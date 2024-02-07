@@ -25,7 +25,7 @@ import { isAdmin, isAdminOfEvent } from '../../helpers/firestore/users';
 const SignupList = (props: { isAttendance: boolean }) => {
   const { user } = useContext(UserContext);
   const [signups, setSignups] = useState([] as Signup[]);
-  const [selectedRows, setSelectedRows] = useState<string[]>([]);
+  const [, setSelectedRows] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [etiEvent, setEtiEvent] = useState<EtiEvent>();
   const [alert, setAlert] = useState<{ props?: AlertProps; text?: string }>({});
@@ -58,6 +58,7 @@ const SignupList = (props: { isAttendance: boolean }) => {
   }, [etiEvent]);
 
   // @ts-ignore
+  // @ts-ignore
   return (
     <>
       <WithAuthentication />
@@ -76,7 +77,7 @@ const SignupList = (props: { isAttendance: boolean }) => {
           <Grid item>
             {alert.text && <Alert {...alert.props}>{alert.text}</Alert>}
             {isAdminOfEvent(user, etiEvent?.id) && (
-              <AdminTools signups={signups} selectedRows={selectedRows} setAlert={setAlert} />
+              <AdminTools etiEventId={etiEvent?.id!} signups={signups} setAlert={setAlert} />
             )}
             <TableContainer component={Paper}>
               <SignupListTable

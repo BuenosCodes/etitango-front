@@ -55,12 +55,9 @@ export const seedDatabase = functions.https.onCall(async (data: any, context: Ca
 
 export const upsertTemplates = functions.https.onCall(
   async (data: any, context: CallableContext) => {
-    console.log('*******_debug  seeds.ts:60  '); // TODO
     try {
       await validateUserIsSuperAdmin(context);
-      console.log('*******_debug validated seeds.ts:63  '); // TODO
       await createTemplates();
-      console.log('*******_debug returned seeds.ts:65  '); // TODO
       return;
     } catch (e) {
       console.log(e);

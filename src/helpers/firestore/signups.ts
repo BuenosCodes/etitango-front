@@ -4,7 +4,7 @@ import { db, functions, storage } from '../../etiFirebase';
 import { Signup, SignupFirestore, SignupStatus } from '../../shared/signup';
 import { httpsCallable } from 'firebase/functions';
 import { BankFirestore, BANKS } from './banks';
-import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 
 const SIGNUPS = `signups`;
 const SIGNUP = (signupId: string) => `${SIGNUPS}/${signupId}`;
@@ -86,7 +86,6 @@ export const getSignupForUserAndEvent = async (userId: string, etiEventId: strin
     id: doc.id,
     ...doc.data()
   })) as Signup[];
-  )[0];
   return list[0];
 };
 
@@ -158,6 +157,15 @@ export const fixNumbering = async (etiEventId: string) => {
   const fn = httpsCallable(functions, 'superAdmin-fixNumbering');
   try {
     await fn(etiEventId);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const advanceSignups = async (etiEventId: string) => {
+  const fn = httpsCallable(functions, 'signup-advanceSignups');
+  try {
+    await fn({ etiEventId });
   } catch (e) {
     console.log(e);
   }

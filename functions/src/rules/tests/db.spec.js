@@ -1,6 +1,11 @@
 const { setup, teardown } = require('./helpers');
 
 describe('Database rules', () => {
+  beforeAll(() => {
+    const validateUserIsLoggedIn = jest.fn().mockResolvedValue(true);
+    const validateUserOwnsTheEvent = jest.fn().mockResolvedValue(true);
+  });
+
   afterAll(async () => {
     await teardown();
   });
