@@ -7,7 +7,8 @@ export enum SignupStatus {
   PAYMENT_TO_CONFIRM = 'payment-to-confirm',
   PAYMENT_DELAYED = 'payment-delayed',
   CONFIRMED = 'confirmed',
-  CANCELLED = 'cancelled'
+  CANCELLED = 'cancelled',
+  FLAGGED = 'flagged'
 }
 
 export enum SignupHelpWith {
@@ -51,6 +52,8 @@ export interface SignupBase {
   city?: string;
   status?: SignupStatus;
   didAttend: boolean;
+  receipt?: string;
+  orderNumber: number;
 }
 
 export interface SignupCreate extends SignupBase {
@@ -62,15 +65,11 @@ export interface Signup extends SignupBase {
   id: string;
   dateArrival: Date;
   dateDeparture: Date;
-  orderNumber: number;
-
   lastModifiedAt: Date;
 }
 
 export interface SignupFirestore extends SignupBase {
   id: string;
-  etiEventId: string;
-  orderNumber: number;
   dateArrival: Timestamp;
   dateDeparture: Timestamp;
   lastModifiedAt: Timestamp;

@@ -6,8 +6,8 @@ import { httpsCallable } from 'firebase/functions';
 import { BankFirestore, BANKS } from './banks';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 
-const SIGNUPS = `signups`;
-const SIGNUP = (signupId: string) => `${SIGNUPS}/${signupId}`;
+export const SIGNUPS = `signups`;
+export const SIGNUP = (signupId: string) => `${SIGNUPS}/${signupId}`;
 
 const ALLOWED_RECEIPT_FILE_TYPES = [
   'image/jpeg',
