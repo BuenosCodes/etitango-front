@@ -54,6 +54,8 @@ export interface SignupBase {
   didAttend: boolean;
   receipt?: string;
   orderNumber: number;
+  disability?: string;
+  phoneNumber: string;
 }
 
 export interface SignupCreate extends SignupBase {

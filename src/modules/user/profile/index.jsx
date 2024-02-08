@@ -50,6 +50,16 @@ export default function Profile() {
     food: string().required('Este campo no puede estar vacío'),
     role: string().required('Este campo no puede estar vacío'),
     isCeliac: bool().required('Este campo no puede estar vacío'),
+    phoneNumber: number()
+      .required('Completa este campo')
+      .positive()
+      .typeError('El teléfono debe contener números únicamente')
+      .test(
+        'phone_number',
+        'El teléfono debe tener al menos 8 dígitos',
+        (value) => !value || (value && value.toString().length <= 11)
+      ),
+
     country: string().nullable(true).required('Este campo no puede estar vacío'),
     province: string()
       .nullable(true)
@@ -65,7 +75,8 @@ export default function Profile() {
       }),
     bank: string().required(
       'Este campo no puede estar vacío. Es necesario para gestionar la devolución de tu combo y para resolver problemas con el pago'
-    )
+    ),
+    disability: string()
   });
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -99,9 +110,12 @@ export default function Profile() {
       province,
       city,
       role,
-      bank
+      bank,
+      disability,
+      phoneNumber
     } = values;
     let userData = {
+      lastModifiedAt: new Date(),
       nameFirst,
       nameLast,
       email,
@@ -109,7 +123,9 @@ export default function Profile() {
       food,
       isCeliac,
       country,
-      role
+      role,
+      disability,
+      phoneNumber
     };
     const isArgentina = userData.country === 'Argentina';
 
@@ -183,7 +199,9 @@ export default function Profile() {
                     province: userData.province || null,
                     city: userData.city || null,
                     email: auth?.currentUser?.email,
-                    bank: userData.bank || ''
+                    bank: userData.bank || '',
+                    phoneNumber: userData.phoneNumber || '',
+                    disability: userData.disability || ''
                   }}
                   validationSchema={ProfileSchema}
                   onSubmit={async (values, { setSubmitting }) => {
@@ -227,12 +245,29 @@ export default function Profile() {
                         </Grid>
                         <Grid item md={6} sm={6} xs={12}>
                           <Field
+                            name="phoneNumber"
+                            label={t('phoneNumber')}
+                            component={TextField}
+                            required
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item md={6} sm={6} xs={12}>
+                          <Field
                             name="dniNumber"
                             label={t('dniNumber')}
                             component={TextField}
                             required
                             fullWidth
                             disabled={isPendingSignup}
+                          />
+                        </Grid>
+                        <Grid item md={6} sm={6} xs={12}>
+                          <Field
+                            name="disability"
+                            label={t('disability')}
+                            component={TextField}
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={4} sm={4} xs={12}>
@@ -250,8 +285,6 @@ export default function Profile() {
                               </MenuItem>
                             ))}
                           </Field>
-                        </Grid>
-                        <Grid item md={4} sm={4} xs={12}>
                           <Field
                             component={CheckboxWithLabel}
                             type="checkbox"
@@ -259,6 +292,7 @@ export default function Profile() {
                             Label={{ label: t('isCeliac') }}
                           />
                         </Grid>
+
                         <Grid item xs={12} lg={12} style={{ display: 'flex' }}>
                           <LocationPicker
                             values={values}

@@ -15,7 +15,8 @@ export const isUserDataComplete = (userData: any): userData is RequiredUserData 
     food: '',
     isCeliac: '',
     nameFirst: '',
-    nameLast: ''
+    nameLast: '',
+    phoneNumber: ''
   };
   const missingAttributes = Object.keys(schema)
     .filter((key) => userData[key] === undefined)

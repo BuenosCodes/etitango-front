@@ -44,7 +44,9 @@ export function SignupListTable(props: {
     'nameLast',
     'dniNumber',
     'food',
-    'isCeliac'
+    'isCeliac',
+    'disability',
+    'phoneNumber'
   ];
 
   const publicFields: SignupField[] = [
@@ -55,7 +57,9 @@ export function SignupListTable(props: {
     'province',
     'city',
     'status',
-    'lastModifiedAt'
+    'lastModifiedAt',
+    'disability',
+    'phoneNumber'
   ];
 
   const privateFields: SignupField[] = [
