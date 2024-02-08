@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as functions from 'firebase-functions';
-import { SignupStatus } from '../../src/shared/signup';
+import { AutoEmailSignupStatus, SignupStatus } from '../../src/shared/signup';
 import { db } from './index';
 import { validateUserIsSuperAdmin } from './validators';
 import { CallableContext } from 'firebase-functions/lib/common/providers/https';
@@ -27,7 +27,7 @@ function createEti() {
   return ref.add(values);
 }
 
-function createTemplate(status: SignupStatus) {
+function createTemplate(status: AutoEmailSignupStatus) {
   let html;
   try {
     const mypath = `src/templates/${status}.html`;
@@ -45,7 +45,11 @@ function createTemplate(status: SignupStatus) {
 }
 
 const createTemplates = () =>
-  Promise.all(Object.values(SignupStatus).map((status) => createTemplate(status as SignupStatus)));
+  Promise.all(
+    Object.values(AutoEmailSignupStatus).map((status) =>
+      createTemplate(status as AutoEmailSignupStatus)
+    )
+  );
 
 export const seedDatabase = functions.https.onCall(async (data: any, context: CallableContext) => {
   await validateUserIsSuperAdmin(context);

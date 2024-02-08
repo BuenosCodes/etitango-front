@@ -48,7 +48,7 @@ exports.onUpdateSignup = functions.firestore
     const after = change.after.data();
 
     if (!before || !after) return;
-    if (before.status !== after.status) {
+    if (before.status !== after.status && after.status !== SignupStatus.FLAGGED) {
       const ref = change.after.ref;
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

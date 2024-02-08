@@ -11,6 +11,15 @@ export enum SignupStatus {
   FLAGGED = 'flagged'
 }
 
+export enum AutoEmailSignupStatus {
+  WAITLIST = 'waitlist',
+  PAYMENT_PENDING = 'payment-pending',
+  PAYMENT_TO_CONFIRM = 'payment-to-confirm',
+  PAYMENT_DELAYED = 'payment-delayed',
+  CONFIRMED = 'confirmed',
+  CANCELLED = 'cancelled'
+}
+
 export enum SignupHelpWith {
   CLEANING = 'cleaning',
   COOKING = 'cooking',
