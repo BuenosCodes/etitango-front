@@ -12,10 +12,11 @@ import { advanceSignups } from '../../helpers/firestore/signups';
 const AdminTools = (props: {
   signups: Signup[];
   etiEventId: string;
+  capacity: number;
   // eslint-disable-next-line no-unused-vars
   setAlert: (alertProps: { props?: AlertProps; text?: string }) => void;
 }) => {
-  const { signups, etiEventId, setAlert } = props;
+  const { signups, etiEventId, setAlert, capacity } = props;
 
   const { t } = useTranslation([SCOPES.MODULES.SIGN_UP_LIST, SCOPES.COMMON.FORM], {
     useSuspense: false
@@ -66,11 +67,11 @@ const AdminTools = (props: {
   );
   return (
     <>
-      {signupsForWarning.length >= 850 && (
+      {signupsForWarning.length >= capacity && (
         <Alert severity={'error'}>
           <div style={{ background: 'maroon' }}>
             <Typography variant={'h2'} color={'white'}>
-              La suma de Inscriptxs y Pendientes de Pago es mayor o igual a 850 (total:{' '}
+              La suma de Inscriptxs y Pendientes de Pago es mayor o igual a {capacity} (total:{' '}
               {signupsForWarning.length})
             </Typography>
           </div>

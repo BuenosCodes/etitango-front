@@ -75,8 +75,13 @@ const SignupList = (props: { isAttendance: boolean }) => {
           </Grid>
           <Grid item>
             {alert.text && <Alert {...alert.props}>{alert.text}</Alert>}
-            {isAdminOfEvent(user, etiEvent?.id) && (
-              <AdminTools etiEventId={etiEvent?.id!} signups={signups} setAlert={setAlert} />
+            {isAdminOfEvent(user, etiEvent?.id) && etiEvent?.capacity && (
+              <AdminTools
+                etiEventId={etiEvent?.id!}
+                signups={signups}
+                setAlert={setAlert}
+                capacity={etiEvent?.capacity!}
+              />
             )}
             <TableContainer component={Paper}>
               <SignupListTable

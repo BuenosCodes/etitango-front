@@ -60,48 +60,78 @@ const ReceiptPage = () => {
       ) : (
         <>
           <Typography variant="h6">Comprobante de pago</Typography>
-          <div style={{ display: 'flex' }}>
-            <img src={signup?.receipt!} alt="Receipt" style={{ maxWidth: '50%', height: 'auto' }} />
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {fields.map(({ title, prop }) => (
-                <TextField
-                  label={title}
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  key={title}
-                  // @ts-ignore
-                  value={signup ? signup[prop] : ''}
-                  InputProps={{
-                    readOnly: true
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => navigate(`${ROUTES.RECEIPTS}/${etiEventId}`)}
-            style={{ margin: '8px' }}
-          >
-            Próximo Comprobante
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleApprove}
-            style={{ margin: '8px' }}
-          >
-            Aprobar Comprobante
-          </Button>
-          <Button
-            variant="contained"
-            style={{ backgroundColor: 'orange', color: 'white', margin: '8px' }}
-            onClick={handleFlag}
-          >
-            Rechazar Comprobante
-          </Button>
+          {signup?.receipt ? (
+            <>
+              <div style={{ display: 'flex' }}>
+                {signup?.receipt &&
+                  (signup.receipt.split('?')[0].endsWith('.pdf') ? (
+                    // Render PDF using <object> or <iframe>
+                    <object
+                      data={signup.receipt}
+                      type="application/pdf"
+                      width="50%"
+                      height="600px" // Adjust height as needed
+                      style={{ maxWidth: '100%' }}
+                    >
+                      <p>
+                        Your browser does not support PDFs.{' '}
+                        <a href={signup.receipt}>Download the PDF</a>.
+                      </p>
+                    </object>
+                  ) : (
+                    // Render image
+                    <img
+                      src={signup.receipt}
+                      alt="Receipt"
+                      style={{ maxWidth: '50%', height: 'auto' }}
+                    />
+                  ))}
+
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  {fields.map(({ title, prop }) => (
+                    <TextField
+                      label={title}
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                      key={title}
+                      // @ts-ignore
+                      value={signup ? signup[prop] : ''}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => navigate(`${ROUTES.RECEIPTS}/${etiEventId}`)}
+                style={{ margin: '8px' }}
+              >
+                Próximo Comprobante
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleApprove}
+                style={{ margin: '8px' }}
+              >
+                Aprobar Comprobante
+              </Button>
+              <Button
+                variant="contained"
+                style={{ backgroundColor: 'orange', color: 'white', margin: '8px' }}
+                onClick={handleFlag}
+              >
+                Rechazar Comprobante
+              </Button>
+            </>
+          ) : (
+            'No hay comprobantes pendientes'
+          )}
         </>
       )}
     </Container>
