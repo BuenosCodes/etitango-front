@@ -1,53 +1,56 @@
 {
   "dias": [
     {
-      "dia": "Viernes 27 de Octubre",
+      "dia": "Viernes 22",
       "actividades": [
-        "UBICACIÓN: Centro Cultural La Casa del Tango - Av. Illía 1750, Rosario",
-        "12:00 a 19:00 - Acreditaciones Casa del Tango + milonguita",
-        "18:00 a 19:00 - Clase de cumbia cruzada",
-        "UBICACIÓN: Predio Ferial Parque Independencia Ex Sociedad Rural - Blvd. Oroño 2493, Rosario",
-        "21:00 a 04:00 - Milonga de apertura. Temática 'Manuel Belgrano y su gesta'",
-        "04:00 a 08:00 - After milonguero"
+        "UBICACIÓN: Salón CSCyD Las Toninas - Calle 46 y 15 Las Toninas",
+        "10:00 - Acreditación en el salón CSCyD Las Toninas + Desayuno a la canasta + Armamos el salón entre todes + milongueamos + Bienvenida a los nuevos Etianos",
+        "12:00 - Almuerzo a la canasta y milongueamos hasta la hora de la playa",
+        "16:00 a 17:00 - Introducción a nuevos Etianos",
+        "19:00 a 20:00 - Entre todes limpiamos el salón",
+        "21:00 a 02:00 - Milonga de apertura: temática 'Noche Hippie'",
+        "02:00 a 05:00 - After en el mismo salón",
+        "05:00 - Antorchada. Nos vamos todes caminando hasta la playa, llevamos termo, mate y esperamos la salida del sol"
       ]
     },
     {
-      "dia": "Sábado 28 de Octubre",
+      "dia": "Sábado 24",
       "actividades": [
-        "UBICACIÓN: Predio Ferial Parque Independencia Ex Sociedad Rural - Blvd. Oroño 2493, Rosario",
-        "08:00 a 12:00 - Desayuno + milonga mañanera",
-        "09:00 a 12:00 - Comenzamos a cocinar",
-        "12:00 a 13:30 - Almuerzo (incluido en el combo)",
-        "13:30 a 16:00 - Asamblea",
-        "UBICACIÓN: Monumento Histórico Nacional a la Bandera - Santa Fe 581, Rosario",
-        "16:00 a 19:00 - Milonga Monumental. Visitas guiadas al Monumento.",
-        "UBICACIÓN: Predio Ferial Parque Independencia Ex Sociedad Rural - Blvd. Oroño 2493, Rosario",
-        "22:00 a 04:00 - Milonga de Gala",
-        "04:00 a 08:00 - After milonguero"
+        "UBICACIÓN: Salón CSCyD Las Toninas - Calle 46 y 15 Las Toninas",
+        "08:00 a 13:00 - Apertura del salón, Desayuno a la canasta, almorzamos + Se milonguea hasta la Asamblea + Almuerzo a la canasta",
+        "13:30 a 16:00 - ASAMBLEA ETIANA- Todos invitados a Asistir- La participación es importante",
+        "UBICACIÓN: La Carabela, calle costanera e/ 39 y 40 de Santa Teresita",
+        "16:00 a 19:00 - Milongueamos en La Carabela",
+        "21:00 a 02:00 - Milonga de gala",
+        "02:00 a 05:00 - After hasta que salga el sol"
       ]
     },
     {
-      "dia": "Domingo 29 de Octubre",
+      "dia": "Domingo 24",
       "actividades": [
-        "UBICACIÓN: Predio Ferial Parque Independencia Ex Sociedad Rural - Blvd. Oroño 2493, Rosario",
+        "UBICACIÓN: Salón CSCyD Las Toninas - Calle 46 y 15 Las Toninas",
         "08:00 a 12:00 - Desayuno + milonga mañanera",
-        "12:00 a 21:00 - Asado + fiesta + traspaso de bandera + foto + milonga",
-        "21:00 a 04:00 - Milonga de cierre"
+        "09:00 a 12:00 - Comenzamos a preparar la comida entre todes",
+        "12:00 a 15:00 - Almuerzo de camaradería",
+        "15:00 a 20:00 - Bailamos hasta el último abrazo + Bautismo + Traspaso de bandera + Foto + Zorba",
+        "21:00 a 24:00 - Milonga 'La Yapa', y nos despedimos hasta el próximo encuentro"
+      ]
+    },
+    {
+      "dia": "Lunes 25",
+      "actividades": [
+        "Entre todes los etianes que se quedan unos días más: desarmamos el salón, y lo entregamos."
       ]
     }
   ],
   "ubicaciones": [
     {
-      "name": "Salón principal del evento",
-      "link": "https://www.google.com/maps/place/Predio+Ferial+Parque+Independencia+Ex+Sociedad+Rural/@-32.9637769,-60.6587001,15z/data=!4m6!3m5!1s0x95b7ab714abc3d29:0xe571cfec4aed4774!8m2!3d-32.9637769!4d-60.6587001!16s%2Fg%2F1td7phjn?entry=ttu"
+      "name": "Salón CSCyD Las Toninas",
+      "link": "https://maps.app.goo.gl/v6Z8gbJ4B9tA9JHq7"
     },
     {
-      "name": "Inscripciones",
-      "link": "https://www.google.com/maps/place/Centro+Cultural+La+Casa+del+Tango/@-32.9347353,-60.6468983,17z/data=!3m1!4b1!4m6!3m5!1s0x95b7ab5d841c963f:0xc7b2824435ff8665!8m2!3d-32.9347398!4d-60.644318!16s%2Fg%2F1tzgktyj?entry=ttu"
-    },
-    {
-      "name": "Monumento",
-      "link": "https://www.google.com/maps/place/Monumento+Hist%C3%B3rico+Nacional+a+la+Bandera/@-32.9477087,-60.6330461,17z/data=!3m1!4b1!4m6!3m5!1s0x95b7ab1dc9b6d36f:0x97b9e9584d94d851!8m2!3d-32.9477132!4d-60.6304658!16zL20vMDY0cmRj?entry=ttu"
+      "name": "La Carabela",
+      "link": "https://maps.app.goo.gl/5oMKw29R7nVHUtop6"
     }
   ]
 }
