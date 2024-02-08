@@ -40,7 +40,10 @@ export default function EventForm() {
 
   const save = async (values: any, setSubmitting: Function) => {
     try {
-      await createOrUpdateDoc('events', values, id === 'new' ? undefined : id);
+      const data = { ...values };
+      data.capacity = parseInt(values.capacity);
+      data.daysBeforeExpiration = parseInt(values.daysBeforeExpiration);
+      await createOrUpdateDoc('events', data, id === 'new' ? undefined : id);
       navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
     } catch (error) {
       console.error(error);
@@ -81,7 +84,9 @@ export default function EventForm() {
                     dateSignupOpen: event?.dateSignupOpen || '',
                     dateStart: event?.dateStart || '',
                     location: event?.location || '',
-                    name: event?.name || ''
+                    name: event?.name || '',
+                    capacity: event?.capacity || '',
+                    daysBeforeExpiration: event?.daysBeforeExpiration || ''
                   }}
                   validationSchema={EventFormSchema}
                   onSubmit={async (values, { setSubmitting }) => {
@@ -104,6 +109,24 @@ export default function EventForm() {
                           <Field
                             name="location"
                             label={t('location')}
+                            component={TextField}
+                            required
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item md={6} sm={6} xs={12}>
+                          <Field
+                            name="daysBeforeExpiration"
+                            label={t('daysBeforeExpiration')}
+                            component={TextField}
+                            required
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item md={6} sm={6} xs={12}>
+                          <Field
+                            name="capacity"
+                            label={t('capacity')}
                             component={TextField}
                             required
                             fullWidth
