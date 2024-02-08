@@ -6,6 +6,9 @@ import { SIGNUPS } from '../../helpers/firestore/signups';
 import { Signup, SignupStatus } from '../../shared/signup';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from 'App';
+import { ReceiptDisplay } from '../../components/ReceiptDisplay';
+import { UserRoles } from 'shared/User';
+import WithAuthentication from 'modules/withAuthentication';
 
 const ReceiptPage = () => {
   const navigate = useNavigate();
@@ -54,40 +57,25 @@ const ReceiptPage = () => {
 
   // @ts-ignore
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" style={{ margin: '20px' }}>
+      <WithAuthentication roles={[UserRoles.ADMIN]} />
       {isLoading ? (
         <CircularProgress />
       ) : (
         <>
-          <Typography variant="h6">Comprobante de pago</Typography>
+          <Typography variant="h5" color="secondary" align="center">
+            Comprobante de pago
+          </Typography>
           {signup?.receipt ? (
             <>
-              <div style={{ display: 'flex' }}>
-                {signup?.receipt &&
-                  (signup.receipt.split('?')[0].endsWith('.pdf') ? (
-                    // Render PDF using <object> or <iframe>
-                    <object
-                      data={signup.receipt}
-                      type="application/pdf"
-                      width="50%"
-                      height="600px" // Adjust height as needed
-                      style={{ maxWidth: '100%' }}
-                    >
-                      <p>
-                        Your browser does not support PDFs.{' '}
-                        <a href={signup.receipt}>Download the PDF</a>.
-                      </p>
-                    </object>
-                  ) : (
-                    // Render image
-                    <img
-                      src={signup.receipt}
-                      alt="Receipt"
-                      style={{ maxWidth: '50%', height: 'auto' }}
-                    />
-                  ))}
-
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                <ReceiptDisplay signup={signup} />
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}
+                >
                   {fields.map(({ title, prop }) => (
                     <TextField
                       label={title}

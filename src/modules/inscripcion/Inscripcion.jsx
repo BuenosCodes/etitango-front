@@ -22,6 +22,8 @@ import { ROUTES } from '../../App.js';
 import { ETIDatePicker } from '../../components/form/DatePicker.tsx';
 import ReceiptUpload from '../../components/receiptUpload/index';
 import { UserContext } from '../../helpers/UserContext';
+import * as PropTypes from 'prop-types';
+
 /* eslint-disable react/prop-types */
 function ResetSignup({ etiEventId, signupId }) {
   const navigate = useNavigate();
@@ -39,6 +41,39 @@ function ResetSignup({ etiEventId, signupId }) {
   );
 }
 
+function SignupForm(props) {
+  return (
+    <Formik
+      enableReinitialize
+      initialValues={{
+        nameFirst: props.userData.nameFirst,
+        nameLast: props.userData.nameLast,
+        dniNumber: props.userData.dniNumber,
+        helpWith: '',
+        food: props.userData.food,
+        isCeliac: props.userData.isCeliac,
+        country: props.userData.country,
+        province: props.userData.province,
+        city: props.userData.city,
+        dateArrival: props.etiEvent?.dateStart,
+        dateDeparture: props.etiEvent?.dateEnd,
+        email: auth?.currentUser?.email
+      }}
+      validationSchema={props.validationSchema}
+      onSubmit={props.onSubmit}
+    >
+      {props.prop4}
+    </Formik>
+  );
+}
+
+SignupForm.propTypes = {
+  userData: PropTypes.shape({}),
+  etiEvent: PropTypes.func,
+  validationSchema: PropTypes.any,
+  onSubmit: PropTypes.func,
+  prop4: PropTypes.func
+};
 export default function Inscripcion() {
   const { t } = useTranslation([SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP], {
     useSuspense: false
@@ -163,28 +198,14 @@ export default function Inscripcion() {
             ) : signUpDetails?.id ? (
               renderAlreadySignedUpMessage()
             ) : (
-              <Formik
-                enableReinitialize
-                initialValues={{
-                  nameFirst: userData.nameFirst,
-                  nameLast: userData.nameLast,
-                  dniNumber: userData.dniNumber,
-                  helpWith: '',
-                  food: userData.food,
-                  isCeliac: userData.isCeliac,
-                  country: userData.country,
-                  province: userData.province,
-                  city: userData.city,
-                  dateArrival: etiEvent?.dateStart,
-                  dateDeparture: etiEvent?.dateEnd,
-                  email: auth?.currentUser?.email
-                }}
+              <SignupForm
+                userData={userData}
+                etiEvent={etiEvent}
                 validationSchema={SignupSchema}
                 onSubmit={async (values, { setSubmitting }) => {
                   await save(values, setSubmitting);
                 }}
-              >
-                {({ isSubmitting, touched, errors, setFieldValue, values }) => (
+                prop4={({ isSubmitting, touched, errors, setFieldValue, values }) => (
                   <Form>
                     <Grid container spacing={2}>
                       <Grid item md={4} sm={4} xs={12}>
@@ -235,10 +256,9 @@ export default function Inscripcion() {
                           <Typography variant="h3" color="primary" align="center">
                             {t(`${SCOPES.MODULES.SIGN_UP}.combo`)}
                           </Typography>
-                          <Typography>$12000 hasta el 16/10.</Typography>
-                          <Typography>$14000 a partir del 16/10.</Typography>
-                          Incluye 72 hs corridas de Tango. Milonga de bienvenida, 3 milongas
-                          nocturnas, 2 afters, almuerzo sabado, asado domingo.
+                          <Typography>$25.000 del 13 al 21/02 (inclusive)</Typography>
+                          <Typography>$27.000 hasta el 30/02 (inclusive)</Typography>
+                          <Typography>$30.000 a partir del 01/03</Typography>
                         </Grid>
                         <Grid container justifyContent="flex-end">
                           <Grid item>
@@ -255,7 +275,7 @@ export default function Inscripcion() {
                         <Grid item style={{ textAlign: 'center' }}>
                           <Typography variant="caption">
                             {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer`)}
-                            <b>13 de octubre</b>.<br />
+                            <b>10 de Marzo</b>.<br />
                             {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer2`)}
                           </Typography>
                         </Grid>
@@ -263,7 +283,7 @@ export default function Inscripcion() {
                     </Grid>
                   </Form>
                 )}
-              </Formik>
+              />
             )}
           </Grid>
         )}

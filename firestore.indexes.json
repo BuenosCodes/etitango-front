@@ -1,4 +1,77 @@
 {
-  "indexes": [],
+  "indexes": [
+    {
+      "collectionGroup": "signups",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "etiEventId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "userId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "orderNumber",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "signups",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "etiEventId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "orderNumber",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "signups",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "etiEventId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "userId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "signups",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "etiEventId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "etiEventId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "lastModifiedAt",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
   "fieldOverrides": []
 }
