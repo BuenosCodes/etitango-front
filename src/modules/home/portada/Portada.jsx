@@ -22,7 +22,7 @@ export default function Portada() {
         }}
       >
         <Typography color="white" variant="h6" textAlign="center">
-          ETI Las Toninas - 22, 23 y 24 de Marzo de 2024
+          LasToninETI - 22, 23 y 24 de Marzo de 2024
         </Typography>
       </Box>
     </React.Fragment>
