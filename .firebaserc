@@ -6,12 +6,12 @@
   "etags": {
     "etitango-5118a": {
       "extensionInstances": {
-        "firestore-send-email": "0c331f1ce8c86c66c594dc00d6bd8821d0b7893a51626fadd774948e94e9a9fe"
+        "firestore-send-email": "51627be8399fd671c7e0214f2b52c2945b5b8ca3c0189ee0fe20d00c0bd9611d"
       }
     },
     "eti-tango": {
       "extensionInstances": {
-        "firestore-send-email": "2fc74d1bc617d459b12b3ed8fc5be3292eba9cd45b178622aee322fb31b7499c"
+        "firestore-send-email": "fef10f01813b8a232598fb82eb828703ad9067a158d8cefc4e68bfa667d5d276"
       }
     }
   }

@@ -13,7 +13,7 @@ import {
 import WithAuthentication from '../withAuthentication';
 import { getFutureEti } from '../../helpers/firestore/events';
 import { getSignups, markAttendance } from '../../helpers/firestore/signups';
-import { Signup } from '../../shared/signup';
+import { Signup, SignupStatus } from '../../shared/signup';
 import { SignupListTable } from './SignupListTable';
 import { UserContext } from '../../helpers/UserContext';
 import AdminTools from './AdminTools';
@@ -86,7 +86,11 @@ const SignupList = (props: { isAttendance: boolean }) => {
             <TableContainer component={Paper}>
               <SignupListTable
                 isAdmin={isAdmin(user)}
-                signups={signups}
+                signups={
+                  props.isAttendance
+                    ? signups.filter((s) => s.status === SignupStatus.CONFIRMED)
+                    : signups
+                }
                 isLoading={isLoading}
                 isAttendance={props.isAttendance}
                 markAttendance={markAttendance}

@@ -38,7 +38,7 @@ const WithAuthentication = ({
   const hasRequiredRole = () => {
     const userRoles = user?.data?.roles;
     const isSuperAdmin = !!userRoles?.[UserRoles.SUPER_ADMIN];
-    const isAdminOfThisEvent = user?.data?.adminOf?.find((e) => e === eventId);
+    const isAdminOfThisEvent = !eventId || user?.data?.adminOf?.find((e) => e === eventId);
     if (!roles?.length || isSuperAdmin) {
       return true;
     } else {

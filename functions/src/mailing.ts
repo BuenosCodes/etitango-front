@@ -16,7 +16,7 @@ exports.retryFailedMails = functions.https.onCall(
     // Query for documents with delivery.state = 'ERROR'
     const snapshot = await mailRef
       .where('delivery.state', '==', 'ERROR')
-      .where('delivery.startTime', '>=', new Date(1694110611574))
+      .where('template.eventId', '==', etiEventId)
       .get();
 
     // Array to store update promises
@@ -48,7 +48,7 @@ exports.onUpdateSignup = functions.firestore
     const after = change.after.data();
 
     if (!before || !after) return;
-    if (before.status !== after.status && after.status !== SignupStatus.FLAGGED) {
+    if (before.status !== after.status) {
       const ref = change.after.ref;
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

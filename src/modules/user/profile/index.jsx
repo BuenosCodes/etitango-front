@@ -56,8 +56,8 @@ export default function Profile() {
       .typeError('El teléfono debe contener números únicamente')
       .test(
         'phone_number',
-        'El teléfono debe tener al menos 8 dígitos',
-        (value) => !value || (value && value.toString().length <= 11)
+        'El teléfono debe tener al menos 10 dígitos',
+        (value) => !value || (value && value.toString().length >= 10)
       ),
 
     country: string().nullable(true).required('Este campo no puede estar vacío'),

@@ -97,7 +97,7 @@ const subtractDays = (days: number): Date => {
 
 export const advanceStatusPending = async (
   etiEventId: string,
-  from: SignupStatus,
+  from: SignupStatus[],
   to: SignupStatus,
   days: number
 ) => {
@@ -105,7 +105,7 @@ export const advanceStatusPending = async (
   const todayMinus = subtractDays(days);
   const signupDocsSnapshot = await signupRef
     .where('etiEventId', '==', etiEventId)
-    .where('status', '==', from)
+    .where('status', 'in', from)
     .where('lastModifiedAt', '<=', todayMinus)
     .get();
   const updatePromises: Promise<any>[] = [];
@@ -152,13 +152,14 @@ export async function doAdvanceSignups(etiEvent: any) {
     .where('status', 'in', [
       SignupStatus.PAYMENT_PENDING,
       SignupStatus.PAYMENT_TO_CONFIRM,
+      SignupStatus.FLAGGED,
       SignupStatus.CONFIRMED
     ])
     .get();
   let remainingCapacity = capacity - signupDocsSnapshot.size;
   remainingCapacity += await advanceStatusPending(
     id,
-    SignupStatus.PAYMENT_PENDING,
+    [SignupStatus.PAYMENT_PENDING, SignupStatus.FLAGGED],
     SignupStatus.CANCELLED,
     daysBeforeExpiration
   );

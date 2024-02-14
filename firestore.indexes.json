@@ -59,15 +59,47 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "etiEventId",
-          "order": "ASCENDING"
-        },
-        {
           "fieldPath": "lastModifiedAt",
           "order": "ASCENDING"
         },
         {
           "fieldPath": "status",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "signups",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "etiEventId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "lastModifiedAt",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "signups",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "etiEventId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "orderNumber",
           "order": "ASCENDING"
         }
       ]

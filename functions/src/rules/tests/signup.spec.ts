@@ -32,6 +32,15 @@ describe('advanceSignups Integration Test', () => {
       {
         id: 'id1',
         data: {
+          status: SignupStatus.FLAGGED,
+          orderNumber: 1,
+          lastModifiedAt: new Date('2024-01-01')
+        },
+        expected: SignupStatus.CANCELLED
+      },
+      {
+        id: 'id11',
+        data: {
           status: SignupStatus.PAYMENT_PENDING,
           orderNumber: 1,
           lastModifiedAt: new Date('2024-01-01')
@@ -65,12 +74,7 @@ describe('advanceSignups Integration Test', () => {
       const updatedDoc = await signupsRef.doc(id).get();
       expect(updatedDoc.data()?.status).toBe(expected);
     }
-
-    // Clean up - delete the test document
-    //await Promise.all(signups.map(async ({ id }) => await signupsRef.doc(id).delete()));
   });
-
-  // Add more test cases as needed
 });
 
 afterAll(async () => {

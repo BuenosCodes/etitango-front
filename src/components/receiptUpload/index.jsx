@@ -51,7 +51,9 @@ function ReceiptUpload({ signUpDetails, setSignUpDetails }) {
             component="label"
             loading={uploadingReceipt}
           >
-            {t(`${SCOPES.MODULES.SIGN_UP}.uploadReceipt`).toUpperCase()}
+            {SignupStatus.PAYMENT_PENDING === signUpDetails.status
+              ? t(`${SCOPES.MODULES.SIGN_UP}.uploadReceipt`).toUpperCase()
+              : t(`${SCOPES.MODULES.SIGN_UP}.uploadAnotherReceipt`).toUpperCase()}
             <FileUploadOutlined />
             <input
               style={{ display: 'none' }}

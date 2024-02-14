@@ -58,7 +58,7 @@ const ReceiptPage = () => {
   // @ts-ignore
   return (
     <Container maxWidth="md" style={{ margin: '20px' }}>
-      <WithAuthentication roles={[UserRoles.ADMIN]} />
+      <WithAuthentication eventId={etiEventId} roles={[UserRoles.ADMIN]} />
       {isLoading ? (
         <CircularProgress />
       ) : (
