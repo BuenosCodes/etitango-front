@@ -16,6 +16,7 @@ import ComisionGeneroProtocol from './modules/home/comision-de-genero/ComisionGe
 import ComisionGeneroWho from './modules/home/comision-de-genero/comisionGeneroWho';
 import Inscripcion from './modules/inscripcion/Inscripcion';
 import SignupList from './modules/inscripcion/SignupList';
+import Receipt from './modules/inscripcion/Receipt';
 import SignInScreen from './modules/signIn/signIn';
 import SuperAdmin from './modules/superAdmin/index';
 import EventsList from './modules/superAdmin/events/EventsList';
@@ -57,7 +58,8 @@ export const ROUTES = {
   ROLES: '/roles',
   TEMPLATES: '/templates',
   INSTRUCTIONS: '/instructions',
-  ATTENDANCE: '/attendance'
+  ATTENDANCE: '/attendance',
+  RECEIPTS: '/receipts'
 };
 
 export const PRIVATE_ROUTES = [
@@ -110,6 +112,12 @@ function App() {
               element={withUserMenu(SignupList)({ isAttendance: true })}
               exact
             />
+            <Route
+              path={`${ROUTES.RECEIPTS}/:etiEventId/:signupId`}
+              element={withUserMenu(Receipt)()}
+            />
+            <Route path={`${ROUTES.RECEIPTS}/:etiEventId`} element={withUserMenu(Receipt)()} />
+
             <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
             <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
             <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`} element={<EventsList />} />

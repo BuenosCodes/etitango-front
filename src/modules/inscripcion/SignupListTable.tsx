@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import { Signup } from 'shared/signup';
 import { Button, Checkbox, Paper } from '@mui/material';
-import {
-  DataGrid,
-  GridColDef,
-  GridFilterItem,
-  GridRenderCellParams,
-  GridSelectionModel
-} from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridFilterItem, GridRenderCellParams } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from '../../helpers/constants/i18n';
 import { useNavigate } from 'react-router-dom';
@@ -22,14 +16,13 @@ export function SignupListTable(props: {
   signups: Signup[];
   isAdmin: boolean;
   // eslint-disable-next-line no-unused-vars
-  setSelectedRows: (selection: string[]) => void;
   isLoading: boolean;
   isAttendance: boolean;
   // eslint-disable-next-line no-unused-vars
   markAttendance: (signup: Signup) => void;
   disabled: boolean;
 }) {
-  const { signups, setSelectedRows, isAdmin, isLoading, isAttendance, markAttendance } = props;
+  const { signups, isAdmin, isLoading, isAttendance, markAttendance } = props;
   const navigate = useNavigate();
   const [filteredRows, setFilteredRows] = useState<GridFilterItem[]>([]);
   const [attendanceConfirmationAlertVisible, setAttendanceConfirmationAlertVisible] =
@@ -51,7 +44,9 @@ export function SignupListTable(props: {
     'nameLast',
     'dniNumber',
     'food',
-    'isCeliac'
+    'isCeliac',
+    'disability',
+    'phoneNumber'
   ];
 
   const publicFields: SignupField[] = [
@@ -62,7 +57,9 @@ export function SignupListTable(props: {
     'province',
     'city',
     'status',
-    'lastModifiedAt'
+    'lastModifiedAt',
+    'disability',
+    'phoneNumber'
   ];
 
   const privateFields: SignupField[] = [
@@ -140,7 +137,9 @@ export function SignupListTable(props: {
               size="small"
               style={{ marginLeft: 16 }}
               tabIndex={params.hasFocus ? 0 : -1}
-              href={params.row.receipt}
+              onClick={() =>
+                navigate(`${ROUTES.RECEIPTS}/${params.row.etiEventId}/${params.row.id}`)
+              }
               disabled={!params.row.receipt}
             >
               {t('receiptButton')}
@@ -187,10 +186,6 @@ export function SignupListTable(props: {
     return output;
   };
 
-  function selectionChanged(selection: GridSelectionModel) {
-    setSelectedRows(selection.map((id) => id as string));
-  }
-
   const askForAttendanceConfirmation = (confirmationRowParams: GridRenderCellParams) => {
     setAttendanceConfirmationRow(confirmationRowParams.row);
     setAttendanceConfirmationAlertVisible(true);
@@ -227,7 +222,6 @@ export function SignupListTable(props: {
           rows={signups.map(getSignupValues)}
           columns={columns}
           checkboxSelection={isAdmin && !isAttendance}
-          onSelectionModelChange={selectionChanged}
           loading={isLoading}
           filterModel={{ items: filteredRows }}
         />

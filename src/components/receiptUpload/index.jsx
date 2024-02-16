@@ -1,12 +1,14 @@
 import { uploadEventReceipt } from '../../helpers/firestore/signups';
 import { SCOPES } from '../../helpers/constants/i18n';
-import { Button, Grid, Typography } from '@mui/material';
+import { Container, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { FileUploadOutlined } from '@mui/icons-material';
 import React, { useContext, useState } from 'react';
 import { NotificationContext } from '../../helpers/NotificationContext';
 import { useTranslation } from 'react-i18next';
 import { SignupStatus } from '../../shared/signup';
+import { ReceiptDisplay } from '../ReceiptDisplay';
+
 /* eslint-disable react/prop-types */
 function ReceiptUpload({ signUpDetails, setSignUpDetails }) {
   const { id: signUpId, userId, etiEventId } = signUpDetails;
@@ -33,7 +35,14 @@ function ReceiptUpload({ signUpDetails, setSignUpDetails }) {
   };
 
   const renderUploadReceiptButton = () => {
-    if ([SignupStatus.PAYMENT_PENDING, SignupStatus.PAYMENT_DELAYED].includes(signUpDetails.status))
+    if (
+      [
+        SignupStatus.PAYMENT_PENDING,
+        SignupStatus.PAYMENT_DELAYED,
+        SignupStatus.PAYMENT_TO_CONFIRM,
+        SignupStatus.FLAGGED
+      ].includes(signUpDetails.status)
+    )
       return (
         <Grid item>
           <LoadingButton
@@ -42,7 +51,9 @@ function ReceiptUpload({ signUpDetails, setSignUpDetails }) {
             component="label"
             loading={uploadingReceipt}
           >
-            {t(`${SCOPES.MODULES.SIGN_UP}.uploadReceipt`).toUpperCase()}
+            {SignupStatus.PAYMENT_PENDING === signUpDetails.status
+              ? t(`${SCOPES.MODULES.SIGN_UP}.uploadReceipt`).toUpperCase()
+              : t(`${SCOPES.MODULES.SIGN_UP}.uploadAnotherReceipt`).toUpperCase()}
             <FileUploadOutlined />
             <input
               style={{ display: 'none' }}
@@ -57,17 +68,15 @@ function ReceiptUpload({ signUpDetails, setSignUpDetails }) {
   };
 
   return (
-    <>
-      <Typography> Tu Inscripcion está {t(signUpDetails.status)}</Typography>
-
-      {signUpDetails?.receipt ? (
-        <Button href={signUpDetails?.receipt} variant="contained" color="secondary">
-          {t(`${SCOPES.MODULES.SIGN_UP}.viewReceipt`).toUpperCase()}
-        </Button>
-      ) : (
-        renderUploadReceiptButton()
-      )}
-    </>
+    <Container maxWidth="md">
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
+        <Typography> Tu Inscripción está {t(signUpDetails.status)}</Typography>
+        <div style={{}}>
+          {signUpDetails?.receipt ? <ReceiptDisplay signup={signUpDetails} /> : <></>}{' '}
+        </div>
+        {renderUploadReceiptButton()}
+      </div>
+    </Container>
   );
 }
 

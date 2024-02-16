@@ -50,7 +50,7 @@ service cloud.firestore {
     match /signups/{document=**} {
       allow read: if signedIn();
       allow create: if requestBelongsToUser() && notUpdating(['userId', 'etiEventId']);
-      allow update: if (resourceBelongsToUser() && notUpdating(['userId', 'etiEventId']) || isAdmin()) ;
+      allow update: if (resourceBelongsToUser() && notUpdating(['userId', 'etiEventId']) || isAdmin() || isSuperAdmin()) ;
     }
 
     match /events/{eventId} {

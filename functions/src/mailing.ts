@@ -1,5 +1,5 @@
-import { Change, EventContext } from 'firebase-functions';
 import * as functions from 'firebase-functions';
+import { Change, EventContext } from 'firebase-functions';
 import { db } from './index';
 import { Signup, SignupFirestore, SignupStatus } from '../../src/shared/signup';
 import { firestore } from 'firebase-admin';
@@ -16,7 +16,7 @@ exports.retryFailedMails = functions.https.onCall(
     // Query for documents with delivery.state = 'ERROR'
     const snapshot = await mailRef
       .where('delivery.state', '==', 'ERROR')
-      .where('delivery.startTime', '>=', new Date(1694110611574))
+      .where('template.eventId', '==', etiEventId)
       .get();
 
     // Array to store update promises
@@ -58,6 +58,7 @@ exports.onUpdateSignup = functions.firestore
         to: [after.email],
         template: {
           name: after.status,
+          eventId: before.etiEventId,
           data: {
             userName: after.nameFirst
           }

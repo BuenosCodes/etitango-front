@@ -2,8 +2,11 @@ const firebase = require('@firebase/testing');
 const fs = require('fs');
 const path = require('path');
 
+const projectId = `rules-spec`;
+// process.env.GCLOUD_PROJECT = projectId;
+// process.env.FIRESTORE_EMULATOR_HOST = 'localhost:8080';
+
 module.exports.setup = async (auth, data) => {
-  const projectId = `rules-spec-${Date.now()}`;
   const app = await firebase.initializeTestApp({
     projectId,
     auth

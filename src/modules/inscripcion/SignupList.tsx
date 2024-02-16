@@ -13,7 +13,7 @@ import {
 import WithAuthentication from '../withAuthentication';
 import { getFutureEti } from '../../helpers/firestore/events';
 import { getSignups, markAttendance } from '../../helpers/firestore/signups';
-import { Signup } from '../../shared/signup';
+import { Signup, SignupStatus } from '../../shared/signup';
 import { SignupListTable } from './SignupListTable';
 import { UserContext } from '../../helpers/UserContext';
 import AdminTools from './AdminTools';
@@ -25,7 +25,6 @@ import { isAdmin, isAdminOfEvent } from '../../helpers/firestore/users';
 const SignupList = (props: { isAttendance: boolean }) => {
   const { user } = useContext(UserContext);
   const [signups, setSignups] = useState([] as Signup[]);
-  const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [etiEvent, setEtiEvent] = useState<EtiEvent>();
   const [alert, setAlert] = useState<{ props?: AlertProps; text?: string }>({});
@@ -58,6 +57,7 @@ const SignupList = (props: { isAttendance: boolean }) => {
   }, [etiEvent]);
 
   // @ts-ignore
+  // @ts-ignore
   return (
     <>
       <WithAuthentication />
@@ -75,14 +75,22 @@ const SignupList = (props: { isAttendance: boolean }) => {
           </Grid>
           <Grid item>
             {alert.text && <Alert {...alert.props}>{alert.text}</Alert>}
-            {isAdminOfEvent(user, etiEvent?.id) && (
-              <AdminTools signups={signups} selectedRows={selectedRows} setAlert={setAlert} />
+            {isAdminOfEvent(user, etiEvent?.id) && etiEvent?.capacity && (
+              <AdminTools
+                etiEventId={etiEvent?.id!}
+                signups={signups}
+                setAlert={setAlert}
+                capacity={etiEvent?.capacity!}
+              />
             )}
             <TableContainer component={Paper}>
               <SignupListTable
                 isAdmin={isAdmin(user)}
-                signups={signups}
-                setSelectedRows={setSelectedRows}
+                signups={
+                  props.isAttendance
+                    ? signups.filter((s) => s.status === SignupStatus.CONFIRMED)
+                    : signups
+                }
                 isLoading={isLoading}
                 isAttendance={props.isAttendance}
                 markAttendance={markAttendance}
