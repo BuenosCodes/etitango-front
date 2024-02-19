@@ -23,6 +23,7 @@ import { ETIDatePicker } from '../../components/form/DatePicker.tsx';
 import ReceiptUpload from '../../components/receiptUpload/index';
 import { UserContext } from '../../helpers/UserContext';
 import * as PropTypes from 'prop-types';
+import { CompleteProfileAlert } from '../user/components/completeProfileAlert';
 
 /* eslint-disable react/prop-types */
 function ResetSignup({ etiEventId, signupId }) {
@@ -172,6 +173,7 @@ export default function Inscripcion() {
   return (
     <>
       <WithAuthentication />
+      <CompleteProfileAlert />
       <Container maxWidth="lg" sx={{ marginTop: 3 }}>
         {etiEvent?.dateSignupOpen > new Date() ? (
           <Typography color={'error.dark'} textAlign={'center'}>
