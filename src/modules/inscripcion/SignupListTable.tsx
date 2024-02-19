@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { Signup } from 'shared/signup';
 import { Button, Checkbox, Paper } from '@mui/material';
-import { DataGrid, GridColDef, GridFilterItem, GridRenderCellParams } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridColDef,
+  GridFilterItem,
+  GridRenderCellParams,
+  GridSelectionModel
+} from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from '../../helpers/constants/i18n';
 import { useNavigate } from 'react-router-dom';
@@ -16,13 +22,14 @@ export function SignupListTable(props: {
   signups: Signup[];
   isAdmin: boolean;
   // eslint-disable-next-line no-unused-vars
+  setSelectedRows: (selection: string[]) => void;
   isLoading: boolean;
   isAttendance: boolean;
   // eslint-disable-next-line no-unused-vars
   markAttendance: (signup: Signup) => void;
   disabled: boolean;
 }) {
-  const { signups, isAdmin, isLoading, isAttendance, markAttendance } = props;
+  const { signups, setSelectedRows, isAdmin, isLoading, isAttendance, markAttendance } = props;
   const navigate = useNavigate();
   const [filteredRows, setFilteredRows] = useState<GridFilterItem[]>([]);
   const [attendanceConfirmationAlertVisible, setAttendanceConfirmationAlertVisible] =
@@ -186,6 +193,10 @@ export function SignupListTable(props: {
     return output;
   };
 
+  function selectionChanged(selection: GridSelectionModel) {
+    setSelectedRows(selection.map((id) => id as string));
+  }
+
   const askForAttendanceConfirmation = (confirmationRowParams: GridRenderCellParams) => {
     setAttendanceConfirmationRow(confirmationRowParams.row);
     setAttendanceConfirmationAlertVisible(true);
@@ -222,6 +233,7 @@ export function SignupListTable(props: {
           rows={signups.map(getSignupValues)}
           columns={columns}
           checkboxSelection={isAdmin && !isAttendance}
+          onSelectionModelChange={selectionChanged}
           loading={isLoading}
           filterModel={{ items: filteredRows }}
         />

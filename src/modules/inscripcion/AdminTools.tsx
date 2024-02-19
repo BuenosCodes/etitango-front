@@ -1,28 +1,31 @@
-import React from 'react';
-import { AlertProps, Button, Grid } from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { AlertProps, Button, Grid, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { FileDownload as FileDownloadIcon } from '@mui/icons-material';
 import { CSVLink } from 'react-csv';
 import { useTranslation } from 'react-i18next';
 
 import { SCOPES } from 'helpers/constants/i18n';
-import { Signup } from '../../shared/signup';
+import { Signup, SignupStatus } from '../../shared/signup';
 import { CELIAC_CHOICES, getLabelForValue } from './inscripcion.constants';
-import { advanceSignups } from '../../helpers/firestore/signups';
+import { advanceSignups, updateSignupsStatus } from '../../helpers/firestore/signups';
+import { isSuperAdmin } from '../../helpers/firestore/users';
+import { UserContext } from '../../helpers/UserContext';
 
 const AdminTools = (props: {
   signups: Signup[];
   etiEventId: string;
+  selectedRows: string[];
   capacity: number;
   // eslint-disable-next-line no-unused-vars
   setAlert: (alertProps: { props?: AlertProps; text?: string }) => void;
 }) => {
-  const { signups, etiEventId, setAlert } = props;
-
+  const { signups, selectedRows, etiEventId, setAlert } = props;
+  const { user } = useContext(UserContext);
   const { t } = useTranslation([SCOPES.MODULES.SIGN_UP_LIST, SCOPES.COMMON.FORM], {
     useSuspense: false
   });
 
-  // const [selectedStatus, setSelectedStatus] = useState<SignupStatus>(SignupStatus.CONFIRMED);
+  const [selectedStatus, setSelectedStatus] = useState<SignupStatus>(SignupStatus.CONFIRMED);
 
   const exportableData =
     signups?.map((signUp) => ({
@@ -44,16 +47,25 @@ const AdminTools = (props: {
   const today = new Date();
   const date = today.toLocaleDateString();
 
-  // function onSelectedStatusChange(event: SelectChangeEvent) {
-  //   setSelectedStatus(event.target.value as SignupStatus);
-  // }
+  function onSelectedStatusChange(event: SelectChangeEvent) {
+    setSelectedStatus(event.target.value as SignupStatus);
+  }
+
+  async function callAdvanceSignups() {
+    setAlert({
+      props: { severity: 'warning' },
+      text: 'Actualizando estados, quedate en la página'
+    });
+    await advanceSignups(etiEventId);
+    setAlert({ props: { severity: 'success', onClose: () => setAlert({}) }, text: 'Listo!' });
+  }
 
   async function saveNewStatus() {
     setAlert({
       props: { severity: 'warning' },
       text: 'Actualizando estados, quedate en la página'
     });
-    await advanceSignups(etiEventId);
+    await updateSignupsStatus(selectedStatus, selectedRows);
     setAlert({ props: { severity: 'success', onClose: () => setAlert({}) }, text: 'Listo!' });
   }
 
@@ -79,24 +91,29 @@ const AdminTools = (props: {
       {/*  </Alert>*/}
       {/*)}*/}
       <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
-        {/*<Select*/}
-        {/*  id="status"*/}
-        {/*  name="status"*/}
-        {/*  labelId="status-label"*/}
-        {/*  label={t('status')}*/}
-        {/*  onChange={onSelectedStatusChange}*/}
-        {/*  value={selectedStatus}*/}
-        {/*  SelectDisplayProps={{ style: { padding: '6px 32px', fontSize: 14 } }}*/}
-        {/*>*/}
-        {/*  {Object.values(SignupStatus).map((status) => (*/}
-        {/*    <MenuItem key={status} value={status}>*/}
-        {/*      {t(status)}*/}
-        {/*    </MenuItem>*/}
-        {/*  ))}*/}
-        {/*</Select>*/}
+        <Select
+          id="status"
+          name="status"
+          labelId="status-label"
+          label={t('status')}
+          onChange={onSelectedStatusChange}
+          value={selectedStatus}
+          SelectDisplayProps={{ style: { padding: '6px 32px', fontSize: 14 } }}
+        >
+          {Object.values(SignupStatus).map((status) => (
+            <MenuItem key={status} value={status}>
+              {t(status)}
+            </MenuItem>
+          ))}
+        </Select>
         <Button variant="contained" color="primary" onClick={saveNewStatus}>
           {t('changeStatus')}
         </Button>
+        {isSuperAdmin(user) ? (
+          <Button variant="contained" color="secondary" onClick={callAdvanceSignups}>
+            {t('processSignups')}
+          </Button>
+        ) : null}
         <CSVLink
           headers={exportableDataHeaders.map((header) => ({
             key: header,

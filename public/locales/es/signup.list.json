@@ -11,7 +11,8 @@
   "payment-delayed": "Pago Demorado",
   "confirmed": "Confirmada",
   "cancelled": "Cancelada",
-  "changeStatus": "Procesar Inscripciones",
+  "changeStatus": "Guardar",
+  "processSignups": "Procesar Inscripciones",
   "alert": {
     "title": "Confirmación",
     "confirm": "Aceptar",
