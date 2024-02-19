@@ -103,49 +103,60 @@ export const advanceStatusPending = async (
 ) => {
   const signupRef = db.collection('signups');
   const todayMinus = subtractDays(days);
-  const signupDocsSnapshot = await signupRef
+  const query = signupRef
     .where('etiEventId', '==', etiEventId)
     .where('status', 'in', from)
-    .where('lastModifiedAt', '<=', todayMinus)
-    .get();
-  const updatePromises: Promise<any>[] = [];
+    .where('lastModifiedAt', '<=', todayMinus);
+
+  const signupDocsSnapshot = await query.get();
+
+  // Use Firestore batch write
+  const batch = db.batch();
+
   signupDocsSnapshot.forEach((doc) => {
-    const updatePromise = doc.ref.update({
-      status: to
-    });
-    updatePromises.push(updatePromise);
+    batch.update(doc.ref, { status: to });
   });
-  await Promise.all(updatePromises);
-  return updatePromises.length;
+
+  // Commit the batch
+  await batch.commit();
+
+  return signupDocsSnapshot.size; // Return the number of documents updated
 };
 
-const advanceStatusWaitlist = async (
+export const advanceStatusWaitlist = async (
   etiEventId: string,
   from: SignupStatus,
   to: SignupStatus,
   remainingCapacity: number
 ) => {
   const signupRef = db.collection('signups');
-  const signupDocsSnapshot = await signupRef
+  const batch = db.batch(); // Create a batch write operation
+  const query = signupRef
     .where('etiEventId', '==', etiEventId)
     .where('status', '==', from)
     .orderBy('orderNumber', 'asc')
-    .limit(remainingCapacity)
-    .get();
+    .limit(remainingCapacity);
 
-  const updatePromises: Promise<any>[] = [];
+  const signupDocsSnapshot = await query.get();
+
   signupDocsSnapshot.forEach((doc) => {
-    const updatePromise = doc.ref.update({
-      status: to
-    });
-    updatePromises.push(updatePromise);
+    batch.update(doc.ref, { status: to });
   });
-  await Promise.all(updatePromises);
-  return updatePromises.length;
+
+  await batch.commit(); // Commit the batch write
+  return signupDocsSnapshot.size; // Return the number of documents updated
 };
 
 export async function doAdvanceSignups(etiEvent: any) {
   const { capacity, daysBeforeExpiration, id } = etiEvent;
+
+  await advanceStatusPending(
+    id,
+    [SignupStatus.PAYMENT_PENDING, SignupStatus.FLAGGED],
+    SignupStatus.CANCELLED,
+    daysBeforeExpiration
+  );
+
   const signupRef = db.collection('signups');
   const signupDocsSnapshot = await signupRef
     .where('etiEventId', '==', id)
@@ -156,13 +167,8 @@ export async function doAdvanceSignups(etiEvent: any) {
       SignupStatus.CONFIRMED
     ])
     .get();
-  let remainingCapacity = capacity - signupDocsSnapshot.size;
-  remainingCapacity += await advanceStatusPending(
-    id,
-    [SignupStatus.PAYMENT_PENDING, SignupStatus.FLAGGED],
-    SignupStatus.CANCELLED,
-    daysBeforeExpiration
-  );
+  const remainingCapacity = capacity - signupDocsSnapshot.size;
+
   await advanceStatusWaitlist(
     id,
     SignupStatus.WAITLIST,

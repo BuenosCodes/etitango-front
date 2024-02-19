@@ -1,11 +1,11 @@
 import React from 'react';
-import { Alert, AlertProps, Button, Grid, Typography } from '@mui/material';
+import { AlertProps, Button, Grid } from '@mui/material';
 import { FileDownload as FileDownloadIcon } from '@mui/icons-material';
 import { CSVLink } from 'react-csv';
 import { useTranslation } from 'react-i18next';
 
 import { SCOPES } from 'helpers/constants/i18n';
-import { Signup, SignupStatus } from '../../shared/signup';
+import { Signup } from '../../shared/signup';
 import { CELIAC_CHOICES, getLabelForValue } from './inscripcion.constants';
 import { advanceSignups } from '../../helpers/firestore/signups';
 
@@ -16,7 +16,7 @@ const AdminTools = (props: {
   // eslint-disable-next-line no-unused-vars
   setAlert: (alertProps: { props?: AlertProps; text?: string }) => void;
 }) => {
-  const { signups, etiEventId, setAlert, capacity } = props;
+  const { signups, etiEventId, setAlert } = props;
 
   const { t } = useTranslation([SCOPES.MODULES.SIGN_UP_LIST, SCOPES.COMMON.FORM], {
     useSuspense: false
@@ -56,27 +56,28 @@ const AdminTools = (props: {
     await advanceSignups(etiEventId);
     setAlert({ props: { severity: 'success', onClose: () => setAlert({}) }, text: 'Listo!' });
   }
-  const signupsForWarning = signups.filter(
-    (s) =>
-      s.status &&
-      [
-        SignupStatus.PAYMENT_PENDING,
-        SignupStatus.PAYMENT_TO_CONFIRM,
-        SignupStatus.CONFIRMED
-      ].includes(s.status!)
-  );
+
+  // const signupsForWarning = signups.filter(
+  //   (s) =>
+  //     s.status &&
+  //     [
+  //       SignupStatus.PAYMENT_PENDING,
+  //       SignupStatus.PAYMENT_TO_CONFIRM,
+  //       SignupStatus.CONFIRMED
+  //     ].includes(s.status!)
+  // );
   return (
     <>
-      {signupsForWarning.length >= capacity && (
-        <Alert severity={'error'}>
-          <div style={{ background: 'maroon' }}>
-            <Typography variant={'h2'} color={'white'}>
-              La suma de Inscriptxs y Pendientes de Pago es mayor o igual a {capacity} (total:{' '}
-              {signupsForWarning.length})
-            </Typography>
-          </div>
-        </Alert>
-      )}
+      {/*{signupsForWarning.length >= capacity && (*/}
+      {/*  <Alert severity={'error'}>*/}
+      {/*    <div style={{ background: 'maroon' }}>*/}
+      {/*      <Typography variant={'h2'} color={'white'}>*/}
+      {/*        La suma de Inscriptxs y Pendientes de Pago es mayor o igual a {capacity} (total:{' '}*/}
+      {/*        {signupsForWarning.length})*/}
+      {/*      </Typography>*/}
+      {/*    </div>*/}
+      {/*  </Alert>*/}
+      {/*)}*/}
       <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
         {/*<Select*/}
         {/*  id="status"*/}
