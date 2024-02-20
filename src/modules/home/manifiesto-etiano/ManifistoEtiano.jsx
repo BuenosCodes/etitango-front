@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography, Box, Container, Grid, Card } from '@mui/material';
+import { Box, Card, Container, Grid, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
 
@@ -23,69 +23,66 @@ function ManifiestoETiano() {
             <Typography variant="h6" gutterBottom component="div">
               {t('principles_title')}
             </Typography>
-            <div align="center">
+            <Box align="center">
               <Grid container spacing={1}>
                 <Grid item md={4}>
-                  <Card>
+                  <Card md={4}>
                     <Typography>{t('principle_1')}</Typography>
                   </Card>
                 </Grid>
                 <Grid item md={4}>
-                  <Card>
+                  <Card md={4}>
                     <Typography>{t('principle_2')}</Typography>
                   </Card>
                 </Grid>
                 <Grid item md={4}>
-                  <Card>
+                  <Card md={4}>
                     <Typography>{t('principle_3')}</Typography>
                   </Card>
                 </Grid>
                 <Grid item md={4}>
-                  <Card>
+                  <Card padding={4}>
                     <Typography>{t('principle_4')}</Typography>
                   </Card>
                 </Grid>
                 <Grid item md={4}>
-                  <Card>
+                  <Card padding={4}>
                     <Typography>{t('principle_5')}</Typography>
                   </Card>
                 </Grid>
                 <Grid item md={4}>
-                  <Card>
+                  <Card padding={4}>
                     <Typography>{t('principle_6')}</Typography>
                   </Card>
                 </Grid>
                 <Grid item md={4}>
-                  <Card>
+                  <Card padding={4}>
                     <Typography>{t('principle_7')}</Typography>
                   </Card>
                 </Grid>
                 <Grid item md={4}>
-                  <Card>
+                  <Card padding={4}>
                     <Typography>{t('principle_8')}</Typography>
                   </Card>
                 </Grid>
                 <Grid item md={4}>
-                  <Card>
+                  <Card padding={4}>
                     <Typography>{t('principle_9')}</Typography>
                   </Card>
                 </Grid>
                 <Grid item md={4}>
-                  <Card></Card>
-                </Grid>
-                <Grid item md={4}>
-                  <Card>
+                  <Card padding={4}>
                     <Typography>{t('principle_10')}</Typography>
                   </Card>
                 </Grid>
               </Grid>
-            </div>
+            </Box>
             <br />
             <Typography variant="h6" gutterBottom component="div">
               {t('assembly_title')}
             </Typography>
             <br />
-            <div align="center">
+            <Box align="center">
               {t('assembly_1')}
               <br />
               <hr />
@@ -107,7 +104,7 @@ function ManifiestoETiano() {
               {t('assembly_7')}
               <br />
               <br />
-            </div>
+            </Box>
             <Typography variant="h6" gutterBottom component="div">
               {t('events_title')}
             </Typography>
