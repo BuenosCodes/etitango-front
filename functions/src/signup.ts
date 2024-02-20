@@ -8,13 +8,19 @@ import { UserData } from '../../src/shared/User';
 import { EtiEvent } from '../../src/shared/etiEvent';
 //import { EtiEvent } from '../../src/shared/etiEvent';
 
-const validateSingleSignup = async (userId: string, etiEventId: string) => {
+const validateSingleSignup = async (
+  transaction: FirebaseFirestore.Transaction,
+  userId: string,
+  etiEventId: string
+) => {
   const signupRef = db.collection('signups');
-  const signupDoc = await signupRef
+  const query = signupRef
     .where('userId', '==', userId)
     .where('etiEventId', '==', etiEventId)
-    .where('status', '!=', SignupStatus.CANCELLED)
-    .get();
+    .where('status', '!=', SignupStatus.CANCELLED);
+
+  const signupDoc = await transaction.get(query);
+
   if (!signupDoc.empty) {
     const signup = signupDoc.docs[0];
     const signUpData = signup.data();
@@ -49,11 +55,10 @@ export const createSignup = functions.https.onCall(
     const userId = getUserIdOrFail(context);
     await db.runTransaction(async (transaction) => {
       await validateSignupIsOpen(data.etiEventId);
-      await validateSingleSignup(userId, data.etiEventId);
+      await validateSingleSignup(transaction, userId, data.etiEventId); // Pass the transaction
       const userRef = db.collection('users').doc(userId);
-      const user = await userRef.get();
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { roles, ...userData } = <UserData>user.data();
+      const userSnapshot = await transaction.get(userRef);
+      const { roles, ...userData } = <UserData>userSnapshot.data();
       const signupData = {
         ...userData,
         ...data,
@@ -62,7 +67,7 @@ export const createSignup = functions.https.onCall(
       };
       const orderNumber = await getIncrement({ transaction, counterName: data.etiEventId });
       const docRef = db.collection('signups').doc();
-      return transaction.set(docRef, { ...signupData, orderNumber });
+      transaction.set(docRef, { ...signupData, orderNumber });
     });
     return { success: true };
   }
@@ -70,20 +75,19 @@ export const createSignup = functions.https.onCall(
 
 export const resetSignup = functions.https.onCall(
   async (data: { signupId: string; etiEventId: string }, context: CallableContext) => {
-    await validateUserIsLoggedIn(context);
+    validateUserIsLoggedIn(context);
     const userId = getUserIdOrFail(context);
     await db.runTransaction(async (transaction) => {
       await validateSignupIsOpen(data.etiEventId);
-      await validateSingleSignup(userId, data.etiEventId);
+      await validateSingleSignup(transaction, userId, data.etiEventId); // Pass the transaction
       const signupRef = db.collection('signups').doc(data.signupId);
-      const signup = await signupRef.get();
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { id, status, ...signupData } = <Signup>signup.data();
+      const signupSnapshot = await transaction.get(signupRef);
+      const { id, status, ...signupData } = <Signup>signupSnapshot.data();
       const orderNumber: number = await getIncrement({ transaction, counterName: data.etiEventId });
       const docRef = db.collection('signups').doc();
       const finalData = { ...signupData, orderNumber, status: SignupStatus.WAITLIST };
       console.log('saving', finalData);
-      return transaction.set(docRef, finalData);
+      transaction.set(docRef, finalData);
     });
     return { success: true };
   }
@@ -196,6 +200,14 @@ export const validateSignup = functions.https.onCall(
   async (data: { etiEventId: string }, context: CallableContext) => {
     validateUserIsLoggedIn(context);
     const userId = getUserIdOrFail(context);
-    await validateSingleSignup(userId, data.etiEventId);
+
+    // Since transactions are primarily for read-write operations,
+    // using them just for reads (validation in this case) might be overkill
+    // unless you have specific consistency requirements.
+    await db.runTransaction(async (transaction) => {
+      // Now validateSingleSignup will be called within a transaction.
+      // This assumes validateSingleSignup is refactored to accept a transaction.
+      await validateSingleSignup(transaction, userId, data.etiEventId);
+    });
   }
 );

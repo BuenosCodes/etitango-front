@@ -91,29 +91,33 @@ const AdminTools = (props: {
       {/*  </Alert>*/}
       {/*)}*/}
       <Grid item container direction="row" justifyContent="flex-end" alignItems="center">
-        <Select
-          id="status"
-          name="status"
-          labelId="status-label"
-          label={t('status')}
-          onChange={onSelectedStatusChange}
-          value={selectedStatus}
-          SelectDisplayProps={{ style: { padding: '6px 32px', fontSize: 14 } }}
-        >
-          {Object.values(SignupStatus).map((status) => (
-            <MenuItem key={status} value={status}>
-              {t(status)}
-            </MenuItem>
-          ))}
-        </Select>
-        <Button variant="contained" color="primary" onClick={saveNewStatus}>
-          {t('changeStatus')}
-        </Button>
         {isSuperAdmin(user) ? (
-          <Button variant="contained" color="secondary" onClick={callAdvanceSignups}>
-            {t('processSignups')}
-          </Button>
+          <>
+            <Select
+              id="status"
+              name="status"
+              labelId="status-label"
+              label={t('status')}
+              onChange={onSelectedStatusChange}
+              value={selectedStatus}
+              SelectDisplayProps={{ style: { padding: '6px 32px', fontSize: 14 } }}
+            >
+              {Object.values(SignupStatus).map((status) => (
+                <MenuItem key={status} value={status}>
+                  {t(status)}
+                </MenuItem>
+              ))}
+            </Select>
+            <Button variant="contained" color="primary" onClick={saveNewStatus}>
+              {t('changeStatus')}
+            </Button>
+          </>
         ) : null}
+
+        <Button variant="contained" color="secondary" onClick={callAdvanceSignups}>
+          {t('processSignups')}
+        </Button>
+
         <CSVLink
           headers={exportableDataHeaders.map((header) => ({
             key: header,
