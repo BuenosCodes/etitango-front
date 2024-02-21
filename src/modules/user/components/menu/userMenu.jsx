@@ -6,7 +6,7 @@ import { SCOPES } from 'helpers/constants/i18n.ts';
 import { styles } from './userMenu.styles.ts';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../../helpers/UserContext';
-import { isAdmin } from '../../../../helpers/firestore/users';
+import { isAdmin, isSuperAdmin } from '../../../../helpers/firestore/users';
 
 export function UserMenu() {
   const { t } = useTranslation(SCOPES.MODULES.USER, { useSuspense: false });
@@ -31,6 +31,11 @@ export function UserMenu() {
         {isAdmin(user) ? (
           <Button sx={getStyles(ROUTES.SIGNUPS)} onClick={() => navigate(ROUTES.ATTENDANCE)}>
             {t('attendance')}
+          </Button>
+        ) : null}
+        {isSuperAdmin(user) ? (
+          <Button sx={getStyles(ROUTES.SUPERADMIN)} onClick={() => navigate(ROUTES.SUPERADMIN)}>
+            {t('superadmin')}
           </Button>
         ) : null}
       </Box>
