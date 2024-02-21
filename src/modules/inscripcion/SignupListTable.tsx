@@ -19,8 +19,10 @@ import { Alert } from '../../components/alert/Alert';
 export type SignupField = keyof Signup;
 
 export function SignupListTable(props: {
+  etiEventId: string;
   signups: Signup[];
   isAdmin: boolean;
+  isSuperAdmin: boolean;
   // eslint-disable-next-line no-unused-vars
   setSelectedRows: (selection: string[]) => void;
   isLoading: boolean;
@@ -29,7 +31,16 @@ export function SignupListTable(props: {
   markAttendance: (signup: Signup) => void;
   disabled: boolean;
 }) {
-  const { signups, setSelectedRows, isAdmin, isLoading, isAttendance, markAttendance } = props;
+  const {
+    etiEventId,
+    signups,
+    setSelectedRows,
+    isAdmin,
+    isSuperAdmin,
+    isLoading,
+    isAttendance,
+    markAttendance
+  } = props;
   const navigate = useNavigate();
   const [filteredRows, setFilteredRows] = useState<GridFilterItem[]>([]);
   const [attendanceConfirmationAlertVisible, setAttendanceConfirmationAlertVisible] =
@@ -113,6 +124,32 @@ export function SignupListTable(props: {
     headerName: t(fieldName),
     width: fieldName === 'email' ? 300 : 150
   }));
+  if (isSuperAdmin) {
+    columns.push({
+      field: 'mails',
+      headerName: 'Historial de Mails',
+      width: 200,
+      renderCell: (params: GridRenderCellParams<String>) => (
+        <strong>
+          <Button
+            variant="contained"
+            size="small"
+            style={{ marginLeft: 16 }}
+            tabIndex={params.hasFocus ? 0 : -1}
+            onClick={() =>
+              navigate(
+                `${ROUTES.SUPERADMIN + ROUTES.SENT_MAILS}/${etiEventId}?usermail=${
+                  params.row.email
+                }`
+              )
+            }
+          >
+            Ver Mails Enviados
+          </Button>
+        </strong>
+      )
+    });
+  }
   if (isAdmin && !isAttendance) {
     columns.push(
       {

@@ -1,10 +1,10 @@
 import WithAuthentication from '../withAuthentication';
-import { upsertTemplates, fixNumbering, fixMailing } from '../../helpers/firestore/signups';
-import { Button, Divider } from '@mui/material';
+import { fixMailing, fixNumbering, upsertTemplates } from '../../helpers/firestore/signups';
+import { Button, Divider, Paper, Typography } from '@mui/material';
 import { UserRoles } from '../../shared/User';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../App.js';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getEvents } from '../../helpers/firestore/events';
 
 const SuperAdmin = () => {
@@ -28,16 +28,21 @@ const SuperAdmin = () => {
         <Button onClick={() => navigate(ROUTES.SUPERADMIN + ROUTES.TEMPLATES)}>TEMPLATES</Button>
         <Button onClick={() => navigate(ROUTES.SUPERADMIN + ROUTES.EVENTS)}>EVENTS</Button>
         <Button onClick={() => navigate(ROUTES.SUPERADMIN + ROUTES.ROLES)}>ROLES</Button>
+
         <Divider />
         {events.map((e) => (
-          <>
+          <Paper key={'event' + e.id}>
+            <Typography>{e.name}</Typography>
             <Button onClick={() => fixNumbering(e.id)} key={e.id}>
-              Fix numbers on event {e.name}
+              Fix numbers
             </Button>
             <Button onClick={() => fixMailing(e.id)} key={e.id}>
-              Fix mailing on event {e.name}
+              Fix mailing
             </Button>
-          </>
+            <Button onClick={() => navigate(`${ROUTES.SUPERADMIN + ROUTES.SENT_MAILS}/${e.id}`)}>
+              See mailing
+            </Button>
+          </Paper>
         ))}
       </>
     </>

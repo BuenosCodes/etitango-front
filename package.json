@@ -24,6 +24,7 @@
     "final-form": "^4.20.4",
     "firebase": "^9.8.1",
     "firebase-tools": "^11.2.0",
+    "flat": "^3.0.1",
     "formik": "^2.2.9",
     "formik-mui": "^5.0.0-alpha.0",
     "formik-mui-x-date-pickers": "0.0.1",
@@ -74,7 +75,8 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "@latest",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@types/flat": "^5.0.5",
     "@types/lodash": "^4.14.182",
     "@types/lodash.uniq": "^4.5.7",
     "@types/react-csv": "^1.1.3",
