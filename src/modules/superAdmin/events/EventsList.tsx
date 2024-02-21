@@ -4,6 +4,9 @@ import { UserRoles } from 'shared/User';
 import { EtiEvent } from 'shared/etiEvent';
 import * as firestoreEventHelper from 'helpers/firestore/events';
 import EventListTable from './eventsListTable';
+import { Button } from '@mui/material';
+import { ROUTES } from '../../../App';
+import { useNavigate } from 'react-router-dom';
 
 const EventsList = () => {
   // eslint-disable-next-line no-unused-vars
@@ -21,9 +24,19 @@ const EventsList = () => {
     setIsLoading(false);
   }, []);
 
+  const navigate = useNavigate();
+
   return (
     <>
       <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} />
+      <Button
+        color="secondary"
+        size="large"
+        variant="contained"
+        onClick={() => navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/new`)}
+      >
+        Nuevo
+      </Button>
       <EventListTable events={events} isLoading={isLoading} />
     </>
   );
