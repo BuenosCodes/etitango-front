@@ -19,10 +19,9 @@ const EtiAppBar = () => {
   const [isSignedIn, setIsSignedIn] = useState(!!auth.currentUser); // Local signed-in state.
   const [userData, setUserData] = useState({})
   const [anchorEl, setAnchorEl] = React.useState(null);
-  // const [openDashboard, setOpenDashboard] = useState(false)
   const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
   const { pathname: currentRoute } = useLocation();
-  // const { toggleOpen } = useGlobalState()
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,13 +51,10 @@ const EtiAppBar = () => {
     setAnchorEl(null);
   };
 
-  // const handleOpenDashboard = () => {
-  //   setOpenDashboard(true)
-  // }
   const links = [
     { href: '/historia-del-eti', title: t('history') },
     { href: '/manifiesto-etiano', title: t('manifest') },
-    { href: "/", title: "Comisión de Género" } // Esto se agregará más adelante
+    { href: "/comision-de-genero-who", title: t("commission") } 
   ];
 
 
@@ -84,6 +80,7 @@ const EtiAppBar = () => {
               display: {
                 xs: 'none',
                 sm: 'none',
+                md: 'block',
                 lg: 'block'
               }
             }}>
@@ -100,13 +97,13 @@ const EtiAppBar = () => {
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            // onClick= {() => toggleOpen()}
             sx={{
               color: 'white',
               mr: 2,
               display: {
                 xs: "flex",
                 sm: "flex",
+                md: 'none',
                 lg: 'none'
               }
             }}
@@ -150,6 +147,7 @@ const EtiAppBar = () => {
               display: {
                 xs: 'none',
                 sm: 'none',
+                md: 'flex',
                 lg: 'flex'
               }
             }}
@@ -187,9 +185,8 @@ const EtiAppBar = () => {
                     <Menu
                       anchorEl={anchorEl}
                       open={Boolean(anchorEl)}
-                      onClose={handleClose}
-                    >
-
+                      onClose={handleClose}>
+                        
                       <MenuItem onClick={handleClose}>
                         <Button
                           color="primary"
@@ -212,12 +209,8 @@ const EtiAppBar = () => {
                         >
                           {t('logout').toUpperCase()}
                         </Button>
-
-
                       </MenuItem>
-
                     </Menu>
-
                   </Box>
                 </>
               )
@@ -252,13 +245,12 @@ const EtiAppBar = () => {
             )}
           </Box>
 
-
-
           <Box
             sx={{
               display: {
                 xs: 'block',
                 sm: 'block',
+                md: 'none',
                 lg: 'none'
               }
             }}>
