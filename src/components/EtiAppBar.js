@@ -8,24 +8,18 @@ import Container from '@mui/material/Container';
 import { auth } from '../etiFirebase';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
-import { PRIVATE_ROUTES, ROUTES } from '../App.js';
-import { useLocation } from 'react-router-dom';
-import { Image } from '@mui/icons-material';
 import { getDocument } from 'helpers/firestore';
-import { USERS, isSuperAdmin } from 'helpers/firestore/users';
+import { USERS } from 'helpers/firestore/users';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import ArrowDropDownCircleOutlinedIcon from '@mui/icons-material/ArrowDropDownCircleOutlined';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
-import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
-import { UserContext } from 'helpers/UserContext';
+
 
 const EtiAppBar = () => {
   const [isSignedIn, setIsSignedIn] = useState(!!auth.currentUser); // Local signed-in state.
   const [userData, setUserData] = useState({})
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
-  const { pathname: currentRoute } = useLocation();
-  const { user } = useContext(UserContext);
+
 
 
   useEffect(() => {
@@ -177,16 +171,10 @@ const EtiAppBar = () => {
                   <Box
                     sx={{ width: '48px', height: '48px' }}>
                        <IconButton
-                          onClick={handleOpen}
-                          fontSize='inherit'>
-                          
+                          onClick={handleOpen}>
                               <AccountCircleOutlinedIcon sx={{ height: '48px', width: '48px', color: 'white' }}></AccountCircleOutlinedIcon>
-                              <Box sx={{mr: '20px'}}> 
-                              <ArrowDropDownRoundedIcon sx={{ height: '35px', width: '35px', color: 'white' }}></ArrowDropDownRoundedIcon>
-                            </Box>
-                          {/* // <img src='/img/icon/userSettings.svg' sx={{ height: '48px', width: '48px' }}></img> */}
+                              <ArrowDropDownOutlinedIcon sx={{ height: '30px', width: '30px', color: 'white' }}></ArrowDropDownOutlinedIcon>
                       </IconButton>
-
 
                     <Menu
                       anchorEl={anchorEl}
