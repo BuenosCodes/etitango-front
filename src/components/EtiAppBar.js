@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useContext } from 'react';
 
 import { AppBar, Avatar, Box, Button, Link, Menu, Toolbar, MenuItem, Icon, Stack, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
@@ -10,10 +10,14 @@ import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
 import { PRIVATE_ROUTES, ROUTES } from '../App.js';
 import { useLocation } from 'react-router-dom';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { Image } from '@mui/icons-material';
 import { getDocument } from 'helpers/firestore';
-import { USERS } from 'helpers/firestore/users';
+import { USERS, isSuperAdmin } from 'helpers/firestore/users';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import ArrowDropDownCircleOutlinedIcon from '@mui/icons-material/ArrowDropDownCircleOutlined';
+import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
+import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
+import { UserContext } from 'helpers/UserContext';
 
 const EtiAppBar = () => {
   const [isSignedIn, setIsSignedIn] = useState(!!auth.currentUser); // Local signed-in state.
@@ -21,6 +25,7 @@ const EtiAppBar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
   const { pathname: currentRoute } = useLocation();
+  const { user } = useContext(UserContext);
 
 
   useEffect(() => {
@@ -116,7 +121,6 @@ const EtiAppBar = () => {
                 width: '32px'
               }} />
           </IconButton>
-         
           <Box
             sx={{
               display: { xs: 'none', md: 'flex' },
@@ -140,11 +144,7 @@ const EtiAppBar = () => {
                 {link.title}
               </Link>
             ))}
-
-             
-
           </Box>
-
           <Box
             sx={{
               flexDirection: { xs: 'column', sm: 'row' },
@@ -156,24 +156,19 @@ const EtiAppBar = () => {
                 lg: 'flex'
               }
             }}
-
             id="botonera"
           >
             {isSignedIn ? (
                
                 <>
                   <Box sx={{ height: 70, }}>
-                    <Stack direction="column" sx={{ height: 20, mt: '5px', }}>
+                    <Stack direction="column" sx={{ height: 20, mt: '5px', mr: '5px' }}>
                       <Typography fontFamily={'Work Sans'} fontSize= {'24px'} color={'white'} sx={!userData?.roles || userData?.roles?.admin ? { mt: 1.5 } : {}}>
                         {userData?.nameFirst} {userData?.nameLast}
                       </Typography>
-                      {userData?.roles && (userData?.roles?.superadmin || userData?.roles?.Superadmin || userData?.roles?.superAdmin) ? (
+                       {userData.roles && (userData.roles.superadmin || userData.roles.Superadmin || userData.roles.superAdmin) && (
                         <Typography fontFamily={'Work Sans'} variant='h7' color={'white'} sx={{ textAlign: 'end' }}>
-                          Superadmin
-                        </Typography>
-                      ) : (
-                        <Typography fontFamily={'Work Sans'} variant='h7' color={'white'} sx={{ textAlign: 'center' }}>
-
+                          {t('superadmin')}
                         </Typography>
                       )}
                     </Stack>
@@ -182,8 +177,14 @@ const EtiAppBar = () => {
                   <Box
                     sx={{ width: '48px', height: '48px' }}>
                        <IconButton
-                          onClick={handleOpen}>
-                          <img src='/img/icon/userSettings.svg' sx={{ height: '48px', width: '48px' }}></img>
+                          onClick={handleOpen}
+                          fontSize='inherit'>
+                          
+                              <AccountCircleOutlinedIcon sx={{ height: '48px', width: '48px', color: 'white' }}></AccountCircleOutlinedIcon>
+                              <Box sx={{mr: '20px'}}> 
+                              <ArrowDropDownRoundedIcon sx={{ height: '35px', width: '35px', color: 'white' }}></ArrowDropDownRoundedIcon>
+                            </Box>
+                          {/* // <img src='/img/icon/userSettings.svg' sx={{ height: '48px', width: '48px' }}></img> */}
                       </IconButton>
 
 
@@ -197,9 +198,9 @@ const EtiAppBar = () => {
                           color="primary"
                           variant="text"
                           underline="none"
-                          href={'/dashboard'}
+                          href={'/user'}
                         >
-                          PANEL GENERAL
+                           {t('controlPanel').toUpperCase()}
                         </Button>
                       </MenuItem>
 
@@ -227,25 +228,8 @@ const EtiAppBar = () => {
                   key={'sign-in'}
                   sx={{ backgroundColor: '#5FB4FC', color: 'white', width: '149px', height: '40px', borderRadius: '12px', align: 'center', margin: '3px', textAlign: 'center', fontFamily: 'Montserrat', fontSize: '24px' }}
                 >
-                  Ingresar
+                  {t('signin')}
                 </Button>
-
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  <MenuItem onClick={handleClose}>
-                    <Button
-                      color="primary"
-                      variant="text"
-                      underline="none"
-                      href={'/dashboard'}
-                    >
-                      PANEL GENERAL
-                    </Button>
-                  </MenuItem>
-                </Menu>
               </Box>
             )}
           </Box>

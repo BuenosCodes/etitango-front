@@ -4,11 +4,12 @@
   "signup": "Inscripción",
   "signupList": "Listado de inscripciones",
   "logout": "Cerrar Sesión",
-  "signin": "Crear usuario / Ingresar",
+  "signin": "Ingresar",
   "gender": "Comisión de Género",
   "genderWho": "Sobre Nosotres",
   "genderProtocol": "Protocolo de Genero",
   "genderContact": "Contacto",
-  "controlPanel": "Tu panel de control ETIano",
-  "commission": "Comisión de género"
+  "controlPanel": "Panel de Control",
+  "commission": "Comisión de género",
+  "superadmin": "Superadmin"
 }
