@@ -1,6 +1,6 @@
 export const styles = {
   panelContainer: {
-    border: '3px solid black',
+    // border: '3px solid black',
     flexDirection: 'row',
     paddingX: 2,
     alignItems: 'center',

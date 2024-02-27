@@ -117,15 +117,15 @@ function App() {
             }
           >
             <Routes>
-              <Route path="historia-del-eti" element={<HistoriaEti />} exact />
-              <Route path="manifiesto-etiano" element={<ManifiestoETiano />} exact />
-              <Route path="comision-de-genero-contact" element={<ComisionGeneroContact />} exact />
+              <Route path="historia-del-eti" element={withUserMenu(HistoriaEti)()} exact />
+              <Route path="manifiesto-etiano" element={withUserMenu(ManifiestoETiano)()} exact />
+              <Route path="comision-de-genero-contact" element={withUserMenu(ComisionGeneroContact)()} exact />
               <Route
                 path="comision-de-genero-protocol"
-                element={<ComisionGeneroProtocol />}
+                element={withUserMenu(ComisionGeneroProtocol)()}
                 exact
               />
-              <Route path="comision-de-genero-who" element={<ComisionGeneroWho />} exact />
+              <Route path="comision-de-genero-who" element={withUserMenu(ComisionGeneroWho)()} exact />
               <Route path={ROUTES.SIGNUP} element={withUserMenu(Inscripcion)()} exact />
               <Route path={ROUTES.SIGNUPS} element={withUserMenu(SignupList)()} exact />
               <Route
@@ -141,13 +141,13 @@ function App() {
 
               <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
               <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
-              <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`} element={<EventsList />} />
+              <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`} element={withUserMenu(EventsList)()} />
               <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`} element={<EventForm />} />
               <Route path={`${ROUTES.SUPERADMIN}${ROUTES.ROLES}`} element={<RolesList />} />
               <Route path={ROUTES.USER} element={withUserMenu(UserHome)()} />
               <Route path={`${ROUTES.BANKS}/:id`} element={<Bank />} />
               <Route path={ROUTES.PROFILE} element={withUserMenu(Profile)()} />
-              <Route path={ROUTES.HOME} element={<Home />} />
+              <Route path={ROUTES.HOME} element={withUserMenu(Home)()} />
               <Route path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}`} element={<TemplatesList />} />
               <Route
                 path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}/:id`}
