@@ -1,20 +1,41 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import { AppBar, Avatar, Box, Button, Link, Menu, Toolbar } from '@mui/material';
+import { AppBar, Avatar, Box, Button, Link, Menu, Toolbar, MenuItem, Icon, Stack, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-
 import { auth } from '../etiFirebase';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
 import { PRIVATE_ROUTES, ROUTES } from '../App.js';
 import { useLocation } from 'react-router-dom';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import { Image } from '@mui/icons-material';
+import { getDocument } from 'helpers/firestore';
+import { USERS } from 'helpers/firestore/users';
 
 const EtiAppBar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [isSignedIn, setIsSignedIn] = useState(!!auth.currentUser); // Local signed-in state.
+  const [userData, setUserData] = useState({})
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [openDashboard, setOpenDashboard] = useState(false)
+  const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
+  const { pathname: currentRoute } = useLocation();
+  // const { toggleOpen } = useGlobalState()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (auth.currentUser?.uid) {
+        const [user] = await Promise.all([
+          getDocument(`${USERS}/${auth.currentUser.uid}`),
+
+        ]);
+        setUserData({ ...user });
+      }
+    };
+    fetchData().catch((error) => console.error(error));
+  }, [auth.currentUser?.uid]);
 
   useEffect(() => {
     const unregisterAuthObserver = auth.onAuthStateChanged((user) => {
@@ -23,62 +44,85 @@ const EtiAppBar = () => {
     return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
+  const handleOpen = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
-  const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
-  const { pathname: currentRoute } = useLocation();
+  // const handleOpenDashboard = () => {
+  //   setOpenDashboard(true)
+  // }
   const links = [
     { href: '/historia-del-eti', title: t('history') },
-    { href: '/manifiesto-etiano', title: t('manifest') }
-    // {href: "/", title: "Comisión de Género"} // Esto se agregará más adelante
+    { href: '/manifiesto-etiano', title: t('manifest') },
+    { href: "/", title: "Comisión de Género" } // Esto se agregará más adelante
   ];
 
-  const [anchorElNavGender, setAnchorElNavGender] = React.useState(null);
-  const openGenderMenu = Boolean(anchorElNavGender);
-  const handleOpenNavGenderMenu = (event) => {
-    setAnchorElNavGender(event.currentTarget);
-  };
-  const handleCloseNavGenderMenu = () => {
-    setAnchorElNavGender(null);
-  };
-  const linksGender = [
-    { href: '/comision-de-genero-who', title: t('genderWho') },
-    { href: '/comision-de-genero-protocol', title: t('genderProtocol') },
-    { href: '/comision-de-genero-contact', title: t('genderContact') }
-  ];
 
   return (
     <AppBar
       elevation={0}
       position="static"
-      sx={{ backgroundColor: 'white', paddingX: 2 }}
+      sx={{ backgroundColor: '#4B84DB', paddingX: 2 }}
       id="appbar"
     >
-      <Container maxWidth="xl" id="container">
+      <Container
+        maxWidth="xl" id="container">
         <Toolbar
           disableGutters
           id="toolbar"
           sx={{ display: 'flex', justifyContent: 'space-between' }}
         >
-          <Link href="/">
-            <Avatar
-              src="/img/icon/ETI_logo_1.png"
-              alt="ETI"
-              sx={{ width: '100px', height: '100px' }}
-            />
-          </Link>
 
           <Box
             sx={{
-              flexGrow: 2,
+              width: '128px',
+              height: '97px',
+              display: {
+                xs: 'none',
+                sm: 'none',
+                lg: 'block'
+              }
+            }}>
+            <Link href="/">
+              <img
+                src="/img/logo/ETILogo.svg"
+                alt="ETI"
+
+              />
+            </Link>
+          </Box>
+
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            // onClick= {() => toggleOpen()}
+            sx={{
+              color: 'white',
+              mr: 2,
+              display: {
+                xs: "flex",
+                sm: "flex",
+                lg: 'none'
+              }
+            }}
+          >
+            <MenuIcon
+              sx={{
+                height: '32px',
+                width: '32px'
+              }} />
+          </IconButton>
+         
+          <Box
+            sx={{
               display: { xs: 'none', md: 'flex' },
-              justifyContent: 'space-around'
+              justifyContent: 'space-around',
+              width: '40%'
             }}
           >
             {links.map((link) => (
@@ -86,174 +130,141 @@ const EtiAppBar = () => {
                 className="appBarLink"
                 variant="h6"
                 underline="none"
-                color="black"
+                color="#FFFFFF"
                 href={link.href}
-                sx={{ fontSize: 14 }}
+                sx={{ fontSize: 20, fontFamily: 'roboto', fontWeight: 400 }}
                 key={link.href}
                 display="flex"
                 padding="5px"
+
               >
                 {link.title}
               </Link>
             ))}
-            <Button
-              sx={{ fontSize: 14 }}
-              id="gender-button"
-              aria-controls={openGenderMenu ? 'gender-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={openGenderMenu ? 'true' : undefined}
-              onClick={handleOpenNavGenderMenu}
-            >
-              {t('gender')}
-            </Button>
-            <Menu
-              id="gender-menu"
-              anchorEl={anchorElNavGender}
-              open={openGenderMenu}
-              onClose={handleCloseNavGenderMenu}
-              anchorReference={'anchorEl'}
-              MenuListProps={{
-                'aria-labelledby': 'gender-button'
-              }}
-            >
-              {linksGender.map((link) => (
-                <Link
-                  variant="h6"
-                  underline="none"
-                  color="black"
-                  href={link.href}
-                  sx={{ fontSize: 14 }}
-                  key={link.href}
-                  display="flex"
-                  padding="5px"
-                >
-                  {link.title}
-                </Link>
-              ))}
-            </Menu>
           </Box>
 
           <Box
-            sx={{ flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'flex-end' }}
-            display={'flex'}
+            sx={{
+              flexDirection: { xs: 'column', sm: 'row' },
+              justifyContent: 'flex-end',
+              display: {
+                xs: 'none',
+                sm: 'none',
+                lg: 'flex'
+              }
+            }}
+
             id="botonera"
           >
             {isSignedIn ? (
               !PRIVATE_ROUTES.includes(currentRoute) && (
                 <>
-                  <Button
-                    color="secondary"
-                    variant="contained"
-                    underline="none"
-                    href={ROUTES.USER_HOME}
-                    key={'profile'}
-                  >
-                    {t('controlPanel').toUpperCase()}
-                  </Button>
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    underline="none"
-                    onClick={() => auth.signOut()}
-                    href={'/'}
-                    key={'signout'}
-                  >
-                    {t('logout').toUpperCase()}
-                  </Button>
+                  <Box sx={{ height: 70, }}>
+                    <Stack direction="column" sx={{ height: 20, mt: '5px', }}>
+                      <Typography fontFamily={'Work Sans'} fontSize= {'24px'} color={'white'} sx={!userData.roles || userData.roles.admin ? { mt: 1.5 } : {}}>
+                        {userData.nameFirst} {userData.nameLast}
+                      </Typography>
+                      {userData.roles && (userData.roles.superadmin || userData.roles.Superadmin || userData.roles.superAdmin) ? (
+                        <Typography fontFamily={'Work Sans'} variant='h7' color={'white'} sx={{ textAlign: 'end' }}>
+                          Superadmin
+                        </Typography>
+                      ) : (
+                        <Typography fontFamily={'Work Sans'} variant='h7' color={'white'} sx={{ textAlign: 'center' }}>
+
+                        </Typography>
+                      )}
+                    </Stack>
+                  </Box>
+
+                  <Box
+                    sx={{ width: '48px', height: '48px' }}>
+                       <IconButton
+                          onClick={handleOpen}>
+                          <img src='/img/icon/userSettings.svg' sx={{ height: '48px', width: '48px' }}></img>
+                      </IconButton>
+
+
+                    <Menu
+                      anchorEl={anchorEl}
+                      open={Boolean(anchorEl)}
+                      onClose={handleClose}
+                    >
+
+                      <MenuItem onClick={handleClose}>
+                        <Button
+                          color="primary"
+                          variant="text"
+                          underline="none"
+                          href={'/dashboard'}
+                        >
+                          PANEL GENERAL
+                        </Button>
+                      </MenuItem>
+
+                      <MenuItem onClick={handleClose}>
+                        <Button
+                          color="primary"
+                          variant="text"
+                          underline="none"
+                          onClick={() => auth.signOut()}
+                          href={'/'}
+                          key={'signout'}
+                        >
+                          {t('logout').toUpperCase()}
+                        </Button>
+
+
+                      </MenuItem>
+
+                    </Menu>
+
+                  </Box>
                 </>
               )
             ) : (
-              <Button
-                color="secondary"
-                variant="contained"
-                underline="none"
-                onClick={() => auth.signIn()}
-                href={'/sign-in'}
-                key={'sign-in'}
-                sx={{ fontSize: 12, align: 'center', margin: '3px', textAlign: 'center' }}
-              >
-                {t('signin').toUpperCase()}
-              </Button>
+              <Box>
+                <Button
+                  onClick={() => auth.signIn()}
+                  href={'/sign-in'}
+                  key={'sign-in'}
+                  sx={{ backgroundColor: '#5FB4FC', color: 'white', width: '149px', height: '40px', borderRadius: '12px', align: 'center', margin: '3px', textAlign: 'center', fontFamily: 'Montserrat', fontSize: '24px' }}
+                >
+                  Ingresar
+                </Button>
+
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose}>
+                    <Button
+                      color="primary"
+                      variant="text"
+                      underline="none"
+                      href={'/dashboard'}
+                    >
+                      PANEL GENERAL
+                    </Button>
+                  </MenuItem>
+                </Menu>
+              </Box>
             )}
           </Box>
-          <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="more about ETI"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon sx={{ color: '#000000' }} />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' }
-              }}
-            >
-              {links.map((link) => (
-                <Link
-                  variant="h6"
-                  underline="none"
-                  color="black"
-                  href={link.href}
-                  sx={{ fontSize: 14 }}
-                  key={link.href}
-                  display="flex"
-                  padding="5px"
-                >
-                  {link.title}
-                </Link>
-              ))}
-              <Button
-                id="gender-button"
-                aria-controls={openGenderMenu ? 'gender-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={openGenderMenu ? 'true' : undefined}
-                onClick={handleOpenNavGenderMenu}
-              >
-                {t('gender')}
-              </Button>
-              <Menu
-                id="gender-menu"
-                anchorEl={anchorElNavGender}
-                open={openGenderMenu}
-                onClose={handleCloseNavGenderMenu}
-                anchorReference={'anchorEl'}
-                MenuListProps={{
-                  'aria-labelledby': 'gender-button'
-                }}
-              >
-                {linksGender.map((link) => (
-                  <Link
-                    variant="h6"
-                    underline="none"
-                    color="black"
-                    href={link.href}
-                    sx={{ fontSize: 14 }}
-                    key={link.href}
-                    display="flex"
-                    padding="5px"
-                  >
-                    {link.title}
-                  </Link>
-                ))}
-              </Menu>
-            </Menu>
+
+
+
+          <Box
+            sx={{
+              display: {
+                xs: 'block',
+                sm: 'block',
+                lg: 'none'
+              }
+            }}>
+            <Link href="/">
+              <img src="/img/logo/ETILogo.svg" alt="ETI" style={{ width: '76px', height: '64px', }} />
+            </Link>
           </Box>
         </Toolbar>
       </Container>
