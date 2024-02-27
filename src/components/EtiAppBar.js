@@ -33,8 +33,10 @@ const EtiAppBar = () => {
         setUserData({ ...user });
       }
     };
+
     fetchData().catch((error) => console.error(error));
   }, [auth.currentUser?.uid]);
+
 
   useEffect(() => {
     const unregisterAuthObserver = auth.onAuthStateChanged((user) => {
@@ -138,6 +140,9 @@ const EtiAppBar = () => {
                 {link.title}
               </Link>
             ))}
+
+             
+
           </Box>
 
           <Box
@@ -155,14 +160,14 @@ const EtiAppBar = () => {
             id="botonera"
           >
             {isSignedIn ? (
-              !PRIVATE_ROUTES.includes(currentRoute) && (
+               
                 <>
                   <Box sx={{ height: 70, }}>
                     <Stack direction="column" sx={{ height: 20, mt: '5px', }}>
-                      <Typography fontFamily={'Work Sans'} fontSize= {'24px'} color={'white'} sx={!userData.roles || userData.roles.admin ? { mt: 1.5 } : {}}>
-                        {userData.nameFirst} {userData.nameLast}
+                      <Typography fontFamily={'Work Sans'} fontSize= {'24px'} color={'white'} sx={!userData?.roles || userData?.roles?.admin ? { mt: 1.5 } : {}}>
+                        {userData?.nameFirst} {userData?.nameLast}
                       </Typography>
-                      {userData.roles && (userData.roles.superadmin || userData.roles.Superadmin || userData.roles.superAdmin) ? (
+                      {userData?.roles && (userData?.roles?.superadmin || userData?.roles?.Superadmin || userData?.roles?.superAdmin) ? (
                         <Typography fontFamily={'Work Sans'} variant='h7' color={'white'} sx={{ textAlign: 'end' }}>
                           Superadmin
                         </Typography>
@@ -186,7 +191,7 @@ const EtiAppBar = () => {
                       anchorEl={anchorEl}
                       open={Boolean(anchorEl)}
                       onClose={handleClose}>
-                        
+
                       <MenuItem onClick={handleClose}>
                         <Button
                           color="primary"
@@ -213,7 +218,7 @@ const EtiAppBar = () => {
                     </Menu>
                   </Box>
                 </>
-              )
+              
             ) : (
               <Box>
                 <Button
