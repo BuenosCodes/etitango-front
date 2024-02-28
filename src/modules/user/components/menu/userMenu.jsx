@@ -199,7 +199,7 @@ export function UserMenu( props ) {
       <List sx={{ padding: '8px 0px 8px 15px', overflow: 'auto' }}>
         {isSignedIn ?
           <>
-            <Box sx={{ border: { xs: '1px solid #FAFAFA', lg: '1px solid #5FB4FC' }, mt: { xs: 2, lg: 0 }, mb: { xs: 2, lg: 0 } }} />
+            <Box sx={{ border: { xs: '1px solid #FAFAFA', lg: '1px solid #5FB4FC' }, mt: { xs: 2.5, lg: 0 }, mb: { xs: 2, lg: 0 } }} />
             {userIsSuperAdmin &&
               <ListItemButton onClick={() => { handleListItemClick(2) }} sx={{
                 ...itemButtonStyle,
