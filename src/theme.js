@@ -4,8 +4,8 @@ import { green, grey, red } from '@mui/material/colors';
 const rawTheme = createTheme({
   palette: {
     primary: {
-      light: '#69696a',
-      main: '#28282a',
+      light: '#5FB4FC',
+      main: '#4B84DB',
       dark: '#1e1e1f'
     },
     secondary: {
@@ -29,7 +29,7 @@ const rawTheme = createTheme({
     }
   },
   typography: {
-    fontFamily: 'Montserrat',
+    fontFamily: 'Montserrat, "Work Sans", "Roboto", sans-serif',
     lineHeight: '24px',
     letterSpacing: '-0.015em',
     fontWeightLight: 300,
@@ -56,7 +56,21 @@ const rawTheme = createTheme({
     },
     subtitle1: {
       fontSize: 20
-    }
+    },
+    robotoFont: {
+      fontFamily: 'Roboto, sans-serif',
+      fontSize: 20,
+      fontWeight: 400,
+     
+    },
+    workSansFont: {
+      fontFamily: 'Work Sans, sans-serif',
+      fontSize:'24px'
+    },
+    workSansFont2: {
+      fontFamily: 'Work Sans, sans-serif',
+      fontSize:'16px'
+    },
   },
   components: {
     MuiButton: {
