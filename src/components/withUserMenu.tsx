@@ -42,12 +42,12 @@ export default function withUserMenu(Screen: React.ComponentClass<any>) {
       <Container
         maxWidth={false}
         disableGutters={true}
-        sx={{ display: 'flex', position: 'relative' }}
+        sx={{ display: 'flex', position: 'relative', minHeight: 'calc(100vh - 10.50hv - 37vh)' }}
       >
         <Box
           sx={{
             backgroundColor: '#5FB4FC',
-            padding: { xs: '10px', md: '30px 0px 20px 30px' },
+            padding: '30px 0px 20px 30px',
             width: { xs: '271px', md: '255px' },
             zIndex: { xs: 1000 },
             display: { xs: 'block', md: 'block' },

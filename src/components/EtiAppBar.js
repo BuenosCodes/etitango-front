@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { useEffect, useState,useContext } from 'react';
+import { useEffect, useState } from 'react';
 
-import { AppBar, Avatar, Box, Button, Link, Menu, Toolbar, MenuItem, Icon, Stack, Typography } from '@mui/material';
+import { AppBar, Box, Button, Link, Menu, Toolbar, MenuItem, Stack, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
@@ -20,8 +20,6 @@ const EtiAppBar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
 
-
-
   useEffect(() => {
     const fetchData = async () => {
       if (auth.currentUser?.uid) {
@@ -35,7 +33,6 @@ const EtiAppBar = () => {
 
     fetchData().catch((error) => console.error(error));
   }, [auth.currentUser?.uid]);
-
 
   useEffect(() => {
     const unregisterAuthObserver = auth.onAuthStateChanged((user) => {
@@ -63,7 +60,7 @@ const EtiAppBar = () => {
     <AppBar
       elevation={0}
       position="static"
-      sx={{ backgroundColor: '#4B84DB', paddingX: 2 }}
+      sx={{ backgroundColor: 'primary', paddingX: 2 }}
       id="appbar"
     >
       <Container
@@ -86,11 +83,7 @@ const EtiAppBar = () => {
               }
             }}>
             <Link href="/">
-              <img
-                src="/img/logo/ETILogo.svg"
-                alt="ETI"
-
-              />
+              <img src="/img/logo/ETILogo.svg" alt="ETI" />
             </Link>
           </Box>
 
@@ -99,7 +92,6 @@ const EtiAppBar = () => {
             color="inherit"
             aria-label="open drawer"
             sx={{
-              color: 'white',
               mr: 2,
               display: {
                 xs: "flex",
@@ -110,10 +102,7 @@ const EtiAppBar = () => {
             }}
           >
             <MenuIcon
-              sx={{
-                height: '32px',
-                width: '32px'
-              }} />
+              sx={{height: '32px', width: '32px'}} />
           </IconButton>
           <Box
             sx={{
@@ -125,15 +114,13 @@ const EtiAppBar = () => {
             {links.map((link) => (
               <Link
                 className="appBarLink"
-                variant="h6"
+                variant="robotoFont"
                 underline="none"
                 color="#FFFFFF"
                 href={link.href}
-                sx={{ fontSize: 20, fontFamily: 'roboto', fontWeight: 400 }}
                 key={link.href}
                 display="flex"
                 padding="5px"
-
               >
                 {link.title}
               </Link>
@@ -153,15 +140,14 @@ const EtiAppBar = () => {
             id="botonera"
           >
             {isSignedIn ? (
-               
                 <>
                   <Box sx={{ height: 70, }}>
                     <Stack direction="column" sx={{ height: 20, mt: '5px', mr: '5px' }}>
-                      <Typography fontFamily={'Work Sans'} fontSize= {'24px'} color={'white'} sx={!userData?.roles || userData?.roles?.admin ? { mt: 1.5 } : {}}>
+                      <Typography variant='workSansFont' sx={!userData?.roles || userData?.roles?.admin ? { mt: 1.5 } : {}}>
                         {userData?.nameFirst} {userData?.nameLast}
                       </Typography>
                        {userData.roles && (userData.roles.superadmin || userData.roles.Superadmin || userData.roles.superAdmin) && (
-                        <Typography fontFamily={'Work Sans'} variant='h7' color={'white'} sx={{ textAlign: 'end' }}>
+                        <Typography variant='workSansFont2' sx={{ textAlign: 'end' }}>
                           {t('superadmin')}
                         </Typography>
                       )}
@@ -172,8 +158,8 @@ const EtiAppBar = () => {
                     sx={{ width: '48px', height: '48px' }}>
                        <IconButton
                           onClick={handleOpen}>
-                              <AccountCircleOutlinedIcon sx={{ height: '48px', width: '48px', color: 'white' }}></AccountCircleOutlinedIcon>
-                              <ArrowDropDownOutlinedIcon sx={{ height: '30px', width: '30px', color: 'white' }}></ArrowDropDownOutlinedIcon>
+                              <AccountCircleOutlinedIcon sx={{ height: '48px', width: '48px', color: '#FFFFFF' }}></AccountCircleOutlinedIcon>
+                              <ArrowDropDownOutlinedIcon sx={{ height: '30px', width: '30px', color: '#FFFFFF' }}></ArrowDropDownOutlinedIcon>
                       </IconButton>
 
                     <Menu
@@ -214,7 +200,7 @@ const EtiAppBar = () => {
                   onClick={() => auth.signIn()}
                   href={'/sign-in'}
                   key={'sign-in'}
-                  sx={{ backgroundColor: '#5FB4FC', color: 'white', width: '149px', height: '40px', borderRadius: '12px', align: 'center', margin: '3px', textAlign: 'center', fontFamily: 'Montserrat', fontSize: '24px' }}
+                  sx={{ backgroundColor: 'primary.light', color: '#FFFFFF', width: '149px', height: '40px', borderRadius: '12px', margin: '3px', fontSize: '24px' }}
                 >
                   {t('signin')}
                 </Button>
@@ -232,7 +218,7 @@ const EtiAppBar = () => {
               }
             }}>
             <Link href="/">
-              <img src="/img/logo/ETILogo.svg" alt="ETI" style={{ width: '76px', height: '64px', }} />
+              <img src="/img/logo/ETILogo.svg" alt="ETI" style={{ width: '76px', height: '64px' }} />
             </Link>
           </Box>
         </Toolbar>
