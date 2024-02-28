@@ -15,10 +15,7 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
       {isSignedIn ? (
         <Box sx={{ height: '50px' }}>
           <Stack direction="column" sx={{ height: 20, mt: '5px' }}>
-            <Typography
-              variant='h6'
-              sx={{ color: '#FFFFFF', fontWeight: 600 }}
-            >
+            <Typography variant="h6" sx={{ color: 'listItems.light', fontWeight: 600 }}>
               {userData.nameFirst} {userData.nameLast}
             </Typography>
             {userData.roles &&
@@ -26,8 +23,8 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
                 userData.roles.Superadmin ||
                 userData.roles.superAdmin) && (
                 <Typography
-                  variant='robotoFont2'
-                  sx={{ color: '#FFFFFF', textAlign: 'start', fontWeight: 400 }}
+                  // variant='robotoFont2'
+                  sx={{ color: 'listItems.light', textAlign: 'start', fontWeight: 400 }}
                 >
                   {t('superadmin')}
                 </Typography>
@@ -44,7 +41,7 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
               key={'sign-in'}
               sx={{
                 backgroundColor: 'primary.main',
-                color: '#FFFFFF',
+                color: 'listItems.light',
                 width: '149px',
                 height: '40px',
                 borderRadius: '12px',

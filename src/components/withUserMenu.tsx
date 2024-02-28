@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
 import { UserMenu } from '../modules/user/components/menu/userMenu.jsx';
 import UserNavBar from '../modules/user/components/navBar/UserNavBar';
@@ -72,12 +73,12 @@ export default function withUserMenu(
           {isSignedIn && (
             <Box sx={{ display: { xs: 'block', md: 'none' } }}>
               <Button onClick={() => logout()} href={'/'} key={'signout'}>
-                <LoginIcon sx={{ color: '#FAFAFA' }} />
+                <LoginIcon sx={{ color: 'listItems.light' }} />
                 <Typography
-                  variant='robotoFont3'
+                  // variant='robotoFont3'
                   sx={{
                     ml: 1,
-                    color: '#FAFAFA',
+                    color: 'listItems.light',
                     fontWeight: 600,
                     lineHeight: '22.4px'
                   }}
@@ -91,6 +92,7 @@ export default function withUserMenu(
         <Screen {...props} />
       </Container>
     );
+
   }
   return WithUserMenu;
 }

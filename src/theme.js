@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { createTheme } from '@mui/material/styles';
 import { green, grey, red } from '@mui/material/colors';
 
@@ -6,12 +7,17 @@ const rawTheme = createTheme({
     primary: {
       light: '#5FB4FC',
       main: '#4B84DB',
-      dark: '#1e1e1f'
+      dark: '#1e1e1f',
     },
     secondary: {
       light: '#bbdefb',
       main: '#2196f3',
       dark: '#1A0D3F'
+    },
+    listItems: {
+      light: '#FAFAFA',
+      main: '#FFFBF0',
+      dark: '#212121'
     },
     warning: {
       main: '#ffc071',
