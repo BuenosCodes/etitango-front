@@ -16,6 +16,7 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import ChecklistIcon from '@mui/icons-material/Checklist';
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
+import { useGlobalState } from 'helpers/UserPanelContext';
 
 export function UserMenu( props ) {
   const [alertVisible, setAlertVisible] = useState(false);
@@ -45,7 +46,7 @@ export function UserMenu( props ) {
   const userIsAdmin = userData.roles?.admin
   // eslint-disable-next-line react/prop-types
   const userIsSuperAdmin = userData.roles?.superadmin
-
+  const { toggleOpen } = useGlobalState();
   const Inscriptions = [
     { label: t('signup'), startIndex: 9 },
     { label: t('signupList'), startIndex: 10 },
@@ -194,7 +195,7 @@ export function UserMenu( props ) {
         {isSignedIn ?
           <>
             {userIsSuperAdmin &&
-              <ListItemButton onClick={() => { handleListItemClick(2) }} sx={{
+              <ListItemButton onClick={() => { handleListItemClick(2), toggleOpen() }} sx={{
                 ...itemButtonStyle,
                 ...(selectedIndex === 2 && itemButtonActiveStyle),
                 ':hover': {
@@ -228,7 +229,7 @@ export function UserMenu( props ) {
                 <List component="div" disablePadding>
                   {Etis.map((button, index) => (
                     <ListItem key={index}>
-                      <ListItemButton onClick={() => { handleListItemClick(button.startIndex) }} sx={{
+                      <ListItemButton onClick={() => { handleListItemClick(button.startIndex), toggleOpen() }} sx={{
                         ...itemButtonStyle2,
                         ...(selectedIndex === button.startIndex && itemButtonActiveStyle),
                         ':hover': {
@@ -262,7 +263,7 @@ export function UserMenu( props ) {
               <List component="div" disablePadding>
                 {Inscriptions.map((button, index) => (
                   <ListItem key={index}>
-                    <ListItemButton onClick={() => { handleListItemClick(button.startIndex) }} sx={{
+                    <ListItemButton onClick={() => { handleListItemClick(button.startIndex), toggleOpen() }} sx={{
                       ...itemButtonStyle2,
                       ...(selectedIndex === button.startIndex && itemButtonActiveStyle),
                       ':hover': { ...itemButtonHoverStyle },
@@ -275,7 +276,7 @@ export function UserMenu( props ) {
               </List>
             </Collapse>
 
-            <ListItemButton onClick={() => { handleListItemClick(1) }} sx={{
+            <ListItemButton onClick={() => { handleListItemClick(1), toggleOpen() }} sx={{
               ...itemButtonStyle,
               ...(selectedIndex === 1 && itemButtonActiveStyle),
               ':hover': {
@@ -310,7 +311,7 @@ export function UserMenu( props ) {
                   <List component="div" disablePadding>
                     {nustrosLinks.map((button, index) => (
                       <ListItem key={index}>
-                        <ListItemButton onClick={() => { handleListItemClick(button.startIndex) }} sx={{
+                        <ListItemButton onClick={() => { handleListItemClick(button.startIndex), toggleOpen() }} sx={{
                           ...itemButtonStyle2,
                           ...(selectedIndex === button.startIndex && itemButtonActiveStyle),
                           ':hover': {
@@ -344,7 +345,7 @@ export function UserMenu( props ) {
                   <List component="div" disablePadding>
                     {comisionGenero.map((button, index) => (
                       <ListItem key={index}>
-                        <ListItemButton onClick={() => { handleListItemClick(button.startIndex) }} sx={{
+                        <ListItemButton onClick={() => { handleListItemClick(button.startIndex), toggleOpen() }} sx={{
                           ...itemButtonStyle2,
                           ...(selectedIndex === button.startIndex && itemButtonActiveStyle),
                           ':hover': {
@@ -363,7 +364,7 @@ export function UserMenu( props ) {
           </>
           :
           <>
-            <ListItemButton onClick={() => { handleListItemClick(17) }} sx={{
+            <ListItemButton onClick={() => { handleListItemClick(17), toggleOpen() }} sx={{
               ...itemButtonStyle,
               ...(selectedIndex === 17 && itemButtonActiveStyle),
               ':hover': {
@@ -374,7 +375,7 @@ export function UserMenu( props ) {
               <ListItemText primary={'Historia del ETI'} primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === 17 && { color: '#212121' }) }} />
             </ListItemButton>
 
-            <ListItemButton onClick={() => { handleListItemClick(18) }} sx={{
+            <ListItemButton onClick={() => { handleListItemClick(18), toggleOpen() }} sx={{
               ...itemButtonStyle,
               ...(selectedIndex === 18 && itemButtonActiveStyle),
               ':hover': {
@@ -401,7 +402,7 @@ export function UserMenu( props ) {
               <List component="div" disablePadding>
                 {comisionGenero.map((button, index) => (
                   <ListItem key={index}>
-                    <ListItemButton onClick={() => { handleListItemClick(button.startIndex) }} sx={{
+                    <ListItemButton onClick={() => { handleListItemClick(button.startIndex), toggleOpen() }} sx={{
                       ...itemButtonStyle2,
                       ...(selectedIndex === button.startIndex && itemButtonActiveStyle),
                       ':hover': {

@@ -10,8 +10,12 @@ import { auth } from 'etiFirebase.js';
 import LoginIcon from '@mui/icons-material/Login';
 import { getDocument } from 'helpers/firestore/index';
 import { USERS } from 'helpers/firestore/users';
+import { useGlobalState } from 'helpers/UserPanelContext';
 
-export default function withUserMenu(Screen: React.ComponentClass<any>) {
+export default function withUserMenu(
+  Screen: React.ComponentClass<any>,
+  renderSidebar: boolean = true
+) {
   const [userData, setUserData] = useState({});
   const [isSignedIn, setIsSignedIn] = useState(!!auth.currentUser); // Local signed-in state.
 
@@ -37,6 +41,11 @@ export default function withUserMenu(Screen: React.ComponentClass<any>) {
     const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
     const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
     const logout = () => auth.signOut().then(() => navigate(ROUTES.HOME));
+    const { isOpen } = useGlobalState();
+
+    if (!renderSidebar && !isMobile) {
+      return <Screen {...props} />;
+    }
 
     return (
       <Container
@@ -50,7 +59,7 @@ export default function withUserMenu(Screen: React.ComponentClass<any>) {
             padding: '30px 0px 20px 30px',
             width: { xs: '271px', md: '255px' },
             zIndex: { xs: 1000 },
-            display: { xs: 'block', md: 'block' },
+            display: { xs: !isOpen ? 'block' : 'none', md: 'block' },
             position: { xs: 'absolute', md: 'initial' },
             left: { xs: 0, md: 'initial' },
             right: { md: 0 },

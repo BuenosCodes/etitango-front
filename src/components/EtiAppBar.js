@@ -1,7 +1,16 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-
-import { AppBar, Box, Button, Link, Menu, Toolbar, MenuItem, Stack, Typography } from '@mui/material';
+import {
+  AppBar,
+  Box,
+  Button,
+  Link,
+  Menu,
+  Toolbar,
+  MenuItem,
+  Stack,
+  Typography
+} from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
@@ -12,21 +21,19 @@ import { getDocument } from 'helpers/firestore';
 import { USERS } from 'helpers/firestore/users';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
-
+import { useGlobalState } from 'helpers/UserPanelContext';
 
 const EtiAppBar = () => {
   const [isSignedIn, setIsSignedIn] = useState(!!auth.currentUser); // Local signed-in state.
-  const [userData, setUserData] = useState({})
+  const [userData, setUserData] = useState({});
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
+  const { toggleOpen } = useGlobalState();
 
   useEffect(() => {
     const fetchData = async () => {
       if (auth.currentUser?.uid) {
-        const [user] = await Promise.all([
-          getDocument(`${USERS}/${auth.currentUser.uid}`),
-
-        ]);
+        const [user] = await Promise.all([getDocument(`${USERS}/${auth.currentUser.uid}`)]);
         setUserData({ ...user });
       }
     };
@@ -52,9 +59,8 @@ const EtiAppBar = () => {
   const links = [
     { href: '/historia-del-eti', title: t('history') },
     { href: '/manifiesto-etiano', title: t('manifest') },
-    { href: "/comision-de-genero-who", title: t("commission") } 
+    { href: '/comision-de-genero-who', title: t('commission') }
   ];
-
 
   return (
     <AppBar
@@ -63,14 +69,12 @@ const EtiAppBar = () => {
       sx={{ backgroundColor: 'primary', paddingX: 2 }}
       id="appbar"
     >
-      <Container
-        maxWidth="xl" id="container">
+      <Container maxWidth="xl" id="container">
         <Toolbar
           disableGutters
           id="toolbar"
           sx={{ display: 'flex', justifyContent: 'space-between' }}
         >
-
           <Box
             sx={{
               width: '128px',
@@ -81,7 +85,8 @@ const EtiAppBar = () => {
                 md: 'block',
                 lg: 'block'
               }
-            }}>
+            }}
+          >
             <Link href="/">
               <img src="/img/logo/ETILogo.svg" alt="ETI" />
             </Link>
@@ -94,15 +99,15 @@ const EtiAppBar = () => {
             sx={{
               mr: 2,
               display: {
-                xs: "flex",
-                sm: "flex",
+                xs: 'flex',
+                sm: 'flex',
                 md: 'none',
                 lg: 'none'
               }
             }}
+            onClick={toggleOpen}
           >
-            <MenuIcon
-              sx={{height: '32px', width: '32px'}} />
+            <MenuIcon sx={{ height: '32px', width: '32px' }} />
           </IconButton>
           <Box
             sx={{
@@ -140,67 +145,73 @@ const EtiAppBar = () => {
             id="botonera"
           >
             {isSignedIn ? (
-                <>
-                  <Box sx={{ height: 70, }}>
-                    <Stack direction="column" sx={{ height: 20, mt: '5px', mr: '5px' }}>
-                      <Typography variant='workSansFont' sx={!userData?.roles || userData?.roles?.admin ? { mt: 1.5 } : {}}>
-                        {userData?.nameFirst} {userData?.nameLast}
-                      </Typography>
-                       {userData.roles && (userData.roles.superadmin || userData.roles.Superadmin || userData.roles.superAdmin) && (
-                        <Typography variant='workSansFont2' sx={{ textAlign: 'end' }}>
+              <>
+                <Box sx={{ height: 70 }}>
+                  <Stack direction="column" sx={{ height: 20, mt: '5px', mr: '5px' }}>
+                    <Typography
+                      variant="workSansFont"
+                      sx={!userData?.roles || userData?.roles?.admin ? { mt: 1.5 } : {}}
+                    >
+                      {userData?.nameFirst} {userData?.nameLast}
+                    </Typography>
+                    {userData.roles &&
+                      (userData.roles.superadmin ||
+                        userData.roles.Superadmin ||
+                        userData.roles.superAdmin) && (
+                        <Typography variant="workSansFont2" sx={{ textAlign: 'end' }}>
                           {t('superadmin')}
                         </Typography>
                       )}
-                    </Stack>
-                  </Box>
+                  </Stack>
+                </Box>
 
-                  <Box
-                    sx={{ width: '48px', height: '48px' }}>
-                       <IconButton
-                          onClick={handleOpen}>
-                              <AccountCircleOutlinedIcon sx={{ height: '48px', width: '48px', color: '#FFFFFF' }}></AccountCircleOutlinedIcon>
-                              <ArrowDropDownOutlinedIcon sx={{ height: '30px', width: '30px', color: '#FFFFFF' }}></ArrowDropDownOutlinedIcon>
-                      </IconButton>
+                <Box sx={{ width: '48px', height: '48px' }}>
+                  <IconButton onClick={handleOpen}>
+                    <AccountCircleOutlinedIcon
+                      sx={{ height: '48px', width: '48px', color: '#FFFFFF' }}
+                    ></AccountCircleOutlinedIcon>
+                    <ArrowDropDownOutlinedIcon
+                      sx={{ height: '30px', width: '30px', color: '#FFFFFF' }}
+                    ></ArrowDropDownOutlinedIcon>
+                  </IconButton>
 
-                    <Menu
-                      anchorEl={anchorEl}
-                      open={Boolean(anchorEl)}
-                      onClose={handleClose}>
+                  <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+                    <MenuItem onClick={handleClose}>
+                      <Button color="primary" variant="text" underline="none" href={'/user'}>
+                        {t('controlPanel').toUpperCase()}
+                      </Button>
+                    </MenuItem>
 
-                      <MenuItem onClick={handleClose}>
-                        <Button
-                          color="primary"
-                          variant="text"
-                          underline="none"
-                          href={'/user'}
-                        >
-                           {t('controlPanel').toUpperCase()}
-                        </Button>
-                      </MenuItem>
-
-                      <MenuItem onClick={handleClose}>
-                        <Button
-                          color="primary"
-                          variant="text"
-                          underline="none"
-                          onClick={() => auth.signOut()}
-                          href={'/'}
-                          key={'signout'}
-                        >
-                          {t('logout').toUpperCase()}
-                        </Button>
-                      </MenuItem>
-                    </Menu>
-                  </Box>
-                </>
-              
+                    <MenuItem onClick={handleClose}>
+                      <Button
+                        color="primary"
+                        variant="text"
+                        underline="none"
+                        onClick={() => auth.signOut()}
+                        href={'/'}
+                        key={'signout'}
+                      >
+                        {t('logout').toUpperCase()}
+                      </Button>
+                    </MenuItem>
+                  </Menu>
+                </Box>
+              </>
             ) : (
               <Box>
                 <Button
                   onClick={() => auth.signIn()}
                   href={'/sign-in'}
                   key={'sign-in'}
-                  sx={{ backgroundColor: 'primary.light', color: '#FFFFFF', width: '149px', height: '40px', borderRadius: '12px', margin: '3px', fontSize: '24px' }}
+                  sx={{
+                    backgroundColor: 'primary.light',
+                    color: '#FFFFFF',
+                    width: '149px',
+                    height: '40px',
+                    borderRadius: '12px',
+                    margin: '3px',
+                    fontSize: '24px'
+                  }}
                 >
                   {t('signin')}
                 </Button>
@@ -216,9 +227,14 @@ const EtiAppBar = () => {
                 md: 'none',
                 lg: 'none'
               }
-            }}>
+            }}
+          >
             <Link href="/">
-              <img src="/img/logo/ETILogo.svg" alt="ETI" style={{ width: '76px', height: '64px' }} />
+              <img
+                src="/img/logo/ETILogo.svg"
+                alt="ETI"
+                style={{ width: '76px', height: '64px' }}
+              />
             </Link>
           </Box>
         </Toolbar>
