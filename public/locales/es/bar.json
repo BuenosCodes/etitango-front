@@ -1,7 +1,7 @@
 {
   "history": "Historia del ETI",
   "manifest": "Manifiesto ETIano",
-  "signup": "Inscripción",
+  "signup": "Inscripciones",
   "signupList": "Listado de inscripciones",
   "logout": "Cerrar Sesión",
   "signin": "Ingresar",
@@ -11,5 +11,8 @@
   "genderContact": "Contacto",
   "controlPanel": "Panel de Control",
   "commission": "Comisión de género",
-  "superadmin": "Superadmin"
+  "superadmin": "Superadmin",
+  "generalInfo": "Información general",
+  "newETI": "Nuevo ETI",
+  "etis": "ETIs"
 }

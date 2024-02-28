@@ -63,6 +63,16 @@ const rawTheme = createTheme({
       fontWeight: 400,
      
     },
+    robotoFont2: {
+      fontFamily: 'Roboto, sans-serif',
+      fontSize: 14
+      
+    },
+    robotoFont3: {
+      fontFamily: 'Roboto, sans-serif',
+      fontSize: 16
+      
+    },
     workSansFont: {
       fontFamily: 'Work Sans, sans-serif',
       fontSize:'24px'

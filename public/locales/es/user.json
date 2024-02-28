@@ -1,8 +1,9 @@
 {
-  "myProfile": "Mis datos personales",
+  "myProfile": "Mis datos",
   "signup": "Inscripción al próximo ETI",
-  "signupList": "Lista de Inscripciones",
-  "attendance": "Control de Asistencia",
+  "signupList": "Lista de inscripciones",
+  "attendance": "Asistencia",
+  "ourLinks": "Nuestros links",
   "alert": {
     "fillInData": "¡Completar mis datos!",
     "warning": "Advertencia",

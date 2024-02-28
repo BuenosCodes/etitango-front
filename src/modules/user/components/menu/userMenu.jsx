@@ -18,9 +18,12 @@ import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import { useGlobalState } from 'helpers/UserPanelContext';
 
+
 export function UserMenu( props ) {
   const [alertVisible, setAlertVisible] = useState(false);
-  const { t } = useTranslation(SCOPES.MODULES.USER, { useSuspense: false });
+  const { t } = useTranslation(SCOPES.MODULES.USER, { useSuspense: false },);
+  const { t: tBar } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
+  
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const checkUserData = () => {
@@ -40,11 +43,8 @@ export function UserMenu( props ) {
   const [dropDownInscriptions, setdropDownInscriptions] = useState(4);
   const [nuestrosLinks, setNuestrosLinks] = useState(5);
   const [comision, setComision] = useState(6);
-  // eslint-disable-next-line react/prop-types
   const  {userData, isSignedIn} = props;
-  // eslint-disable-next-line react/prop-types
   const userIsAdmin = userData.roles?.admin
-  // eslint-disable-next-line react/prop-types
   const userIsSuperAdmin = userData.roles?.superadmin
   const { toggleOpen } = useGlobalState();
   const Inscriptions = [
@@ -53,7 +53,7 @@ export function UserMenu( props ) {
   ]
 
   const Etis = [
-    { label: 'Información general', startIndex: 11 },
+    { label: tBar('generalInfo'), startIndex: 11 },
     // { label: 'Presupuesto', startIndex: 12 },
     // { label: 'Inscripciones', startIndex: 13 },
     // { label: 'Merchandising', startIndex: 14 },
@@ -62,14 +62,14 @@ export function UserMenu( props ) {
   ]
 
   const nustrosLinks = [
-    { label: 'Historia del ETI', startIndex: 17 },
-    { label: 'Manifiesto', startIndex: 18 },
+    { label: tBar('history'), startIndex: 17 },
+    { label: tBar('manifest'), startIndex: 18 },
   ]
 
   const comisionGenero = [
-    { label: 'Sobre Nosotres', startIndex: 19 },
-    { label: 'Protocolo de género', startIndex: 20 },
-    { label: 'Contacto', startIndex: 21 },
+    { label: tBar('genderWho'), startIndex: 19 },
+    { label: tBar('genderProtocol'), startIndex: 20 },
+    { label: tBar('genderContact'), startIndex: 21 },
   ]
 
 
@@ -177,6 +177,13 @@ export function UserMenu( props ) {
     }
   };
 
+  const fontListText = {
+    fontFamily: 'roboto', 
+    fontWeight: 600,
+    fontSize: '16px', 
+    lineHeight: '12px'
+  }
+
   return (
     <>
       <Alert
@@ -206,7 +213,7 @@ export function UserMenu( props ) {
                 <ListItemIcon sx={{ minWidth: '35px', color: 'white' }}>
                   <AccountBoxOutlinedIcon />
                 </ListItemIcon>
-                <ListItemText primary={'Nuevo ETI'} primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === 2 && { color: '#212121' }) }} />
+                <ListItemText primary={tBar('newETI')} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === 2 && { color: '#212121' }) }} />
               </ListItemButton>
             }
 
@@ -222,7 +229,7 @@ export function UserMenu( props ) {
                 <ListItemIcon sx={{ minWidth: '35px', color: '#FAFAFA' }}>
                   <AccountBoxOutlinedIcon />
                 </ListItemIcon>
-                <ListItemText primary="ETIs" primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === etis && { color: '#212121' }) }} />
+                <ListItemText primary={tBar("etis")} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === etis && { color: '#212121' }) }} />
                 {openEtis ? <ExpandLess sx={{ marginRight: 1 }} /> : <ExpandMore sx={{ marginRight: 1 }} />}
               </ListItemButton>
               <Collapse in={openEtis} timeout="auto" unmountOnExit>
@@ -237,7 +244,7 @@ export function UserMenu( props ) {
                         },
                       }}
                       >
-                        <ListItemText primary={button.label} primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 500, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === button.startIndex && { color: '#212121' }) }} />
+                        <ListItemText primary={button.label} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === button.startIndex && { color: '#212121' }) }} />
                       </ListItemButton>
                     </ListItem>
                   ))}
@@ -256,7 +263,7 @@ export function UserMenu( props ) {
               <ListItemIcon sx={{ minWidth: '35px', color: 'white' }}>
                 <ChecklistIcon />
               </ListItemIcon>
-              <ListItemText primary="Inscripciones" primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === dropDownInscriptions && { color: '#212121' }) }} />
+              <ListItemText primary={tBar('signup')} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === dropDownInscriptions && { color: '#212121' }) }} />
               {openInscriptions ? <ExpandLess sx={{ marginRight: 1 }} /> : <ExpandMore sx={{ marginRight: 1 }} />}
             </ListItemButton>
             <Collapse in={openInscriptions} timeout="auto" unmountOnExit>
@@ -269,7 +276,7 @@ export function UserMenu( props ) {
                       ':hover': { ...itemButtonHoverStyle },
                     }}
                     >
-                      <ListItemText primary={button.label} primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 500, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === button.startIndex && { color: '#212121' }) }} />
+                      <ListItemText primary={button.label} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === button.startIndex && { color: '#212121' }) }} />
                     </ListItemButton>
                   </ListItem>
                 ))}
@@ -287,7 +294,7 @@ export function UserMenu( props ) {
               <ListItemIcon sx={{ minWidth: '35px', color: '#FAFAFA' }}>
                 <PersonOutlineIcon />
               </ListItemIcon>
-              <ListItemText primary={t('myProfile')} primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === 1 && { color: '#212121' }) }} />
+              <ListItemText primary={t('myProfile')} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === 1 && { color: '#212121' }) }} />
             </ListItemButton>
 
 
@@ -304,7 +311,7 @@ export function UserMenu( props ) {
                   <ListItemIcon sx={{ minWidth: '35px', color: '#FAFAFA' }}>
                     <StarOutlineRoundedIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Nuestros links" primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === nuestrosLinks && { color: '#212121' }) }} />
+                  <ListItemText primary={t('ourLinks')} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === nuestrosLinks && { color: '#212121' }) }} />
                   {openLinks ? <ExpandLess sx={{ marginRight: 1 }} /> : <ExpandMore sx={{ marginRight: 1 }} />}
                 </ListItemButton>
                 <Collapse in={openLinks} timeout="auto" unmountOnExit>
@@ -319,7 +326,7 @@ export function UserMenu( props ) {
                           },
                         }}
                         >
-                          <ListItemText primary={button.label} primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 500, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === button.startIndex && { color: '#212121' }) }} />
+                          <ListItemText primary={button.label} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === button.startIndex && { color: '#212121' }) }} />
                         </ListItemButton>
                       </ListItem>
                     ))}
@@ -338,7 +345,7 @@ export function UserMenu( props ) {
                     <FavoriteBorderIcon />
                   </ListItemIcon>
 
-                  <ListItemText primary="Comisión de género" primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === comision && { color: '#212121' }) }} />
+                  <ListItemText primary={tBar('commission')} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === comision && { color: '#212121' }) }} />
                   {openComision ? <ExpandLess sx={{ marginRight: 1 }} /> : <ExpandMore sx={{ marginRight: 1 }} />}
                 </ListItemButton>
                 <Collapse in={openComision} timeout="auto" unmountOnExit>
@@ -353,7 +360,7 @@ export function UserMenu( props ) {
                           },
                         }}
                         >
-                          <ListItemText primary={button.label} primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 500, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === button.startIndex && { color: '#212121' }) }} />
+                          <ListItemText primary={button.label} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === button.startIndex && { color: '#212121' }) }} />
                         </ListItemButton>
                       </ListItem>
                     ))}
@@ -372,7 +379,7 @@ export function UserMenu( props ) {
               },
             }}
             >
-              <ListItemText primary={'Historia del ETI'} primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === 17 && { color: '#212121' }) }} />
+              <ListItemText primary={tBar('history')} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === 17 && { color: '#212121' }) }} />
             </ListItemButton>
 
             <ListItemButton onClick={() => { handleListItemClick(18), toggleOpen() }} sx={{
@@ -383,7 +390,7 @@ export function UserMenu( props ) {
               },
             }}
             >
-              <ListItemText primary={'Manifiesto'} primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === 18 && { color: '#212121' }) }} />
+              <ListItemText primary={tBar('manifest')} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === 18 && { color: '#212121' }) }} />
             </ListItemButton>
 
             <ListItemButton onClick={() => { handleClickComision(), handleListItemClick(comision) }} sx={{
@@ -395,7 +402,7 @@ export function UserMenu( props ) {
             }}
             >
 
-              <ListItemText primary="Comisión de género" primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === comision && { color: '#212121' }) }} />
+              <ListItemText primary={tBar('commission')} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === comision && { color: '#212121' }) }} />
               {openComision ? <ExpandLess sx={{ marginRight: 1 }} /> : <ExpandMore sx={{ marginRight: 1 }} />}
             </ListItemButton>
             <Collapse in={openComision} timeout="auto" unmountOnExit>
@@ -410,7 +417,7 @@ export function UserMenu( props ) {
                       },
                     }}
                     >
-                      <ListItemText primary={button.label} primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 500, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === button.startIndex && { color: '#212121' }) }} />
+                      <ListItemText primary={button.label} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === button.startIndex && { color: '#212121' }) }} />
                     </ListItemButton>
                   </ListItem>
                 ))}

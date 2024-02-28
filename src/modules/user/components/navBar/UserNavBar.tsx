@@ -16,9 +16,8 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
         <Box sx={{ height: '50px' }}>
           <Stack direction="column" sx={{ height: 20, mt: '5px' }}>
             <Typography
-              fontFamily={'Montserrat'}
-              color={'#FFFFFF'}
-              sx={{ fontWeight: 600, fontSize: '18px' }}
+              variant='h6'
+              sx={{ color: '#FFFFFF', fontWeight: 600 }}
             >
               {userData.nameFirst} {userData.nameLast}
             </Typography>
@@ -27,11 +26,10 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
                 userData.roles.Superadmin ||
                 userData.roles.superAdmin) && (
                 <Typography
-                  fontFamily={'Roboto'}
-                  color={'#FFFFFF'}
-                  sx={{ textAlign: 'start', fontWeight: 400, fontSize: '14px' }}
+                  variant='robotoFont2'
+                  sx={{ color: '#FFFFFF', textAlign: 'start', fontWeight: 400 }}
                 >
-                  Superadmin
+                  {t('superadmin')}
                 </Typography>
               )}
           </Stack>
@@ -45,7 +43,7 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
               }}
               key={'sign-in'}
               sx={{
-                backgroundColor: '#4B84DB',
+                backgroundColor: 'primary.main',
                 color: '#FFFFFF',
                 width: '149px',
                 height: '40px',
@@ -53,7 +51,6 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
                 align: 'center',
                 margin: '3px',
                 textAlign: 'center',
-                fontFamily: 'Montserrat',
                 fontSize: '24px'
               }}
             >

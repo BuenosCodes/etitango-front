@@ -55,7 +55,7 @@ export default function withUserMenu(
       >
         <Box
           sx={{
-            backgroundColor: '#5FB4FC',
+            backgroundColor: 'primary.light',
             padding: '30px 0px 20px 30px',
             width: { xs: '271px', md: '255px' },
             zIndex: { xs: 1000 },
@@ -74,13 +74,12 @@ export default function withUserMenu(
               <Button onClick={() => logout()} href={'/'} key={'signout'}>
                 <LoginIcon sx={{ color: '#FAFAFA' }} />
                 <Typography
+                  variant='robotoFont3'
                   sx={{
-                    fontFamily: 'Roboto',
-                    fontWeight: 600,
-                    fontSize: '16px',
-                    lineHeight: '22.4px',
                     ml: 1,
-                    color: '#FAFAFA'
+                    color: '#FAFAFA',
+                    fontWeight: 600,
+                    lineHeight: '22.4px'
                   }}
                 >
                   {t('logout')}
