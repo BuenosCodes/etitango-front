@@ -60,23 +60,25 @@ export default function withUserMenu(Screen: React.ComponentClass<any>) {
         >
           {isMobile && <UserNavBar userData={userData} isSignedIn={isSignedIn} />}
           <UserMenu userData={userData} isSignedIn={isSignedIn} />
-          <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-            <Button onClick={() => logout()} href={'/'} key={'signout'}>
-              <LoginIcon sx={{ color: '#FAFAFA' }} />
-              <Typography
-                sx={{
-                  fontFamily: 'Roboto',
-                  fontWeight: 600,
-                  fontSize: '16px',
-                  lineHeight: '22.4px',
-                  ml: 1,
-                  color: '#FAFAFA'
-                }}
-              >
-                {t('logout')}
-              </Typography>
-            </Button>
-          </Box>
+          {isSignedIn && (
+            <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+              <Button onClick={() => logout()} href={'/'} key={'signout'}>
+                <LoginIcon sx={{ color: '#FAFAFA' }} />
+                <Typography
+                  sx={{
+                    fontFamily: 'Roboto',
+                    fontWeight: 600,
+                    fontSize: '16px',
+                    lineHeight: '22.4px',
+                    ml: 1,
+                    color: '#FAFAFA'
+                  }}
+                >
+                  {t('logout')}
+                </Typography>
+              </Button>
+            </Box>
+          )}
         </Box>
         <Screen {...props} />
       </Container>
