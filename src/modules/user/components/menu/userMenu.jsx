@@ -1,20 +1,16 @@
 /* eslint-disable prettier/prettier */
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import { Box, List, ListItemButton, ListItemText, ListItemIcon, Collapse, ListItem, useMediaQuery } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from 'App.js';
 import { SCOPES } from 'helpers/constants/i18n.ts';
-import { styles } from './userMenu.styles.ts';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../../helpers/UserContext';
 import { isUserDataComplete } from '../../../../helpers/validators';
 import { Alert } from '../../../../components/alert/Alert';
 import { isAdmin } from '../../../../helpers/firestore/users';
-import { auth } from 'etiFirebase.js';
-import { getDocument } from 'helpers/firestore';
-import { USERS } from 'helpers/firestore/users';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import ChecklistIcon from '@mui/icons-material/Checklist';
@@ -26,9 +22,6 @@ export function UserMenu( props ) {
   const { t } = useTranslation(SCOPES.MODULES.USER, { useSuspense: false });
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  const { pathname: currentRoute } = useLocation();
-  const isCurrentRoute = (route) => currentRoute === route;
-  const getStyles = (route) => [styles.item, isCurrentRoute(route) && { ...styles.selectedItem }];
   const checkUserData = () => {
     if (isUserDataComplete(user.data)) {
       navigate(ROUTES.SIGNUP);
@@ -60,10 +53,10 @@ export function UserMenu( props ) {
 
   const Etis = [
     { label: 'Información general', startIndex: 11 },
-    { label: 'Presupuesto', startIndex: 12 },
-    { label: 'Inscripciones', startIndex: 13 },
-    { label: 'Merchandising', startIndex: 14 },
-    { label: 'Audio', startIndex: 15 },
+    // { label: 'Presupuesto', startIndex: 12 },
+    // { label: 'Inscripciones', startIndex: 13 },
+    // { label: 'Merchandising', startIndex: 14 },
+    // { label: 'Audio', startIndex: 15 },
     { label: t('attendance'), startIndex: 16 },
   ]
 
@@ -104,7 +97,7 @@ export function UserMenu( props ) {
       navigate(ROUTES.PROFILE)
     }
     if (index === 2) {
-      console.log('nuevo etieventeano');
+      navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/new`)
     }
     if (index === 9) {
       setdropDownInscriptions(index)
@@ -197,9 +190,9 @@ export function UserMenu( props ) {
         description={t('alert.fillInDataReason')}
       />
       <List sx={{ padding: '8px 0px 8px 15px', overflow: 'auto' }}>
+        <Box sx={{ border: { xs: '1px solid #FAFAFA', md: '1px solid #5FB4FC' }, mt: { xs: 2.5, md: 0 }, mb: { xs: 2, md: 0 } }} />
         {isSignedIn ?
           <>
-            <Box sx={{ border: { xs: '1px solid #FAFAFA', lg: '1px solid #5FB4FC' }, mt: { xs: 2, lg: 0 }, mb: { xs: 2, lg: 0 } }} />
             {userIsSuperAdmin &&
               <ListItemButton onClick={() => { handleListItemClick(2) }} sx={{
                 ...itemButtonStyle,
@@ -392,7 +385,6 @@ export function UserMenu( props ) {
               <ListItemText primary={'Manifiesto'} primaryTypographyProps={{ fontFamily: 'Roboto', fontWeight: 600, fontSize: '16px', lineHeight: '12px', ...(selectedIndex === 18 && { color: '#212121' }) }} />
             </ListItemButton>
 
-
             <ListItemButton onClick={() => { handleClickComision(), handleListItemClick(comision) }} sx={{
               ...itemButtonStyle,
               ...(selectedIndex === comision && itemButtonActiveStyle),
@@ -423,29 +415,9 @@ export function UserMenu( props ) {
                 ))}
               </List>
             </Collapse>
-
-
           </>
         }
       </List>
-
-
-      {/* <Box sx={styles.container}>
-        <Button sx={getStyles(ROUTES.PROFILE)} onClick={() => navigate(ROUTES.PROFILE)}>
-          {t('myProfile')}
-        </Button>
-        <Button sx={getStyles(ROUTES.SIGNUP)} onClick={checkUserData}>
-          {t('signup')}
-        </Button>
-        <Button sx={getStyles(ROUTES.SIGNUPS)} onClick={() => navigate(ROUTES.SIGNUPS)}>
-          {t('signupList')}
-        </Button>
-        {isAdmin(user) ? (
-          <Button sx={getStyles(ROUTES.SIGNUPS)} onClick={() => navigate(ROUTES.ATTENDANCE)}>
-            {t('attendance')}
-          </Button>
-        ) : null}
-      </Box> */}
     </>
   );
 }

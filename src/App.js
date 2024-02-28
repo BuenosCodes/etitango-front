@@ -142,7 +142,7 @@ function App() {
               <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
               <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
               <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`} element={withUserMenu(EventsList)()} />
-              <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`} element={<EventForm />} />
+              <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`} element={withUserMenu(EventForm)()} />
               <Route path={`${ROUTES.SUPERADMIN}${ROUTES.ROLES}`} element={<RolesList />} />
               <Route path={ROUTES.USER} element={withUserMenu(UserHome)()} />
               <Route path={`${ROUTES.BANKS}/:id`} element={<Bank />} />
