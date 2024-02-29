@@ -20,7 +20,7 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
             <Typography variant="h6" color= 'listItems.light' sx={{ fontWeight: 600 }}>
               {userData.nameFirst} {userData.nameLast}
             </Typography>
-            {!!userData?.roles && !!userData?.roles[UserRoles.SUPER_ADMIN] && (
+            {userData?.roles?.[UserRoles.SUPER_ADMIN] && (
                 <Typography sx={styles.typographyRol}>
                   {t('superadmin')}
                 </Typography>    

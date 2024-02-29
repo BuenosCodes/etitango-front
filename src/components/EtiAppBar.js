@@ -155,11 +155,11 @@ const EtiAppBar = () => {
                     >
                       {userData?.nameFirst} {userData?.nameLast}
                     </Typography>
-                    {!!userData?.roles && !!userData?.roles[UserRoles.SUPER_ADMIN] && (
-                      <Typography variant="workSansFont2" sx={{ textAlign: 'end' }}>
-                        {t('superadmin')}
-                      </Typography>
-                    )}
+                    {userData?.roles?.[UserRoles.SUPER_ADMIN] && (
+                        <Typography variant="workSansFont2" sx={{ textAlign: 'end' }}>
+                          {t('superadmin')}
+                        </Typography>
+                      )}
                   </Stack>
                 </Box>
 
