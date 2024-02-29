@@ -113,8 +113,8 @@ const EtiAppBar = () => {
           <Box
             sx={{
               display: { xs: 'none', md: 'flex' },
-              justifyContent: 'space-around',
-              width: '40%'
+              justifyContent: 'space-evenly',
+              width: '55%'
             }}
           >
             {links.map((link) => (
@@ -126,6 +126,7 @@ const EtiAppBar = () => {
                 href={link.href}
                 key={link.href}
                 display="flex"
+                textAlign={'center'}
                 padding="5px"
               >
                 {link.title}
@@ -153,7 +154,7 @@ const EtiAppBar = () => {
                       variant="workSansFont"
                       sx={!userData?.roles || userData?.roles?.admin ? { mt: 1.5 } : {}}
                     >
-                      {userData?.nameFirst} {userData?.nameLast}
+                      {userData.nameFirst?.split(' ')[0]} {userData.nameLast?.split(' ')[0]}
                     </Typography>
                     {userData?.roles?.[UserRoles.SUPER_ADMIN] && (
                         <Typography variant="workSansFont2" sx={{ textAlign: 'end' }}>
