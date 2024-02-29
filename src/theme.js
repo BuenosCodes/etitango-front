@@ -6,7 +6,7 @@ const rawTheme = createTheme({
     primary: {
       light: '#5FB4FC',
       main: '#4B84DB',
-      dark: '#1e1e1f',
+      dark: '#1e1e1f'
     },
     secondary: {
       light: '#bbdefb',
@@ -68,27 +68,24 @@ const rawTheme = createTheme({
     robotoFont: {
       fontFamily: 'Roboto, sans-serif',
       fontSize: 20,
-      fontWeight: 400,
-     
+      fontWeight: 400
     },
     robotoFont2: {
       fontFamily: 'Roboto, sans-serif',
       fontSize: 14
-      
     },
     robotoFont3: {
       fontFamily: 'Roboto, sans-serif',
       fontSize: 16
-      
     },
     workSansFont: {
       fontFamily: 'Work Sans, sans-serif',
-      fontSize:'24px'
+      fontSize: '24px'
     },
     workSansFont2: {
       fontFamily: 'Work Sans, sans-serif',
-      fontSize:'16px'
-    },
+      fontSize: '16px'
+    }
   },
   components: {
     MuiButton: {

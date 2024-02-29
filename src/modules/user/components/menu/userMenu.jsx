@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable prettier/prettier */
 import { useContext, useState } from 'react';
 import { Box, List, ListItemButton, ListItemText, ListItemIcon, Collapse, ListItem, useMediaQuery } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -24,7 +23,6 @@ export function UserMenu( props ) {
   const [alertVisible, setAlertVisible] = useState(false);
   const { t } = useTranslation(SCOPES.MODULES.USER, { useSuspense: false },);
   const { t: tBar } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
-  
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const checkUserData = () => {
@@ -35,15 +33,15 @@ export function UserMenu( props ) {
     }
   };
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
-  const [openComision, setOpenComision] = useState(false);
+  const [openCommission, setOpenCommission] = useState(false);
   const [openEtis, setOpenEtis] = useState(false);
   const [openLinks, setOpenLinks] = useState(false);
   const [openInscriptions, setOpenInscriptions] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [etis, setEtis] = useState(3);
   const [dropDownInscriptions, setdropDownInscriptions] = useState(4);
-  const [nuestrosLinks, setNuestrosLinks] = useState(5);
-  const [comision, setComision] = useState(6);
+  const [links, setLinks] = useState(5);
+  const [commission, setCommission] = useState(6);
   const  {userData, isSignedIn} = props;
   const userIsAdmin = userData.roles?.admin
   const userIsSuperAdmin = userData.roles?.superadmin
@@ -75,8 +73,8 @@ export function UserMenu( props ) {
   ]
 
 
-  const handleClickComision = () => {
-    setOpenComision(!openComision);
+  const handleClickCommission = () => {
+    setOpenCommission(!openCommission);
   };
 
 
@@ -131,24 +129,24 @@ export function UserMenu( props ) {
       { isAdmin && navigate(ROUTES.ATTENDANCE) }
     }
     if (index === 17) {
-      setNuestrosLinks(index)
+      setLinks(index)
       navigate('/historia-del-eti')
     }
     if (index === 18) {
-      setNuestrosLinks(index)
+      setLinks(index)
       navigate('/manifiesto-etiano')
     }
     if (index === 19) {
-      setComision(index)
+      setCommission(index)
       navigate('/comision-de-genero-who')
     }
     if (index === 20) {
-      setComision(index)
+      setCommission(index)
       navigate('/comision-de-genero-protocol')
 
     }
     if (index === 21) {
-      setComision(index)
+      setCommission(index)
       navigate('/comision-de-genero-contact')
     }
 
@@ -200,7 +198,7 @@ export function UserMenu( props ) {
         description={t('alert.fillInDataReason')}
       />
       <List sx={{ padding: '8px 0px 8px 15px', overflow: 'auto' }}>
-        <Box sx={{ border: { xs: '1px solid listItems.light', md: '1px solid #5FB4FC' }, mt: { xs: 2.5, md: 0 }, mb: { xs: 2, md: 0 } }} />
+        {isMobile &&  <Box sx={{ border: '1px solid', mt: 1.5, mb: 1.5, borderColor: 'listItems.light' }}/>}
         {isSignedIn ?
           <>
             {userIsSuperAdmin &&
@@ -302,9 +300,9 @@ export function UserMenu( props ) {
 
             {isMobile &&
               <>
-                <ListItemButton onClick={() => { handleClickLinks(), handleListItemClick(nuestrosLinks) }} sx={{
+                <ListItemButton onClick={() => { handleClickLinks(), handleListItemClick(links) }} sx={{
                   ...itemButtonStyle,
-                  ...(selectedIndex === nuestrosLinks && itemButtonActiveStyle),
+                  ...(selectedIndex === links && itemButtonActiveStyle),
                   ':hover': {
                     ...itemButtonHoverStyle,
                   },
@@ -313,7 +311,7 @@ export function UserMenu( props ) {
                   <ListItemIcon sx={{ minWidth: '35px', color: 'listItems.light' }}>
                     <StarOutlineRoundedIcon />
                   </ListItemIcon>
-                  <ListItemText primary={t('ourLinks')} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === nuestrosLinks && { color: 'listItems.dark' }) }} />
+                  <ListItemText primary={t('ourLinks')} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === links && { color: 'listItems.dark' }) }} />
                   {openLinks ? <ExpandLess sx={{ marginRight: 1 }} /> : <ExpandMore sx={{ marginRight: 1 }} />}
                 </ListItemButton>
                 <Collapse in={openLinks} timeout="auto" unmountOnExit>
@@ -335,9 +333,9 @@ export function UserMenu( props ) {
                   </List>
                 </Collapse>
 
-                <ListItemButton onClick={() => { handleClickComision(), handleListItemClick(comision) }} sx={{
+                <ListItemButton onClick={() => { handleClickCommission(), handleListItemClick(commission) }} sx={{
                   ...itemButtonStyle,
-                  ...(selectedIndex === comision && itemButtonActiveStyle),
+                  ...(selectedIndex === commission && itemButtonActiveStyle),
                   ':hover': {
                     ...itemButtonHoverStyle,
                   },
@@ -347,10 +345,10 @@ export function UserMenu( props ) {
                     <FavoriteBorderIcon />
                   </ListItemIcon>
 
-                  <ListItemText primary={tBar('commission')} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === comision && { color: 'listItems.dark' }) }} />
-                  {openComision ? <ExpandLess sx={{ marginRight: 1 }} /> : <ExpandMore sx={{ marginRight: 1 }} />}
+                  <ListItemText primary={tBar('commission')} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === commission && { color: 'listItems.dark' }) }} />
+                  {openCommission ? <ExpandLess sx={{ marginRight: 1 }} /> : <ExpandMore sx={{ marginRight: 1 }} />}
                 </ListItemButton>
-                <Collapse in={openComision} timeout="auto" unmountOnExit>
+                <Collapse in={openCommission} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
                     {genderCommission.map((button, index) => (
                       <ListItem key={index}>
@@ -395,19 +393,19 @@ export function UserMenu( props ) {
               <ListItemText primary={tBar('manifest')} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === 18 && { color: 'listItems.dark' }) }} />
             </ListItemButton>
 
-            <ListItemButton onClick={() => { handleClickComision(), handleListItemClick(comision) }} sx={{
+            <ListItemButton onClick={() => { handleClickCommission(), handleListItemClick(commission) }} sx={{
               ...itemButtonStyle,
-              ...(selectedIndex === comision && itemButtonActiveStyle),
+              ...(selectedIndex === commission && itemButtonActiveStyle),
               ':hover': {
                 ...itemButtonHoverStyle,
               },
             }}
             >
 
-              <ListItemText primary={tBar('commission')} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === comision && { color: 'listItems.dark' }) }} />
-              {openComision ? <ExpandLess sx={{ marginRight: 1 }} /> : <ExpandMore sx={{ marginRight: 1 }} />}
+              <ListItemText primary={tBar('commission')} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === commission && { color: 'listItems.dark' }) }} />
+              {openCommission ? <ExpandLess sx={{ marginRight: 1 }} /> : <ExpandMore sx={{ marginRight: 1 }} />}
             </ListItemButton>
-            <Collapse in={openComision} timeout="auto" unmountOnExit>
+            <Collapse in={openCommission} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 {genderCommission.map((button, index) => (
                   <ListItem key={index}>

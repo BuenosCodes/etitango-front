@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
 import { UserMenu } from '../modules/user/components/menu/userMenu.jsx';
 import UserNavBar from '../modules/user/components/navBar/UserNavBar';
@@ -92,7 +91,6 @@ export default function withUserMenu(
         <Screen {...props} />
       </Container>
     );
-
   }
   return WithUserMenu;
 }
