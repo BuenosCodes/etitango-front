@@ -13,7 +13,7 @@ import { Alert } from '../../../../components/alert/Alert';
 import { isAdmin } from '../../../../helpers/firestore/users';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import ChecklistIcon from '@mui/icons-material/Checklist';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import { useGlobalState } from 'helpers/UserPanelContext';
@@ -261,7 +261,7 @@ export function UserMenu( props ) {
             }}
             >
               <ListItemIcon sx={{ minWidth: '35px', color: 'listItems.light' }}>
-                <ChecklistIcon />
+                <AssignmentIcon />
               </ListItemIcon>
               <ListItemText primary={tBar('signup')} primaryTypographyProps={{ ...fontListText, ...(selectedIndex === dropDownInscriptions && { color: 'listItems.dark' }) }} />
               {openInscriptions ? <ExpandLess sx={{ marginRight: 1 }} /> : <ExpandMore sx={{ marginRight: 1 }} />}
