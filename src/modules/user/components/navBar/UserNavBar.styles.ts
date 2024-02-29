@@ -27,5 +27,12 @@ export const styles = {
     justifyContent: 'center',
     overflow: 'hidden',
     textOverflow: 'ellipsis'
+  },
+  typographyRol: {
+    fontFamily: 'Roboto', 
+    fontWeight: 400, 
+    fontSize: '14px', 
+    color: 'listItems.light', 
+    textAlign: 'start'
   }
 };

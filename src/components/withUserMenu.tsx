@@ -75,11 +75,11 @@ export default function withUserMenu(
               <Button onClick={() => logout()} href={'/'} key={'signout'}>
                 <LoginIcon sx={{ color: 'listItems.light' }} />
                 <Typography
-                  // variant='robotoFont3'
                   sx={{
                     ml: 1,
                     color: 'listItems.light',
                     fontWeight: 600,
+                    fontFamily: 'roboto',
                     lineHeight: '22.4px'
                   }}
                 >

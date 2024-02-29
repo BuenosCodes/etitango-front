@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { createTheme } from '@mui/material/styles';
 import { green, grey, red } from '@mui/material/colors';
 
@@ -18,6 +17,9 @@ const rawTheme = createTheme({
       light: '#FAFAFA',
       main: '#FFFBF0',
       dark: '#212121'
+    },
+    iconButtons: {
+      main: '#FFFFFF'
     },
     warning: {
       main: '#ffc071',

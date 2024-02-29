@@ -48,6 +48,7 @@ export function UserMenu( props ) {
   const userIsAdmin = userData.roles?.admin
   const userIsSuperAdmin = userData.roles?.superadmin
   const { toggleOpen } = useGlobalState();
+  
   const Inscriptions = [
     { label: t('signup'), startIndex: 9 },
     { label: t('signupList'), startIndex: 10 },
@@ -55,19 +56,19 @@ export function UserMenu( props ) {
 
   const Etis = [
     { label: tBar('generalInfo'), startIndex: 11 },
-    // { label: 'Presupuesto', startIndex: 12 },
+    // { label: 'Presupuesto', startIndex: 12 },  Esto se trabajara mas adelante
     // { label: 'Inscripciones', startIndex: 13 },
     // { label: 'Merchandising', startIndex: 14 },
     // { label: 'Audio', startIndex: 15 },
     { label: t('attendance'), startIndex: 16 },
   ]
 
-  const nustrosLinks = [
+  const ourLinks = [
     { label: tBar('history'), startIndex: 17 },
     { label: tBar('manifest'), startIndex: 18 },
   ]
 
-  const comisionGenero = [
+  const genderCommission = [
     { label: tBar('genderWho'), startIndex: 19 },
     { label: tBar('genderProtocol'), startIndex: 20 },
     { label: tBar('genderContact'), startIndex: 21 },
@@ -317,7 +318,7 @@ export function UserMenu( props ) {
                 </ListItemButton>
                 <Collapse in={openLinks} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
-                    {nustrosLinks.map((button, index) => (
+                    {ourLinks.map((button, index) => (
                       <ListItem key={index}>
                         <ListItemButton onClick={() => { handleListItemClick(button.startIndex), toggleOpen() }} sx={{
                           ...itemButtonStyle2,
@@ -351,7 +352,7 @@ export function UserMenu( props ) {
                 </ListItemButton>
                 <Collapse in={openComision} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
-                    {comisionGenero.map((button, index) => (
+                    {genderCommission.map((button, index) => (
                       <ListItem key={index}>
                         <ListItemButton onClick={() => { handleListItemClick(button.startIndex), toggleOpen() }} sx={{
                           ...itemButtonStyle2,
@@ -408,7 +409,7 @@ export function UserMenu( props ) {
             </ListItemButton>
             <Collapse in={openComision} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                {comisionGenero.map((button, index) => (
+                {genderCommission.map((button, index) => (
                   <ListItem key={index}>
                     <ListItemButton onClick={() => { handleListItemClick(button.startIndex), toggleOpen() }} sx={{
                       ...itemButtonStyle2,

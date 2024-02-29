@@ -22,6 +22,7 @@ import { USERS } from 'helpers/firestore/users';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 import { useGlobalState } from 'helpers/UserPanelContext';
+import { UserRoles } from 'shared/User';
 
 const EtiAppBar = () => {
   const [isSignedIn, setIsSignedIn] = useState(!!auth.currentUser); // Local signed-in state.
@@ -121,7 +122,7 @@ const EtiAppBar = () => {
                 className="appBarLink"
                 variant="robotoFont"
                 underline="none"
-                color="#FFFFFF"
+                color="iconButtons.main"
                 href={link.href}
                 key={link.href}
                 display="flex"
@@ -154,10 +155,7 @@ const EtiAppBar = () => {
                     >
                       {userData?.nameFirst} {userData?.nameLast}
                     </Typography>
-                    {userData.roles &&
-                      (userData.roles.superadmin ||
-                        userData.roles.Superadmin ||
-                        userData.roles.superAdmin) && (
+                    {!!userData?.roles && !!userData?.roles[UserRoles.SUPER_ADMIN] && (
                         <Typography variant="workSansFont2" sx={{ textAlign: 'end' }}>
                           {t('superadmin')}
                         </Typography>
@@ -168,10 +166,10 @@ const EtiAppBar = () => {
                 <Box sx={{ width: '48px', height: '48px' }}>
                   <IconButton onClick={handleOpen}>
                     <AccountCircleOutlinedIcon
-                      sx={{ height: '48px', width: '48px', color: '#FFFFFF' }}
+                      sx={{ height: '48px', width: '48px', color: 'iconButtons.main' }}
                     ></AccountCircleOutlinedIcon>
                     <ArrowDropDownOutlinedIcon
-                      sx={{ height: '30px', width: '30px', color: '#FFFFFF' }}
+                      sx={{ height: '30px', width: '30px', color: 'iconButtons.main' }}
                     ></ArrowDropDownOutlinedIcon>
                   </IconButton>
 
@@ -205,7 +203,7 @@ const EtiAppBar = () => {
                   key={'sign-in'}
                   sx={{
                     backgroundColor: 'primary.light',
-                    color: '#FFFFFF',
+                    color: 'iconButtons.main',
                     width: '149px',
                     height: '40px',
                     borderRadius: '12px',
