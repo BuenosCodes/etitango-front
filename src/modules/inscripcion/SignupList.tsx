@@ -20,7 +20,7 @@ import AdminTools from './AdminTools';
 import { SCOPES } from '../../helpers/constants/i18n';
 import { EtiEvent } from '../../shared/etiEvent';
 import SignupSummary from './SignupSummary';
-import { isAdmin, isAdminOfEvent } from '../../helpers/firestore/users';
+import { isAdmin, isAdminOfEvent, isSuperAdmin } from '../../helpers/firestore/users';
 
 const SignupList = (props: { isAttendance: boolean }) => {
   const { user } = useContext(UserContext);
@@ -57,8 +57,6 @@ const SignupList = (props: { isAttendance: boolean }) => {
     });
   }, [etiEvent]);
 
-  // @ts-ignore
-  // @ts-ignore
   return (
     <>
       <WithAuthentication />
@@ -89,6 +87,8 @@ const SignupList = (props: { isAttendance: boolean }) => {
               <SignupListTable
                 setSelectedRows={setSelectedRows}
                 isAdmin={isAdmin(user)}
+                isSuperAdmin={isSuperAdmin(user)}
+                etiEventId={etiEvent?.id!}
                 signups={
                   props.isAttendance
                     ? signups.filter((s) => s.status === SignupStatus.CONFIRMED)

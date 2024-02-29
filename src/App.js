@@ -32,6 +32,8 @@ const Receipt = React.lazy(() => import('./modules/inscripcion/Receipt'));
 const SignInScreen = React.lazy(() => import('./modules/signIn/signIn'));
 const SuperAdmin = React.lazy(() => import('./modules/superAdmin/index'));
 const EventsList = React.lazy(() => import('./modules/superAdmin/events/EventsList'));
+const SentMailList = React.lazy(() => import('./modules/superAdmin/sentMail/SentMailList'));
+
 const Profile = React.lazy(() => import('./modules/user/profile'));
 const UserHome = React.lazy(() => import('./modules/user/index'));
 const Home = React.lazy(() => import('./modules/home/Home'));
@@ -69,7 +71,8 @@ export const ROUTES = {
   TEMPLATES: '/templates',
   INSTRUCTIONS: '/instructions',
   ATTENDANCE: '/attendance',
-  RECEIPTS: '/receipts'
+  RECEIPTS: '/receipts',
+  SENT_MAILS: '/sent-mails'
 };
 
 export const PRIVATE_ROUTES = [
@@ -156,6 +159,10 @@ function App() {
               <Route
                 path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`}
                 element={withUserMenu(EventForm)()}
+              />
+              <Route
+                path={`${ROUTES.SUPERADMIN}${ROUTES.SENT_MAILS}/:id`}
+                element={<SentMailList />}
               />
               <Route path={`${ROUTES.SUPERADMIN}${ROUTES.ROLES}`} element={<RolesList />} />
               <Route path={ROUTES.USER} element={withUserMenu(UserHome)()} />

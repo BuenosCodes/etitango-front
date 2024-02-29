@@ -61,5 +61,9 @@ service cloud.firestore {
     match /templates/{document=**} {
       allow read, write: if isSuperAdmin();
     }
+
+    match /mail/{document=**} {
+      allow read: if isSuperAdmin();
+    }
   }
 }

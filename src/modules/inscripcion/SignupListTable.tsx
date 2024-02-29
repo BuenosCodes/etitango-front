@@ -19,8 +19,10 @@ import { Alert } from '../../components/alert/Alert';
 export type SignupField = keyof Signup;
 
 export function SignupListTable(props: {
+  etiEventId: string;
   signups: Signup[];
   isAdmin: boolean;
+  isSuperAdmin: boolean;
   // eslint-disable-next-line no-unused-vars
   setSelectedRows: (selection: string[]) => void;
   isLoading: boolean;
@@ -29,7 +31,16 @@ export function SignupListTable(props: {
   markAttendance: (signup: Signup) => void;
   disabled: boolean;
 }) {
-  const { signups, setSelectedRows, isAdmin, isLoading, isAttendance, markAttendance } = props;
+  const {
+    etiEventId,
+    signups,
+    setSelectedRows,
+    isAdmin,
+    isSuperAdmin,
+    isLoading,
+    isAttendance,
+    markAttendance
+  } = props;
   const navigate = useNavigate();
   const [filteredRows, setFilteredRows] = useState<GridFilterItem[]>([]);
   const [attendanceConfirmationAlertVisible, setAttendanceConfirmationAlertVisible] =
@@ -65,8 +76,7 @@ export function SignupListTable(props: {
     'city',
     'status',
     'lastModifiedAt',
-    'disability',
-    'phoneNumber'
+    'disability'
   ];
 
   const privateFields: SignupField[] = [
@@ -76,7 +86,8 @@ export function SignupListTable(props: {
     'dniNumber',
     'helpWith',
     'food',
-    'isCeliac'
+    'isCeliac',
+    'phoneNumber'
   ];
 
   const searchableFields: SignupField[] = [
@@ -94,7 +105,7 @@ export function SignupListTable(props: {
       return attendanceFields;
     }
 
-    return isAdmin ? [...publicFields, ...privateFields] : publicFields;
+    return isAdmin || isSuperAdmin ? [...publicFields, ...privateFields] : publicFields;
   }
 
   function getFilterFields() {
@@ -102,7 +113,7 @@ export function SignupListTable(props: {
       return intersection(searchableFields, attendanceFields);
     }
 
-    return isAdmin ? [...publicFields, ...privateFields] : publicFields;
+    return isAdmin || isSuperAdmin ? [...publicFields, ...privateFields] : publicFields;
   }
 
   const { t } = useTranslation([SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP_LIST], {
@@ -113,62 +124,91 @@ export function SignupListTable(props: {
     headerName: t(fieldName),
     width: fieldName === 'email' ? 300 : 150
   }));
-  if (isAdmin && !isAttendance) {
-    columns.push(
-      {
-        field: 'bank',
-        headerName: 'Datos Bancarios',
-        width: 200,
-        renderCell: (params: GridRenderCellParams<String>) => (
-          <strong>
-            <Button
-              variant="contained"
-              size="small"
-              style={{ marginLeft: 16 }}
-              tabIndex={params.hasFocus ? 0 : -1}
-              onClick={() => navigate(`${ROUTES.BANKS}/${params.row.userId}`)}
-            >
-              Ver Datos Bancarios
-            </Button>
-          </strong>
-        )
-      },
-      {
-        field: 'receipt',
-        headerName: t('receipt'),
-        width: 250,
-        renderCell: (params: GridRenderCellParams<String>) => (
-          <strong>
-            <Button
-              variant="contained"
-              size="small"
-              style={{ marginLeft: 16 }}
-              tabIndex={params.hasFocus ? 0 : -1}
-              onClick={() =>
-                navigate(`${ROUTES.RECEIPTS}/${params.row.etiEventId}/${params.row.id}`)
-              }
-              disabled={!params.row.receipt}
-            >
-              {t('receiptButton')}
-            </Button>
-          </strong>
-        )
-      }
-    );
+
+  const sentEmailButton = {
+    field: 'mails',
+    headerName: 'Historial de Mails',
+    width: 200,
+    renderCell: (params: GridRenderCellParams<String>) => (
+      <strong>
+        <Button
+          variant="contained"
+          size="small"
+          style={{ marginLeft: 16 }}
+          tabIndex={params.hasFocus ? 0 : -1}
+          onClick={() =>
+            navigate(
+              `${ROUTES.SUPERADMIN + ROUTES.SENT_MAILS}/${etiEventId}?usermail=${params.row.email}`
+            )
+          }
+        >
+          Ver Mails Enviados
+        </Button>
+      </strong>
+    )
+  };
+
+  const viewBankButton = {
+    field: 'bank',
+    headerName: 'Datos Bancarios',
+    width: 200,
+    renderCell: (params: GridRenderCellParams<String>) => (
+      <strong>
+        <Button
+          variant="contained"
+          size="small"
+          style={{ marginLeft: 16 }}
+          tabIndex={params.hasFocus ? 0 : -1}
+          onClick={() => navigate(`${ROUTES.BANKS}/${params.row.userId}`)}
+        >
+          Ver Datos Bancarios
+        </Button>
+      </strong>
+    )
+  };
+
+  const viewReceiptButton = {
+    field: 'receipt',
+    headerName: t('receipt'),
+    width: 250,
+    renderCell: (params: GridRenderCellParams<String>) => (
+      <strong>
+        <Button
+          variant="contained"
+          size="small"
+          style={{ marginLeft: 16 }}
+          tabIndex={params.hasFocus ? 0 : -1}
+          onClick={() => navigate(`${ROUTES.RECEIPTS}/${params.row.etiEventId}/${params.row.id}`)}
+          disabled={!params.row.receipt}
+        >
+          {t('receiptButton')}
+        </Button>
+      </strong>
+    )
+  };
+
+  if (isSuperAdmin) {
+    columns.push(sentEmailButton);
   }
+
+  if (isAdmin && !isAttendance) {
+    columns.push(viewBankButton, viewReceiptButton);
+  }
+
+  const attendanceCheckbox = {
+    field: 'didAttend',
+    headerName: 'Presente',
+    renderCell: (params: GridRenderCellParams) => (
+      <Checkbox
+        checked={!!params.row.didAttend}
+        disabled={!!params.row.didAttend || props.disabled}
+        onChange={() => askForAttendanceConfirmation(params)}
+        inputProps={{ 'aria-label': 'controlled' }}
+      />
+    )
+  };
   if (isAttendance) {
-    columns.push({
-      field: 'didAttend',
-      headerName: 'Presente',
-      renderCell: (params: GridRenderCellParams) => (
-        <Checkbox
-          checked={!!params.row.didAttend}
-          disabled={!!params.row.didAttend || props.disabled}
-          onChange={() => askForAttendanceConfirmation(params)}
-          inputProps={{ 'aria-label': 'controlled' }}
-        />
-      )
-    });
+    columns.push(attendanceCheckbox);
   }
   const getSignupValues = (signup: Signup) => {
     let output: any = { ...signup };
