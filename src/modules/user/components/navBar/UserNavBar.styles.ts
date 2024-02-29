@@ -1,6 +1,5 @@
 export const styles = {
   panelContainer: {
-    border: '3px solid black',
     flexDirection: 'row',
     paddingX: 2,
     alignItems: 'center',
@@ -28,5 +27,12 @@ export const styles = {
     justifyContent: 'center',
     overflow: 'hidden',
     textOverflow: 'ellipsis'
+  },
+  typographyRol: {
+    fontFamily: 'Roboto', 
+    fontWeight: 400, 
+    fontSize: '14px', 
+    color: 'listItems.light', 
+    textAlign: 'start'
   }
 };

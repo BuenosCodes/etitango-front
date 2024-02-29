@@ -16,8 +16,8 @@ export default function AppFooter() {
   return (
     <Grid
       container
-      mt={2}
-      mb={2}
+      mt={0}
+      mb={0}
       spacing={4}
       paddingX={10}
       paddingY={5}

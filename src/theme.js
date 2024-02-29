@@ -4,14 +4,22 @@ import { green, grey, red } from '@mui/material/colors';
 const rawTheme = createTheme({
   palette: {
     primary: {
-      light: '#69696a',
-      main: '#28282a',
+      light: '#5FB4FC',
+      main: '#4B84DB',
       dark: '#1e1e1f'
     },
     secondary: {
       light: '#bbdefb',
       main: '#2196f3',
       dark: '#1A0D3F'
+    },
+    listItems: {
+      light: '#FAFAFA',
+      main: '#FFFBF0',
+      dark: '#212121'
+    },
+    iconButtons: {
+      main: '#FFFFFF'
     },
     warning: {
       main: '#ffc071',
@@ -29,7 +37,7 @@ const rawTheme = createTheme({
     }
   },
   typography: {
-    fontFamily: 'Montserrat',
+    fontFamily: 'Montserrat, "Work Sans", "Roboto", sans-serif',
     lineHeight: '24px',
     letterSpacing: '-0.015em',
     fontWeightLight: 300,
@@ -56,6 +64,27 @@ const rawTheme = createTheme({
     },
     subtitle1: {
       fontSize: 20
+    },
+    robotoFont: {
+      fontFamily: 'Roboto, sans-serif',
+      fontSize: 20,
+      fontWeight: 400
+    },
+    robotoFont2: {
+      fontFamily: 'Roboto, sans-serif',
+      fontSize: 14
+    },
+    robotoFont3: {
+      fontFamily: 'Roboto, sans-serif',
+      fontSize: 16
+    },
+    workSansFont: {
+      fontFamily: 'Work Sans, sans-serif',
+      fontSize: '24px'
+    },
+    workSansFont2: {
+      fontFamily: 'Work Sans, sans-serif',
+      fontSize: '16px'
     }
   },
   components: {

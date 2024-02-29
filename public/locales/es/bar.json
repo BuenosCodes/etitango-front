@@ -1,13 +1,18 @@
 {
   "history": "Historia del ETI",
-  "manifest": "Manifiesto ETIano",
-  "signup": "Inscripción",
+  "manifest": "Manifiesto Etiano",
+  "signup": "Inscripciones",
   "signupList": "Listado de inscripciones",
-  "logout": "Cerrar Sesión",
-  "signin": "Crear usuario / Ingresar",
-  "gender": "Comisión de Género",
-  "genderWho": "Sobre Nosotres",
-  "genderProtocol": "Protocolo de Genero",
+  "logout": "Cerrar sesión",
+  "signin": "Ingresar",
+  "gender": "Comisión de género",
+  "genderWho": "Sobre nosotres",
+  "genderProtocol": "Protocolo de género",
   "genderContact": "Contacto",
-  "controlPanel": "Tu panel de control ETIano"
+  "controlPanel": "Panel de control",
+  "commission": "Comisión de género",
+  "superadmin": "Superadmin",
+  "generalInfo": "Información general",
+  "newETI": "Nuevo ETI",
+  "etis": "ETIs"
 }

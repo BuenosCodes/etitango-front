@@ -27,7 +27,7 @@ const number = {
 function Cronograma() {
   const { t } = useTranslation(SCOPES.MODULES.HOME.MAIN, { useSuspense: false });
   return (
-    <Box component="section" sx={{ display: 'flex', overflow: 'hidden' }}>
+    <Box component="section" sx={{ display: 'flex'}}>
       <Grid
         container
         sx={{
