@@ -18,7 +18,7 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
         <Box sx={{ height: '50px' }}>
           <Stack direction="column" sx={{ height: 20, mt: '5px' }}>
             <Typography variant="h6" color= 'listItems.light' sx={{ fontWeight: 600 }}>
-              {userData.nameFirst} {userData.nameLast}
+              {userData.nameFirst?.split(' ')[0]} {userData.nameLast?.split(' ')[0]}
             </Typography>
             {userData?.roles?.[UserRoles.SUPER_ADMIN] && (
                 <Typography sx={styles.typographyRol}>
