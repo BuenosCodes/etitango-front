@@ -23,6 +23,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 import { useGlobalState } from 'helpers/UserPanelContext';
 import { UserRoles } from 'shared/User';
+import { fullName } from 'helpers/firestore/users';
 
 const EtiAppBar = () => {
   const [isSignedIn, setIsSignedIn] = useState(!!auth.currentUser); // Local signed-in state.
@@ -30,6 +31,10 @@ const EtiAppBar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
   const { toggleOpen } = useGlobalState();
+  const name = fullName(userData)
+  const isAdmin = !userData?.roles || userData?.roles?.admin
+  const isSuperAdmin = userData?.roles?.[UserRoles.SUPER_ADMIN]
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -96,7 +101,9 @@ const EtiAppBar = () => {
           <IconButton
             edge="start"
             color="inherit"
-            aria-label="open drawer"
+            aria-label="menu appbar"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
             sx={{
               mr: 2,
               display: {
@@ -152,11 +159,11 @@ const EtiAppBar = () => {
                   <Stack direction="column" sx={{ height: 20, mt: '5px', mr: '5px' }}>
                     <Typography
                       variant="workSansFont"
-                      sx={!userData?.roles || userData?.roles?.admin ? { mt: 1.5 } : {}}
+                      sx={isAdmin ? { mt: 1.5 } : {}}
                     >
-                      {userData.nameFirst?.split(' ')[0]} {userData.nameLast?.split(' ')[0]}
+                      {name}
                     </Typography>
-                    {userData?.roles?.[UserRoles.SUPER_ADMIN] && (
+                    {isSuperAdmin && (
                         <Typography variant="workSansFont2" sx={{ textAlign: 'end' }}>
                           {t('superadmin')}
                         </Typography>
@@ -165,18 +172,22 @@ const EtiAppBar = () => {
                 </Box>
 
                 <Box sx={{ width: '48px', height: '48px' }}>
-                  <IconButton onClick={handleOpen}>
-                    <AccountCircleOutlinedIcon
-                      sx={{ height: '48px', width: '48px', color: 'iconButtons.main' }}
-                    ></AccountCircleOutlinedIcon>
-                    <ArrowDropDownOutlinedIcon
-                      sx={{ height: '30px', width: '30px', color: 'iconButtons.main' }}
-                    ></ArrowDropDownOutlinedIcon>
+                  <IconButton 
+                   aria-label="user menu"
+                   aria-controls="user-menu"
+                   aria-haspopup="true"
+                   onClick={handleOpen}>
+                      <AccountCircleOutlinedIcon
+                        sx={{ height: '48px', width: '48px', color: 'iconButtons.main' }}
+                      ></AccountCircleOutlinedIcon>
+                      <ArrowDropDownOutlinedIcon
+                        sx={{ height: '30px', width: '30px', color: 'iconButtons.main' }}
+                      ></ArrowDropDownOutlinedIcon>
                   </IconButton>
 
-                  <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+                  <Menu id="user-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose} aria-labelledby="user-menu-label">
                     <MenuItem onClick={handleClose}>
-                      <Button color="primary" variant="text" underline="none" href={'/user'}>
+                      <Button color="primary" variant="text" underline="none" href={'/user'} aria-label="Go to control panel">
                         {t('controlPanel').toUpperCase()}
                       </Button>
                     </MenuItem>
@@ -189,6 +200,7 @@ const EtiAppBar = () => {
                         onClick={() => auth.signOut()}
                         href={'/'}
                         key={'signout'}
+                        aria-label="Log Out"
                       >
                         {t('logout').toUpperCase()}
                       </Button>
@@ -202,6 +214,7 @@ const EtiAppBar = () => {
                   onClick={() => auth.signIn()}
                   href={'/sign-in'}
                   key={'sign-in'}
+                  aria-label="Sign In"
                   sx={{
                     backgroundColor: 'primary.light',
                     color: 'iconButtons.main',

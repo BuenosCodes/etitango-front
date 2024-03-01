@@ -5,12 +5,15 @@ import { SCOPES } from '../../../../helpers/constants/i18n';
 import { styles } from './UserNavBar.styles';
 import { useNavigate } from 'react-router-dom';
 import { UserRoles } from 'shared/User';
+import { fullName } from 'helpers/firestore/users';
+
 
 export default function UserNavBar(props: { userData: any; isSignedIn: boolean }) {
   const { userData, isSignedIn } = props;
   const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
   const navigate = useNavigate();
-
+  const name =  fullName(userData)
+  const isSuperAdmin = userData?.roles?.[UserRoles.SUPER_ADMIN]
 
   return (
     <Grid container sx={styles.panelContainer}>
@@ -18,9 +21,9 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
         <Box sx={{ height: '50px' }}>
           <Stack direction="column" sx={{ height: 20, mt: '5px' }}>
             <Typography variant="h6" color= 'listItems.light' sx={{ fontWeight: 600 }}>
-              {userData.nameFirst?.split(' ')[0]} {userData.nameLast?.split(' ')[0]}
+              {name}
             </Typography>
-            {userData?.roles?.[UserRoles.SUPER_ADMIN] && (
+            {isSuperAdmin && (
                 <Typography sx={styles.typographyRol}>
                   {t('superadmin')}
                 </Typography>    
