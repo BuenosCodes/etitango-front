@@ -181,7 +181,7 @@ export function UserMenu( props ) {
     fontFamily: 'roboto', 
     fontWeight: 600,
     fontSize: '16px', 
-    lineHeight: '12px'
+    lineHeight: '20px'
   }
 
   return (
