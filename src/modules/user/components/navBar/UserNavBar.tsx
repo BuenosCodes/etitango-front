@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -5,6 +6,7 @@ import { SCOPES } from '../../../../helpers/constants/i18n';
 import { styles } from './UserNavBar.styles';
 import { useNavigate } from 'react-router-dom';
 import { UserRoles } from 'shared/User';
+import { ROUTES } from 'App';
 
 export default function UserNavBar(props: { userData: any; isSignedIn: boolean }) {
   const { userData, isSignedIn } = props;
@@ -32,7 +34,7 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
           <Box>
             <Button
               onClick={() => {
-                navigate('/sign-in');
+                navigate(ROUTES.SIGN_IN);
               }}
               key={'sign-in'}
               sx={{
