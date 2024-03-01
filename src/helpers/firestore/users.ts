@@ -133,3 +133,17 @@ export const isAdminOfEvent = (user: IUser, etiEventId?: string) => {
     !!user?.data?.adminOf?.find((e) => e === etiEventId)
   );
 };
+
+export const fullName = (user: UserFullData): string => {
+  const { nameFirst, nameLast } = user;
+
+  if (nameFirst && nameLast) {
+    return `${nameFirst} ${nameLast}`;
+  } else if (nameFirst) {
+    return nameFirst;
+  } else if (nameLast) {
+    return nameLast;
+  } else {
+    return 'Name not available';
+  }
+};
