@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { UserMenu } from '../modules/user/components/menu/userMenu.jsx';
+import { UserMenu } from '../modules/user/components/menu/userMenu2.jsx';
 import UserNavBar from '../modules/user/components/navBar/UserNavBar';
 import { Box, Button, Container, Theme, useMediaQuery, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
