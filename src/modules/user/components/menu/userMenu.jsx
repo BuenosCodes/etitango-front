@@ -197,7 +197,7 @@ export function UserMenu( props ) {
         title={t('alert.warning')}
         description={t('alert.fillInDataReason')}
       />
-      <List sx={{ padding: '8px 0px 8px 15px', overflow: 'auto' }}>
+      <List sx={{ padding: '8px 0px 12px 15px', overflow: 'auto' }}>
         {isMobile &&  <Box sx={{ border: '1px solid', mt: 1.5, mb: 1.5, borderColor: 'listItems.light' }}/>}
         {isSignedIn ?
           <>
