@@ -9,28 +9,33 @@ import {
   ListItem,
   useMediaQuery
 } from '@mui/material';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
-import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
+import {
+  StarOutlineRounded as StarOutlineRoundedIcon,
+  AccountBoxOutlined as AccountBoxOutlinedIcon,
+  FavoriteBorder as FavoriteBorderIcon,
+  PersonOutline as PersonOutlineIcon,
+  Assignment as AssignmentIcon,
+  ExpandLess,
+  ExpandMore,
+} from '@mui/icons-material';
+
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { ROUTES } from 'App.js';
 import { isUserDataComplete } from '../../../../helpers/validators';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
+
 import { SCOPES } from 'helpers/constants/i18n.ts';
 
 export const UserMenu = (props) => {
   const [alertVisible, setAlertVisible] = useState(false);
   const [openSubMenus, setOpenSubMenus] = useState({});
+  const [selectedIndex, setSelectedIndex] = useState('');
   const navigate = useNavigate();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const { t } = useTranslation(SCOPES.MODULES.USER, { useSuspense: false });
   const { t: tBar } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
-  const [selectedIndex, setSelectedIndex] = useState('');
 
   const { userData, isSignedIn } = props;
   const userIsAdmin = userData.roles?.admin;
@@ -60,6 +65,7 @@ export const UserMenu = (props) => {
       icon: <StarOutlineRoundedIcon />,
       isAdmin: false,
       isSuperAdmin: false,
+      isSignin: true,
       children: null
     },
     {
@@ -67,6 +73,7 @@ export const UserMenu = (props) => {
       icon: <AssignmentIcon />,
       isAdmin: false,
       isSuperAdmin: false,
+      isSignin: true,
       children: null
     },
     {
@@ -112,6 +119,9 @@ export const UserMenu = (props) => {
       ]
     }
   ];
+
+  console.log('isSignedIn:', isSignedIn);
+  console.log('menuItems:', menuItems);
 
   const toggleSubMenu = (name) => {
     console.log('name toglesubmenu', name);
@@ -172,7 +182,8 @@ export const UserMenu = (props) => {
   const renderMenuItems = (items, parentName = '') => {
     let filteredItems = items.filter((item) => {
       const canView = (!item.isSuperAdmin || userIsSuperAdmin) && (!item.isAdmin || userIsAdmin);
-      return canView || userIsSuperAdmin;
+      const shouldShow = !item.isSignin || (item.isSignin && !isSignedIn);
+      return (canView || userIsSuperAdmin) && shouldShow;
     });
 
     if (!isSignedIn) {
