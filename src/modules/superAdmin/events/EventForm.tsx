@@ -66,13 +66,13 @@ export default function EventForm() {
           {loading ? (
             <CircularProgress />
           ) : (
-            <Container maxWidth="lg" sx={{ marginTop: 3, mx: 3 }}>
+            <Container maxWidth="lg" sx={{ marginTop: 3 }}>
               <Grid
                 container
                 direction="column"
                 alignItems="center"
                 justifyContent="center"
-                spacing={3}
+                
               >
                 <Grid item sx={{ my: 3, typography: 'h5', color: 'secondary.main' }}>
                   EVENTS
@@ -174,7 +174,10 @@ export default function EventForm() {
                   )}
                 </Formik>
               </Grid>
-              <RolesList eventId={id} />
+              <Grid sx={{mt: 6}}>
+              <RolesList eventId={id}/>
+              </Grid>
+            
             </Container>
           )}
         </>

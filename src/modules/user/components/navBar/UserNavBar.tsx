@@ -20,7 +20,7 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
   return (
     <Grid container sx={styles.panelContainer}>
       {isSignedIn ? (
-        <Box sx={{ height: '50px' }}>
+        <Box sx={{ height: '60px' }}>
           <Stack direction="column" sx={{ height: 20, mt: '5px' }}>
             <Typography variant="h6" color= 'listItems.light' sx={{ fontWeight: 600 }}>
               {name}
@@ -34,7 +34,7 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
         </Box>
       ) : (
         <>
-          <Box>
+          <Box sx={{ height: '60px'}}>
             <Button
               onClick={() => {
                 navigate(ROUTES.SIGN_IN);
@@ -47,7 +47,7 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
                 height: '40px',
                 borderRadius: '12px',
                 align: 'center',
-                margin: '3px',
+                margin: '0px',
                 textAlign: 'center',
                 fontSize: '24px'
               }}
