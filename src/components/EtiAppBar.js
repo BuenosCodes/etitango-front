@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import {
@@ -142,29 +143,29 @@ const EtiAppBar = () => {
           </Box>
           <Box
             sx={{
-              flexDirection: { xs: 'column', sm: 'row' },
+              flexDirection: { xs: 'column', sm: 'row',},
               justifyContent: 'flex-end',
               display: {
                 xs: 'none',
                 sm: 'none',
                 md: 'flex',
                 lg: 'flex'
-              }
+              },
+              width: '300px',
             }}
             id="botonera"
           >
             {isSignedIn ? (
               <>
-                <Box sx={{ height: 70 }}>
-                  <Stack direction="column" sx={{ height: 20, mt: '5px', mr: '5px' }}>
+                <Box sx={{ height: 70, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <Stack direction="column" sx={{ }}>
                     <Typography
                       variant="workSansFont"
-                      sx={isAdmin ? { mt: 1.5 } : {}}
                     >
                       {name}
                     </Typography>
                     {isSuperAdmin && (
-                        <Typography variant="workSansFont2" sx={{ textAlign: 'end' }}>
+                        <Typography variant="workSansFont2" sx={{ textAlign: 'end', }}>
                           {t('superadmin')}
                         </Typography>
                       )}

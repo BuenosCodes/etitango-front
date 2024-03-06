@@ -6,7 +6,8 @@ import {
   ListItemIcon,
   Collapse,
   ListItem,
-  useMediaQuery
+  useMediaQuery,
+  Box
 } from '@mui/material';
 import {
   StarOutlineRounded as StarOutlineRoundedIcon,
@@ -139,8 +140,8 @@ export const UserMenu = (props) => {
   const itemButtonMenuStyle = {
     borderBottomLeftRadius: '25px',
     borderTopLeftRadius: '25px',
-    borderTopRightRadius: { xs: '25px', lg: '0px' },
-    borderBottomRightRadius: { xs: '25px', lg: '0px' },
+    borderTopRightRadius: { xs: '25px', md: '0px' },
+    borderBottomRightRadius: { xs: '25px', md: '0px' },
     padding: '12px 0px 12px 12px',
     marginBottom: '10px',
     color: 'listItems.light'

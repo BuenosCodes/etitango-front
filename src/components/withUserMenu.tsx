@@ -58,6 +58,7 @@ export default function withUserMenu(
             backgroundColor: 'primary.light',
             padding: '30px 0px 20px 15px',
             width: { xs: '271px', md: '255px' },
+            minWidth: {xs: '271px', md: '255px'},
             zIndex: { xs: 1000 },
             display: { xs: !isOpen ? 'block' : 'none', md: 'block' },
             position: { xs: 'absolute', md: 'initial' },
