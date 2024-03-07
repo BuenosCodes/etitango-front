@@ -6,8 +6,7 @@ import {
   ListItemIcon,
   Collapse,
   ListItem,
-  useMediaQuery,
-  Box
+  useMediaQuery
 } from '@mui/material';
 import {
   StarOutlineRounded as StarOutlineRoundedIcon,
