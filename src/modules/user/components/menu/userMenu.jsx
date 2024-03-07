@@ -6,14 +6,9 @@ import {
   ListItemIcon,
   Collapse,
   ListItem,
-  useMediaQuery
+  useMediaQuery,
 } from '@mui/material';
 import {
-  StarOutlineRounded as StarOutlineRoundedIcon,
-  AccountBoxOutlined as AccountBoxOutlinedIcon,
-  FavoriteBorder as FavoriteBorderIcon,
-  PersonOutline as PersonOutlineIcon,
-  Assignment as AssignmentIcon,
   ExpandLess,
   ExpandMore
 } from '@mui/icons-material';
@@ -25,6 +20,8 @@ import { isUserDataComplete } from '../../../../helpers/validators';
 import { SCOPES } from 'helpers/constants/i18n.ts';
 import { Alert } from '../../../../components/alert/Alert';
 import { useGlobalState } from 'helpers/UserPanelContext';
+import { styles } from './userMenu.styles';
+import { getMenuItems } from './MenuItems';
 
 export const UserMenu = (props) => {
   const { toggleOpen } = useGlobalState();
@@ -39,6 +36,7 @@ export const UserMenu = (props) => {
   const { userData, isSignedIn } = props;
   const userIsAdmin = userData.roles?.admin;
   const userIsSuperAdmin = userData.roles?.superadmin;
+  const menuItems = getMenuItems();
   const checkUserData = () => {
     if (isUserDataComplete(userData)) {
       navigate(ROUTES.SIGNUP);
@@ -46,84 +44,6 @@ export const UserMenu = (props) => {
       setAlertVisible(true);
     }
   };
-  const menuItems = [
-    {
-      name: t('myProfile'),
-      icon: <PersonOutlineIcon />,
-      isAdmin: false,
-      isSuperAdmin: false,
-      children: null,
-      route: ROUTES.PROFILE
-    },
-    {
-      name: tBar('newETI'),
-      icon: <AccountBoxOutlinedIcon />,
-      isAdmin: false,
-      isSuperAdmin: true,
-      children: null,
-      route: `${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/new`
-    },
-    {
-      name: tBar('history'),
-      icon: <StarOutlineRoundedIcon />,
-      isAdmin: false,
-      isSuperAdmin: false,
-      isSignin: true,
-      children: null,
-      route: '/historia-del-eti'
-    },
-    {
-      name: tBar('manifest'),
-      icon: <AssignmentIcon />,
-      isAdmin: false,
-      isSuperAdmin: false,
-      isSignin: true,
-      children: null,
-      route: '/manifiesto-etiano'
-    },
-    {
-      name: tBar('etis'),
-      icon: <AccountBoxOutlinedIcon />,
-      isAdmin: true,
-      children: [
-        { name: tBar('generalInfo'), route: `${ROUTES.SUPERADMIN}${ROUTES.EVENTS}` },
-        { name: t('attendance'), route: ROUTES.ATTENDANCE }
-      ]
-    },
-    {
-      name: tBar('signup'),
-      icon: <AssignmentIcon />,
-      isAdmin: false,
-      isSuperAdmin: false,
-      children: [
-        { name: t('signup'), route: null },
-        { name: t('signupList'), route: ROUTES.SIGNUPS }
-      ]
-    },
-    {
-      name: t('ourLinks'),
-      icon: <StarOutlineRoundedIcon />,
-      isAdmin: false,
-      isSuperAdmin: false,
-      mobileOnly: true,
-      children: [
-        { name: tBar('history'), route: '/historia-del-eti' },
-        { name: tBar('manifest'), route: '/manifiesto-etiano' }
-      ]
-    },
-    {
-      name: tBar('commission'),
-      icon: <FavoriteBorderIcon />,
-      isAdmin: false,
-      isSuperAdmin: false,
-      mobileOnly: true,
-      children: [
-        { name: tBar('genderWho'), route: '/comision-de-genero-who' },
-        { name: tBar('genderProtocol'), route: '/comision-de-genero-protocol' },
-        { name: tBar('genderContact'), route: '/comision-de-genero-contact' }
-      ]
-    }
-  ];
 
   const toggleSubMenu = (name) => {
     setSelectedIndexMenu(name);
@@ -134,46 +54,6 @@ export const UserMenu = (props) => {
   const handleClickSubMenu = (indexSubMenuName, indexMenuName) => {
     setSelectedIndexSubMenu(indexSubMenuName);
     setSelectedIndexMenu(indexMenuName);
-  };
-
-  const itemButtonMenuStyle = {
-    borderBottomLeftRadius: '25px',
-    borderTopLeftRadius: '25px',
-    borderTopRightRadius: { xs: '25px', md: '0px' },
-    borderBottomRightRadius: { xs: '25px', md: '0px' },
-    padding: '12px 0px 12px 12px',
-    marginBottom: '10px',
-    color: 'listItems.light'
-  };
-
-  const itemButtonSubMenuStyle = {
-    borderRadius: '100px',
-    padding: '6px 16px 6px 16px',
-    marginBottom: '10px',
-    color: 'listItems.light'
-  };
-
-  const itemButtonHoverStyle = {
-    backgroundColor: 'listItems.main',
-    color: 'listItems.dark',
-    '& .MuiListItemIcon-root': {
-      color: 'listItems.dark'
-    }
-  };
-
-  const itemButtonActiveStyle = {
-    backgroundColor: 'listItems.main',
-    color: 'listItems.dark',
-    '& .MuiListItemIcon-root': {
-      color: 'listItems.dark'
-    }
-  };
-
-  const fontListText = {
-    fontFamily: 'roboto',
-    fontWeight: 600,
-    fontSize: '16px',
-    lineHeight: '20px'
   };
 
   const renderMenuItems = (items, parentName = '') => {
@@ -203,10 +83,10 @@ export const UserMenu = (props) => {
                 !item.children && toggleOpen();
             }}
             sx={{
-              ...itemButtonMenuStyle,
-              ...(selectedIndexMenu === item.name && itemButtonActiveStyle),
+              ...styles.itemButtonMenuStyle,
+              ...(selectedIndexMenu === item.name && styles.itemButtonActiveStyle),
               ':hover': {
-                ...itemButtonHoverStyle
+                ...styles.itemButtonHoverStyle
               }
             }}
           >
@@ -216,7 +96,7 @@ export const UserMenu = (props) => {
             <ListItemText
               primary={item.name}
               primaryTypographyProps={{
-                ...fontListText,
+                ...styles.fontListText,
                 ...(selectedIndexMenu === item.name && { color: 'listItems.dark' })
               }}
             />
@@ -241,17 +121,17 @@ export const UserMenu = (props) => {
                         toggleOpen();
                       }}
                       sx={{
-                        ...itemButtonSubMenuStyle,
-                        ...(selectedIndexSubMenu === dropDownItems.name && itemButtonActiveStyle),
+                        ...styles.itemButtonSubMenuStyle,
+                        ...(selectedIndexSubMenu === dropDownItems.name && styles.itemButtonActiveStyle),
                         ':hover': {
-                          ...itemButtonHoverStyle
+                          ...styles.itemButtonHoverStyle
                         }
                       }}
                     >
                       <ListItemText
                         primary={dropDownItems.name}
                         primaryTypographyProps={{
-                          ...fontListText,
+                          ...styles.fontListText,
                           ...(selectedIndexSubMenu === dropDownItems.name && {
                             color: 'listItems.dark'
                           })

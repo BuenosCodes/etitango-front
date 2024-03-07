@@ -33,7 +33,6 @@ const EtiAppBar = () => {
   const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
   const { toggleOpen } = useGlobalState();
   const name = fullName(userData)
-  const isAdmin = !userData?.roles || userData?.roles?.admin
   const isSuperAdmin = userData?.roles?.[UserRoles.SUPER_ADMIN]
   
 
