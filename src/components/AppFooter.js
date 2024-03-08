@@ -1,91 +1,88 @@
 import * as React from 'react';
-import { Grid, Link, Typography } from '@mui/material';
+import { Grid, Link, Typography, Avatar, Paper, Box} from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
+import { useGlobalState } from 'helpers/UserPanelContext';
 
 export default function AppFooter() {
+  const {isOpen} = useGlobalState()
   const { t } = useTranslation([SCOPES.COMPONENTS.FOOTER, SCOPES.COMPONENTS.BAR], {
     useSuspense: false
   });
   const links = [
+    { href: '/', title: 'ETI' },
     { href: '/historia-del-eti', title: t(`${SCOPES.COMPONENTS.BAR}.history`) },
-    { href: '/manifiesto-etiano', title: t(`${SCOPES.COMPONENTS.BAR}.manifest`) },
-    { href: '/comision-de-genero-contact', title: t(`${SCOPES.COMPONENTS.BAR}.genderContact`) }
+    { href: '/', title: 'Comisiones Etianas' },
+    { href: '/comision-de-genero-who', title: t(`${SCOPES.COMPONENTS.BAR}.genderWho`) },
   ];
+  
   return (
+
     <Grid
-      container
-      mt={0}
-      mb={0}
-      spacing={4}
-      paddingX={10}
-      paddingY={5}
-      sx={{ backgroundColor: 'secondary.dark' }}
-      alignContent={'center'}
-      justifyContent={'center'}
-      alignItems={'center'}
+     container
+     spacing={3}
+     paddingX= {{xs: 3, sm: 6, md: 10}}
+     paddingY= {5}
+     sx={{ backgroundColor: 'secondary.dark', mt: 0, mb: 0 }}
     >
-      <Grid item xs={12} md={4}>
-        <Grid
-          direction={'column'}
-          container
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          style={{ height: '25vh' }}
-        >
-          <Typography textAlign={'center'} color={'white'}>
-            {t('about.title').toUpperCase()}
-          </Typography>
-          <Typography textAlign={'center'} color={'white'}>
-            {t('about.description')}
-          </Typography>
+
+        <Grid item xs={12} sm={6} md={3} order={{ xs: 1, sm: 0, md: 0 }} >
+          <Grid direction='column' sx= {{ display: 'flex', justifyContent: 'space-between' }} >
+              <Typography variant='robotoFont3' color='primary.light' sx={{ fontWeight: 'bold' }}>
+                {t('links.title')}
+              </Typography>
+                {links.map((link) => (
+                      <Link
+                        variant='robotoFont3'
+                        color="primary.light"
+                        underline="none"
+                        href={link.href}
+                        key={link.href}
+                        pl={2}
+                        mt={2}
+                      >
+                        {link.title}
+                      </Link>
+                    ))}
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid item xs={12} md={4}>
-        <Grid
-          direction={'column'}
-          container
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          style={{ height: '25vh' }}
-        >
-          <Typography textAlign={'center'} color={'white'} marginBottom={4}>
-            {t('links.title').toUpperCase()}
-          </Typography>
-          {links.map((link) => (
-            <Link
-              variant="p"
-              color="white"
-              underline="none"
-              display={'flex'}
-              href={link.href}
-              key={link.href}
-            >
-              {link.title}
-            </Link>
-          ))}
+
+        <Grid item xs={12} sm={6} md={4} order={{ xs: 0, sm: 1, md: 1 }}>
+          <Grid direction='column' sx={{ display: 'flex' }}>
+                <Typography variant='robotoFont3' color='primary.light' sx={{ fontWeight: 'bold'}}>
+                  {t('about.title')}
+                </Typography>
+                <Typography variant='robotoFont3' color='listItems.light' sx={{ pl: 2,  mt: 2, pr: 3 }} >
+                {t('about.description')}
+                </Typography>
+          </Grid>
+        </Grid> 
+
+        <Grid item xs={12} sm={6} md={2} order={{ xs: 2, sm: 2, md: 2 }}>
+          <Grid>
+                <Typography variant='robotoFont3' color='primary.light' sx= {{ fontWeight: 'bold' }}>
+                  {t('socialNetworks.title')}
+                </Typography>
+                <Link 
+                variant='robotoFont3' 
+                underline='none' 
+                color='primary.light' 
+                href="http://facebook.com/groups/305562943758" 
+                target="_blank"
+                sx={{ display: 'flex', mt: 2, pl: 2 }} 
+                >
+                {t('socialNetworks.facebook')}
+                  <FacebookIcon sx={{ width: '24px', height: '24px', ml: 2 }}/> 
+                </Link>
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid item xs={12} md={4}>
-        <Grid
-          direction={'column'}
-          container
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          style={{ height: '25vh' }}
-        >
-          <Typography textAlign={'center'} color={'white'}>
-            {t('socialNetworks.title').toUpperCase()}
-          </Typography>
-          <Link href="http://facebook.com/groups/305562943758" target="_blank">
-            <FacebookIcon sx={{ color: 'white', fontSize: '56px' }} />
-          </Link>
-          <Typography textAlign={'center'} color={'white'}>
-            {t('footer')}
-          </Typography>
+
+        <Grid item xs={12} sm={6} md={3} order={{ xs: 3, sm: 3, md: 3 }} >
+            <Grid sx= {{ display: 'flex', justifyContent: 'center' }}>
+              <img src="/img/logo/ETILogo.svg" alt="ETI" style={{ width: '180px' }}/> 
+            </Grid>
         </Grid>
-      </Grid>
     </Grid>
-  );
+  )
 }
