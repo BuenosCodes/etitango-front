@@ -43,6 +43,9 @@
       "port": 9199
     }
   },
+  "extensions": {
+    "firestore-send-email": "firebase/firestore-send-email@0.1.19"
+  },
   "storage": {
     "rules": "functions/src/rules/storage.rules"
   }

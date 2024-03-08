@@ -25,6 +25,7 @@ import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined
 import { useGlobalState } from 'helpers/UserPanelContext';
 import { UserRoles } from 'shared/User';
 import { fullName } from 'helpers/firestore/users';
+import { ROUTES } from 'App';
 
 const EtiAppBar = () => {
   const [isSignedIn, setIsSignedIn] = useState(!!auth.currentUser); // Local signed-in state.
@@ -93,7 +94,7 @@ const EtiAppBar = () => {
               }
             }}
           >
-            <Link href="/">
+            <Link href={ROUTES.HOME}>
               <img src="/img/logo/ETILogo.svg" alt="ETI" />
             </Link>
           </Box>
@@ -187,7 +188,7 @@ const EtiAppBar = () => {
 
                   <Menu id="user-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose} aria-labelledby="user-menu-label">
                     <MenuItem onClick={handleClose}>
-                      <Button color="primary" variant="text" underline="none" href={'/user'} aria-label="Go to control panel">
+                      <Button color="primary" variant="text" underline="none" href={ROUTES.USER} aria-label="Go to control panel">
                         {t('controlPanel').toUpperCase()}
                       </Button>
                     </MenuItem>
@@ -198,7 +199,7 @@ const EtiAppBar = () => {
                         variant="text"
                         underline="none"
                         onClick={() => auth.signOut()}
-                        href={'/'}
+                        href={ROUTES.HOME}
                         key={'signout'}
                         aria-label="Log Out"
                       >
@@ -212,7 +213,7 @@ const EtiAppBar = () => {
               <Box>
                 <Button
                   onClick={() => auth.signIn()}
-                  href={'/sign-in'}
+                  href={ROUTES.SIGN_IN}
                   key={'sign-in'}
                   aria-label="Sign In"
                   sx={{
@@ -241,7 +242,7 @@ const EtiAppBar = () => {
               }
             }}
           >
-            <Link href="/">
+            <Link href={ROUTES.HOME}>
               <img
                 src="/img/logo/ETILogo.svg"
                 alt="ETI"

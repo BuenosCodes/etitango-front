@@ -16,6 +16,7 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
   const name = fullName(userData);
   const isSuperAdmin = userData?.roles?.[UserRoles.SUPER_ADMIN];
 
+  
   return (
     <Grid container sx={styles.panelContainer}>
       {isSignedIn ? (
