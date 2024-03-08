@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import {
@@ -23,6 +24,8 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 import { useGlobalState } from 'helpers/UserPanelContext';
 import { UserRoles } from 'shared/User';
+import { fullName } from 'helpers/firestore/users';
+import { ROUTES } from 'App';
 
 const EtiAppBar = () => {
   const [isSignedIn, setIsSignedIn] = useState(!!auth.currentUser); // Local signed-in state.
@@ -30,6 +33,9 @@ const EtiAppBar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
   const { toggleOpen } = useGlobalState();
+  const name = fullName(userData)
+  const isSuperAdmin = userData?.roles?.[UserRoles.SUPER_ADMIN]
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,7 +94,7 @@ const EtiAppBar = () => {
               }
             }}
           >
-            <Link href="/">
+            <Link href={ROUTES.HOME}>
               <img src="/img/logo/ETILogo.svg" alt="ETI" />
             </Link>
           </Box>
@@ -96,7 +102,9 @@ const EtiAppBar = () => {
           <IconButton
             edge="start"
             color="inherit"
-            aria-label="open drawer"
+            aria-label="menu appbar"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
             sx={{
               mr: 2,
               display: {
@@ -135,29 +143,29 @@ const EtiAppBar = () => {
           </Box>
           <Box
             sx={{
-              flexDirection: { xs: 'column', sm: 'row' },
+              flexDirection: { xs: 'column', sm: 'row',},
               justifyContent: 'flex-end',
               display: {
                 xs: 'none',
                 sm: 'none',
                 md: 'flex',
                 lg: 'flex'
-              }
+              },
+              width: '300px',
             }}
             id="botonera"
           >
             {isSignedIn ? (
               <>
-                <Box sx={{ height: 70 }}>
-                  <Stack direction="column" sx={{ height: 20, mt: '5px', mr: '5px' }}>
+                <Box sx={{ height: 70, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <Stack direction="column" sx={{ }}>
                     <Typography
                       variant="workSansFont"
-                      sx={!userData?.roles || userData?.roles?.admin ? { mt: 1.5 } : {}}
                     >
-                      {userData.nameFirst?.split(' ')[0]} {userData.nameLast?.split(' ')[0]}
+                      {name}
                     </Typography>
-                    {userData?.roles?.[UserRoles.SUPER_ADMIN] && (
-                        <Typography variant="workSansFont2" sx={{ textAlign: 'end' }}>
+                    {isSuperAdmin && (
+                        <Typography variant="workSansFont2" sx={{ textAlign: 'end', }}>
                           {t('superadmin')}
                         </Typography>
                       )}
@@ -165,18 +173,22 @@ const EtiAppBar = () => {
                 </Box>
 
                 <Box sx={{ width: '48px', height: '48px' }}>
-                  <IconButton onClick={handleOpen}>
-                    <AccountCircleOutlinedIcon
-                      sx={{ height: '48px', width: '48px', color: 'iconButtons.main' }}
-                    ></AccountCircleOutlinedIcon>
-                    <ArrowDropDownOutlinedIcon
-                      sx={{ height: '30px', width: '30px', color: 'iconButtons.main' }}
-                    ></ArrowDropDownOutlinedIcon>
+                  <IconButton 
+                   aria-label="user menu"
+                   aria-controls="user-menu"
+                   aria-haspopup="true"
+                   onClick={handleOpen}>
+                      <AccountCircleOutlinedIcon
+                        sx={{ height: '48px', width: '48px', color: 'iconButtons.main' }}
+                      ></AccountCircleOutlinedIcon>
+                      <ArrowDropDownOutlinedIcon
+                        sx={{ height: '30px', width: '30px', color: 'iconButtons.main' }}
+                      ></ArrowDropDownOutlinedIcon>
                   </IconButton>
 
-                  <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+                  <Menu id="user-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose} aria-labelledby="user-menu-label">
                     <MenuItem onClick={handleClose}>
-                      <Button color="primary" variant="text" underline="none" href={'/user'}>
+                      <Button color="primary" variant="text" underline="none" href={ROUTES.USER} aria-label="Go to control panel">
                         {t('controlPanel').toUpperCase()}
                       </Button>
                     </MenuItem>
@@ -187,8 +199,9 @@ const EtiAppBar = () => {
                         variant="text"
                         underline="none"
                         onClick={() => auth.signOut()}
-                        href={'/'}
+                        href={ROUTES.HOME}
                         key={'signout'}
+                        aria-label="Log Out"
                       >
                         {t('logout').toUpperCase()}
                       </Button>
@@ -200,8 +213,9 @@ const EtiAppBar = () => {
               <Box>
                 <Button
                   onClick={() => auth.signIn()}
-                  href={'/sign-in'}
+                  href={ROUTES.SIGN_IN}
                   key={'sign-in'}
+                  aria-label="Sign In"
                   sx={{
                     backgroundColor: 'primary.light',
                     color: 'iconButtons.main',
@@ -228,7 +242,7 @@ const EtiAppBar = () => {
               }
             }}
           >
-            <Link href="/">
+            <Link href={ROUTES.HOME}>
               <img
                 src="/img/logo/ETILogo.svg"
                 alt="ETI"

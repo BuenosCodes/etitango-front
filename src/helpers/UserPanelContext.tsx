@@ -8,6 +8,7 @@ interface IGlobalState {
   isMobile: boolean;
 }
 
+const message = 'useGlobalState must be used within a GlobalStateProvider';
 const userPanelContext = createContext<IGlobalState | undefined>(undefined);
 
 export const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -36,7 +37,7 @@ export const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({ c
 export const useGlobalState = (): IGlobalState => {
   const context = useContext(userPanelContext);
   if (!context) {
-    throw new Error('useGlobalState debe ser utilizado dentro de un GlobalStateProvider');
+    throw new Error(message);
   }
   return context;
 };

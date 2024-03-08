@@ -179,9 +179,10 @@ export default function Profile() {
               <Grid
                 container
                 direction="column"
+                margin="auto"
                 alignItems="center"
                 justifyContent="center"
-                spacing={3}
+                spacing={1}
               >
                 <Grid item sx={{ my: 3, typography: 'h5', color: 'secondary.main' }}>
                   {t(`${SCOPES.MODULES.PROFILE}.title`)}
