@@ -107,10 +107,11 @@ function App() {
     }
   };
   return (
-    <div className="">
+    <div className="mainContainer">
       <UserContext.Provider value={{ user, setUser }}>
         <NotificationContext.Provider value={{ notification, setNotification }}>
           <EtiAppBar />
+          <div className='container'>
           <Notification {...notification} />
           <Suspense
             fallback={
@@ -177,6 +178,7 @@ function App() {
               <Route path={ROUTES.INSTRUCTIONS} element={<Instructions />} />
             </Routes>
           </Suspense>
+          </div>
           <AppFooter />
         </NotificationContext.Provider>
       </UserContext.Provider>
