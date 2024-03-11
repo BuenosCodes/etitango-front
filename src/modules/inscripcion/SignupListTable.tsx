@@ -215,7 +215,14 @@ export function SignupListTable(props: {
     const dateFields: (keyof Signup)[] = ['dateArrival', 'dateDeparture', 'lastModifiedAt'];
     dateFields.forEach((field) => {
       if (signup[field]) {
-        output[field] = (signup[field]! as Date).toLocaleDateString()!;
+        output[field] = (signup[field]! as Date).toLocaleString([], {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        })!;
       }
     });
     const translatableFields: ('helpWith' | 'food' | 'status')[] = ['helpWith', 'food', 'status'];
