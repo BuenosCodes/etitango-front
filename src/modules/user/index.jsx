@@ -25,7 +25,7 @@ export default function UserHome() {
   return (
     <Translation ns={[SCOPES.MODULES.USER_HOME, SCOPES.MODULES.INSTRUCTIONS]} useSuspense={false}>
       {(t) => (
-        <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '49vh', margin: '0 auto'}}>
+        <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '57vh', margin: '0 auto'}}>
           <WithAuthentication />
           <Typography
             variant="h5"

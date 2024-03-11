@@ -1,19 +1,17 @@
-import * as React from 'react';
-import { Grid, Link, Typography, Avatar, Paper, Box} from '@mui/material';
+import { Grid, Link, Typography} from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
-import { useGlobalState } from 'helpers/UserPanelContext';
+import { ROUTES } from 'App';
 
 export default function AppFooter() {
-  const {isOpen} = useGlobalState()
   const { t } = useTranslation([SCOPES.COMPONENTS.FOOTER, SCOPES.COMPONENTS.BAR], {
     useSuspense: false
   });
   const links = [
-    { href: '/', title: 'ETI' },
+    { href: ROUTES.HOME, title: t(`${SCOPES.COMPONENTS.BAR}.eti`) },
     { href: '/historia-del-eti', title: t(`${SCOPES.COMPONENTS.BAR}.history`) },
-    { href: '/', title: 'Comisiones Etianas' },
+    { href: '/manifiesto-etiano', title: t(`${SCOPES.COMPONENTS.BAR}.manifest`) },
     { href: '/comision-de-genero-who', title: t(`${SCOPES.COMPONENTS.BAR}.genderWho`) },
   ];
   
@@ -24,7 +22,7 @@ export default function AppFooter() {
      spacing={3}
      paddingX= {{xs: 3, sm: 6, md: 10}}
      paddingY= {5}
-     sx={{ backgroundColor: 'secondary.dark', mt: 0, mb: 0 }}
+     sx={{ backgroundColor: 'secondary.dark', mt: 0, mb: 0 }} 
     >
 
         <Grid item xs={12} sm={6} md={3} order={{ xs: 1, sm: 0, md: 0 }} >
