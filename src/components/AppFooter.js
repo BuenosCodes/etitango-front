@@ -1,20 +1,26 @@
+/* eslint-disable prettier/prettier */
 import { Grid, Link, Typography} from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
 import { ROUTES } from 'App';
+import { SOCIAL_MEDIA_DATA } from 'shared/socialMedia';
+import React from 'react';
 
 export default function AppFooter() {
   const { t } = useTranslation([SCOPES.COMPONENTS.FOOTER, SCOPES.COMPONENTS.BAR], {
     useSuspense: false
   });
-  const links = [
+  const ourLinks = [
     { href: ROUTES.HOME, title: t(`${SCOPES.COMPONENTS.BAR}.eti`) },
     { href: '/historia-del-eti', title: t(`${SCOPES.COMPONENTS.BAR}.history`) },
     { href: '/manifiesto-etiano', title: t(`${SCOPES.COMPONENTS.BAR}.manifest`) },
     { href: '/comision-de-genero-who', title: t(`${SCOPES.COMPONENTS.BAR}.genderWho`) },
   ];
   
+  const icons = {
+    FacebookIcon,
+  }
   return (
 
     <Grid
@@ -30,7 +36,7 @@ export default function AppFooter() {
               <Typography variant='robotoFont3' color='primary.light' sx={{ fontWeight: 'bold' }}>
                 {t('links.title')}
               </Typography>
-                {links.map((link) => (
+                {ourLinks.map((link) => (
                       <Link
                         variant='robotoFont3'
                         color="primary.light"
@@ -62,17 +68,20 @@ export default function AppFooter() {
                 <Typography variant='robotoFont3' color='primary.light' sx= {{ fontWeight: 'bold' }}>
                   {t('socialNetworks.title')}
                 </Typography>
-                <Link 
-                variant='robotoFont3' 
-                underline='none' 
-                color='primary.light' 
-                href="http://facebook.com/groups/305562943758" 
-                target="_blank"
-                sx={{ display: 'flex', mt: 2, pl: 2 }} 
-                >
-                {t('socialNetworks.facebook')}
-                  <FacebookIcon sx={{ width: '24px', height: '24px', ml: 2 }}/> 
-                </Link>
+                {SOCIAL_MEDIA_DATA.map((socialMedia) => (
+                  <Link 
+                    key={socialMedia.id}
+                    variant='robotoFont3' 
+                    underline='none' 
+                    color='primary.light' 
+                    href={socialMedia.url}
+                    target="_blank"
+                    sx={{ display: 'flex', mt: 2, pl: 2 }} 
+                    >
+                    {t(`${socialMedia.name}`)}
+                      {React.createElement(icons[socialMedia.icon], { sx: {width: '24px', height: '24px', ml: 2}})}
+                  </Link>
+                ))}
           </Grid>
         </Grid>
 
