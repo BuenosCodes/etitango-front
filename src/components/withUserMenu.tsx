@@ -55,10 +55,10 @@ export default function withUserMenu(
       >
         <Box
           sx={{
-            backgroundColor: 'primary.light',
+            backgroundColor: 'mainTheme.primary',
             padding: '30px 0px 20px 15px',
             width: { xs: '271px', md: '255px' },
-            minWidth: {xs: '271px', md: '255px'},
+            minWidth: { xs: '271px', md: '255px' },
             zIndex: { xs: 1000 },
             display: { xs: !isOpen ? 'block' : 'none', md: 'block' },
             position: { xs: 'absolute', md: 'initial' },
@@ -73,13 +73,12 @@ export default function withUserMenu(
           {isSignedIn && (
             <Box sx={{ display: { xs: 'block', md: 'none' } }}>
               <Button onClick={() => logout()} href={'/'} key={'signout'}>
-                <LoginIcon sx={{ color: 'listItems.light' }} />
+                <LoginIcon sx={{ color: 'greyScale.50' }} />
                 <Typography
+                  typography={'body.semiBold.l'}
                   sx={{
                     ml: 1,
-                    color: 'listItems.light',
-                    fontWeight: 600,
-                    fontFamily: 'roboto',
+                    color: 'greyScale.50',
                     lineHeight: '22.4px'
                   }}
                 >

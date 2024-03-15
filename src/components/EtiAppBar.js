@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import {
@@ -33,9 +32,8 @@ const EtiAppBar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
   const { toggleOpen } = useGlobalState();
-  const name = fullName(userData)
-  const isSuperAdmin = userData?.roles?.[UserRoles.SUPER_ADMIN]
-  
+  const name = fullName(userData);
+  const isSuperAdmin = userData?.roles?.[UserRoles.SUPER_ADMIN];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,7 +71,7 @@ const EtiAppBar = () => {
     <AppBar
       elevation={0}
       position="static"
-      sx={{ backgroundColor: 'primary', paddingX: 2 }}
+      sx={{ backgroundColor: 'details.azure', paddingX: 2 }}
       id="appbar"
     >
       <Container maxWidth="xl" id="container">
@@ -128,9 +126,9 @@ const EtiAppBar = () => {
             {links.map((link) => (
               <Link
                 className="appBarLink"
-                variant="robotoFont"
+                typography="body.regular.xl"
                 underline="none"
-                color="iconButtons.main"
+                color="background.white"
                 href={link.href}
                 key={link.href}
                 display="flex"
@@ -143,7 +141,7 @@ const EtiAppBar = () => {
           </Box>
           <Box
             sx={{
-              flexDirection: { xs: 'column', sm: 'row',},
+              flexDirection: { xs: 'column', sm: 'row' },
               justifyContent: 'flex-end',
               display: {
                 xs: 'none',
@@ -151,51 +149,65 @@ const EtiAppBar = () => {
                 md: 'flex',
                 lg: 'flex'
               },
-              width: '300px',
+              width: '300px'
             }}
             id="botonera"
           >
             {isSignedIn ? (
               <>
-                <Box sx={{ height: 70, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                  <Stack direction="column" sx={{ }}>
-                    <Typography
-                      variant="workSansFont"
-                    >
-                      {name}
-                    </Typography>
+                <Box
+                  sx={{
+                    height: 70,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                >
+                  <Stack direction="column" sx={{}}>
+                    <Typography typography="body.regular.xl">{name}</Typography>
                     {isSuperAdmin && (
-                        <Typography variant="workSansFont2" sx={{ textAlign: 'end', }}>
-                          {t('superadmin')}
-                        </Typography>
-                      )}
+                      <Typography typography="body.regular.l" sx={{ textAlign: 'end' }}>
+                        {t('superadmin')}
+                      </Typography>
+                    )}
                   </Stack>
                 </Box>
 
                 <Box sx={{ width: '48px', height: '48px' }}>
-                  <IconButton 
-                   aria-label="user menu"
-                   aria-controls="user-menu"
-                   aria-haspopup="true"
-                   onClick={handleOpen}>
-                      <AccountCircleOutlinedIcon
-                        sx={{ height: '48px', width: '48px', color: 'iconButtons.main' }}
-                      ></AccountCircleOutlinedIcon>
-                      <ArrowDropDownOutlinedIcon
-                        sx={{ height: '30px', width: '30px', color: 'iconButtons.main' }}
-                      ></ArrowDropDownOutlinedIcon>
+                  <IconButton
+                    aria-label="user menu"
+                    aria-controls="user-menu"
+                    aria-haspopup="true"
+                    onClick={handleOpen}
+                  >
+                    <AccountCircleOutlinedIcon
+                      sx={{ height: '48px', width: '48px', color: 'background.white' }}
+                    ></AccountCircleOutlinedIcon>
+                    <ArrowDropDownOutlinedIcon
+                      sx={{ height: '30px', width: '30px', color: 'background.white' }}
+                    ></ArrowDropDownOutlinedIcon>
                   </IconButton>
 
-                  <Menu id="user-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose} aria-labelledby="user-menu-label">
+                  <Menu
+                    id="user-menu"
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                    aria-labelledby="user-menu-label"
+                  >
                     <MenuItem onClick={handleClose}>
-                      <Button color="primary" variant="text" underline="none" href={ROUTES.USER} aria-label="Go to control panel">
+                      <Button
+                        variant="text"
+                        underline="none"
+                        href={ROUTES.USER}
+                        aria-label="Go to control panel"
+                      >
                         {t('controlPanel').toUpperCase()}
                       </Button>
                     </MenuItem>
 
                     <MenuItem onClick={handleClose}>
                       <Button
-                        color="primary"
                         variant="text"
                         underline="none"
                         onClick={() => auth.signOut()}
@@ -217,8 +229,8 @@ const EtiAppBar = () => {
                   key={'sign-in'}
                   aria-label="Sign In"
                   sx={{
-                    backgroundColor: 'primary.light',
-                    color: 'iconButtons.main',
+                    backgroundColor: 'mainTheme.primary',
+                    color: 'background.white',
                     width: '149px',
                     height: '40px',
                     borderRadius: '12px',
