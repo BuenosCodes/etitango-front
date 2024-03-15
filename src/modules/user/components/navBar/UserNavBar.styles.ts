@@ -5,11 +5,4 @@ export const styles = {
     alignItems: 'center',
     alignContent: 'center'
   },
-  typographyRol: {
-    fontFamily: 'Roboto', 
-    fontWeight: 400, 
-    fontSize: '14px', 
-    color: 'listItems.light', 
-    textAlign: 'start'
-  }
 };
