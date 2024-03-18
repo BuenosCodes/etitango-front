@@ -21,7 +21,7 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
       {isSignedIn ? (
         <Box sx={{ height: '60px' }}>
           <Stack direction="column" sx={{ height: 20, mt: '5px' }}>
-            <Typography variant="h6" color="greyScale.50" sx={{ fontWeight: 600 }}>
+            <Typography typography={'title.semiBold.h6'} variant="h6" color="greyScale.50">
               {name}
             </Typography>
             {isSuperAdmin && (
