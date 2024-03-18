@@ -27,7 +27,7 @@ const rawTheme = createTheme({
       main: green[500],
       dark: green[700]
     },
-    mainTheme: {
+    principal: {
       primary: '#5FB4FC',
       secondary: '#A82548'
     },
@@ -91,6 +91,137 @@ const rawTheme = createTheme({
     },
     subtitle1: {
       fontSize: 20
+    },
+    title: {
+      bold: {
+        h1: {
+          fontFamily: 'Montserrat',
+          fontWeight: 700,
+          fontSize: '48px'
+        },
+        h2: {
+          fontFamily: 'Montserrat',
+          fontWeight: 700,
+          fontSize: '40px'
+        },
+        h3: {
+          fontFamily: 'Montserrat',
+          fontWeight: 700,
+          fontSize: '32px'
+        },
+        h4: {
+          fontFamily: 'Montserrat',
+          fontWeight: 700,
+          fontSize: '24px'
+        },
+        h5: {
+          fontFamily: 'Montserrat',
+          fontWeight: 700,
+          fontSize: '20px'
+        },
+        h6: {
+          fontFamily: 'Montserrat',
+          fontWeight: 700,
+          fontSize: '18px'
+        }
+      },
+      semiBold: {
+        h1: {
+          fontFamily: 'Montserrat',
+          fontWeight: 600,
+          fontSize: '48px'
+        },
+        h2: {
+          fontFamily: 'Montserrat',
+          fontWeight: 600,
+          fontSize: '40px'
+        },
+        h3: {
+          fontFamily: 'Montserrat',
+          fontWeight: 600,
+          fontSize: '32px'
+        },
+        h4: {
+          fontFamily: 'Montserrat',
+          fontWeight: 600,
+          fontSize: '24px'
+        },
+        h5: {
+          fontFamily: 'Montserrat',
+          fontWeight: 600,
+          fontSize: '20px'
+        },
+        h6: {
+          fontFamily: 'Montserrat',
+          fontWeight: 600,
+          fontSize: '18px'
+        }
+      },
+      medium: {
+        h1: {
+          fontFamily: 'Montserrat',
+          fontWeight: 500,
+          fontSize: '48px'
+        },
+        h2: {
+          fontFamily: 'Montserrat',
+          fontWeight: 500,
+          fontSize: '40px'
+        },
+        h3: {
+          fontFamily: 'Montserrat',
+          fontWeight: 500,
+          fontSize: '32px'
+        },
+        h4: {
+          fontFamily: 'Montserrat',
+          fontWeight: 500,
+          fontSize: '24px'
+        },
+        h5: {
+          fontFamily: 'Montserrat',
+          fontWeight: 500,
+          fontSize: '20px'
+        },
+        h6: {
+          fontFamily: 'Montserrat',
+          fontWeight: 500,
+          fontSize: '18px'
+        }
+      },
+      regular: {
+        h1: {
+          fontFamily: 'Montserrat',
+          fontWeight: 400,
+          fontSize: '48px'
+        },
+        h2: {
+          fontFamily: 'Montserrat',
+          fontWeight: 400,
+          fontSize: '40px'
+        },
+        h3: {
+          fontFamily: 'Montserrat',
+          fontWeight: 400,
+          fontSize: '32px'
+        },
+        h4: {
+          fontFamily: 'Montserrat',
+          fontWeight: 400,
+          fontSize: '24px'
+        },
+        h5: {
+          fontFamily: 'Montserrat',
+          fontWeight: 400,
+          fontSize: '20px'
+        },
+        h6: {
+          fontFamily: 'Montserrat',
+          fontWeight: 400,
+          fontSize: '18px'
+        }
+      },
+
     },
     body: {
       bold: {

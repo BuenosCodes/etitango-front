@@ -163,10 +163,10 @@ const EtiAppBar = () => {
                     alignItems: 'center'
                   }}
                 >
-                  <Stack direction="column" sx={{}}>
-                    <Typography typography="body.regular.xl">{name}</Typography>
+                  <Stack direction="column">
+                    <Typography typography="title.regular.h5">{name}</Typography>
                     {isSuperAdmin && (
-                      <Typography typography="body.regular.l" sx={{ textAlign: 'end' }}>
+                      <Typography typography="title.regular.h6" sx={{ textAlign: 'end' }}>
                         {t('superadmin')}
                       </Typography>
                     )}
@@ -229,7 +229,7 @@ const EtiAppBar = () => {
                   key={'sign-in'}
                   aria-label="Sign In"
                   sx={{
-                    backgroundColor: 'mainTheme.primary',
+                    backgroundColor: 'principal.primary',
                     color: 'background.white',
                     width: '149px',
                     height: '40px',

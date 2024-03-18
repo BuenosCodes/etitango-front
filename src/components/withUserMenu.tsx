@@ -55,7 +55,7 @@ export default function withUserMenu(
       >
         <Box
           sx={{
-            backgroundColor: 'mainTheme.primary',
+            backgroundColor: 'principal.primary',
             padding: '30px 0px 20px 15px',
             width: { xs: '271px', md: '255px' },
             minWidth: { xs: '271px', md: '255px' },
