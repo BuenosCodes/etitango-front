@@ -4,22 +4,14 @@ import { green, grey, red } from '@mui/material/colors';
 const rawTheme = createTheme({
   palette: {
     primary: {
-      light: '#5FB4FC',
-      main: '#4B84DB',
+      light: '#69696a',
+      main: '#28282a',
       dark: '#1e1e1f'
     },
     secondary: {
       light: '#bbdefb',
       main: '#2196f3',
       dark: '#1A0D3F'
-    },
-    listItems: {
-      light: '#FAFAFA',
-      main: '#FFFBF0',
-      dark: '#212121'
-    },
-    iconButtons: {
-      main: '#FFFFFF'
     },
     warning: {
       main: '#ffc071',
@@ -34,10 +26,45 @@ const rawTheme = createTheme({
       light: green[50],
       main: green[500],
       dark: green[700]
+    },
+    principal: {
+      primary: '#5FB4FC',
+      secondary: '#A82548'
+    },
+    details: {
+      frenchBlue: '#0075D9',
+      azure: '#4B84DB',
+      thistle: '#D8BED8',
+      lavender: '#DFEAFF',
+      aliceBlue: '#DBEEFF',
+      peach: '#FDE4AA',
+      perseanOrange: '#E68650'
+    },
+    status: {
+      success: '#91F18B',
+      info: '#00639F',
+      warning: '#FFD984',
+      error: '#FF6F87'
+    },
+    greyScale: {
+      900: '#212121',
+      800: '#424242',
+      700: '#616161',
+      600: '#757575',
+      500: '#9E9E9E',
+      400: '#BDBDBD',
+      300: '#E0E0E0',
+      200: '#EEEEEE',
+      100: '#F5F5F5',
+      50: '#FAFAFA'
+    },
+    background: {
+      floralWhite: '#FFFBF0',
+      white: '#FFFFFF'
     }
   },
   typography: {
-    fontFamily: 'Montserrat, "Work Sans", "Roboto", sans-serif',
+    fontFamily: 'Montserrat',
     lineHeight: '24px',
     letterSpacing: '-0.015em',
     fontWeightLight: 300,
@@ -65,26 +92,246 @@ const rawTheme = createTheme({
     subtitle1: {
       fontSize: 20
     },
-    robotoFont: {
-      fontFamily: 'Roboto, sans-serif',
-      fontSize: 20,
-      fontWeight: 400
+    title: {
+      bold: {
+        h1: {
+          fontFamily: 'Montserrat',
+          fontWeight: 700,
+          fontSize: '48px'
+        },
+        h2: {
+          fontFamily: 'Montserrat',
+          fontWeight: 700,
+          fontSize: '40px'
+        },
+        h3: {
+          fontFamily: 'Montserrat',
+          fontWeight: 700,
+          fontSize: '32px'
+        },
+        h4: {
+          fontFamily: 'Montserrat',
+          fontWeight: 700,
+          fontSize: '24px'
+        },
+        h5: {
+          fontFamily: 'Montserrat',
+          fontWeight: 700,
+          fontSize: '20px'
+        },
+        h6: {
+          fontFamily: 'Montserrat',
+          fontWeight: 700,
+          fontSize: '18px'
+        }
+      },
+      semiBold: {
+        h1: {
+          fontFamily: 'Montserrat',
+          fontWeight: 600,
+          fontSize: '48px'
+        },
+        h2: {
+          fontFamily: 'Montserrat',
+          fontWeight: 600,
+          fontSize: '40px'
+        },
+        h3: {
+          fontFamily: 'Montserrat',
+          fontWeight: 600,
+          fontSize: '32px'
+        },
+        h4: {
+          fontFamily: 'Montserrat',
+          fontWeight: 600,
+          fontSize: '24px'
+        },
+        h5: {
+          fontFamily: 'Montserrat',
+          fontWeight: 600,
+          fontSize: '20px'
+        },
+        h6: {
+          fontFamily: 'Montserrat',
+          fontWeight: 600,
+          fontSize: '18px'
+        }
+      },
+      medium: {
+        h1: {
+          fontFamily: 'Montserrat',
+          fontWeight: 500,
+          fontSize: '48px'
+        },
+        h2: {
+          fontFamily: 'Montserrat',
+          fontWeight: 500,
+          fontSize: '40px'
+        },
+        h3: {
+          fontFamily: 'Montserrat',
+          fontWeight: 500,
+          fontSize: '32px'
+        },
+        h4: {
+          fontFamily: 'Montserrat',
+          fontWeight: 500,
+          fontSize: '24px'
+        },
+        h5: {
+          fontFamily: 'Montserrat',
+          fontWeight: 500,
+          fontSize: '20px'
+        },
+        h6: {
+          fontFamily: 'Montserrat',
+          fontWeight: 500,
+          fontSize: '18px'
+        }
+      },
+      regular: {
+        h1: {
+          fontFamily: 'Montserrat',
+          fontWeight: 400,
+          fontSize: '48px'
+        },
+        h2: {
+          fontFamily: 'Montserrat',
+          fontWeight: 400,
+          fontSize: '40px'
+        },
+        h3: {
+          fontFamily: 'Montserrat',
+          fontWeight: 400,
+          fontSize: '32px'
+        },
+        h4: {
+          fontFamily: 'Montserrat',
+          fontWeight: 400,
+          fontSize: '24px'
+        },
+        h5: {
+          fontFamily: 'Montserrat',
+          fontWeight: 400,
+          fontSize: '20px'
+        },
+        h6: {
+          fontFamily: 'Montserrat',
+          fontWeight: 400,
+          fontSize: '18px'
+        }
+      },
+
     },
-    robotoFont2: {
-      fontFamily: 'Roboto, sans-serif',
-      fontSize: 14
-    },
-    robotoFont3: {
-      fontFamily: 'Roboto, sans-serif',
-      fontSize: 16
-    },
-    workSansFont: {
-      fontFamily: 'Work Sans, sans-serif',
-      fontSize: '24px'
-    },
-    workSansFont2: {
-      fontFamily: 'Work Sans, sans-serif',
-      fontSize: '16px'
+    body: {
+      bold: {
+        xl: {
+          fontFamily: 'Roboto',
+          fontSize: '18px',
+          fontWeight: 700
+        },
+        l: {
+          fontFamily: 'Roboto',
+          fontSize: '16px',
+          fontWeight: 700
+        },
+        m: {
+          fontFamily: 'Roboto',
+          fontSize: '14px',
+          fontWeight: 700
+        },
+        s: {
+          fontFamily: 'Roboto',
+          fontSize: '12px',
+          fontWeight: 700
+        },
+        xs: {
+          fontFamily: 'Roboto',
+          fontSize: '10px',
+          fontWeight: 700
+        }
+      },
+      semiBold: {
+        xl: {
+          fontFamily: 'Roboto',
+          fontSize: '18px',
+          fontWeight: 600
+        },
+        l: {
+          fontFamily: 'Roboto',
+          fontSize: '16px',
+          fontWeight: 600
+        },
+        m: {
+          fontFamily: 'Roboto',
+          fontSize: '14px',
+          fontWeight: 600
+        },
+        s: {
+          fontFamily: 'Roboto',
+          fontSize: '12px',
+          fontWeight: 600
+        },
+        xs: {
+          fontFamily: 'Roboto',
+          fontSize: '10px',
+          fontWeight: 600
+        }
+      },
+      medium: {
+        xl: {
+          fontFamily: 'Roboto',
+          fontSize: '18px',
+          fontWeight: 500
+        },
+        l: {
+          fontFamily: 'Roboto',
+          fontSize: '16px',
+          fontWeight: 500
+        },
+        m: {
+          fontFamily: 'Roboto',
+          fontSize: '14px',
+          fontWeight: 500
+        },
+        s: {
+          fontFamily: 'Roboto',
+          fontSize: '12px',
+          fontWeight: 500
+        },
+        xs: {
+          fontFamily: 'Roboto',
+          fontSize: '10px',
+          fontWeight: 500
+        }
+      },
+      regular: {
+        xl: {
+          fontFamily: 'Roboto',
+          fontSize: '18px',
+          fontWeight: 400
+        },
+        l: {
+          fontFamily: 'Roboto',
+          fontSize: '16px',
+          fontWeight: 400
+        },
+        m: {
+          fontFamily: 'Roboto',
+          fontSize: '14px',
+          fontWeight: 400
+        },
+        s: {
+          fontFamily: 'Roboto',
+          fontSize: '12px',
+          fontWeight: 400
+        },
+        xs: {
+          fontFamily: 'Roboto',
+          fontSize: '10px',
+          fontWeight: 400
+        }
+      }
     }
   },
   components: {

@@ -16,16 +16,22 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
   const name = fullName(userData);
   const isSuperAdmin = userData?.roles?.[UserRoles.SUPER_ADMIN];
 
-  
   return (
     <Grid container sx={styles.panelContainer}>
       {isSignedIn ? (
         <Box sx={{ height: '60px' }}>
           <Stack direction="column" sx={{ height: 20, mt: '5px' }}>
-            <Typography variant="h6" color="listItems.light" sx={{ fontWeight: 600 }}>
+            <Typography typography={'title.semiBold.h6'} variant="h6" color="greyScale.50">
               {name}
             </Typography>
-            {isSuperAdmin && <Typography sx={styles.typographyRol}>{t('superadmin')}</Typography>}
+            {isSuperAdmin && (
+              <Typography
+                typography={'body.regular.m'}
+                sx={{ color: 'greyScale.50', textAlign: 'start' }}
+              >
+                {t('superadmin')}
+              </Typography>
+            )}
           </Stack>
         </Box>
       ) : (
@@ -37,8 +43,8 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
               }}
               key={'sign-in'}
               sx={{
-                backgroundColor: 'primary.main',
-                color: 'listItems.light',
+                backgroundColor: 'details.azure',
+                color: 'greyScale.50',
                 width: '149px',
                 height: '40px',
                 borderRadius: '12px',
@@ -55,7 +61,7 @@ export default function UserNavBar(props: { userData: any; isSignedIn: boolean }
       )}
       <Grid item xs={12}>
         {isMobile && (
-          <Box sx={{ border: '1px solid', mt: 1.5, mb: 1.5, borderColor: 'listItems.light' }} />
+          <Box sx={{ border: '1px solid', mt: 1.5, mb: 1.5, borderColor: 'greyScale.50' }} />
         )}
       </Grid>
     </Grid>

@@ -6,12 +6,9 @@ import {
   ListItemIcon,
   Collapse,
   ListItem,
-  useMediaQuery,
+  useMediaQuery
 } from '@mui/material';
-import {
-  ExpandLess,
-  ExpandMore
-} from '@mui/icons-material';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -90,14 +87,14 @@ export const UserMenu = (props) => {
               }
             }}
           >
-            <ListItemIcon sx={{ minWidth: '35px', color: 'listItems.light' }}>
+            <ListItemIcon sx={{ minWidth: '35px', color: 'greyScale.50' }}>
               {item.icon}
             </ListItemIcon>
             <ListItemText
               primary={item.name}
               primaryTypographyProps={{
                 ...styles.fontListText,
-                ...(selectedIndexMenu === item.name && { color: 'listItems.dark' })
+                ...(selectedIndexMenu === item.name && { color: 'greyScale.900' })
               }}
             />
             {item.children &&
@@ -122,7 +119,8 @@ export const UserMenu = (props) => {
                       }}
                       sx={{
                         ...styles.itemButtonSubMenuStyle,
-                        ...(selectedIndexSubMenu === dropDownItems.name && styles.itemButtonActiveStyle),
+                        ...(selectedIndexSubMenu === dropDownItems.name &&
+                          styles.itemButtonActiveStyle),
                         ':hover': {
                           ...styles.itemButtonHoverStyle
                         }
@@ -133,7 +131,7 @@ export const UserMenu = (props) => {
                         primaryTypographyProps={{
                           ...styles.fontListText,
                           ...(selectedIndexSubMenu === dropDownItems.name && {
-                            color: 'listItems.dark'
+                            color: 'greyScale.900'
                           })
                         }}
                       />
