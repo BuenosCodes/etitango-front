@@ -28,18 +28,18 @@ export default function AppFooter() {
      spacing={3}
      paddingX= {{xs: 3, sm: 6, md: 10}}
      paddingY= {5}
-     sx={{ backgroundColor: 'secondary.dark', mt: 0, mb: 0 }} 
+     sx={{ backgroundColor: 'greyScale.900', mt: 0, mb: 0 }} 
     >
 
         <Grid item xs={12} sm={6} md={3} order={{ xs: 1, sm: 0, md: 0 }} >
           <Grid direction='column' sx= {{ display: 'flex', justifyContent: 'space-between' }} >
-              <Typography variant='robotoFont3' color='primary.light' sx={{ fontWeight: 'bold' }}>
+              <Typography typography='body.bold.xl' color='principal.primary'>
                 {t('links.title')}
               </Typography>
                 {ourLinks.map((link) => (
                       <Link
-                        variant='robotoFont3'
-                        color="primary.light"
+                        typography='body.regular.l'
+                        color="principal.primary"
                         underline="none"
                         href={link.href}
                         key={link.href}
@@ -54,10 +54,10 @@ export default function AppFooter() {
 
         <Grid item xs={12} sm={6} md={4} order={{ xs: 0, sm: 1, md: 1 }}>
           <Grid direction='column' sx={{ display: 'flex' }}>
-                <Typography variant='robotoFont3' color='primary.light' sx={{ fontWeight: 'bold'}}>
+                <Typography typography='body.bold.xl' color='principal.primary'>
                   {t('about.title')}
                 </Typography>
-                <Typography variant='robotoFont3' color='listItems.light' sx={{ pl: 2,  mt: 2, pr: 3 }} >
+                <Typography typography='body.regular.l' color='greyScale.50' sx={{ pl: 2,  mt: 2, pr: 3 }} >
                 {t('about.description')}
                 </Typography>
           </Grid>
@@ -65,15 +65,15 @@ export default function AppFooter() {
 
         <Grid item xs={12} sm={6} md={2} order={{ xs: 2, sm: 2, md: 2 }}>
           <Grid>
-                <Typography variant='robotoFont3' color='primary.light' sx= {{ fontWeight: 'bold' }}>
+                <Typography typography='body.bold.xl' color='principal.primary'>
                   {t('socialNetworks.title')}
                 </Typography>
                 {SOCIAL_MEDIA_DATA.map((socialMedia) => (
                   <Link 
                     key={socialMedia.id}
-                    variant='robotoFont3' 
+                    typography='body.regular.l'
                     underline='none' 
-                    color='primary.light' 
+                    color='principal.primary' 
                     href={socialMedia.url}
                     target="_blank"
                     sx={{ display: 'flex', mt: 2, pl: 2 }} 
@@ -85,8 +85,8 @@ export default function AppFooter() {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3} order={{ xs: 3, sm: 3, md: 3 }} >
-            <Grid sx= {{ display: 'flex', justifyContent: 'center' }}>
+        <Grid item xs={12} sm={6} md={3} order={{ xs: 3, sm: 3, md: 3 }}  >
+            <Grid sx= {{ display: 'flex', justifyContent: { xs: 'center', sm: 'flex-start', md: 'center' } }}>
               <img src="/img/logo/ETILogo.svg" alt="ETI" style={{ width: '180px' }}/> 
             </Grid>
         </Grid>
