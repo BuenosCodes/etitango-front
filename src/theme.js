@@ -220,8 +220,7 @@ const rawTheme = createTheme({
           fontWeight: 400,
           fontSize: '18px'
         }
-      },
-
+      }
     },
     body: {
       bold: {
