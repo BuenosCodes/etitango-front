@@ -183,9 +183,10 @@ export default function Inscripcion() {
           <Grid
             container
             direction="column"
+            margin="auto"
             alignItems="center"
             justifyContent="center"
-            spacing={3}
+            spacing={1}
           >
             <Grid item sx={{ mb: 3 }}>
               <Typography variant="h5" color="secondary" align="center">
