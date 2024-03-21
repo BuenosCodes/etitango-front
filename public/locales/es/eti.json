@@ -1,0 +1,18 @@
+{
+    "placeholders": {
+      "name": "Nuevo ETI",
+      "date": "dd-mm-yy",
+      "hour": "hh:mm",
+      "organizers": "Organizadores"
+    },
+    "label": {
+        "name": "Nombre para el evento",
+        "dateStart": "Desde el",
+        "dateEnd": "Hasta el",
+        "dateSignupOpen": "Inicio de inscripciones",
+        "dateSignupEnd": "hasta el",
+        "time": "a las",
+        "timeSignupEnd": "hasta las",
+        "organizers": "Colaboradores en la organización del evento"
+    }
+  }

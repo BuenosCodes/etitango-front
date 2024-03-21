@@ -25,6 +25,7 @@ export const SCOPES = {
     PROFILE: 'profile',
     USER_HOME: 'user.home',
     EVENT_LIST: 'event.list',
+    ETI: 'eti',
     INSTRUCTIONS: 'instructions'
   }
 };
