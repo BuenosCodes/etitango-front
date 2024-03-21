@@ -107,76 +107,81 @@ function App() {
     }
   };
   return (
-    <div className="">
+    <div className="mainContainer">
       <UserContext.Provider value={{ user, setUser }}>
         <NotificationContext.Provider value={{ notification, setNotification }}>
           <EtiAppBar />
-          <Notification {...notification} />
-          <Suspense
-            fallback={
-              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                <CircularProgress />
-              </div>
-            }
-          >
-            <Routes>
-              <Route path="historia-del-eti" element={withUserMenu(HistoriaEti)()} exact />
-              <Route path="manifiesto-etiano" element={withUserMenu(ManifiestoETiano)()} exact />
-              <Route
-                path="comision-de-genero-contact"
-                element={withUserMenu(ComisionGeneroContact)()}
-                exact
-              />
-              <Route
-                path="comision-de-genero-protocol"
-                element={withUserMenu(ComisionGeneroProtocol)()}
-                exact
-              />
-              <Route
-                path="comision-de-genero-who"
-                element={withUserMenu(ComisionGeneroWho)()}
-                exact
-              />
-              <Route path={ROUTES.SIGNUP} element={withUserMenu(Inscripcion)()} exact />
-              <Route path={ROUTES.SIGNUPS} element={withUserMenu(SignupList)()} exact />
-              <Route
-                path={ROUTES.ATTENDANCE}
-                element={withUserMenu(SignupList)({ isAttendance: true })}
-                exact
-              />
-              <Route
-                path={`${ROUTES.RECEIPTS}/:etiEventId/:signupId`}
-                element={withUserMenu(Receipt)()}
-              />
-              <Route path={`${ROUTES.RECEIPTS}/:etiEventId`} element={withUserMenu(Receipt)()} />
+          <div className="container">
+            <Notification {...notification} />
+            <Suspense
+              fallback={
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                  <CircularProgress />
+                </div>
+              }
+            >
+              <Routes>
+                <Route path="historia-del-eti" element={withUserMenu(HistoriaEti)()} exact />
+                <Route path="manifiesto-etiano" element={withUserMenu(ManifiestoETiano)()} exact />
+                <Route
+                  path="comision-de-genero-contact"
+                  element={withUserMenu(ComisionGeneroContact)()}
+                  exact
+                />
+                <Route
+                  path="comision-de-genero-protocol"
+                  element={withUserMenu(ComisionGeneroProtocol)()}
+                  exact
+                />
+                <Route
+                  path="comision-de-genero-who"
+                  element={withUserMenu(ComisionGeneroWho)()}
+                  exact
+                />
+                <Route path={ROUTES.SIGNUP} element={withUserMenu(Inscripcion)()} exact />
+                <Route path={ROUTES.SIGNUPS} element={withUserMenu(SignupList)()} exact />
+                <Route
+                  path={ROUTES.ATTENDANCE}
+                  element={withUserMenu(SignupList)({ isAttendance: true })}
+                  exact
+                />
+                <Route
+                  path={`${ROUTES.RECEIPTS}/:etiEventId/:signupId`}
+                  element={withUserMenu(Receipt)()}
+                />
+                <Route path={`${ROUTES.RECEIPTS}/:etiEventId`} element={withUserMenu(Receipt)()} />
 
-              <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
-              <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
-              <Route
-                path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`}
-                element={withUserMenu(EventsList)()}
-              />
-              <Route
-                path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`}
-                element={withUserMenu(EventForm)()}
-              />
-              <Route
-                path={`${ROUTES.SUPERADMIN}${ROUTES.SENT_MAILS}/:id`}
-                element={<SentMailList />}
-              />
-              <Route path={`${ROUTES.SUPERADMIN}${ROUTES.ROLES}`} element={<RolesList />} />
-              <Route path={ROUTES.USER} element={withUserMenu(UserHome)()} />
-              <Route path={`${ROUTES.BANKS}/:id`} element={<Bank />} />
-              <Route path={ROUTES.PROFILE} element={withUserMenu(Profile)()} />
-              <Route path={ROUTES.HOME} element={withUserMenu(Home, false)()} />
-              <Route path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}`} element={<TemplatesList />} />
-              <Route
-                path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}/:id`}
-                element={<EditTemplate />}
-              />
-              <Route path={ROUTES.INSTRUCTIONS} element={<Instructions />} />
-            </Routes>
-          </Suspense>
+                <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
+                <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
+                <Route
+                  path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`}
+                  element={withUserMenu(EventsList)()}
+                />
+                <Route
+                  path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`}
+                  element={withUserMenu(EventForm)()}
+                />
+                <Route
+                  path={`${ROUTES.SUPERADMIN}${ROUTES.SENT_MAILS}/:id`}
+                  element={<SentMailList />}
+                />
+                <Route path={`${ROUTES.SUPERADMIN}${ROUTES.ROLES}`} element={<RolesList />} />
+                <Route path={ROUTES.USER} element={withUserMenu(UserHome)()} />
+                <Route path={`${ROUTES.BANKS}/:id`} element={<Bank />} />
+                <Route path={ROUTES.PROFILE} element={withUserMenu(Profile)()} />
+                <Route path={ROUTES.HOME} element={withUserMenu(Home, false)()} />
+                <Route
+                  path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}`}
+                  element={<TemplatesList />}
+                />
+                <Route
+                  path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}/:id`}
+                  element={<EditTemplate />}
+                />
+                <Route path={ROUTES.INSTRUCTIONS} element={<Instructions />} />
+              </Routes>
+            </Suspense>
+          </div>
           <AppFooter />
         </NotificationContext.Provider>
       </UserContext.Provider>

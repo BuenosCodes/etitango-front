@@ -25,7 +25,16 @@ export default function UserHome() {
   return (
     <Translation ns={[SCOPES.MODULES.USER_HOME, SCOPES.MODULES.INSTRUCTIONS]} useSuspense={false}>
       {(t) => (
-        <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '49vh', margin: '0 auto'}}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '60vh',
+            margin: '0 auto'
+          }}
+        >
           <WithAuthentication />
           <Typography
             variant="h5"
@@ -37,7 +46,7 @@ export default function UserHome() {
           {signUpDetails ? (
             <ReceiptUpload signUpDetails={signUpDetails} setSignUpDetails={setSignUpDetails} />
           ) : null}
-          <Box sx={{height: '100px'}}>
+          <Box sx={{ height: '100px' }}>
             <Button href={ROUTES.INSTRUCTIONS} variant={'contained'}>
               <Typography>Dudas? Mirá el Instructivo</Typography>
             </Button>
