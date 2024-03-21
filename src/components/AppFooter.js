@@ -23,13 +23,12 @@ export default function AppFooter() {
   return (
     <Grid
       container
-      spacing={{ xs: 3, sm: 1, md: 3 }}
       paddingX={{ xs: 3, sm: 6, md: 10 }}
       paddingY={5}
-      sx={{ backgroundColor: 'greyScale.900', mt: 0, mb: 0 }}
+      sx={{ backgroundColor: 'greyScale.900' }}
     >
-      <Grid item xs={12} sm={6} md={3} order={{ xs: 1, sm: 0, md: 0 }}>
-        <Grid direction="column" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Grid item xs={12} sm={6} md={3} mt={{ xs: 3, sm: 0, md: 0 }} order={{ xs: 1, sm: 0, md: 0 }}>
+        <Grid sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <Typography typography="body.bold.xl" color="principal.primary">
             {t('links.title')}
           </Typography>
@@ -50,7 +49,7 @@ export default function AppFooter() {
       </Grid>
 
       <Grid item xs={12} sm={6} md={4} order={{ xs: 0, sm: 1, md: 1 }}>
-        <Grid direction="column" sx={{ display: 'flex' }}>
+        <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography typography="body.bold.xl" color="principal.primary">
             {t('about.title')}
           </Typography>
@@ -65,6 +64,7 @@ export default function AppFooter() {
         xs={12}
         sm={6}
         md={2}
+        mt={{ xs: 3, sm: 0, md: 0 }}
         order={{ xs: 2, sm: 2, md: 2 }}
         sx={{ display: 'flex', alignItems: { xs: 'inherit', sm: 'center', md: 'inherit' } }}
       >

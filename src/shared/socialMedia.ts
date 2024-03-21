@@ -1,7 +1,3 @@
-export enum SocialMedia {
-  FACEBOOK = 'http://facebook.com/groups/305562943758'
-}
-
 export interface SocialMediaData {
   id: string;
   icon: string;
@@ -9,5 +5,10 @@ export interface SocialMediaData {
   url: string;
 }
 export const SOCIAL_MEDIA_DATA: SocialMediaData[] = [
-  { id: 'facebook', icon: 'FacebookIcon', name: 'Facebook', url: SocialMedia.FACEBOOK }
+  {
+    id: 'facebook',
+    icon: 'FacebookIcon',
+    name: 'Facebook',
+    url: 'http://facebook.com/groups/305562943758'
+  }
 ];

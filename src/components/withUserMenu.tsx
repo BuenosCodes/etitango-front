@@ -51,7 +51,7 @@ export default function withUserMenu(
       <Container
         maxWidth={false}
         disableGutters={true}
-        sx={{ display: 'flex', position: 'relative', minHeight: 'calc(100vh - 10.50hv - 37vh)' }}
+        sx={{ display: 'flex', position: 'relative', minHeight: 'calc(100vh - 37vh)' }}
       >
         <Box
           sx={{
