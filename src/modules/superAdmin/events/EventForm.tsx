@@ -1,17 +1,17 @@
+/* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import { Button, CircularProgress, Grid, Box, Typography, Modal, Chip } from '@mui/material';
 import WithAuthentication from '../../withAuthentication';
 import { Translation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n';
-import { Field, Form, Formik } from 'formik';
-import { TextField } from 'formik-mui';
+import { Form, Formik } from 'formik';
 import { date, object, string } from 'yup';
 import { createOrUpdateDoc } from 'helpers/firestore';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
 import { EtiEvent } from '../../../shared/etiEvent';
 import { UserRoles } from '../../../shared/User';
 import RolesNewEvent from '../roles/RolesNewEvent';
-import { makeStyles } from '@mui/styles';
 import ETITimePicker from 'components/form/EtiTimePicker';
 import { assignEventAdmins } from '../../../helpers/firestore/users';
 import { styles } from './EventForm.styles';
@@ -21,8 +21,9 @@ import { TextFieldForm } from 'components/form/TextFieldForm';
 import { ETIDatePicker } from 'components/form/DatePicker';
 import { EtiLocationPicker } from 'components/form/EtiLocationPicker';
 
-export default function EventForm(props: { etiEventId: string, onChange: Function }) {
-  const { etiEventId, onChange } = props
+export default function EventForm() {
+  const { id } = useParams();
+  const navigate = useNavigate()
   const alertText: string = 'Este campo no puede estar vacío';
   const EventFormSchema = object({
     dateStart: date().nullable().transform((originalValue) => { const parsedDate = new Date(originalValue); return isNaN(parsedDate.getTime()) ? undefined : parsedDate; }).required(alertText),
@@ -67,8 +68,6 @@ export default function EventForm(props: { etiEventId: string, onChange: Functio
   const [event, setEvent] = useState<EtiEvent>();
   const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
-  const [idNuevo, setIdNuevo] = useState('');
-  const [enable, setEnable] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [admins, setAdmins] = useState<string[]>([]);
   const handleOpen = () => setOpen(true);
@@ -95,21 +94,19 @@ export default function EventForm(props: { etiEventId: string, onChange: Functio
   const handleCreateEvent = async (values: any, setSubmitting: Function) => {
     try {
       setIsLoading(true)
-      if (etiEventId) {
+      if (id) {
         const selectedEmails = admins.map((admin: any) => admin.email);
         const validateRuote: RegExp = /^[a-zA-Z0-9]{20,}$/;
-        const idV: boolean = validateRuote.test(etiEventId);
-        const idEvento = await createOrUpdateDoc('events', values, etiEventId === 'new' ? undefined : idV);
+        const idV: boolean = validateRuote.test(id);
+        const idEvento = await createOrUpdateDoc('events', values, id === 'new' ? undefined : idV);
         await assignEventAdmins(selectedEmails, idEvento);
-        setIdNuevo(idEvento);
-        setEnable(true)
-        onChange(idEvento)
+        setIsLoading(false);
+        navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
       } else {
         setIsLoading(false)
       }
     } catch (error) {
       console.error(error);
-      setEnable(false)
       setIsLoading(false)
       setSubmitting(false);
     }
