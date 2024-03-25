@@ -14,12 +14,10 @@ export const ETIDatePicker = ({
 }) => {
   const [field] = useField(fieldName);
   const inputStyle = {
-    '& .MuiFormHelperText-root': {
-      width: '165px',
-    },
+    
     '& .MuiOutlinedInput-root': {
       fontFamily: 'roboto',
-      width: '165px',
+      width: '158px',
       display: 'flex',
       flexDirection: 'row-reverse',
       padding: '2px',
@@ -69,6 +67,5 @@ export const ETIDatePicker = ({
           }
         }}
       />
-
   );
 };

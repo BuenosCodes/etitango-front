@@ -24,8 +24,9 @@ export default function EtiButton(props: any) {
 
     const containerStyle = {
         display: 'flex',
-        justifyContent: 'flex-end',
+        justifyContent: {xs:'none', sm: 'center', md: 'flex-end'},
         margin: '20px',
+       
     };
 
     return (
@@ -36,7 +37,7 @@ export default function EtiButton(props: any) {
                     disabled={isSubmitting}
                     variant={isOutlined ? "outlined" : "contained"}
                     onClick={onClick}
-                    sx={{ ...getButtonStyle(styleKey) }} 
+                    sx={{ ...getButtonStyle(styleKey), width: {md: '130px', sm: '50%', xs: '100%'} }} 
                 >
                     {isLoading ? (
                         <CircularProgress sx={{ color: 'background.white' }} size={30} />

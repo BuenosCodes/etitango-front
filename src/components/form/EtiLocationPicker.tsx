@@ -15,14 +15,12 @@ export const EtiLocationPicker = ({
   location,
   setFieldValue,
   colorFont,
-  fontWeight,
   isDisabled
 }: {
   values: FormikValues;
   touched: any;
   errors: any;
   colorFont: string;
-  fontWeight: number;
   isDisabled: boolean;
   setFieldValue: any;
   location?: { country: string; province?: string; city?: string };
@@ -87,9 +85,9 @@ export const EtiLocationPicker = ({
 
   return (
     <Grid container spacing={3}>
-          <Grid item md={6} sm={6} xs={12}>
-            <Typography style={{color: colorFont, fontWeight: fontWeight}}>
-                {t('province')}            
+          <Grid item md={6} sm={6} xs={6}>
+            <Typography sx={{ fontSize: {xs: '12px', md: '16px'}, fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'} }} style={{ color: colorFont}}>
+                {t('province')}        
             </Typography>
             <Autocomplete
               disablePortal
@@ -107,17 +105,18 @@ export const EtiLocationPicker = ({
                   error={touched['province'] && !!errors['province']}
                   helperText={touched['province'] && errors['province']}
                   variant="outlined"
-                  placeholder={t('province')}     
+                  placeholder={t('province')}    
                   InputProps={{...params.InputProps, startAdornment: (<FmdGoodOutlinedIcon sx={{ color: 'principal.secondary' }} /> )}}
                   sx={{
                    ...inputStyle
+                  
                   }}
                 />
               )}
             />
           </Grid>
-          <Grid item md={6} sm={6} xs={12}>
-          <Typography style={{color: colorFont, fontWeight: fontWeight}}>
+          <Grid item md={6} sm={6} xs={6}>
+          <Typography sx={{ fontSize: {xs: '12px', md: '16px'}, fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'}  }} style={{color: colorFont}}>
                 {t('city')}                    
             </Typography>
             <Autocomplete

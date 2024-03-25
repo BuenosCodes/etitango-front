@@ -20,6 +20,7 @@ import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import { TextFieldForm } from 'components/form/TextFieldForm';
 import { ETIDatePicker } from 'components/form/DatePicker';
 import { EtiLocationPicker } from 'components/form/EtiLocationPicker';
+import { AddButton } from 'components/button/AddButton';
 
 export default function EventForm() {
   const { id } = useParams();
@@ -112,6 +113,13 @@ export default function EventForm() {
     }
   }
 
+  // const styleMessageErrors = {
+  //   '.MuiFormHelperText-root': {
+  //     fontSize: '10px',
+  //     ml: 0
+  //   }
+  // }
+
 
   return (
     <Translation
@@ -152,6 +160,7 @@ export default function EventForm() {
                         admins: event?.admins || []
                       }}
                       validationSchema={EventFormSchema}
+                      // style= {styleMessageErrors}
                       onSubmit={async (values, { setSubmitting }) => {
                         await handleCreateEvent(values, setSubmitting);
                       }}
@@ -161,7 +170,12 @@ export default function EventForm() {
                           <Box sx={{ ...styles.newEtiContainer }}>
 
                             <Grid container gap={2}>
-                              <Typography sx={{ color: 'greyScale.800', fontWeight: 'fontWeightMedium'}}>{t('label.name')}</Typography>
+                              <Typography sx={{ 
+                                color: 'greyScale.800', 
+                                fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'},
+                                fontSize: {xs: '12px', md: '16px'},
+                                }}
+                              >{t('label.name')}</Typography>
                               <Grid item md={12} sm={12} xs={12}>
                                 <TextFieldForm
                                   fieldName='name'
@@ -177,13 +191,18 @@ export default function EventForm() {
                                   touched={touched}
                                   location={event}
                                   colorFont={'greyScale.800'}
-                                  fontWeight={500}
                                   isDisabled={false}
                                 />
                               </Grid>
 
+
                               <Grid item md={12} sm={12} xs={12}>
-                                <Typography sx={{ color: 'greyScale.800', fontWeight: 'fontWeightMedium'}}>{t('label.dateStart')}</Typography>
+                                <Typography sx={{ 
+                                color: 'greyScale.800', 
+                                fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'},
+                                fontSize: {xs: '12px', md: '16px'},
+                                }}>
+                                  {t('label.dateStart')}</Typography>
                                 <Grid container alignItems={'flex-start'}>
                                   <Grid item >
                                     <ETIDatePicker
@@ -192,8 +211,15 @@ export default function EventForm() {
                                       setFieldValue={setFieldValue}
                                     />
                                   </Grid>
-                                  <Typography sx={{ color: 'greyScale.800', mt: 2, ml: 2, mr: 2, fontWeight: 'fontWeightMedium' }}>{t('label.time')}</Typography>
-                                  <Grid item >
+                                  <Typography sx={{
+                                    display: {xs: 'none', md: 'flex'}, 
+                                    color: 'greyScale.800', 
+                                    mt: 2, ml: 2, mr: 2, 
+                                    fontWeight: 'fontWeightMedium',
+                                    fontSize: '16px',
+                                    }}>
+                                      {t('label.time')}</Typography>
+                                  <Grid item sx={{ ml: {xs: 2, sm: 3, md: 0}} }>
                                     <ETITimePicker
                                       value={values['timeStart']}
                                       onChange={(value: any) => setFieldValue('timeStart', value)}
@@ -205,7 +231,12 @@ export default function EventForm() {
                               </Grid>
 
                               <Grid item md={12} sm={12} xs={12}>
-                                <Typography sx={{ color: 'greyScale.800', fontWeight: 'fontWeightMedium' }}>{t('label.dateEnd')}</Typography>
+                                <Typography sx={{ 
+                                  color: 'greyScale.800', 
+                                  fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'},
+                                  fontSize: {xs: '12px', md: '16px'},
+                                }}>
+                                  {t('label.dateEnd')}</Typography>
                                 <Grid container alignItems={'flex-start'}>
                                   <Grid item >
                                     <ETIDatePicker
@@ -214,8 +245,15 @@ export default function EventForm() {
                                       setFieldValue={setFieldValue}
                                     />
                                   </Grid>
-                                  <Typography sx={{ color: 'greyScale.800', mt: 2, ml: 2, mr: 2, fontWeight: 'fontWeightMedium' }}>{t('label.time')}</Typography>
-                                  <Grid item >
+                                  <Typography sx={{
+                                    display: {xs: 'none', md: 'flex'}, 
+                                    color: 'greyScale.800', 
+                                    mt: 2, ml: 2, mr: 2, 
+                                    fontWeight: 'fontWeightMedium',
+                                    fontSize: '16px',
+                                    }}>
+                                      {t('label.time')}</Typography>
+                                  <Grid item sx={{ ml: {xs: '13px', sm: 3, md: 0}} }>
                                     <ETITimePicker
                                       value={values['timeEnd']}
                                       onChange={(value: any) => setFieldValue('timeEnd', value)}
@@ -227,7 +265,12 @@ export default function EventForm() {
                               </Grid>
 
                               <Grid item md={12} sm={12} xs={12}>
-                                <Typography sx={{ color: 'greyScale.800', fontWeight: 'fontWeightMedium' }}>{t('label.dateSignupOpen')}</Typography>
+                                <Typography sx={{ 
+                                  color: 'greyScale.800', 
+                                  fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'},
+                                  fontSize: {xs: '12px', md: '16px'},
+                                  }}>
+                                    {t('label.dateSignupOpen')}</Typography>
                                 <Grid container alignItems={'flex-start'}>
                                   <Grid item >
                                     <ETIDatePicker
@@ -237,8 +280,15 @@ export default function EventForm() {
                                     
                                     />
                                   </Grid>
-                                  <Typography sx={{ color: 'greyScale.800', mt: 2, ml: 2, mr: 2, fontWeight: 'fontWeightMedium' }}>{t('label.time')}</Typography>
-                                  <Grid item >
+                                  <Typography sx={{
+                                    display: {xs: 'none', md: 'flex'}, 
+                                    color: 'greyScale.800', 
+                                    mt: 2, ml: 2, mr: 2, 
+                                    fontWeight: 'fontWeightMedium',
+                                    fontSize: '16px',
+                                    }}>
+                                      {t('label.time')}</Typography>
+                                  <Grid item sx={{ ml: {xs: '13px', sm: 3, md: 0}} }>
                                     <ETITimePicker
                                       value={values['timeSignupOpen']}
                                       onChange={(value: any) => setFieldValue('timeSignupOpen', value)}
@@ -246,8 +296,23 @@ export default function EventForm() {
                                       helperText={touched['timeSignupOpen'] && errors['timeSignupOpen']}
                                     />
                                   </Grid>
-                                  <Typography sx={{  color: 'greyScale.800', mt: 2, ml: 2, mr: 2, fontWeight: 'fontWeightMedium' }}>{t('label.dateSignupEnd')}</Typography>
+                                  <Typography sx={{
+                                    display: {xs: 'none', sm: 'flex'},
+                                    color: 'greyScale.800', 
+                                    mt: 2, ml: 2, mr: 2, 
+                                    fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'},
+                                    fontSize: {xs: '12px', md: '16px'},
+                                    }}>
+                                      {t('label.dateSignupEnd')}</Typography>
                                   <Grid item >
+                                  <Typography sx={{
+                                    display: {xs: 'flex', sm: 'none'},
+                                    color: 'greyScale.800', 
+                                    mt: 2, mr: 2, 
+                                    fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'},
+                                    fontSize: {xs: '12px', md: '16px'},
+                                    }}>
+                                      {t('label.dateSignupEnd')}</Typography>
                                     <ETIDatePicker
                                       textFieldProps={{ fullWidth: true }}
                                       fieldName="dateSignupEnd"
@@ -255,8 +320,16 @@ export default function EventForm() {
                                       
                                     />
                                   </Grid>
-                                  <Typography sx={{  color: 'greyScale.800', mt: 2, ml: 2, mr: 2, fontWeight: 'fontWeightMedium' }}>{t('label.timeSignupEnd')}</Typography>
-                                  <Grid item >
+                                  <Typography sx={{
+                                    display: {xs: 'none', md: 'flex'}, 
+                                    color: 'greyScale.800', 
+                                    mt: 2, ml: 2, mr: 2, 
+                                    fontWeight: 'fontWeightMedium',
+                                    fontSize: '16px',
+                                    }}>
+                                      {t('label.timeSignupEnd')}</Typography>
+
+                                 <Grid item sx={{ mt: {xs:'35px', sm: '0'}, ml: {xs: '13px', sm: 3, md: 0}} }>
                                     <ETITimePicker
                                       value={values['timeSignupEnd']}
                                       onChange={(value: any) => setFieldValue('timeSignupEnd', value)}
@@ -267,33 +340,43 @@ export default function EventForm() {
                                 </Grid>
                               </Grid>
 
-                              <Grid item xs={12}>
+                              <Grid item xs={12} sx= {{ mt: {xs: 1, md: 0} }}>
                                 <Grid container gap={2}>
-                                  <Typography sx={{  color: 'greyScale.800', fontWeight: 'fontWeightMedium' }}>{t('label.organizers')}</Typography>
-                                  <Grid item xs={12} sx={{ border: admins.length ? '1.5px solid #E68650' : '1.5px solid #FDE4AA', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} >
-                                  {/* Los borders no funcionan con un color definido en el theme */}
+                                  <Typography sx={{
+                                  display: {xs: 'none', md: 'flex'}, 
+                                  color: 'greyScale.800', 
+                                  fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'},
+                                  fontSize: {xs: '12px', md: '16px'},
+                                  }}>
+                                    {t('label.organizers')}</Typography>
+
                                   <Grid item xs={12} sx={{ border: admins.length ? '1.5px solid #E68650' : '1.5px solid #FDE4AA', ...styles.organizersContainer }} >
-                                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', height: {xs: '75px', md: '48px'}  }}>
                                       {admins.length ? (<>
                                         {admins.map((admin: any, index) => (
                                           <Chip key={index} label={admin.name} onDelete={() => handleDelete(admin.email)} variant="outlined" sx={{ ...styles.chipStyles }} />
                                         ))}
-                                      </>) : <Typography typography='body.regular.l' sx={{ ml: 1, color: 'greyScale.500' }}> {t('placeholders.organizers')} </Typography>}
+                                      </>) : <Typography typography='body.regular.l' sx={{ display: 'flex', alignItems: {xs: 'none', md: 'center'}, ml: 1, color: {xs: 'greyScale.800', md: 'greyScale.500'} , fontSize: {xs: '12px', md: '16px', lg: '16px'}, fontWeight: {xs: 'fontWeightMedium', md: 'fontWeightRegular'}, }}> {t('placeholders.organizers')} </Typography>}
+                                  
                                     </Box>
-                                    <Button onClick={handleOpen}>
-                                        <Typography typography= 'body.medium.l' sx={{ mr: 1, color: 'principal.secondary' }}>
-                                          Agregar
-                                        </Typography>
-                                        <PersonAddAltOutlinedIcon sx={{color: 'principal.secondary'}} />
-                                    </Button>
+                                    <Grid sx={{display: {xs: 'none', md: 'flex'}}}>
+                                        <AddButton onClick={handleOpen}></AddButton>
+                                    </Grid>
                                   </Grid>
+
+                                {/* pasar estado isMobile     */}
+                                <Grid item xs={12} sx={{ display: {xs:'flex', md: 'none'},justifyContent: 'flex-end' }}>
+                                    <AddButton onClick={handleOpen}></AddButton>
                                 </Grid>
+                                
                                 <Modal open={open} onClose={() => handleClose([])}>
                                   <Box sx={{ ...styles.modalStyle }}>
                                     <RolesNewEvent handleClose={handleClose} selectedRows={admins} />
                                   </Box>
                                 </Modal>
                               </Grid>
+
+                              <Box sx={{ display: {xs: 'flex', md: 'none'}, border:'1px solid #E0E0E0', width: '100%', mt: '18px'}}></Box>
 
                             </Grid>
                             </Grid>

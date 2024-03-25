@@ -2,8 +2,8 @@ export const styles = {
     mainContainer: {
       display: 'flex',
       flexDirection: 'column',
-      boxShadow: 3,
-      width: 960,
+      boxShadow: {xs: '', md: 3, lg: 3},
+      width:  {xs: 380, sm: '100%', md: '100%', lg: 960},
       height: 820,
       borderRadius: '12px',
       overflow: 'auto',
@@ -12,15 +12,15 @@ export const styles = {
       marginY: '20px'
     },
     newEtiContainer: {
-      margin: '20px',
-      backgroundColor: 'greyScale.50',
+      margin: {xs: 0, sm: '20px'},
+      backgroundColor: {xs: 'background.white', sm: 'greyScale.50'},
       borderRadius: '12px',
       p: 2
     },
     titleContainer: {
-      color: 'background.white',
-      backgroundColor: 'details.azure',
-      padding: '12px 24px 12px 24px',
+      color: {xs: 'details.azure', md: 'background.white'},
+      backgroundColor: {xs: '', md: 'details.azure'},
+      padding: {xs: '3px 24px 12px 3px', sm: '12px 24px 12px 24px'},
       fontWeight: 600,
       fontSize: '24px',
       lineHeight: '16px',
@@ -38,7 +38,7 @@ export const styles = {
       borderRadius: 6,
       p: 4,
       overflow: 'auto',
-      width: '900px',
+      width: {xs: '390px', md: '900px'},
       height: '500px',
       display: 'flex',
       flexDirection: 'column'
