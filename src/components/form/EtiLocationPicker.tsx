@@ -86,7 +86,7 @@ export const EtiLocationPicker = ({
   return (
     <Grid container spacing={3}>
           <Grid item md={6} sm={6} xs={6}>
-            <Typography sx={{ fontSize: {xs: '12px', md: '16px'}, fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'} }} style={{ color: colorFont}}>
+            <Typography typography={{ xs: 'label.mobile', md: 'label.desktop' }} style={{ color: colorFont}}>
                 {t('province')}        
             </Typography>
             <Autocomplete
@@ -116,7 +116,7 @@ export const EtiLocationPicker = ({
             />
           </Grid>
           <Grid item md={6} sm={6} xs={6}>
-          <Typography sx={{ fontSize: {xs: '12px', md: '16px'}, fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'}  }} style={{color: colorFont}}>
+          <Typography typography={{ xs: 'label.mobile', md: 'label.desktop' }} style={{color: colorFont}}>
                 {t('city')}                    
             </Typography>
             <Autocomplete

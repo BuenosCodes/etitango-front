@@ -70,6 +70,12 @@ export const styles = {
         backgroundColor: 'transparent',
         boxShadow: '1px 0px 2px 0px #6695B7',
         borderRadius: '12px'
+      },
+      '.css-10gzpdc-MuiFormHelperText-root': {
+        fontSize: {xs: '10px', md: '12px'},
+        ml: 0,
+        mr: 0,
       }
     }
+    
   };

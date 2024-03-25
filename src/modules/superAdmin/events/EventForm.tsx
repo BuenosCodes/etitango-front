@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { Button, CircularProgress, Grid, Box, Typography, Modal, Chip } from '@mui/material';
+import { CircularProgress, Grid, Box, Typography, Modal, Chip } from '@mui/material';
 import WithAuthentication from '../../withAuthentication';
 import { Translation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n';
@@ -16,7 +16,6 @@ import ETITimePicker from 'components/form/EtiTimePicker';
 import { assignEventAdmins } from '../../../helpers/firestore/users';
 import { styles } from './EventForm.styles';
 import EtiButton from 'components/button/EtiButton';
-import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import { TextFieldForm } from 'components/form/TextFieldForm';
 import { ETIDatePicker } from 'components/form/DatePicker';
 import { EtiLocationPicker } from 'components/form/EtiLocationPicker';
@@ -52,7 +51,6 @@ export default function EventForm() {
     timeSignupOpen: string().required(alertText),
     timeSignupEnd: string().required(alertText),
     name: string().required(alertText),
-    // country: string().nullable(true).required(alertText),
     province: string()
       .nullable(true)
       .when('country', {
@@ -113,14 +111,6 @@ export default function EventForm() {
     }
   }
 
-  // const styleMessageErrors = {
-  //   '.MuiFormHelperText-root': {
-  //     fontSize: '10px',
-  //     ml: 0
-  //   }
-  // }
-
-
   return (
     <Translation
       ns={[SCOPES.MODULES.ETI]}
@@ -160,7 +150,6 @@ export default function EventForm() {
                         admins: event?.admins || []
                       }}
                       validationSchema={EventFormSchema}
-                      // style= {styleMessageErrors}
                       onSubmit={async (values, { setSubmitting }) => {
                         await handleCreateEvent(values, setSubmitting);
                       }}
@@ -170,12 +159,7 @@ export default function EventForm() {
                           <Box sx={{ ...styles.newEtiContainer }}>
 
                             <Grid container gap={2}>
-                              <Typography sx={{ 
-                                color: 'greyScale.800', 
-                                fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'},
-                                fontSize: {xs: '12px', md: '16px'},
-                                }}
-                              >{t('label.name')}</Typography>
+                              <Typography typography={{xs:'label.mobile', md: 'label.desktop'}} sx={{ color: 'greyScale.800' }}>{t('label.name')}</Typography>
                               <Grid item md={12} sm={12} xs={12}>
                                 <TextFieldForm
                                   fieldName='name'
@@ -197,12 +181,7 @@ export default function EventForm() {
 
 
                               <Grid item md={12} sm={12} xs={12}>
-                                <Typography sx={{ 
-                                color: 'greyScale.800', 
-                                fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'},
-                                fontSize: {xs: '12px', md: '16px'},
-                                }}>
-                                  {t('label.dateStart')}</Typography>
+                                <Typography typography={{xs:'label.mobile', md: 'label.desktop'}} sx={{ color: 'greyScale.800' }}>{t('label.dateStart')}</Typography>
                                 <Grid container alignItems={'flex-start'}>
                                   <Grid item >
                                     <ETIDatePicker
@@ -211,14 +190,7 @@ export default function EventForm() {
                                       setFieldValue={setFieldValue}
                                     />
                                   </Grid>
-                                  <Typography sx={{
-                                    display: {xs: 'none', md: 'flex'}, 
-                                    color: 'greyScale.800', 
-                                    mt: 2, ml: 2, mr: 2, 
-                                    fontWeight: 'fontWeightMedium',
-                                    fontSize: '16px',
-                                    }}>
-                                      {t('label.time')}</Typography>
+                                  <Typography typography={{xs:'label.mobile', md: 'label.desktop'}} sx={{ display: {xs: 'none', md: 'flex'}, color: 'greyScale.800', mt: 2, ml: 2, mr: 2,}}> {t('label.time')}</Typography>
                                   <Grid item sx={{ ml: {xs: 2, sm: 3, md: 0}} }>
                                     <ETITimePicker
                                       value={values['timeStart']}
@@ -231,12 +203,7 @@ export default function EventForm() {
                               </Grid>
 
                               <Grid item md={12} sm={12} xs={12}>
-                                <Typography sx={{ 
-                                  color: 'greyScale.800', 
-                                  fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'},
-                                  fontSize: {xs: '12px', md: '16px'},
-                                }}>
-                                  {t('label.dateEnd')}</Typography>
+                                <Typography typography={{xs:'label.mobile', md: 'label.desktop'}} sx={{ color: 'greyScale.800'}}>{t('label.dateEnd')}</Typography>
                                 <Grid container alignItems={'flex-start'}>
                                   <Grid item >
                                     <ETIDatePicker
@@ -245,14 +212,7 @@ export default function EventForm() {
                                       setFieldValue={setFieldValue}
                                     />
                                   </Grid>
-                                  <Typography sx={{
-                                    display: {xs: 'none', md: 'flex'}, 
-                                    color: 'greyScale.800', 
-                                    mt: 2, ml: 2, mr: 2, 
-                                    fontWeight: 'fontWeightMedium',
-                                    fontSize: '16px',
-                                    }}>
-                                      {t('label.time')}</Typography>
+                                  <Typography typography={{xs:'label.mobile', md: 'label.desktop'}} sx={{ display: {xs: 'none', md: 'flex'}, color: 'greyScale.800', mt: 2, ml: 2, mr: 2, }}>{t('label.time')}</Typography>
                                   <Grid item sx={{ ml: {xs: '13px', sm: 3, md: 0}} }>
                                     <ETITimePicker
                                       value={values['timeEnd']}
@@ -265,12 +225,7 @@ export default function EventForm() {
                               </Grid>
 
                               <Grid item md={12} sm={12} xs={12}>
-                                <Typography sx={{ 
-                                  color: 'greyScale.800', 
-                                  fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'},
-                                  fontSize: {xs: '12px', md: '16px'},
-                                  }}>
-                                    {t('label.dateSignupOpen')}</Typography>
+                                <Typography typography={{xs:'label.mobile', md: 'label.desktop'}} sx={{ color: 'greyScale.800'}}>{t('label.dateSignupOpen')}</Typography>
                                 <Grid container alignItems={'flex-start'}>
                                   <Grid item >
                                     <ETIDatePicker
@@ -280,14 +235,7 @@ export default function EventForm() {
                                     
                                     />
                                   </Grid>
-                                  <Typography sx={{
-                                    display: {xs: 'none', md: 'flex'}, 
-                                    color: 'greyScale.800', 
-                                    mt: 2, ml: 2, mr: 2, 
-                                    fontWeight: 'fontWeightMedium',
-                                    fontSize: '16px',
-                                    }}>
-                                      {t('label.time')}</Typography>
+                                  <Typography typography={{xs:'label.mobile', md: 'label.desktop'}} sx={{ display: {xs: 'none', md: 'flex'},  color: 'greyScale.800',mt: 2, ml: 2, mr: 2, }}>{t('label.time')}</Typography>
                                   <Grid item sx={{ ml: {xs: '13px', sm: 3, md: 0}} }>
                                     <ETITimePicker
                                       value={values['timeSignupOpen']}
@@ -296,23 +244,9 @@ export default function EventForm() {
                                       helperText={touched['timeSignupOpen'] && errors['timeSignupOpen']}
                                     />
                                   </Grid>
-                                  <Typography sx={{
-                                    display: {xs: 'none', sm: 'flex'},
-                                    color: 'greyScale.800', 
-                                    mt: 2, ml: 2, mr: 2, 
-                                    fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'},
-                                    fontSize: {xs: '12px', md: '16px'},
-                                    }}>
-                                      {t('label.dateSignupEnd')}</Typography>
+                                  <Typography  typography={{xs:'label.mobile', md: 'label.desktop'}} sx={{display: {xs: 'none', sm: 'flex'},color: 'greyScale.800', mt: 2, ml: 2, mr: 2}}>{t('label.dateSignupEnd')}</Typography>
                                   <Grid item >
-                                  <Typography sx={{
-                                    display: {xs: 'flex', sm: 'none'},
-                                    color: 'greyScale.800', 
-                                    mt: 2, mr: 2, 
-                                    fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'},
-                                    fontSize: {xs: '12px', md: '16px'},
-                                    }}>
-                                      {t('label.dateSignupEnd')}</Typography>
+                                  <Typography  typography={{xs:'label.mobile', md: 'label.desktop'}} sx={{display: {xs: 'flex', sm: 'none'}, color: 'greyScale.800', mt: 2, mr: 2, }}>{t('label.dateSignupEnd')}</Typography>
                                     <ETIDatePicker
                                       textFieldProps={{ fullWidth: true }}
                                       fieldName="dateSignupEnd"
@@ -320,14 +254,7 @@ export default function EventForm() {
                                       
                                     />
                                   </Grid>
-                                  <Typography sx={{
-                                    display: {xs: 'none', md: 'flex'}, 
-                                    color: 'greyScale.800', 
-                                    mt: 2, ml: 2, mr: 2, 
-                                    fontWeight: 'fontWeightMedium',
-                                    fontSize: '16px',
-                                    }}>
-                                      {t('label.timeSignupEnd')}</Typography>
+                                  <Typography typography='label.desktop' sx={{ display: {xs: 'none', md: 'flex'}, color: 'greyScale.800', mt: 2, ml: 2, mr: 2}}>{t('label.timeSignupEnd')}</Typography>
 
                                  <Grid item sx={{ mt: {xs:'35px', sm: '0'}, ml: {xs: '13px', sm: 3, md: 0}} }>
                                     <ETITimePicker
@@ -342,30 +269,21 @@ export default function EventForm() {
 
                               <Grid item xs={12} sx= {{ mt: {xs: 1, md: 0} }}>
                                 <Grid container gap={2}>
-                                  <Typography sx={{
-                                  display: {xs: 'none', md: 'flex'}, 
-                                  color: 'greyScale.800', 
-                                  fontWeight: {xs: 'fontWeightSemiBold', md: 'fontWeightMedium'},
-                                  fontSize: {xs: '12px', md: '16px'},
-                                  }}>
-                                    {t('label.organizers')}</Typography>
-
+                                  <Typography typography={{ xs:'label.mobile', md: 'label.desktop' }} sx={{display: {xs: 'none', md: 'flex'}, color: 'greyScale.800'}}>{t('label.organizers')}</Typography>
                                   <Grid item xs={12} sx={{ border: admins.length ? '1.5px solid #E68650' : '1.5px solid #FDE4AA', ...styles.organizersContainer }} >
                                     <Box sx={{ display: 'flex', flexWrap: 'wrap', height: {xs: '75px', md: '48px'}  }}>
                                       {admins.length ? (<>
                                         {admins.map((admin: any, index) => (
                                           <Chip key={index} label={admin.name} onDelete={() => handleDelete(admin.email)} variant="outlined" sx={{ ...styles.chipStyles }} />
                                         ))}
-                                      </>) : <Typography typography='body.regular.l' sx={{ display: 'flex', alignItems: {xs: 'none', md: 'center'}, ml: 1, color: {xs: 'greyScale.800', md: 'greyScale.500'} , fontSize: {xs: '12px', md: '16px', lg: '16px'}, fontWeight: {xs: 'fontWeightMedium', md: 'fontWeightRegular'}, }}> {t('placeholders.organizers')} </Typography>}
+                                      </>) : <Typography typography={{xs:'label.mobile', md: 'body.regular.l'}} sx={{ display: 'flex', alignItems: {xs: 'none', md: 'center'}, ml: 1, color: {xs: 'greyScale.800', md: 'greyScale.500'} }}> {t('placeholders.organizers')} </Typography>}
                                   
                                     </Box>
                                     <Grid sx={{display: {xs: 'none', md: 'flex'}}}>
                                         <AddButton onClick={handleOpen}></AddButton>
                                     </Grid>
                                   </Grid>
-
-                                {/* pasar estado isMobile     */}
-                                <Grid item xs={12} sx={{ display: {xs:'flex', md: 'none'},justifyContent: 'flex-end' }}>
+                                <Grid item xs={12} sx={{ display: {xs:'flex', md: 'none'}, justifyContent: 'flex-end' }}>
                                     <AddButton onClick={handleOpen}></AddButton>
                                 </Grid>
                                 

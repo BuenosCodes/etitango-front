@@ -45,11 +45,8 @@ const ETITimePicker = ({ value, onChange, showBorders = true, error, helperText}
     <TextField
       type="text"
       label={ isMobile ? (
-        <Typography sx={{ fontSize: '16px', fontWeight: 700 }}>A las</Typography> ) : null
+        <Typography fontWeight={'fontWeightBold'}>{t('label.time')}</Typography> ) : null
       }
-      // label={isMobile ? (
-      //   <span style={{ fontSize: '16px', fontWeight: '700' }}>A las</span>
-      // ) : undefined}
       placeholder={t('placeholders.hour')}
       value={value}
       onChange={handleInputChange}

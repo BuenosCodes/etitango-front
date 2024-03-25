@@ -223,6 +223,24 @@ const rawTheme = createTheme({
         }
       }
     },
+    label: {
+      desktop: {
+        fontFamily: 'Montserrat',
+        fontWeight: 500,
+        fontSize: '16px'
+      },
+      mobile: {
+        fontFamily: 'Montserrat',
+        fontWeight: 600,
+        fontSize: '12px'
+      },
+      button: {
+        fontFamily: 'Montserrat',
+        fontWeight: 500,
+        fontSize: '14px'
+      }
+   }, 
+
     body: {
       bold: {
         xl: {

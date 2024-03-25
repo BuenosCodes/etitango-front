@@ -44,8 +44,14 @@ export const ETIDatePicker = ({
         color: 'principal.secondary'
       } 
   }
+  
 }
+
+const containerStyle = {
+  width: '160px', 
+};
   return (
+    <div style={containerStyle}>
       <Field
         component={DatePicker}
         disablePast
@@ -67,5 +73,6 @@ export const ETIDatePicker = ({
           }
         }}
       />
+      </div>
   );
 };
