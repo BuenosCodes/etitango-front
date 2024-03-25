@@ -41,4 +41,43 @@ const mediumPrimaryButton = {
     padding: '18px, 16px',
 }
 
-export default { primaryButton, smallPrimaryButton, smallPrimaryButtonOutLine, largePrimaryButton, mediumPrimaryButton }
+const smallSecondaryButton = {
+    width: '96px', 
+    height: '40px', '&:hover': { backgroundColor: 'principal.primary', boxShadow: 'none'},
+    boxShadow: 'none',
+    padding: '12px, 32px', 
+    borderRadius: '16px', 
+    backgroundColor: 'principal.primary', 
+}
+
+const smallSecondaryDarkButton = {
+    width: '96px', 
+    height: '40px', '&:hover': { backgroundColor: 'principal.primary', boxShadow: 'none' },
+    boxShadow: 'none',
+    padding: '12px, 32px', 
+    borderRadius: '12px', 
+    backgroundColor: 'principal.primary', 
+}
+
+const smallSecondaryButtonOutLine = {
+    width: '96px', 
+    height: '40px', 
+    '&:hover': { backgroundColor: 'transparent', borderColor: 'principal.primary', boxShadow: 'none'},
+    boxShadow: 'none',
+    padding: '12px, 32px, 12px, 32px', 
+    borderRadius: '12px',
+    borderColor: 'principal.primary', 
+    borderWidth: '1px'
+}
+
+
+export default { 
+    primaryButton, 
+    smallPrimaryButton, 
+    smallPrimaryButtonOutLine, 
+    largePrimaryButton, 
+    mediumPrimaryButton,
+    smallSecondaryButton,
+    smallSecondaryDarkButton,
+    smallSecondaryButtonOutLine
+}

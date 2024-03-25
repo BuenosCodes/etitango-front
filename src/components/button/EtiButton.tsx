@@ -17,6 +17,12 @@ export default function EtiButton(props: any) {
                 return buttonStyles.mediumPrimaryButton;
             case 'largePrimaryButton':
                 return buttonStyles.largePrimaryButton;
+            case 'smallSecondaryButton':
+                return buttonStyles.smallSecondaryButton;
+            case 'smallSecondaryDarkButton':
+                return buttonStyles.smallSecondaryDarkButton;
+            case 'smallSecondaryButtonOutLine':
+                return buttonStyles.smallSecondaryButtonOutLine
             default:
                 return {};
         }
