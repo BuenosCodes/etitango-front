@@ -6,7 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { GlobalStateProvider } from 'helpers/UserPanelContext';
 import moment from 'moment';
 import 'moment/locale/es';
-moment.lang('es', {
+moment.updateLocale('es', {
   months:
     'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split(
       '_'
