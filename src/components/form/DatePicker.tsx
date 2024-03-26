@@ -10,7 +10,7 @@ export const ETIDatePicker = ({
   fieldName: string;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
   textFieldProps: any;
-
+// eslint-disable-next-line no-unused-vars
 }) => {
   const [field] = useField(fieldName);
   const inputStyle = {

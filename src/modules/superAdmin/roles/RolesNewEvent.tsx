@@ -1,42 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import { UserFullData, UserRolesListData } from 'shared/User';
-import * as firestoreUserHelper from 'helpers/firestore/users';
+import { getAllUsers } from 'helpers/firestore/users';
 import { Box, Button, Typography, CircularProgress } from '@mui/material';
 import { DataGrid, GridColDef, GridToolbarQuickFilter } from '@mui/x-data-grid';
 
 const RolesNewEvent = ({ handleClose, selectedRows }: { handleClose: Function, selectedRows: any }) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [usuarios, setUsuarios] = useState<UserFullData[]>([]);
+    const [users, setUsers] = useState<UserFullData[]>([]);
     const [selectedUserInfo, setSelectedUserInfo] = React.useState({});
-    const [filteredUsuarios, setFilteredUsuarios] = useState<UserFullData[]>([]);
-    const [selecteTabledData, setSelectedTableData] = React.useState([]);
+    const [filteredUsers, setFilteredUsers] = useState<UserFullData[]>([]);
+    const [selectedDataTable, setSelectedDataTable] = React.useState([]);
 
     useEffect(() => {
         setIsLoading(true);
-
-        let usuarios2: Function;
+        let user: Function;
 
         const fetchData = async () => {
-            usuarios2 = await firestoreUserHelper.getAllUsers(setUsuarios, setIsLoading)
+            try {
+                user= await getAllUsers(setUsers, setIsLoading);
+            } catch (error) {
+                alert('Error getting users:' + error);
+            }
         };
-        fetchData().catch((error) => {
-            console.error(error);
-        });
+        
+        fetchData();
         return () => {
-            if (usuarios2) {
-                usuarios2()
+            if (user) {
+                user()
             }
         };
     }, []);
 
     useEffect(() => {
         const adminsSelected = selectedRows.map((item:any) => item.id);
-        setSelectedTableData(adminsSelected)
-        const filteredData = usuarios.filter((usuario) => {
+        setSelectedDataTable(adminsSelected)
+        const filteredData = users.filter((usuario) => {
             return !usuario.roles || !usuario.roles.superadmin;
         });
-        setFilteredUsuarios(filteredData);
-    }, [usuarios, selectedRows]);
+        setFilteredUsers(filteredData);
+    }, [users, selectedRows]);
  
  const columns: GridColDef[] = [
         {
@@ -65,14 +67,13 @@ const RolesNewEvent = ({ handleClose, selectedRows }: { handleClose: Function, s
             setIsLoading(true);
             handleClose(selectedUserInfo)
         } catch (error) {
-            console.error('Error al pasar los de usuarios seleccionados:', error);
+            alert('Error passing selected users:' + error);
         } finally {
             setIsLoading(false);
         }
     };
 
     const scrollbarStyles = {
-        // overflowY: 'auto',
         '&::-webkit-scrollbar': {
             width: '8px',
         },
@@ -90,7 +91,7 @@ const RolesNewEvent = ({ handleClose, selectedRows }: { handleClose: Function, s
     return (
         <>
             <DataGrid
-                rows={filteredUsuarios.map(getUserDataValues)}
+                rows={filteredUsers.map(getUserDataValues)}
                 columns={columns}
                 loading={isLoading}
                 initialState={{
@@ -109,13 +110,13 @@ const RolesNewEvent = ({ handleClose, selectedRows }: { handleClose: Function, s
                     ),
                 }}
                 getRowId={(row) => row.id}           
-                selectionModel={selecteTabledData}
+                selectionModel={selectedDataTable}
                 onSelectionModelChange={(selection:any) => {
                     const selectedInfo = selection.map((selectedId: any) => {
-                        const selectedUsuario = usuarios.find((usuario) => usuario.id.toString() === selectedId);
+                        const selectedUsuario = users.find((usuario) => usuario.id.toString() === selectedId);
                         return selectedUsuario ? {id: selectedId, name: `${selectedUsuario?.nameFirst} ${selectedUsuario?.nameLast}`, email: selectedUsuario.email } : '';
                     })
-                    setSelectedTableData(selection)     
+                    setSelectedDataTable(selection)     
                     setSelectedUserInfo(selectedInfo)
                 }}
                 sx={{

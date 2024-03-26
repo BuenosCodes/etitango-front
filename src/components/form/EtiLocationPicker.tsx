@@ -1,4 +1,4 @@
-import { Grid, TextField as TextFieldMUI, Typography, InputAdornment } from '@mui/material';
+import { Grid, TextField as TextFieldMUI, Typography } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useEffect, useState } from 'react';
 import { getProvinces, getCities } from 'helpers/thirdParties/georef';

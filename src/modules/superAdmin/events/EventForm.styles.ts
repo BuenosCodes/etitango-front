@@ -32,7 +32,7 @@ export const styles = {
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      bgcolor: '#FAFAFA',
+      bgcolor: 'greyScale.50',
       border: '1px solid #000',
       boxShadow: 24,
       borderRadius: 6,

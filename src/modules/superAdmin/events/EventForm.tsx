@@ -86,7 +86,7 @@ export default function EventForm() {
     try {
       setAdmins((currentAdmins) => currentAdmins.filter((admin: any) => admin.email !== email));
     } catch (error) {
-      console.error('Error al borrar administrador:', error);
+      alert('Error deleting admin:' + error);
     }
   };
 
@@ -105,7 +105,7 @@ export default function EventForm() {
         setIsLoading(false)
       }
     } catch (error) {
-      console.error(error);
+      alert(error);
       setIsLoading(false)
       setSubmitting(false);
     }
