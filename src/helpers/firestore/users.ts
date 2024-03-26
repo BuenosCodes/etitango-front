@@ -33,7 +33,7 @@ export const getAllUsers = async (setUsuarios: Function, setIsLoading: Function)
     setIsLoading(false);
     return () => {};
   } catch (error) {
-    console.error('Error getting users:', error);
+    alert('Error getting users:');
     throw error;
   }
 };
@@ -79,15 +79,18 @@ const getUserByEmail = async (email: string) => {
   })) as UserFullData[];
   return docs[0];
 };
+
 export async function assignSuperAdmin(email: string) {
   const doc = await getUserByEmail(email);
   return createOrUpdateDoc(USERS, { roles: { [UserRoles.SUPER_ADMIN]: true } }, doc.id);
 }
-// Para hacer admins a varios usuarios
-export const assignEventAdmins = async (emails: string[], eventId: string) => {
+
+export async function assignEventAdmins(emails: string | string[], eventId: string) {
   const batch = writeBatch(db);
 
-  for (const email of emails) {
+  const emailList = Array.isArray(emails) ? emails : [emails];
+
+  for (const email of emailList) {
     const userDoc = await getUserByEmail(email);
 
     if (userDoc) {
@@ -100,34 +103,12 @@ export const assignEventAdmins = async (emails: string[], eventId: string) => {
         {
           // @ts-ignore
           roles: { [UserRoles.ADMIN]: true },
-          adminOf: arrayUnion(eventId),
+          adminOf: arrayUnion(eventId)
         },
         { merge: true }
       );
     }
   }
-
-  await batch.commit();
-};
-
-
-// Para hacer admin a un usuario
-export async function assignEventAdmin(email: string, etiEventId: string) {
-  const userDoc = await getUserByEmail(email);
-  const eventRef = doc(db, `${EVENTS}/${etiEventId}`);
-  const batch = writeBatch(db);
-
-  batch.update(eventRef, { admins: arrayUnion(userDoc.id) });
-  const ref = doc(db, `${USERS}/${userDoc.id}`);
-  batch.update(
-    ref,
-    {
-      // @ts-ignore
-      roles: { [UserRoles.ADMIN]: true },
-      adminOf: arrayUnion(etiEventId)
-    },
-    { merge: true }
-  );
 
   await batch.commit();
 }
@@ -182,7 +163,7 @@ export const isAdminOfEvent = (user: IUser, etiEventId?: string) => {
 
 export const fullName = (user: UserFullData): string => {
   const { nameFirst, nameLast } = user;
- 
+
   if (nameFirst && nameLast) {
     const firstNameWords = nameFirst.split(' ');
     const lastNameWords = nameLast.split(' ');
@@ -191,7 +172,7 @@ export const fullName = (user: UserFullData): string => {
 
     const fullName = `${firstName} ${lastName}`;
 
-    if (fullName.length > 16) { 
+    if (fullName.length > 16) {
       return firstName;
     } else {
       return fullName;
