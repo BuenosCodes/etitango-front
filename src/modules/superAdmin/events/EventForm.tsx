@@ -267,7 +267,7 @@ export default function EventForm() {
                                 </Grid>
                               </Grid>
 
-                              <Grid item xs={12} sx= {{ mt: {xs: 1, md: 0} }}>
+                              <Grid item xs={12} sx= {{mt: {xs: 1, md: 0} }}>
                                 <Grid container gap={2}>
                                   <Typography typography={{ xs:'label.mobile', md: 'label.desktop' }} sx={{display: {xs: 'none', md: 'flex'}, color: 'greyScale.800'}}>{t('label.organizers')}</Typography>
                                   <Grid item xs={12} sx={{ border: admins.length ? '1.5px solid #E68650' : '1.5px solid #FDE4AA', ...styles.organizersContainer }} >
@@ -279,7 +279,7 @@ export default function EventForm() {
                                       </>) : <Typography typography={{xs:'label.mobile', md: 'body.regular.l'}} sx={{ display: 'flex', alignItems: {xs: 'none', md: 'center'}, ml: 1, color: {xs: 'greyScale.800', md: 'greyScale.500'} }}> {t('placeholders.organizers')} </Typography>}
                                   
                                     </Box>
-                                    <Grid sx={{display: {xs: 'none', md: 'flex'}}}>
+                                    <Grid sx={{display: {xs: 'none', md: 'flex',}}}>
                                         <AddButton onClick={handleOpen}></AddButton>
                                     </Grid>
                                   </Grid>

@@ -38,7 +38,7 @@ export const styles = {
       borderRadius: 6,
       p: 4,
       overflow: 'auto',
-      width: {xs: '390px', md: '900px'},
+      width: {xs: '80%', md: '900px'},
       height: '500px',
       display: 'flex',
       flexDirection: 'column'

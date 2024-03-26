@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable prettier/prettier */
+import React, { useEffect, useState, useContext } from 'react';
 import { UserFullData, UserRolesListData } from 'shared/User';
 import { getAllUsers } from 'helpers/firestore/users';
 import { Box, Button, Typography, CircularProgress } from '@mui/material';
-import { DataGrid, GridColDef, GridToolbarQuickFilter } from '@mui/x-data-grid';
+import { DataGrid, GRID_CHECKBOX_SELECTION_COL_DEF, GridColDef, GridToolbarQuickFilter } from '@mui/x-data-grid';
+import { useGlobalState } from 'helpers/UserPanelContext';
 
 const RolesNewEvent = ({ handleClose, selectedRows }: { handleClose: Function, selectedRows: any }) => {
+
+    const {isMobile} = useGlobalState();
     const [isLoading, setIsLoading] = useState(false);
     const [users, setUsers] = useState<UserFullData[]>([]);
     const [selectedUserInfo, setSelectedUserInfo] = React.useState({});
@@ -40,26 +44,47 @@ const RolesNewEvent = ({ handleClose, selectedRows }: { handleClose: Function, s
         setFilteredUsers(filteredData);
     }, [users, selectedRows]);
  
- const columns: GridColDef[] = [
+    const columns: GridColDef[] = 
+    isMobile ? 
+    [
         {
             field: 'Nombre',
-            width: 150,
-            headerClassName: 'super-app-theme--header',
-        },
-        {
-            field: 'Apellido',
-            width: 150,
+            flex: 1,
             headerClassName: 'super-app-theme--header',
         },
         {
             field: 'Email',
-            width: 250,
+            flex: 1,
+            headerClassName: 'super-app-theme--header',
+        },
+        {
+            ...GRID_CHECKBOX_SELECTION_COL_DEF,
+            width: 30
+        }
+    ]
+
+    :
+
+    [
+        {
+            field: 'Nombre',
+            flex: 1,
+            headerClassName: 'super-app-theme--header',
+        },
+        {
+            field: 'Apellido',
+            flex: 1,
+            headerClassName: 'super-app-theme--header',
+        },
+        {
+            field: 'Email',
+            flex: 1,
             headerClassName: 'super-app-theme--header',
         },
     ];
 
     const getUserDataValues = ({ nameFirst, nameLast, id, email }: UserRolesListData) => {
-        return { id, Email: email, Nombre: nameFirst, Apellido: nameLast };
+        return { id, Email: email, Nombre: isMobile ? `${nameFirst} ${nameLast}` : nameFirst, Apellido: nameLast };
     };
 
     const handleSelectEmails = async () => {
@@ -120,8 +145,7 @@ const RolesNewEvent = ({ handleClose, selectedRows }: { handleClose: Function, s
                     setSelectedUserInfo(selectedInfo)
                 }}
                 sx={{
-                    mb: 2,
-                    mt: 2,
+                    mt: 4,
                     borderColor: 'background.white',
                     '& .MuiInputBase-input': {
                         padding: '10px 12px 10px 12px',
