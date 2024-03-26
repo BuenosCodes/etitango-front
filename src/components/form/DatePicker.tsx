@@ -8,13 +8,12 @@ export const ETIDatePicker = ({
   textFieldProps
 }: {
   fieldName: string;
+  // eslint-disable-next-line no-unused-vars
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
   textFieldProps: any;
-// eslint-disable-next-line no-unused-vars
 }) => {
   const [field] = useField(fieldName);
   const inputStyle = {
-    
     '& .MuiOutlinedInput-root': {
       fontFamily: 'roboto',
       width: '158px',
@@ -38,18 +37,17 @@ export const ETIDatePicker = ({
         pointerEvents: 'none'
       },
       '& .MuiOutlinedInput-notchedOutline': {
-        borderColor: field.value ? 'details.perseanOrange' : 'details.peach',
+        borderColor: field.value ? 'details.perseanOrange' : 'details.peach'
       },
       '& .MuiIconButton-root': {
         color: 'principal.secondary'
-      } 
-  }
-  
-}
+      }
+    }
+  };
 
-const containerStyle = {
-  width: '160px', 
-};
+  const containerStyle = {
+    width: '160px'
+  };
   return (
     <div style={containerStyle}>
       <Field
@@ -60,7 +58,7 @@ const containerStyle = {
           sx: inputStyle,
           onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => {
             e.preventDefault();
-          },
+          }
         }}
         name={fieldName}
         inputFormat="DD-MM-YYYY"
@@ -73,6 +71,6 @@ const containerStyle = {
           }
         }}
       />
-      </div>
+    </div>
   );
 };
