@@ -1,7 +1,16 @@
 import { Button, CircularProgress, Box, Typography } from '@mui/material';
 import buttonStyles from './buttonStyles';
+interface EtiButtonProps {
+    isLoading: boolean; 
+    isSubmitting?: boolean | null; 
+    title: string; 
+    styleKey: string; 
+    onClick?: () => void; 
+    isOutlined?: boolean; 
+    isCenter?: boolean; 
+}
 
-export default function EtiButton(props: any) {
+export default function EtiButton(props: EtiButtonProps) {
     const { isLoading, isSubmitting, title, styleKey, onClick, isOutlined=false, isCenter=false} = props;
 
     const getButtonStyle = (key: any) => {
@@ -38,7 +47,7 @@ export default function EtiButton(props: any) {
             <Box sx={{ ...containerStyle }}>
                 <Button
                     type='submit'
-                    disabled={isSubmitting}
+                    disabled={isSubmitting === true}
                     variant={isOutlined ? "outlined" : "contained"}
                     onClick={onClick}
                     sx={{ ...getButtonStyle(styleKey), width: {md: '130px', sm: '50%', xs: '100%'} }} 
