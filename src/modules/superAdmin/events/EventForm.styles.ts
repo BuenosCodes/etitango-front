@@ -8,8 +8,8 @@ export const styles = {
       borderRadius: '12px',
       overflow: 'auto',
       backgroundColor: 'background.white',
-      margin: 'auto',
-      marginY: '20px'
+      marginX: {xs: 'auto', sm: 'auto', md: '20px', lg: 'auto'},
+      marginY: '20px',
     },
     newEtiContainer: {
       margin: {xs: 0, sm: '20px'},
@@ -63,7 +63,7 @@ export const styles = {
         width: '8px'
       },
       '&::-webkit-scrollbar-thumb': {
-        backgroundColor: 'principal.primary',
+        backgroundColor: 'details.uranianBlue',
         borderRadius: '12px'
       },
       '&::-webkit-scrollbar-track': {
