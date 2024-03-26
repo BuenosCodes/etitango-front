@@ -239,6 +239,11 @@ const rawTheme = createTheme({
         fontFamily: 'Montserrat',
         fontWeight: 500,
         fontSize: '14px'
+      },
+      mobilePicker: {
+        fontFamily: 'Montserrat',
+        fontWeight: 600,
+        fontSize: '16px'
       }
    }, 
 

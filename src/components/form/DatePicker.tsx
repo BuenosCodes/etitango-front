@@ -1,6 +1,7 @@
 import React from 'react';
 import { DatePicker } from 'formik-mui-x-date-pickers';
 import { Field, useField } from 'formik';
+import { Grid } from '@mui/material';
 
 export const ETIDatePicker = ({
   fieldName,
@@ -16,7 +17,6 @@ export const ETIDatePicker = ({
   const inputStyle = {
     '& .MuiOutlinedInput-root': {
       fontFamily: 'roboto',
-      width: '158px',
       display: 'flex',
       flexDirection: 'row-reverse',
       padding: '2px',
@@ -45,11 +45,13 @@ export const ETIDatePicker = ({
     }
   };
 
-  const containerStyle = {
-    width: '160px'
-  };
+const containerStyle = {
+  width: '100%', 
+};
   return (
+  
     <div style={containerStyle}>
+      
       <Field
         component={DatePicker}
         disablePast
@@ -71,6 +73,8 @@ export const ETIDatePicker = ({
           }
         }}
       />
-    </div>
+     
+      </div>
+     
   );
 };
