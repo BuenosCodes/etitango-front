@@ -197,8 +197,8 @@ const RolesNewEvent = ({
           '& .MuiDataGrid-columnHeaders': {
             backgroundColor: 'principal.primary',
             color: 'greyScale.50',
-            fontSize: '16px',
-            lineHeight: '16px',
+            fontSize: {xs: '14px', md: '16px'},
+            lineHeight: {xs: '14px', md: '16px'},
             fontFamily: 'Montserrat',
             fontWeight: 600
           },
@@ -210,8 +210,8 @@ const RolesNewEvent = ({
           },
           '& .MuiDataGrid-cellContent': {
             color: 'details.frenchBlue',
-            fontSize: '16px',
-            lineHeight: '16px',
+            fontSize: {xs: '14px', md: '16px'},
+            lineHeight: {xs: '14px', md: '16px'},
             fontFamily: 'Roboto',
             fontWeight: 400
           }
