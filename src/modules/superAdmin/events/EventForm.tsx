@@ -12,7 +12,7 @@ import { ROUTES } from '../../../App.js';
 import { EtiEvent } from '../../../shared/etiEvent';
 import { UserRoles } from '../../../shared/User';
 import RolesNewEvent from '../roles/RolesNewEvent';
-import ETITimePicker from 'components/form/EtiTimePicker';
+import { ETITimePicker } from 'components/form/EtiTimePicker';
 import { assignEventAdmins } from '../../../helpers/firestore/users';
 import { styles } from './EventForm.styles';
 import EtiButton from 'components/button/EtiButton';
