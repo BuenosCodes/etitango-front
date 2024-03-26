@@ -33,7 +33,7 @@ export const getAllUsers = async (setUsuarios: Function, setIsLoading: Function)
     setIsLoading(false);
     return () => {};
   } catch (error) {
-    alert('Error getting users:');
+    alert('Error getting users:' + error);
     throw error;
   }
 };

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { UserFullData, UserRolesListData } from 'shared/User';
 import { getAllUsers } from 'helpers/firestore/users';
-import { Box, Button, Typography, CircularProgress } from '@mui/material';
 import {
   DataGrid,
   GRID_CHECKBOX_SELECTION_COL_DEF,
@@ -10,6 +9,8 @@ import {
 } from '@mui/x-data-grid';
 import { useGlobalState } from 'helpers/UserPanelContext';
 import EtiButton from 'components/button/EtiButton';
+import { useTranslation } from 'react-i18next';
+import { SCOPES } from 'helpers/constants/i18n';
 
 const RolesNewEvent = ({
   handleClose,
@@ -24,6 +25,7 @@ const RolesNewEvent = ({
   const [selectedUserInfo, setSelectedUserInfo] = React.useState({});
   const [filteredUsers, setFilteredUsers] = useState<UserFullData[]>([]);
   const [selectedDataTable, setSelectedDataTable] = React.useState([]);
+  const { t } = useTranslation([SCOPES.COMMON.FORM, SCOPES.MODULES.ETI], { useSuspense: false });
 
   useEffect(() => {
     setIsLoading(true);
@@ -54,15 +56,15 @@ const RolesNewEvent = ({
     setFilteredUsers(filteredData);
   }, [users, selectedRows]);
 
-  const columns: GridColDef[] = isMobile
-    ? [
+  const columns: GridColDef[] = 
+  isMobile ? [
         {
-          field: 'Nombre',
+          field: t('nameFirst'),
           flex: 1,
           headerClassName: 'super-app-theme--header'
         },
         {
-          field: 'Email',
+          field: t('email'),
           flex: 1,
           headerClassName: 'super-app-theme--header'
         },
@@ -73,17 +75,17 @@ const RolesNewEvent = ({
       ]
     : [
         {
-          field: 'Nombre',
+          field: t('nameFirst'),
           flex: 1,
           headerClassName: 'super-app-theme--header'
         },
         {
-          field: 'Apellido',
+          field: t('nameLast'),
           flex: 1,
           headerClassName: 'super-app-theme--header'
         },
         {
-          field: 'Email',
+          field: t('email'),
           flex: 1,
           headerClassName: 'super-app-theme--header'
         }
@@ -216,7 +218,7 @@ const RolesNewEvent = ({
         }}
       />
 
-      <EtiButton isSubmitting={null} isLoading={isLoading} title={'Agregar'} styleKey="primaryButton" onClick={handleSelectEmails} isCenter={true}/>
+      <EtiButton isSubmitting={null} isLoading={isLoading} title={t('eti.addButton')} styleKey="primaryButton" onClick={handleSelectEmails} isCenter={true}/>
     </>
   );
 };
