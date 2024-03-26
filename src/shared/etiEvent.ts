@@ -30,11 +30,11 @@ export interface EtiEvent extends EtiEventBase {
   secondDatePay: Date;
   refundDeadline: Date;
   description: string;
-  hora: Date;
-  agenda: string[];
+  hour: Date;
+  calendar: string[];
   dateSignupEnd: Date;
-  alojamiento: string[];
-  datosBancarios: string[];
-  linkMercadoPago: string[];
+  host: string[];
+  bankData: string[];
+  mercadoPagoLink: string[];
   capacity: number;
 }

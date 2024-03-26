@@ -38,7 +38,8 @@ const rawTheme = createTheme({
       lavender: '#DFEAFF',
       aliceBlue: '#DBEEFF',
       peach: '#FDE4AA',
-      perseanOrange: '#E68650'
+      perseanOrange: '#E68650',
+      uranianBlue: '#C0E5FF',
     },
     status: {
       success: '#91F18B',

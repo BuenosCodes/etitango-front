@@ -20,52 +20,55 @@ import { TextFieldForm } from 'components/form/TextFieldForm';
 import { ETIDatePicker } from 'components/form/DatePicker';
 import { EtiLocationPicker } from 'components/form/EtiLocationPicker';
 import { AddButton } from 'components/button/AddButton';
+import { useTranslation } from 'react-i18next';
 
 export default function EventForm() {
   const { id } = useParams();
+  const { t } = useTranslation([SCOPES.MODULES.ETI], {
+    useSuspense: false
+  });
   const navigate = useNavigate()
-  const alertText: string = 'Este campo no puede estar vacío';
   const EventFormSchema = object({
-    dateStart: date().nullable().transform((originalValue) => { const parsedDate = new Date(originalValue); return isNaN(parsedDate.getTime()) ? undefined : parsedDate; }).required(alertText),
-    dateEnd: date().nullable().when('dateStart', (dateStart, schema) => (dateStart && schema.min(dateStart, "No puede ser anterior a la fecha de inicio"))).required(alertText),
+    dateStart: date().nullable().transform((originalValue) => { const parsedDate = new Date(originalValue); return isNaN(parsedDate.getTime()) ? undefined : parsedDate; }).required(t('errors.alertText')),
+    dateEnd: date().nullable().when('dateStart', (dateStart, schema) => (dateStart && schema.min(dateStart, t('errors.dateEnd')))).required(t('errors.alertText')),
     dateSignupOpen: date().nullable().when('dateStart', (dateStart, schema) => {
       if (dateStart) {
         const dateStartEqual = new Date(dateStart.getTime() - 1);
-        return schema.max(dateStartEqual, "No puede ser igual o posterior a la fecha de inicio");
+        return schema.max(dateStartEqual, t('errors.dateSignupOpen'));
       }
       return schema;
-    }).required(alertText),
+    }).required(t('errors.alertText')),
     dateSignupEnd: date()
       .nullable()
       .when('dateStart', (dateStart, schema) => {
         if (dateStart) {
           const dateStartEqual = new Date(dateStart.getTime() - 1);
-          return schema.max(dateStartEqual, "No puede ser igual o posterior a la fecha de inicio");
+          return schema.max(dateStartEqual, t('errors.dateSignupOpen'));
         }
         return schema;
       })
-      .when('dateSignupOpen', (dateSignuopOpen, schema) => (dateSignuopOpen && schema.min(dateSignuopOpen, "No puede ser anterior a la fecha de inscripcion")))
-      .required(alertText),
-    timeStart: string().required(alertText),
-    timeEnd: string().required(alertText),
-    timeSignupOpen: string().required(alertText),
-    timeSignupEnd: string().required(alertText),
-    name: string().required(alertText),
+      .when('dateSignupOpen', (dateSignupOpen, schema) => (dateSignupOpen && schema.min(dateSignupOpen, t('errors.dateSignupEnd') )))
+      .required(t('errors.alertText')),
+    timeStart: string().required(t('errors.alertText')),
+    timeEnd: string().required(t('errors.alertText')),
+    timeSignupOpen: string().required(t('errors.alertText')),
+    timeSignupEnd: string().required(t('errors.alertText')),
+    name: string().required(t('errors.alertText')),
     province: string()
       .nullable(true)
       .when('country', {
         is: 'Argentina',
-        then: string().nullable(true).required(alertText)
+        then: string().nullable(true).required(t('errors.alertText'))
       }),
     city: string()
       .nullable(true)
       .when('country', {
         is: 'Argentina',
-        then: string().nullable(true).required(alertText)
+        then: string().nullable(true).required(t('errors.alertText'))
       }),
   });
-  const [event, setEvent] = useState<EtiEvent>();
-  const [loading, setLoading] = useState(false);
+  const [event] = useState<EtiEvent>();
+  const [loading] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
   const [open, setOpen] = React.useState(false);
   const [admins, setAdmins] = useState<string[]>([]);
@@ -299,7 +302,7 @@ export default function EventForm() {
                             </Grid>
                             </Grid>
                           </Box>
-                          <EtiButton isSubmitting={isSubmitting} isLoading={isLoading} title={'Crear'} styleKey="mediumPrimaryButton" />
+                          <EtiButton isSubmitting={isSubmitting} isLoading={isLoading} title={t('createButton')} styleKey="mediumPrimaryButton" />
                         </Form>
                       )}
                     </Formik>
