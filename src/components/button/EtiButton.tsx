@@ -2,7 +2,7 @@ import { Button, CircularProgress, Box, Typography } from '@mui/material';
 import buttonStyles from './buttonStyles';
 
 export default function EtiButton(props: any) {
-    const { isLoading, isSubmitting, title, styleKey, onClick, isOutlined=false } = props;
+    const { isLoading, isSubmitting, title, styleKey, onClick, isOutlined=false, isCenter=false} = props;
 
     const getButtonStyle = (key: any) => {
         switch (key) {
@@ -29,11 +29,10 @@ export default function EtiButton(props: any) {
 
     const containerStyle = {
         display: 'flex',
-        justifyContent: {xs:'none', sm: 'center', md: 'flex-end'},
+        justifyContent: isCenter ? 'center' : {xs:'none', sm: 'center', md: 'flex-end'},
         margin: '20px',
-       
     };
-
+    
     return (
         <>
             <Box sx={{ ...containerStyle }}>

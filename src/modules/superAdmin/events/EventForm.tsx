@@ -299,7 +299,7 @@ export default function EventForm() {
                             </Grid>
                             </Grid>
                           </Box>
-                          <EtiButton isSubmitting={isSubmitting} isLoading={isLoading} title={'Crear'} styleKey="mediumPrimaryButton" />
+                          <EtiButton isSubmitting={isSubmitting} isLoading={isLoading} title={'Crear'} styleKey="primaryButton" />
                         </Form>
                       )}
                     </Formik>
