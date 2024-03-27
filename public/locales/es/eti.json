@@ -1,0 +1,29 @@
+{
+    "placeholders": {
+      "name": "Nuevo ETI",
+      "date": "dd-mm-yy",
+      "hour": "hh:mm",
+      "organizers": "Organizadores"
+    },
+    "label": {
+        "name": "Nombre para el evento",
+        "dateStart": "Desde el",
+        "dateEnd": "Hasta el",
+        "dateSignupOpen": "Inicio de inscripciones",
+        "dateSignupEnd": "hasta el",
+        "time": "a las",
+        "timeSignupEnd": "hasta las",
+        "organizers": "Colaboradores en la organización del evento"
+    },
+    "errors": {
+      "alertText": "Este campo no puede estar vacío",
+      "dateEnd": "No puede ser anterior a la fecha de inicio",
+      "dateSignupOpen": "No puede ser igual o posterior a la fecha de inicio",
+      "dateSignupEnd": "No puede ser anterior a la fecha de inscripcion"
+    },
+    "addButton": "Agregar",
+    "createButton": "Crear",
+    "milongas": "Dos Milongas",
+    "assembly": "Asamblea Etiana",
+    "farewellLunch": "Comida de despedida"
+  }

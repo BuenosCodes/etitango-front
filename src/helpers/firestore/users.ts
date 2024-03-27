@@ -21,6 +21,23 @@ const USER = (userId: string) => `${USERS}/${userId}`;
 
 export const getUser = (userId: string) => <Promise<UserFullData>>getDocument(USER(userId));
 
+export const getAllUsers = async (setUsuarios: Function, setIsLoading: Function) => {
+  try {
+    const usersRef = collection(db, USERS);
+    const querySnapshot = await getDocs(usersRef);
+    const usersData = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data()
+    })) as UserFullData[];
+    setUsuarios(usersData);
+    setIsLoading(false);
+    return () => {};
+  } catch (error) {
+    alert('Error getting users:' + error);
+    throw error;
+  }
+};
+
 export async function getAdmins(setUsers: Function, setIsLoading: Function, etiEventId?: string) {
   const ref = collection(db, USERS);
 
@@ -62,26 +79,36 @@ const getUserByEmail = async (email: string) => {
   })) as UserFullData[];
   return docs[0];
 };
+
 export async function assignSuperAdmin(email: string) {
   const doc = await getUserByEmail(email);
   return createOrUpdateDoc(USERS, { roles: { [UserRoles.SUPER_ADMIN]: true } }, doc.id);
 }
-export async function assignEventAdmin(email: string, etiEventId: string) {
-  const userDoc = await getUserByEmail(email);
-  const eventRef = doc(db, `${EVENTS}/${etiEventId}`);
+
+export async function assignEventAdmin(emails: string | string[], eventId: string) {
   const batch = writeBatch(db);
 
-  batch.update(eventRef, { admins: arrayUnion(userDoc.id) });
-  const ref = doc(db, `${USERS}/${userDoc.id}`);
-  batch.update(
-    ref,
-    {
-      // @ts-ignore
-      roles: { [UserRoles.ADMIN]: true },
-      adminOf: arrayUnion(etiEventId)
-    },
-    { merge: true }
-  );
+  const emailList = Array.isArray(emails) ? emails : [emails];
+
+  for (const email of emailList) {
+    const userDoc = await getUserByEmail(email);
+
+    if (userDoc) {
+      const eventRef = doc(db, `${EVENTS}/${eventId}`);
+      batch.update(eventRef, { admins: arrayUnion(userDoc.id) });
+
+      const userRef = doc(db, `${USERS}/${userDoc.id}`);
+      batch.update(
+        userRef,
+        {
+          // @ts-ignore
+          roles: { [UserRoles.ADMIN]: true },
+          adminOf: arrayUnion(eventId)
+        },
+        { merge: true }
+      );
+    }
+  }
 
   await batch.commit();
 }
@@ -132,4 +159,25 @@ export const isAdminOfEvent = (user: IUser, etiEventId?: string) => {
     !!user?.data?.roles?.[UserRoles.SUPER_ADMIN] ||
     !!user?.data?.adminOf?.find((e) => e === etiEventId)
   );
+};
+
+export const fullName = (user: UserFullData): string => {
+  const { nameFirst, nameLast } = user;
+
+  if (nameFirst && nameLast) {
+    const firstNameWords = nameFirst.split(' ');
+    const lastNameWords = nameLast.split(' ');
+    const firstName = firstNameWords[0];
+    const lastName = lastNameWords[0];
+
+    const fullName = `${firstName} ${lastName}`;
+
+    if (fullName.length > 16) {
+      return firstName;
+    } else {
+      return fullName;
+    }
+  } else {
+    return 'Name not available';
+  }
 };
