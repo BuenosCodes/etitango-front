@@ -421,7 +421,7 @@ export default function EventForm() {
                                       sx={{
                                         display: 'flex',
                                         flexWrap: 'wrap',
-                                        height: { xs: '75px', md: '48px' }
+                                        minHeight: { xs: '75px', md: '48px' }
                                       }}
                                     >
                                       {admins.length ? (
