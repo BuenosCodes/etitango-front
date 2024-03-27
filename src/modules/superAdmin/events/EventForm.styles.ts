@@ -4,7 +4,6 @@ export const styles = {
     flexDirection: 'column',
     boxShadow: { xs: '', md: 3, lg: 3 },
     width: { xs: 380, sm: '100%', md: '100%', lg: 960 },
-    height: 820,
     borderRadius: '12px',
     minWidth: { xs: '95%', sm: 0 },
     overflow: 'auto',

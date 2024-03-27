@@ -185,7 +185,7 @@ const RolesNewEvent = ({
               width: '8px'
             },
             '&::-webkit-scrollbar-thumb': {
-              backgroundColor: 'principal.primary',
+              backgroundColor: 'details.uranianBlue',
               borderRadius: '12px'
             },
             '&::-webkit-scrollbar-track': {

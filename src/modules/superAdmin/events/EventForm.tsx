@@ -166,11 +166,7 @@ export default function EventForm() {
                         timeSignupEnd: event?.timeSignupEnd || '',
                         location: event?.location || null,
                         name: event?.name || '',
-                        combos: event?.combos || [
-                          t('milongas'),
-                          t('assembly'),
-                          t('farewellLunch')
-                        ],
+                        combos: event?.combos || [t('milongas'), t('assembly'), t('farewellLunch')],
                         admins: event?.admins || []
                       }}
                       validationSchema={EventFormSchema}

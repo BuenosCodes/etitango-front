@@ -74,7 +74,7 @@ export const ETITimePicker = (props: ETITimePickerProps) => {
         },
         '& input[type="text"]::-webkit-inner-spin-button, & input[type="text"]::-webkit-outer-spin-button':
           {
-            '-webkit-appearance': 'none',
+            WebkitAppearance: 'none',
             margin: 0
           },
         '& .MuiOutlinedInput-root': {
