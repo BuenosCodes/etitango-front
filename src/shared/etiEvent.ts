@@ -1,4 +1,4 @@
-import { SetStateAction } from "react";
+import { SetStateAction } from 'react';
 
 export interface EtiEventBase {
   id: string;
@@ -18,7 +18,7 @@ export interface EtiEventBase {
   timeRefundDeadline: string;
   limitParticipants: string;
   admins: [];
-  combos: ["Dos Milongas", "Asamblea Etiana", "Comida de despedida"]
+  combos: [];
 }
 
 export interface EtiEvent extends EtiEventBase {

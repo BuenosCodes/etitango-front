@@ -22,5 +22,8 @@
       "dateSignupEnd": "No puede ser anterior a la fecha de inscripcion"
     },
     "addButton": "Agregar",
-    "createButton": "Crear"
+    "createButton": "Crear",
+    "milongas": "Dos Milongas",
+    "assembly": "Asamblea Etiana",
+    "farewellLunch": "Comida de despedida"
   }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  assignEventAdmins,
+  assignEventAdmin,
   assignSuperAdmin,
   removeSuperAdmin,
   unassignEventAdmin
@@ -22,7 +22,7 @@ export const RolesAddForm = ({ etiEventId }: { etiEventId?: string }) => {
             variant="contained"
             size="small"
             style={{ marginLeft: 16 }}
-            onClick={() => assignEventAdmins(email, etiEventId)}
+            onClick={() => assignEventAdmin(email, etiEventId)}
           >
             Make Admin
           </Button>

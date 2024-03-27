@@ -85,7 +85,7 @@ export async function assignSuperAdmin(email: string) {
   return createOrUpdateDoc(USERS, { roles: { [UserRoles.SUPER_ADMIN]: true } }, doc.id);
 }
 
-export async function assignEventAdmins(emails: string | string[], eventId: string) {
+export async function assignEventAdmin(emails: string | string[], eventId: string) {
   const batch = writeBatch(db);
 
   const emailList = Array.isArray(emails) ? emails : [emails];

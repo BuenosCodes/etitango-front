@@ -1,7 +1,6 @@
 import React from 'react';
 import { DatePicker } from 'formik-mui-x-date-pickers';
 import { Field, useField } from 'formik';
-import { Grid } from '@mui/material';
 
 export const ETIDatePicker = ({
   fieldName,
@@ -45,13 +44,11 @@ export const ETIDatePicker = ({
     }
   };
 
-const containerStyle = {
-  width: '100%', 
-};
+  const containerStyle = {
+    width: '100%'
+  };
   return (
-  
     <div style={containerStyle}>
-      
       <Field
         component={DatePicker}
         disablePast
@@ -73,8 +70,6 @@ const containerStyle = {
           }
         }}
       />
-     
-      </div>
-     
+    </div>
   );
 };

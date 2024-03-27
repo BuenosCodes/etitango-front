@@ -56,8 +56,8 @@ const RolesNewEvent = ({
     setFilteredUsers(filteredData);
   }, [users, selectedRows]);
 
-  const columns: GridColDef[] = 
-  isMobile ? [
+  const columns: GridColDef[] = isMobile
+    ? [
         {
           field: t('nameFirst'),
           flex: 1,
@@ -197,8 +197,8 @@ const RolesNewEvent = ({
           '& .MuiDataGrid-columnHeaders': {
             backgroundColor: 'principal.primary',
             color: 'greyScale.50',
-            fontSize: {xs: '14px', md: '16px'},
-            lineHeight: {xs: '14px', md: '16px'},
+            fontSize: { xs: '14px', md: '16px' },
+            lineHeight: { xs: '14px', md: '16px' },
             fontFamily: 'Montserrat',
             fontWeight: 600
           },
@@ -210,15 +210,22 @@ const RolesNewEvent = ({
           },
           '& .MuiDataGrid-cellContent': {
             color: 'details.frenchBlue',
-            fontSize: {xs: '14px', md: '16px'},
-            lineHeight: {xs: '14px', md: '16px'},
+            fontSize: { xs: '14px', md: '16px' },
+            lineHeight: { xs: '14px', md: '16px' },
             fontFamily: 'Roboto',
             fontWeight: 400
           }
         }}
       />
 
-      <EtiButton isSubmitting={null} isLoading={isLoading} title={t('eti.addButton')} styleKey="primaryButton" onClick={handleSelectEmails} isCenter={true}/>
+      <EtiButton
+        isSubmitting={null}
+        isLoading={isLoading}
+        title={t('eti.addButton')}
+        styleKey="primaryButton"
+        onClick={handleSelectEmails}
+        isCenter={true}
+      />
     </>
   );
 };

@@ -30,7 +30,10 @@ export interface UserPersonalInfo {
   phoneNumber: string;
 }
 
-export type UserRolesListData = Pick<UserFullData, 'id' | 'email' | 'nameFirst' | 'nameLast' | 'roles' | 'adminOf'>;
+export type UserRolesListData = Pick<
+  UserFullData,
+  'id' | 'email' | 'nameFirst' | 'nameLast' | 'roles' | 'adminOf'
+>;
 
 export interface IUser extends User {
   data?: UserFullData;

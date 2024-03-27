@@ -46,36 +46,41 @@ export const ETITimePicker = (props: ETITimePickerProps) => {
   };
 
   return (
-   <TextField
+    <TextField
       type="text"
-      label={ isMobile ? (
-        <Typography typography={'label.mobilePicker'} sx={{color: 'greyScale.800'}} >{t('label.time')}</Typography> ) : null
+      label={
+        isMobile ? (
+          <Typography typography={'label.mobilePicker'} sx={{ color: 'greyScale.800' }}>
+            {t('label.time')}
+          </Typography>
+        ) : null
       }
       placeholder={t('placeholders.hour')}
       value={value}
       onChange={handleInputChange}
       onBlur={handleInputChange}
       error={error}
-      helperText={helperText}    
+      helperText={helperText}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
             <AccessTimeIcon sx={{ color: 'principal.secondary', fontSize: 'large' }} />
           </InputAdornment>
-        ),
+        )
       }}
       sx={{
         '& .MuiFormHelperText-root': {
           margin: '2px 0px 0px 2px'
         },
-        '& input[type="text"]::-webkit-inner-spin-button, & input[type="text"]::-webkit-outer-spin-button': {
-          '-webkit-appearance': 'none',
-          margin: 0,
-        },
+        '& input[type="text"]::-webkit-inner-spin-button, & input[type="text"]::-webkit-outer-spin-button':
+          {
+            '-webkit-appearance': 'none',
+            margin: 0
+          },
         '& .MuiOutlinedInput-root': {
           fontFamily: 'roboto',
           height: '60px',
-          width: {sm: '100%', md: '104px'},
+          width: { sm: '100%', md: '104px' },
           '& fieldset': {
             borderRadius: '8px',
             borderColor: value ? 'details.perseanOrange' : 'details.peach',

@@ -7,7 +7,6 @@ import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import { SCOPES } from 'helpers/constants/i18n';
 import { useTranslation } from 'react-i18next';
 
-
 export const EtiLocationPicker = ({
   values,
   touched,
@@ -52,7 +51,7 @@ export const EtiLocationPicker = ({
     }
   };
 
-  const [field] = useField('province' && 'city')
+  const [field] = useField('province' && 'city');
   const inputStyle = {
     '& .MuiOutlinedInput-root': {
       fontFamily: 'roboto',
@@ -73,77 +72,86 @@ export const EtiLocationPicker = ({
         pointerEvents: 'none'
       },
       '& .MuiOutlinedInput-notchedOutline': {
-        borderColor: field.value ? 'details.perseanOrange' : 'details.peach',
+        borderColor: field.value ? 'details.perseanOrange' : 'details.peach'
       },
-      '& .MuiIconButton-root': { 
-        color: 'principal.secondary', 
+      '& .MuiIconButton-root': {
+        color: 'principal.secondary'
       }
-      
-    },
-  }
-
+    }
+  };
 
   return (
     <Grid container spacing={3}>
-          <Grid item md={6} sm={6} xs={6}>
-            <Typography typography={{ xs: 'label.mobile', md: 'label.desktop' }} style={{ color: colorFont}}>
-                {t('province')}        
-            </Typography>
-            <Autocomplete
-              disablePortal
-              fullWidth
-              disabled={isDisabled}
-              options={provinces}
-              getOptionLabel={(option) => option}
-              onChange={(_, value) => handleProvinceChange(value, true)}
-              value={values?.province || null}
-              defaultValue={location?.province}
-              renderInput={(params) => (
-                <TextFieldMUI
-                  {...params}
-                  name="province"
-                  error={touched['province'] && !!errors['province']}
-                  helperText={touched['province'] && errors['province']}
-                  variant="outlined"
-                  placeholder={t('province')}    
-                  InputProps={{...params.InputProps, startAdornment: (<FmdGoodOutlinedIcon sx={{ color: 'principal.secondary' }} /> )}}
-                  sx={{
-                   ...inputStyle
-                  
-                  }}
-                />
-              )}
+      <Grid item md={6} sm={6} xs={6}>
+        <Typography
+          typography={{ xs: 'label.mobile', md: 'label.desktop' }}
+          style={{ color: colorFont }}
+        >
+          {t('province')}
+        </Typography>
+        <Autocomplete
+          disablePortal
+          fullWidth
+          disabled={isDisabled}
+          options={provinces}
+          getOptionLabel={(option) => option}
+          onChange={(_, value) => handleProvinceChange(value, true)}
+          value={values?.province || null}
+          defaultValue={location?.province}
+          renderInput={(params) => (
+            <TextFieldMUI
+              {...params}
+              name="province"
+              error={touched['province'] && !!errors['province']}
+              helperText={touched['province'] && errors['province']}
+              variant="outlined"
+              placeholder={t('province')}
+              InputProps={{
+                ...params.InputProps,
+                startAdornment: <FmdGoodOutlinedIcon sx={{ color: 'principal.secondary' }} />
+              }}
+              sx={{
+                ...inputStyle
+              }}
             />
-          </Grid>
-          <Grid item md={6} sm={6} xs={6}>
-          <Typography typography={{ xs: 'label.mobile', md: 'label.desktop' }} style={{color: colorFont}}>
-                {t('city')}                    
-            </Typography>
-            <Autocomplete
-              disablePortal
-              fullWidth
-              disabled={isDisabled}
-              options={cities}
-              getOptionLabel={(option) => option}
-              onChange={(_, value) => setFieldValue('city', value)}
-              value={values?.city || null}
-              defaultValue={location?.city}
-              renderInput={(params) => (
-                <TextFieldMUI
-                  {...params}
-                  name="city"
-                  error={touched['city'] && !!errors['city']}
-                  helperText={touched['city'] && errors['city']}
-                  variant="outlined"
-                  placeholder={t('city')}
-                  InputProps={{...params.InputProps, startAdornment: (<FmdGoodOutlinedIcon sx={{ color: 'principal.secondary' }} /> )}}   
-                  sx={{
-                    ...inputStyle
-                  }}         
-                />
-              )}
+          )}
+        />
+      </Grid>
+      <Grid item md={6} sm={6} xs={6}>
+        <Typography
+          typography={{ xs: 'label.mobile', md: 'label.desktop' }}
+          style={{ color: colorFont }}
+        >
+          {t('city')}
+        </Typography>
+        <Autocomplete
+          disablePortal
+          fullWidth
+          disabled={isDisabled}
+          options={cities}
+          getOptionLabel={(option) => option}
+          onChange={(_, value) => setFieldValue('city', value)}
+          value={values?.city || null}
+          defaultValue={location?.city}
+          renderInput={(params) => (
+            <TextFieldMUI
+              {...params}
+              name="city"
+              error={touched['city'] && !!errors['city']}
+              helperText={touched['city'] && errors['city']}
+              variant="outlined"
+              placeholder={t('city')}
+              InputProps={{
+                ...params.InputProps,
+                startAdornment: <FmdGoodOutlinedIcon sx={{ color: 'principal.secondary' }} />
+              }}
+              sx={{
+                ...inputStyle
+              }}
             />
-          </Grid>
+          )}
+        />
+      </Grid>
     </Grid>
   );
 };
