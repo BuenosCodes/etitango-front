@@ -1,42 +1,68 @@
-import React, { useContext } from 'react';
-import { Box, Button, Grid, Typography } from '@mui/material';
-import { AccountCircle } from '@mui/icons-material';
-import { ROUTES } from '../../../../App';
-import { auth } from '../../../../etiFirebase';
+import React from 'react';
+import { Box, Button, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from '../../../../helpers/constants/i18n';
 import { styles } from './UserNavBar.styles';
-import { IUser } from '../../../../shared/User';
-import { UserContext } from '../../../../helpers/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { UserRoles } from 'shared/User';
+import { ROUTES } from 'App';
+import { fullName } from 'helpers/firestore/users';
 
-export default function UserNavBar() {
+export default function UserNavBar(props: { userData: any; isSignedIn: boolean }) {
+  const isMobile = useMediaQuery((theme: any) => theme.breakpoints.down('md'));
+  const { userData, isSignedIn } = props;
   const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
-  const { user }: { user: IUser } = useContext(UserContext);
   const navigate = useNavigate();
-  const logout = () => auth.signOut().then(() => navigate(ROUTES.HOME));
+  const name = fullName(userData);
+  const isSuperAdmin = userData?.roles?.[UserRoles.SUPER_ADMIN];
+
   return (
     <Grid container sx={styles.panelContainer}>
-      <Grid item xs={12} md={3} sx={styles.accountInfoContainer}>
-        <AccountCircle sx={styles.accountIcon} />
-        <Box sx={styles.accountInfo}>
-          <Typography variant={'h6'} noWrap>
-            {user.data?.nameFirst}
-          </Typography>
-          <Typography variant={'h6'} noWrap>
-            {user.email}
-          </Typography>
+      {isSignedIn ? (
+        <Box sx={{ height: '60px' }}>
+          <Stack direction="column" sx={{ height: 20, mt: '5px' }}>
+            <Typography typography={'title.semiBold.h6'} variant="h6" color="greyScale.50">
+              {name}
+            </Typography>
+            {isSuperAdmin && (
+              <Typography
+                typography={'body.regular.m'}
+                sx={{ color: 'greyScale.50', textAlign: 'start' }}
+              >
+                {t('superadmin')}
+              </Typography>
+            )}
+          </Stack>
         </Box>
-      </Grid>
-      <Grid item xs={12} md={7} sx={styles.panelTitleContainer}>
-        <Button sx={styles.panelTitle} href={ROUTES.USER_HOME} key={'profile'}>
-          {t('controlPanel')}
-        </Button>
-      </Grid>
-      <Grid item xs={12} md sx={styles.panelTitleContainer}>
-        <Button color={'secondary'} variant={'contained'} onClick={() => logout()} key={'signout'}>
-          {t('logout').toUpperCase()}
-        </Button>
+      ) : (
+        <>
+          <Box sx={{ height: '60px' }}>
+            <Button
+              onClick={() => {
+                navigate(ROUTES.SIGN_IN);
+              }}
+              key={'sign-in'}
+              sx={{
+                backgroundColor: 'details.azure',
+                color: 'greyScale.50',
+                width: '149px',
+                height: '40px',
+                borderRadius: '12px',
+                align: 'center',
+                margin: '0px',
+                textAlign: 'center',
+                fontSize: '24px'
+              }}
+            >
+              {t('signin')}
+            </Button>
+          </Box>
+        </>
+      )}
+      <Grid item xs={12}>
+        {isMobile && (
+          <Box sx={{ border: '1px solid', mt: 1.5, mb: 1.5, borderColor: 'greyScale.50' }} />
+        )}
       </Grid>
     </Grid>
   );
