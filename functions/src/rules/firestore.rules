@@ -54,7 +54,7 @@ service cloud.firestore {
     }
 
     match /events/{eventId} {
-      allow read: if signedIn();
+      allow read: if true;
       allow write: if (eventId in getUserData().adminOf) || isSuperAdmin();
     }
 

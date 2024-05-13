@@ -33,7 +33,6 @@ const SignupList = (props: { isAttendance: boolean }) => {
     useSuspense: false
   });
 
-  /** get etiEvent */
   useEffect(() => {
     const getEvent = async () => {
       const etiEvent = await getFutureEti();

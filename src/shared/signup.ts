@@ -68,6 +68,7 @@ export interface Signup extends SignupBase {
   dateArrival: Date;
   dateDeparture: Date;
   lastModifiedAt: Date;
+  statusHistory?: { status: SignupStatus; date: Date }[];
 }
 
 export interface SignupFirestore extends SignupBase {

@@ -28,3 +28,16 @@ export const SCOPES = {
     INSTRUCTIONS: 'instructions'
   }
 };
+
+// prints "Lunes 8 de Enero"
+export const argentinaDateTimeFormatter = new Intl.DateTimeFormat('es-AR', {
+  weekday: 'long', // Full name of the weekday
+  day: 'numeric', // Day of the month as a number
+  month: 'long', // Full name of the month
+  timeZone: 'America/Argentina/Buenos_Aires' // Specify the timezone
+});
+
+export const argentinaCurrencyFormatter = new Intl.NumberFormat(['es-AR', 'es-AR'], {
+  style: 'currency',
+  currency: 'ARS'
+});

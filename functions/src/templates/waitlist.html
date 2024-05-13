@@ -8,7 +8,7 @@
     Information to change for every event will be highlighted by commenting "UPDATE WITH CURRENT EVENT INFORMATION"
 -->
 
-      <!-- UPDATE WITH CURRENT EVENT INFORMATION --><title>Inscripción ETI Las Toninas: Lista de espera</title>
+      <<title>Inscripción {{ etiEvent.name }}: Lista de espera</title>
 
         <!-- CSS Reset : BEGIN -->
         <style>
@@ -346,7 +346,8 @@
               <td class="hero bg_white" style="padding: 1em 0 1em 0;" valign="middle">
                 <a href="https://etitango.com.ar" target="_blank">
                     <!-- <img id="home-img-1" align="middle" src="http://{{ domain }}{% static 'img/h/eti_logo.png' %}" width="35%" alt="ETI banner" style="width: 300px; max-width: 600px; height: auto; margin: auto; display: block;"> -->
-                    <img align="middle" alt="ETI banner" id="home-img-1" src="https://etitango.com.ar/img/logo/eti-currentEvent.jpg" style="width: 300px; max-width: 600px; height: auto; margin: auto; display: block;" width="35%">
+                  <img align='middle' alt='ETI banner' id='home-img-1' src='{{ etiEvent.image }}'
+                       style='width: 300px; max-width: 600px; height: auto; margin: auto; display: block;' width='35%'>
                     <!-- <img id="home-img-1" align="middle" src="/home/nico/Documentos/BuenosCodes/etitango/etitango/apps/pages/static/img/h/eti_logo.png" width="35%" alt="ETI banner" style="width: 250px; max-width: 600px; height: auto; margin: auto; display: block;"> -->
                     <!-- <img src="images/email.png" alt="" style="width: 300px; max-width: 600px; height: auto; margin: auto; display: block;"> -->
                 </a>
@@ -360,7 +361,7 @@
                             <div class="text" style="padding: 0 2.5em; text-align: center;">
                                 <!-- <hr style="color: #019893;"> -->
                               <div style='border: solid 2px #019893;'><h2 style='color: #019893; margin-bottom: 0;'>
-                                Inscripción <!-- UPDATE WITH CURRENT EVENT INFORMATION -->ETI Las Toninas<br>¡Estás en
+                                Inscripción {{ etiEvent.name }}<br>¡Estás en
                                 lista de espera!</h2>
                                 <p style="margin-top: 0; margin-bottom: 0;"><i>Cada vez más cerca de volver a abrazarnos</i></p></div>
                                 <!-- <hr style="color: #019893; margin-bottom: 0;"> -->
@@ -373,7 +374,7 @@
                                 <p>Si querés saber qué incluye el combo y cómo es el itinerario de este ETI, visitá la <a href="https://etitango.com.ar" style="text-decoration: none;">página del ETI (<i style="text-decoration: underline;">https://etitango.com.ar</i>)</a>.</p>
 
                               <h4 style='text-align: left;'>Abrazo ETIano,<br> Comisión Organizadora del
-                                <!-- UPDATE WITH CURRENT EVENT INFORMATION -->ETI Las Toninas.</h4>
+                                {{ etiEvent.name }}.</h4>
 
                                 <table style="font-size: 0.8em; border: 1px solid; color: rgba(255,0,0,0.8);" width="100%"><tbody><tr><td> <ul style="padding: 0; margin: 0;">
                                     <li style="margin-bottom: 0.6em;">Si tenés una medida judicial de Prohibición de Acercamiento local, provincial y/ o nacional hacia otrx etianx, TE RECORDAMOS QUE NO PODRÁS INSCRIBIRTE, debiendo enviar un mail a la Comisión Organizadora (<a href="mailto:organizadores@etitango.com.ar" style="color: inherit; text-decoration: underline;">organizadores@etitango.com.ar</a>) para liberar el lugar.</li>

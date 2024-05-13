@@ -22,7 +22,6 @@ import { ROUTES } from '../../App.js';
 import { ETIDatePicker } from '../../components/form/DatePicker.tsx';
 import ReceiptUpload from '../../components/receiptUpload/index';
 import { UserContext } from '../../helpers/UserContext';
-import * as PropTypes from 'prop-types';
 import { CompleteProfileAlert } from '../user/components/completeProfileAlert';
 
 /* eslint-disable react/prop-types */
@@ -68,13 +67,13 @@ function SignupForm(props) {
   );
 }
 
-SignupForm.propTypes = {
-  userData: PropTypes.shape({}),
-  etiEvent: PropTypes.func,
-  validationSchema: PropTypes.any,
-  onSubmit: PropTypes.func,
-  prop4: PropTypes.func
-};
+// SignupForm.propTypes = {
+//   userData: PropTypes.shape({}),
+//   etiEvent: PropTypes.func,
+//   validationSchema: PropTypes.any,
+//   onSubmit: PropTypes.func,
+//   prop4: PropTypes.func
+// };
 export default function Inscripcion() {
   const { t } = useTranslation([SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP], {
     useSuspense: false

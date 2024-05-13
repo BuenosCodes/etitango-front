@@ -121,20 +121,6 @@ export const validateSignUp = async (etiEventId: string) => {
   }
 };
 
-export const createEmail = async () =>
-  Object.values(SignupStatus).map((status) =>
-    createOrUpdateDoc('mail', {
-      toUids: ['3YMkn4rGwHdb3dD5NXxR2okR4JNa'],
-      template: {
-        name: status,
-        data: {
-          username: 'ada',
-          name: 'Ada Lovelace'
-        }
-      }
-    })
-  );
-
 export const upsertTemplates = async () => {
   const seeds = httpsCallable(functions, 'seeds-upsertTemplates');
   try {

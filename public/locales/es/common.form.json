@@ -40,5 +40,6 @@
   "follower": "Conducidx",
   "both": "ambos",
   "receipt": "Comprobante de pago",
-  "receiptButton": "Ver comprobante de pago"
+  "receiptButton": "Ver comprobante de pago",
+  "paymentDate": "Fecha de Pago"
 }

@@ -1,15 +1,30 @@
 rules_version = '2';
 service firebase.storage {
+
   match /b/{bucket}/o {
+
+    function getUserData(){
+      return firestore.get(/databases/default/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isSuperAdmin(){
+      return request.auth.token.claims.superadmin == true;
+    }
+
     function signedIn() {
-        return request.auth.uid != null;
+      return request.auth.uid != null;
     }
 
     match /eventReceipts/{eventId}/{userId} {
       allow read: if signedIn();
       allow write: if signedIn() && request.auth.uid == userId.split('\\.')[0] &&
-                        request.resource.size < 4 * 1024 * 1024 &&
-                        (request.resource.contentType.matches('image/.*') || request.resource.contentType.matches('application/pdf'));
+      request.resource.size < 4 * 1024 * 1024 &&
+      (request.resource.contentType.matches('image/.*') || request.resource.contentType.matches('application/pdf'));
     }
- }
-}
+
+    match /events/{eventId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    }}

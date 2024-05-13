@@ -5,6 +5,8 @@ import { Signup, SignupFirestore, SignupStatus } from '../../src/shared/signup';
 import { firestore } from 'firebase-admin';
 import { CallableContext } from 'firebase-functions/lib/common/providers/https';
 import { validateUserIsSuperAdmin } from './validators';
+import { EtiEventFirestore, PriceScheduleFirebase } from '../../src/shared/etiEvent';
+import { argentinaCurrencyFormatter } from '../../src/helpers/constants/i18n';
 import DocumentSnapshot = firestore.DocumentSnapshot;
 import QueryDocumentSnapshot = firestore.QueryDocumentSnapshot;
 
@@ -38,6 +40,22 @@ exports.retryFailedMails = functions.https.onCall(
   }
 );
 
+function prepareStatusHistory({ status, statusHistory }: Signup) {
+  const history = statusHistory || [];
+  history.push({ status: status!, date: new Date() });
+  return history;
+}
+
+function prepareEtiEvent(etiEvent: EtiEventFirestore, after: Signup) {
+  if ([SignupStatus.PAYMENT_DELAYED, SignupStatus.PAYMENT_PENDING].includes(after.status!)) {
+    return {
+      ...etiEvent,
+      prices: etiEvent.prices.map((p) => priceToEmailFormat(p, after.orderNumber))
+    };
+  }
+  return etiEvent;
+}
+
 exports.onUpdateSignup = functions.firestore
   .document('signups/{signupId}')
   // @ts-ignore
@@ -50,9 +68,13 @@ exports.onUpdateSignup = functions.firestore
     if (!before || !after) return;
     if (before.status !== after.status) {
       const ref = change.after.ref;
+
+      const statusHistory = prepareStatusHistory(before);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      ref.set({ lastModifiedAt: new Date() }, { merge: true });
+      ref.set({ statusHistory, lastModifiedAt: new Date() }, { merge: true });
+      const eventRef = db.doc(`events/${before.etiEventId}`);
+      const etiEvent = <EtiEventFirestore>(await eventRef.get()).data();
       const mailRef = db.collection('mail');
       await mailRef.add({
         to: [after.email],
@@ -60,7 +82,8 @@ exports.onUpdateSignup = functions.firestore
           name: after.status,
           eventId: before.etiEventId,
           data: {
-            userName: after.nameFirst
+            userName: after.nameFirst,
+            etiEvent: prepareEtiEvent(etiEvent, after)
           }
         },
         signupId
@@ -83,3 +106,10 @@ exports.onCreateSignup = functions.firestore
       { merge: true }
     );
   });
+
+function priceToEmailFormat(priceSchedule: PriceScheduleFirebase, orderNumber: number) {
+  return {
+    ...priceSchedule,
+    priceHuman: argentinaCurrencyFormatter.format(priceSchedule.price + orderNumber / 100)
+  };
+}

@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import * as React from 'react';
 
 // eslint-disable-next-line no-undef
-const ImgBackground = process.env.PUBLIC_URL + '/img/h/login-background.jpg';
+const ImgBackground = '/img/h/login-background.jpg';
 
 export default function Portada() {
   return (
