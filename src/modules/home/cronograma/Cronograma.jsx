@@ -31,7 +31,7 @@ function Cronograma() {
 
   return (
     <>
-      {!etiEvent ? (
+      {!etiEvent?.id ? (
         <CircularProgress />
       ) : (
         <Box component="section" sx={{ display: 'flex', overflow: 'hidden' }}>

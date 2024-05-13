@@ -1,4 +1,13 @@
-import { collection, getDocs, limit, orderBy, query, where } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDocs,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+  where
+} from 'firebase/firestore';
 import { db, storage } from '../../etiFirebase';
 import { EtiEvent, EtiEventFirestore, priceScheduleToJs } from '../../shared/etiEvent';
 import { createOrUpdateDoc, getCollection, getDocument } from './index';
@@ -12,7 +21,8 @@ const toJs = (etiEventFromFirestore: EtiEventFirestore) =>
     dateStart: etiEventFromFirestore?.dateStart?.toDate(),
     dateEnd: etiEventFromFirestore?.dateEnd?.toDate(),
     dateSignupOpen: etiEventFromFirestore?.dateSignupOpen?.toDate(),
-    prices: priceScheduleToJs(etiEventFromFirestore?.prices || [])
+    prices: priceScheduleToJs(etiEventFromFirestore?.prices || []),
+    comboReturnDeadline: etiEventFromFirestore?.comboReturnDeadline?.toDate()
   } as EtiEvent);
 
 export async function getFutureEti() {
@@ -37,15 +47,28 @@ export async function getEvents() {
 }
 
 export async function uploadEventImage(eventId: string, file: File) {
-  const ALLOWED_RECEIPT_FILE_TYPES = ['image/jpeg', 'image/png'];
+  const ALLOWED_RECEIPT_FILE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
   if (!ALLOWED_RECEIPT_FILE_TYPES.includes(file.type)) {
     throw new Error('Invalid file extension');
   }
   const fileExtension = file.name.split('.').pop();
   // eslint-disable-next-line no-undef
-  const storageRef = ref(storage, `events/current.${fileExtension}`);
+  const storageRef = ref(storage, `events/${eventId}.${fileExtension}`);
   const uploadFileTask = await uploadBytesResumable(storageRef, file);
   const fileUrl = await getDownloadURL(uploadFileTask.ref);
   await createOrUpdateDoc(EVENTS, { image: fileUrl }, eventId);
   return fileUrl;
 }
+
+export const getEventLive = async (
+  etiEventId: string,
+  setEvent: Function,
+  setIsLoading: Function
+) => {
+  setIsLoading(true);
+  return onSnapshot(doc(db, EVENTS, etiEventId), (doc) => {
+    const data = { ...doc.data(), id: etiEventId } as EtiEventFirestore;
+    setEvent(toJs(data));
+    setIsLoading(false);
+  });
+};

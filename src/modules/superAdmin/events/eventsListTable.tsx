@@ -41,7 +41,7 @@ export function EventListTable(props: { events: EtiEvent[]; isLoading: boolean }
     headerName: t(fieldName),
     width: 200
   }));
-  columns.push(button);
+  columns.splice(0, 0, button);
 
   const getEtiEventValues = (event: EtiEvent) => {
     let output: any = { ...event };

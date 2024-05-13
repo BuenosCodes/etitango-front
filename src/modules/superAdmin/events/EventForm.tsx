@@ -12,20 +12,25 @@ import {
 } from '@mui/material';
 import WithAuthentication from '../../withAuthentication';
 import { Translation } from 'react-i18next';
-import { argentinaDateTimeFormatter, SCOPES } from 'helpers/constants/i18n';
+import {
+  argentinaCurrencyFormatter,
+  argentinaDateTimeFormatter,
+  SCOPES
+} from 'helpers/constants/i18n';
 import { Field, FieldArray, Form, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 import { array, date, number, object, string } from 'yup';
 import { createOrUpdateDoc } from 'helpers/firestore';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
-import { getEvent, uploadEventImage } from '../../../helpers/firestore/events';
+import { getEventLive, uploadEventImage } from '../../../helpers/firestore/events';
 import { EtiEvent, PriceSchedule } from '../../../shared/etiEvent';
 import { UserRoles } from '../../../shared/User';
 import { ETIDatePicker } from '../../../components/form/DatePicker';
 import RolesList from '../roles/RolesList';
 import FileUpload from '../../../components/FileUpload';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { DateTimePicker } from 'formik-mui-x-date-pickers';
 
 export default function EventForm() {
   const EventFormSchema = object({
@@ -58,26 +63,36 @@ export default function EventForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    let unsubscribe: Function;
     const fetchData = async () => {
       if (id) {
-        const event = await getEvent(id);
-        setEvent(event);
+        unsubscribe = await getEventLive(id, setEvent, setLoading);
       }
-      setLoading(false);
     };
     fetchData().catch((error) => console.error(error));
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, [id]);
 
-  const save = async (values: any, setSubmitting: Function) => {
+  const save = async ({ dateSignupOpen, ...values }: any, setSubmitting: Function) => {
     try {
       const data = {
         ...values,
+        comboReturnDeadlineHuman: argentinaDateTimeFormatter.format(values.comboReturnDeadline),
+        dateSignupOpen: dateSignupOpen.toDate(),
         // @ts-ignore
-        prices: values.prices.map(({ deadline, ...rest }) => ({
-          ...rest,
-          deadline,
-          deadlineHuman: argentinaDateTimeFormatter.format(deadline)
-        }))
+        prices: values.prices.map(({ deadline, price, ...rest }) => {
+          return {
+            ...rest,
+            deadline,
+            price,
+            priceHuman: argentinaCurrencyFormatter.format(price),
+            deadlineHuman: argentinaDateTimeFormatter.format(deadline)
+          };
+        })
       };
       await createOrUpdateDoc('events', data, id);
       navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
@@ -115,24 +130,11 @@ export default function EventForm() {
                 </Grid>
                 <Formik
                   initialValues={{
-                    dateEnd: event?.dateEnd || '',
-                    dateSignupOpen: event?.dateSignupOpen || '',
-                    dateStart: event?.dateStart || '',
-                    location: event?.location || '',
-                    name: event?.name || '',
-                    capacity: event?.capacity || '',
-                    daysBeforeExpiration: event?.daysBeforeExpiration || '',
+                    ...event,
                     prices:
                       event?.prices?.length && event?.prices?.length > 0
                         ? event?.prices
                         : [{ price: '', deadline: '' }],
-                    bank: {
-                      entity: event?.bank?.entity || '',
-                      holder: event?.bank?.holder || '',
-                      cbu: event?.bank?.cbu || '',
-                      alias: event?.bank?.alias || '',
-                      cuit: event?.bank?.cuit || ''
-                    },
                     schedule: event?.schedule || [
                       { title: 'Viernes XX', activities: '' },
                       { title: 'Sábado XX', activities: '' },
@@ -207,13 +209,33 @@ export default function EventForm() {
                                 setFieldValue={setFieldValue}
                               />
                             </Grid>
-                            <Grid item md={4} sm={4} xs={12}>
-                              <ETIDatePicker
+                            <Grid item md={12} sm={12} xs={12}>
+                              <Field
                                 textFieldProps={{ fullWidth: true }}
                                 label={t('dateSignupOpen')}
-                                fieldName="dateSignupOpen"
+                                name="dateSignupOpen"
+                                setFieldValue={setFieldValue}
+                                component={DateTimePicker}
+                              />
+                            </Grid>
+                            <Grid item md={12} sm={12} xs={12}>
+                              <ETIDatePicker
+                                textFieldProps={{ fullWidth: true }}
+                                label={t('comboReturnDeadline')}
+                                fieldName="comboReturnDeadline"
                                 setFieldValue={setFieldValue}
                               />
+                            </Grid>
+                            <Grid item md={12} sm={12} xs={12}>
+                              <Field
+                                name="landingTitle"
+                                label={t('landingTitle')}
+                                component={TextField}
+                                required
+                                fullWidth
+                              />
+                              (Este es el texto que se muestra sobre la imágen de la portada - ej
+                              {'ToninETI - 24, 25 y 26 de Marzo'})
                             </Grid>
                           </Grid>
                         </AccordionDetails>
@@ -419,6 +441,11 @@ export default function EventForm() {
                         successMsg: 'Archivo subido con éxito',
                         errorMsg: 'Error al subir archivo'
                       }}
+                    />
+                    <img
+                      src={event?.image}
+                      alt="Receipt"
+                      style={{ maxWidth: '50%', height: 'auto' }}
                     />
                   </Grid>
                 ) : (

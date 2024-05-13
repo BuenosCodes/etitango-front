@@ -11,36 +11,26 @@ import {
 } from '@mui/material';
 
 import WithAuthentication from '../withAuthentication';
-import { getFutureEti } from '../../helpers/firestore/events';
 import { getSignups, markAttendance } from '../../helpers/firestore/signups';
 import { Signup, SignupStatus } from '../../shared/signup';
 import { SignupListTable } from './SignupListTable';
 import { UserContext } from '../../helpers/UserContext';
 import AdminTools from './AdminTools';
 import { SCOPES } from '../../helpers/constants/i18n';
-import { EtiEvent } from '../../shared/etiEvent';
 import SignupSummary from './SignupSummary';
 import { isAdmin, isAdminOfEvent, isSuperAdmin } from '../../helpers/firestore/users';
+import { EtiEventContext } from '../../helpers/EtiEventContext';
 
 const SignupList = (props: { isAttendance: boolean }) => {
   const { user } = useContext(UserContext);
   const [signups, setSignups] = useState([] as Signup[]);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [etiEvent, setEtiEvent] = useState<EtiEvent>();
+  const { etiEvent } = useContext(EtiEventContext);
   const [alert, setAlert] = useState<{ props?: AlertProps; text?: string }>({});
   const { t } = useTranslation([SCOPES.MODULES.SIGN_UP_LIST, SCOPES.COMMON.FORM], {
     useSuspense: false
   });
-
-  useEffect(() => {
-    const getEvent = async () => {
-      const etiEvent = await getFutureEti();
-      setEtiEvent(etiEvent);
-    };
-
-    getEvent();
-  }, []);
 
   /** get signups */
   useEffect(() => {

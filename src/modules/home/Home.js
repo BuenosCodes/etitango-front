@@ -1,25 +1,16 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import Cronograma from './cronograma/Cronograma';
-import { storage } from '../../etiFirebase.js';
-import { getDownloadURL, ref } from 'firebase/storage';
+import Portada from './portada/Portada';
+import { EtiEventContext } from 'helpers/EtiEventContext';
 
 function Index() {
-  const [image, setImage] = useState();
-
-  useEffect(() => {
-    async function fetch() {
-      const imageUrl = await getDownloadURL(ref(storage, `events/current.jpeg`));
-      setImage(imageUrl);
-    }
-
-    fetch();
-  }, []);
+  const { etiEvent } = useContext(EtiEventContext);
 
   return (
     <React.Fragment>
-      {/*<Portada />*/}
-      {image && <img src={image} alt="Uploaded" width="100%" height="100%" />}
+      <Portada />
+      {etiEvent?.image && <img src={etiEvent.image} alt="Uploaded" width="100%" height="100%" />}
       <Cronograma />
     </React.Fragment>
   );

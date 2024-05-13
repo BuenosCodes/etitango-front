@@ -5,18 +5,18 @@ import { Translation } from 'react-i18next';
 import { Button, Typography } from '@mui/material';
 import { ROUTES } from '../../App.js';
 import { UserContext } from '../../helpers/UserContext';
-import { getFutureEti } from '../../helpers/firestore/events';
 import { getSignupForUserAndEvent } from '../../helpers/firestore/signups';
 import ReceiptUpload from '../../components/receiptUpload/index.jsx';
+import { EtiEventContext } from '../../helpers/EtiEventContext';
 
 export default function UserHome() {
   const [signUpDetails, setSignUpDetails] = useState(null);
   const { user } = useContext(UserContext);
+  const { etiEvent } = useContext(EtiEventContext);
   useEffect(() => {
     async function fetch() {
-      const futureEtiEvent = await getFutureEti();
-      if (user.uid && getFutureEti) {
-        setSignUpDetails(await getSignupForUserAndEvent(user.uid, futureEtiEvent.id));
+      if (user.uid && etiEvent?.id) {
+        setSignUpDetails(await getSignupForUserAndEvent(user.uid, etiEvent.id));
       }
     }
 

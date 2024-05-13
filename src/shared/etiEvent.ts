@@ -2,6 +2,7 @@ import { Timestamp } from 'firebase/firestore';
 
 export interface EtiEventBase {
   id: string;
+  image: string;
   name: string;
   location: string;
   admins: string[];
@@ -16,12 +17,15 @@ export interface EtiEventBase {
   };
   schedule: { title: string; activities: string }[];
   locations: { name: ''; link: '' }[];
+  landingTitle: string;
+  comboReturnDeadlineHuman: string;
 }
 
 export interface EtiEvent extends EtiEventBase {
   dateStart: Date;
   dateEnd: Date;
   dateSignupOpen: Date;
+  comboReturnDeadline: Date;
   prices: PriceSchedule[];
 }
 
@@ -40,11 +44,12 @@ export interface EtiEventFirestore extends EtiEventBase {
   dateStart: Timestamp;
   dateEnd: Timestamp;
   dateSignupOpen: Timestamp;
+  comboReturnDeadline: Timestamp;
   prices: PriceScheduleFirebase[];
 }
 
 export const priceScheduleToJs = (priceSchedule: PriceScheduleFirebase[]) =>
-  priceSchedule.map(({ deadline, price }) => ({
-    price,
+  priceSchedule.map(({ deadline, ...rest }) => ({
+    ...rest,
     deadline: deadline.toDate()
   }));

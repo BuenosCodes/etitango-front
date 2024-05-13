@@ -6,7 +6,6 @@ import {
   getSignupForUserAndEvent,
   resetSignup
 } from '../../helpers/firestore/signups';
-import { getFutureEti } from '../../helpers/firestore/events';
 import { auth } from '../../etiFirebase';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
@@ -23,6 +22,7 @@ import { ETIDatePicker } from '../../components/form/DatePicker.tsx';
 import ReceiptUpload from '../../components/receiptUpload/index';
 import { UserContext } from '../../helpers/UserContext';
 import { CompleteProfileAlert } from '../user/components/completeProfileAlert';
+import { EtiEventContext } from '../../helpers/EtiEventContext';
 
 /* eslint-disable react/prop-types */
 function ResetSignup({ etiEventId, signupId }) {
@@ -79,18 +79,16 @@ export default function Inscripcion() {
     useSuspense: false
   });
 
-  const [etiEvent, setEtiEvent] = useState();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
   const [signUpDetails, setSignUpDetails] = useState(null);
 
   const { user } = useContext(UserContext);
+  const { etiEvent } = useContext(EtiEventContext);
   useEffect(() => {
     async function fetch() {
-      const futureEtiEvent = await getFutureEti();
-      setEtiEvent(futureEtiEvent);
-      if (user.uid && getFutureEti) {
-        setSignUpDetails(await getSignupForUserAndEvent(user.uid, futureEtiEvent.id));
+      if (user.uid && etiEvent?.id) {
+        setSignUpDetails(await getSignupForUserAndEvent(user.uid, etiEvent.id));
       }
     }
 
@@ -257,9 +255,14 @@ export default function Inscripcion() {
                           <Typography variant="h3" color="primary" align="center">
                             {t(`${SCOPES.MODULES.SIGN_UP}.combo`)}
                           </Typography>
-                          <Typography>$25.000 del 13 al 21/02 (inclusive)</Typography>
-                          <Typography>$27.000 hasta el 30/02 (inclusive)</Typography>
-                          <Typography>$30.000 a partir del 01/03</Typography>
+                          {etiEvent?.prices.map((p, i) => {
+                            const { priceHuman, deadlineHuman } = p;
+                            return (
+                              <Typography key={'prices_' + i}>
+                                {priceHuman} hasta el {deadlineHuman} (inclusive)
+                              </Typography>
+                            );
+                          })}
                         </Grid>
                         <Grid container justifyContent="flex-end">
                           <Grid item>
@@ -276,7 +279,7 @@ export default function Inscripcion() {
                         <Grid item style={{ textAlign: 'center' }}>
                           <Typography variant="caption">
                             {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer`)}
-                            <b>10 de Marzo</b>.<br />
+                            <b>{etiEvent?.comboReturnDeadlineHuman}</b>.<br />
                             {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer2`)}
                           </Typography>
                         </Grid>
