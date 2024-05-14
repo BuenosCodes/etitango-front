@@ -1,23 +1,23 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, CircularProgress, Container, Grid, Typography } from '@mui/material';
+import { Button, Container, Grid, Typography } from '@mui/material';
 import WithAuthentication from '../withAuthentication';
 import { getSignupForUserAndEvent, resetSignup } from '../../helpers/firestore/signups';
 import { auth } from '../../etiFirebase';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
-import { SignupStatus } from '../../shared/signup';
 import { getDocument } from '../../helpers/firestore/index.js';
 import { USERS } from '../../helpers/firestore/users';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../App.js';
-import ReceiptUpload from '../../components/receiptUpload/index';
 import { UserContext } from '../../helpers/UserContext';
 import { CompleteProfileAlert } from '../user/components/completeProfileAlert';
 import { EtiEventContext } from '../../helpers/EtiEventContext';
-import { SignupForm } from './SignupForm.jsx';
+import { SignupForm } from './SignupForm';
+import * as PropTypes from 'prop-types';
+import { SignupStatusDisplay } from '../components/SignupStatusDisplay.jsx';
 
 /* eslint-disable react/prop-types */
-function ResetSignup({ etiEventId, signupId }) {
+export function ResetSignup({ etiEventId, signupId }) {
   const navigate = useNavigate();
   const handleClick = async () => {
     await resetSignup(etiEventId, signupId);
@@ -39,18 +39,139 @@ function ResetSignup({ etiEventId, signupId }) {
 //   validationSchema: PropTypes.any,
 //   onSubmit: PropTypes.func,
 //   prop4: PropTypes.func
-// };
-export default function Inscripcion() {
+function Title({ etiEvent }) {
   const { t } = useTranslation([SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP], {
     useSuspense: false
   });
+  return (
+    <Grid item sx={{ mb: 3 }}>
+      <Typography variant="h5" color="secondary" align="center">
+        {t(`${SCOPES.MODULES.SIGN_UP}.title`)}
+      </Typography>
+      <Typography variant="h5" color="secondary" align="center">
+        {etiEvent?.name}
+      </Typography>
+    </Grid>
+  );
+}
 
+Title.propTypes = {
+  t: PropTypes.any,
+  etiEvent: PropTypes.shape({
+    dateStart: PropTypes.any,
+    dateEnd: PropTypes.any,
+    dateSignupOpen: PropTypes.any,
+    comboReturnDeadline: PropTypes.any,
+    prices: PropTypes.arrayOf(PropTypes.any),
+    id: PropTypes.string,
+    image: PropTypes.string,
+    name: PropTypes.string,
+    location: PropTypes.string,
+    admins: PropTypes.arrayOf(PropTypes.string),
+    capacity: PropTypes.number,
+    daysBeforeExpiration: PropTypes.number,
+    bank: PropTypes.shape({
+      entity: PropTypes.string,
+      holder: PropTypes.string,
+      cbu: PropTypes.string,
+      alias: PropTypes.string,
+      cuit: PropTypes.string
+    }),
+    schedule: PropTypes.arrayOf(
+      PropTypes.shape({ title: PropTypes.string, activities: PropTypes.string })
+    ),
+    locations: PropTypes.arrayOf(
+      PropTypes.shape({ name: PropTypes.string, link: PropTypes.string })
+    ),
+    landingTitle: PropTypes.string,
+    comboReturnDeadlineHuman: PropTypes.string
+  })
+};
+
+function SignupClosed({ etiEvent }) {
+  return (
+    <Typography color={'error.dark'} textAlign={'center'}>
+      t(`${SCOPES.MODULES.SIGN_UP}.signupClosed`) {etiEvent.dateSignupOpen.toLocaleString()}
+    </Typography>
+  );
+}
+
+SignupClosed.propTypes = {
+  t: PropTypes.any,
+  etiEvent: PropTypes.shape({
+    dateStart: PropTypes.any,
+    dateEnd: PropTypes.any,
+    dateSignupOpen: PropTypes.any,
+    comboReturnDeadline: PropTypes.any,
+    prices: PropTypes.arrayOf(PropTypes.any),
+    id: PropTypes.string,
+    image: PropTypes.string,
+    name: PropTypes.string,
+    location: PropTypes.string,
+    admins: PropTypes.arrayOf(PropTypes.string),
+    capacity: PropTypes.number,
+    daysBeforeExpiration: PropTypes.number,
+    bank: PropTypes.shape({
+      entity: PropTypes.string,
+      holder: PropTypes.string,
+      cbu: PropTypes.string,
+      alias: PropTypes.string,
+      cuit: PropTypes.string
+    }),
+    schedule: PropTypes.arrayOf(
+      PropTypes.shape({ title: PropTypes.string, activities: PropTypes.string })
+    ),
+    locations: PropTypes.arrayOf(
+      PropTypes.shape({ name: PropTypes.string, link: PropTypes.string })
+    ),
+    landingTitle: PropTypes.string,
+    comboReturnDeadlineHuman: PropTypes.string
+  })
+};
+
+SignupStatusDisplay.propTypes = {
+  t: PropTypes.any,
+  signUpDetails: PropTypes.any,
+  user: PropTypes.any,
+  etiEvent: PropTypes.shape({
+    dateStart: PropTypes.any,
+    dateEnd: PropTypes.any,
+    dateSignupOpen: PropTypes.any,
+    comboReturnDeadline: PropTypes.any,
+    prices: PropTypes.arrayOf(PropTypes.any),
+    id: PropTypes.string,
+    image: PropTypes.string,
+    name: PropTypes.string,
+    location: PropTypes.string,
+    admins: PropTypes.arrayOf(PropTypes.string),
+    capacity: PropTypes.number,
+    daysBeforeExpiration: PropTypes.number,
+    bank: PropTypes.shape({
+      entity: PropTypes.string,
+      holder: PropTypes.string,
+      cbu: PropTypes.string,
+      alias: PropTypes.string,
+      cuit: PropTypes.string
+    }),
+    schedule: PropTypes.arrayOf(
+      PropTypes.shape({ title: PropTypes.string, activities: PropTypes.string })
+    ),
+    locations: PropTypes.arrayOf(
+      PropTypes.shape({ name: PropTypes.string, link: PropTypes.string })
+    ),
+    landingTitle: PropTypes.string,
+    comboReturnDeadlineHuman: PropTypes.string
+  }),
+  signUpDetails1: PropTypes.func
+};
+// };
+export default function Inscripcion() {
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
   const [signUpDetails, setSignUpDetails] = useState(null);
-
   const { user } = useContext(UserContext);
   const { etiEvent } = useContext(EtiEventContext);
+
   useEffect(() => {
     async function fetch() {
       if (user.uid && etiEvent?.id) {
@@ -72,32 +193,18 @@ export default function Inscripcion() {
     fetchData().catch((error) => console.error(error));
   }, [auth.currentUser?.uid]);
 
-  const renderAlreadySignedUpMessage = () => (
-    <Grid item style={{ textAlign: 'center' }}>
-      <Typography variant="h6">{t(`${SCOPES.MODULES.SIGN_UP}.alreadySignedUpReason`)}</Typography>
-      {signUpDetails.status === SignupStatus.CANCELLED ? (
-        <ResetSignup user={user} etiEventId={etiEvent.id} signupId={signUpDetails.id} />
-      ) : (
-        <ReceiptUpload
-          etiEventId={etiEvent?.id}
-          signUpDetails={signUpDetails}
-          userId={auth.currentUser?.uid}
-          setSignUpDetails={setSignUpDetails}
-        />
-      )}
-    </Grid>
-  );
-
-  return (
-    <>
-      <WithAuthentication />
-      <CompleteProfileAlert />
-      <Container maxWidth="lg" sx={{ marginTop: 3 }}>
-        {etiEvent?.dateSignupOpen > new Date() ? (
-          <Typography color={'error.dark'} textAlign={'center'}>
-            {t(`${SCOPES.MODULES.SIGN_UP}.signupClosed`)} {etiEvent.dateSignupOpen.toLocaleString()}
-          </Typography>
-        ) : (
+  if (!etiEvent?.id) {
+    return (
+      <Typography variant="h5" color="secondary" align="center" my={4}>
+        El pŕoximo ETI viene pronto!
+      </Typography>
+    );
+  } else
+    return (
+      <>
+        <WithAuthentication />
+        <CompleteProfileAlert />
+        <Container maxWidth="lg" sx={{ marginTop: 3 }}>
           <Grid
             container
             direction="column"
@@ -105,18 +212,10 @@ export default function Inscripcion() {
             justifyContent="center"
             spacing={3}
           >
-            <Grid item sx={{ mb: 3 }}>
-              <Typography variant="h5" color="secondary" align="center">
-                {t(`${SCOPES.MODULES.SIGN_UP}.title`)}
-              </Typography>
-              <Typography variant="h5" color="secondary" align="center">
-                {etiEvent?.name}
-              </Typography>
-            </Grid>
-            {loading ? (
-              <CircularProgress />
-            ) : signUpDetails?.id ? (
-              renderAlreadySignedUpMessage()
+            <Title etiEvent={etiEvent} />
+            {etiEvent?.dateSignupOpen > new Date() ? <SignupClosed etiEvent={etiEvent} /> : null}
+            {signUpDetails?.id ? (
+              <SignupStatusDisplay />
             ) : (
               <SignupForm
                 userData={userData}
@@ -125,8 +224,7 @@ export default function Inscripcion() {
               />
             )}
           </Grid>
-        )}
-      </Container>
-    </>
-  );
+        </Container>
+      </>
+    );
 }

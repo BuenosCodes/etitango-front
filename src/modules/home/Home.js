@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import Cronograma from './cronograma/Cronograma';
 import Portada from './portada/Portada';
 import { EtiEventContext } from 'helpers/EtiEventContext';
+import Cronograma from './cronograma/Cronograma.jsx';
 
 function Index() {
   const { etiEvent } = useContext(EtiEventContext);
@@ -10,8 +10,10 @@ function Index() {
   return (
     <React.Fragment>
       <Portada />
-      {etiEvent?.image && <img src={etiEvent.image} alt="Uploaded" width="100%" height="100%" />}
-      <Cronograma />
+      {etiEvent?.image && (
+        <img src={etiEvent.image} alt="Proximmo ETI" width="100%" height="100%" />
+      )}
+      {etiEvent?.id && <Cronograma />}
     </React.Fragment>
   );
 }
