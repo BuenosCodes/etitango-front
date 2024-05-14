@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars*/
 import { Timestamp } from 'firebase/firestore';
+import { UserData } from './User';
 
 export enum SignupStatus {
   WAITLIST = 'waitlist',
@@ -35,45 +36,35 @@ export enum FoodChoices {
   VEGAN = 'vegan'
 }
 
-export interface SignupBase {
-  userId: string;
-  etiEventId: string;
-  nameFirst: string;
-  nameLast: string;
-  email: string;
-  dniNumber: string;
+export type SignupFormData = {
+  dateArrival: Date;
+  dateDeparture: Date;
   helpWith: SignupHelpWith;
   food: FoodChoices;
-  role?: DanceRoles;
   isCeliac: boolean;
-  isVaccinated?: boolean;
   country: string;
   province?: string;
   city?: string;
-  status?: SignupStatus;
-  didAttend: boolean;
-  receipt?: string;
-  orderNumber: number;
-  disability?: string;
-  phoneNumber: string;
-}
+};
 
-export interface SignupCreate extends SignupBase {
-  dateArrival: Date;
-  dateDeparture: Date;
-}
+// eslint-disable-next-line no-undef
+export type Signup = SignupFormData &
+  UserData & {
+    id: string;
+    etiEventId: string;
+    status?: SignupStatus;
+    didAttend: boolean;
+    receipt?: string;
+    orderNumber: number;
+    lastModifiedAt: Date;
+    statusHistory?: { status: SignupStatus; date: Date }[];
+    dateArrival: Date;
+    dateDeparture: Date;
+    userId: string;
+  };
 
-export interface Signup extends SignupBase {
-  id: string;
-  dateArrival: Date;
-  dateDeparture: Date;
-  lastModifiedAt: Date;
-  statusHistory?: { status: SignupStatus; date: Date }[];
-}
-
-export interface SignupFirestore extends SignupBase {
-  id: string;
+export type SignupFirestore = Omit<Signup, 'dateArrival' | 'dateDeparture' | 'lastModifiedAt'> & {
   dateArrival: Timestamp;
   dateDeparture: Timestamp;
   lastModifiedAt: Timestamp;
-}
+};

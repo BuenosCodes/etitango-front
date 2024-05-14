@@ -2,7 +2,7 @@ import { UserPersonalInfo } from '../shared/User';
 
 type RequiredKeys<T> = { [K in keyof T]-?: undefined extends T[K] ? never : K }[keyof T];
 type RequiredProperties<T> = Pick<T, RequiredKeys<T>>;
-type RequiredUserData = RequiredProperties<UserPersonalInfo>;
+type RequiredUserData = RequiredProperties<Omit<UserPersonalInfo, 'disability'>>;
 
 export const isUserDataComplete = (userData: any): userData is RequiredUserData => {
   if (!userData) {

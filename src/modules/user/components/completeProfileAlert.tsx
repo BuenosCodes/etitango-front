@@ -13,7 +13,7 @@ export function CompleteProfileAlert() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const checkUserData = () => {
-    if (isUserDataComplete(user.data)) {
+    if (user && isUserDataComplete(user.data)) {
       navigate(ROUTES.SIGNUP);
     } else {
       setAlertVisible(true);

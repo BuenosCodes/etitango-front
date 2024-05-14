@@ -1,28 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, CircularProgress, Container, Grid, MenuItem, Typography } from '@mui/material';
+import { Button, CircularProgress, Container, Grid, Typography } from '@mui/material';
 import WithAuthentication from '../withAuthentication';
-import {
-  createSignup,
-  getSignupForUserAndEvent,
-  resetSignup
-} from '../../helpers/firestore/signups';
+import { getSignupForUserAndEvent, resetSignup } from '../../helpers/firestore/signups';
 import { auth } from '../../etiFirebase';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
-import { Field, Form, Formik } from 'formik';
-import { Select } from 'formik-mui';
-import { bool, date, object, string } from 'yup';
-import { SignupHelpWith, SignupStatus } from '../../shared/signup';
-import { LocationPicker } from '../../components/form/LocationPicker.tsx';
+import { SignupStatus } from '../../shared/signup';
 import { getDocument } from '../../helpers/firestore/index.js';
 import { USERS } from '../../helpers/firestore/users';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../App.js';
-import { ETIDatePicker } from '../../components/form/DatePicker.tsx';
 import ReceiptUpload from '../../components/receiptUpload/index';
 import { UserContext } from '../../helpers/UserContext';
 import { CompleteProfileAlert } from '../user/components/completeProfileAlert';
 import { EtiEventContext } from '../../helpers/EtiEventContext';
+import { SignupForm } from './SignupForm.jsx';
 
 /* eslint-disable react/prop-types */
 function ResetSignup({ etiEventId, signupId }) {
@@ -38,32 +30,6 @@ function ResetSignup({ etiEventId, signupId }) {
         <Typography>Reinscribirme</Typography>
       </Button>
     </>
-  );
-}
-
-function SignupForm(props) {
-  return (
-    <Formik
-      enableReinitialize
-      initialValues={{
-        nameFirst: props.userData.nameFirst,
-        nameLast: props.userData.nameLast,
-        dniNumber: props.userData.dniNumber,
-        helpWith: '',
-        food: props.userData.food,
-        isCeliac: props.userData.isCeliac,
-        country: props.userData.country,
-        province: props.userData.province,
-        city: props.userData.city,
-        dateArrival: props.etiEvent?.dateStart,
-        dateDeparture: props.etiEvent?.dateEnd,
-        email: auth?.currentUser?.email
-      }}
-      validationSchema={props.validationSchema}
-      onSubmit={props.onSubmit}
-    >
-      {props.prop4}
-    </Formik>
   );
 }
 
@@ -95,27 +61,6 @@ export default function Inscripcion() {
     fetch();
   }, [user]);
 
-  const SignupSchema = object({
-    helpWith: string().required('Este campo no puede estar vacío'),
-    food: string().required('Este campo no puede estar vacío'),
-    isCeliac: bool().required('Este campo no puede estar vacío'),
-    country: string().nullable(true).required('Este campo no puede estar vacío'),
-    province: string()
-      .nullable(true)
-      .when('country', {
-        is: 'Argentina',
-        then: string().nullable(true).required('Este campo no puede estar vacío')
-      }),
-    city: string()
-      .nullable(true)
-      .when('country', {
-        is: 'Argentina',
-        then: string().nullable(true).required('Este campo no puede estar vacío')
-      }),
-    dateArrival: date().required('Este campo no puede estar vacío'),
-    dateDeparture: date().required('Este campo no puede estar vacío')
-  });
-
   useEffect(() => {
     const fetchData = async () => {
       if (auth.currentUser?.uid) {
@@ -126,30 +71,6 @@ export default function Inscripcion() {
     };
     fetchData().catch((error) => console.error(error));
   }, [auth.currentUser?.uid]);
-
-  const navigate = useNavigate();
-  const save = async (values, setSubmitting) => {
-    const { dateArrival, dateDeparture, helpWith, food, isCeliac, country, province, city } =
-      values;
-    let data = {
-      dateArrival,
-      dateDeparture,
-      helpWith,
-      food,
-      isCeliac,
-      country,
-      province,
-      city
-    };
-    try {
-      await createSignup(etiEvent?.id, auth.currentUser.uid, data);
-      navigate(ROUTES.SIGNUPS);
-    } catch (error) {
-      console.error(error);
-      setSubmitting(false);
-      //TODO global error handling this.setState({errors: error.response.data})
-    }
-  };
 
   const renderAlreadySignedUpMessage = () => (
     <Grid item style={{ textAlign: 'center' }}>
@@ -200,93 +121,7 @@ export default function Inscripcion() {
               <SignupForm
                 userData={userData}
                 etiEvent={etiEvent}
-                validationSchema={SignupSchema}
-                onSubmit={async (values, { setSubmitting }) => {
-                  await save(values, setSubmitting);
-                }}
-                prop4={({ isSubmitting, touched, errors, setFieldValue, values }) => (
-                  <Form>
-                    <Grid container spacing={2}>
-                      <Grid item md={4} sm={4} xs={12}>
-                        <ETIDatePicker
-                          label={t('dateArrival')}
-                          fieldName="dateArrival"
-                          setFieldValue={setFieldValue}
-                          textFieldProps={{ fullWidth: true }}
-                        />
-                      </Grid>
-                      <Grid item md={4} sm={4} xs={12}>
-                        <ETIDatePicker
-                          label={t('dateDeparture')}
-                          fieldName="dateDeparture"
-                          setFieldValue={setFieldValue}
-                          textFieldProps={{ fullWidth: true }}
-                        />
-                      </Grid>
-                      <Grid item md={4} sm={4} xs={12}>
-                        <Field
-                          component={Select}
-                          id="helpWith"
-                          name="helpWith"
-                          labelId="helpwith-label"
-                          label={t('helpWith')}
-                          formControl={{ fullWidth: true }}
-                        >
-                          {Object.values(SignupHelpWith).map((help) => (
-                            <MenuItem key={help} value={help}>
-                              {t(help)}
-                            </MenuItem>
-                          ))}
-                        </Field>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography sx={{ mb: 1 }}>{t('whereAreYouComingFrom')}</Typography>
-                        <LocationPicker
-                          values={values}
-                          setFieldValue={setFieldValue}
-                          touched={touched}
-                          errors={errors}
-                          t={t}
-                          location={userData}
-                        />
-                      </Grid>
-                      <Grid item container justifyContent={'center'}>
-                        <Grid item style={{ textAlign: 'center' }} justifyContent={'center'}>
-                          <Typography variant="h3" color="primary" align="center">
-                            {t(`${SCOPES.MODULES.SIGN_UP}.combo`)}
-                          </Typography>
-                          {etiEvent?.prices.map((p, i) => {
-                            const { priceHuman, deadlineHuman } = p;
-                            return (
-                              <Typography key={'prices_' + i}>
-                                {priceHuman} hasta el {deadlineHuman} (inclusive)
-                              </Typography>
-                            );
-                          })}
-                        </Grid>
-                        <Grid container justifyContent="flex-end">
-                          <Grid item>
-                            <Button
-                              variant="contained"
-                              color="secondary"
-                              type="submit"
-                              disabled={!!signUpDetails?.id || isSubmitting}
-                            >
-                              {t(`${SCOPES.MODULES.SIGN_UP}.${'signUp'}`).toUpperCase()}
-                            </Button>
-                          </Grid>
-                        </Grid>
-                        <Grid item style={{ textAlign: 'center' }}>
-                          <Typography variant="caption">
-                            {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer`)}
-                            <b>{etiEvent?.comboReturnDeadlineHuman}</b>.<br />
-                            {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer2`)}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Form>
-                )}
+                isSignedUp={!!signUpDetails?.id}
               />
             )}
           </Grid>
