@@ -167,7 +167,7 @@ SignupStatusDisplay.propTypes = {
 // };
 export default function Inscripcion() {
   const [userData, setUserData] = useState({});
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [signUpDetails, setSignUpDetails] = useState(null);
   const { user } = useContext(UserContext);
   const { etiEvent } = useContext(EtiEventContext);
@@ -187,7 +187,7 @@ export default function Inscripcion() {
       if (auth.currentUser?.uid) {
         const user = await getDocument(`${USERS}/${auth.currentUser.uid}`);
         setUserData(user);
-        setLoading(false);
+        // setLoading(false);
       }
     };
     fetchData().catch((error) => console.error(error));
