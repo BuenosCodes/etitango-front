@@ -110,10 +110,7 @@ export default function EventForm() {
     >
       {(t) => (
         <>
-          <WithAuthentication
-            roles={[UserRoles.SUPER_ADMIN]}
-            redirectUrl={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`}
-          />
+          <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} />
           {loading ? (
             <CircularProgress />
           ) : (
