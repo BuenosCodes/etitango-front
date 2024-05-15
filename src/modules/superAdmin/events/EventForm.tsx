@@ -94,7 +94,7 @@ export default function EventForm() {
           };
         })
       };
-      await createOrUpdateDoc('events', data, id);
+      await createOrUpdateDoc('events', data, id === 'new' ? undefined : id);
       navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
     } catch (error) {
       console.error(error);

@@ -34,6 +34,7 @@ export const createOrUpdateDoc = async (path, data, id) => {
     Object.entries(data).forEach(([k, v]) => {
       if (v === undefined || v === null) delete docData[k];
     });
+    delete docData.id;
 
     if (id) {
       await setDoc(doc(db, `${path}/${id}`), docData, { merge: true });
