@@ -1,10 +1,14 @@
 import { Box, Typography } from '@mui/material';
 import * as React from 'react';
+import { useContext } from 'react';
+import { EtiEventContext } from '../../../helpers/EtiEventContext';
 
 // eslint-disable-next-line no-undef
-const ImgBackground = process.env.PUBLIC_URL + '/img/h/login-background.jpg';
+const ImgBackground = '/img/h/login-background.jpg';
 
 export default function Portada() {
+  const { etiEvent } = useContext(EtiEventContext);
+
   return (
     <React.Fragment>
       <Box
@@ -22,7 +26,7 @@ export default function Portada() {
         }}
       >
         <Typography color="white" variant="h6" textAlign="center">
-          LasToninETI - 22, 23 y 24 de Marzo de 2024
+          {etiEvent?.landingTitle}
         </Typography>
       </Box>
     </React.Fragment>

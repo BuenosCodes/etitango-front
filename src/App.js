@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import Backend from 'i18next-http-backend';
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 
 import withRoot from './components/withRoot';
 import EtiAppBar from './components/EtiAppBar';
@@ -12,6 +12,8 @@ import { NotificationContext } from './helpers/NotificationContext';
 import withUserMenu from './components/withUserMenu';
 import { Notification } from './components/notification/Notification';
 import { CircularProgress } from '@mui/material';
+import { EtiEventContext } from './helpers/EtiEventContext';
+import { getFutureEti } from './helpers/firestore/events';
 
 const HistoriaEti = React.lazy(() => import('./modules/home/historia-del-ETI/HistoriaEti'));
 const ManifiestoETiano = React.lazy(() =>
@@ -86,6 +88,16 @@ export const PRIVATE_ROUTES = [
 
 function App() {
   const [user, setUser] = useState({ user: {} });
+  const [etiEvent, setEtiEvent] = useState();
+  useEffect(() => {
+    async function fetch() {
+      const futureEtiEvent = await getFutureEti();
+      setEtiEvent(futureEtiEvent);
+    }
+
+    fetch();
+  }, []);
+
   const [notification, setNotificationInfo] = useState({
     visible: false,
     notificationProps: {},
@@ -108,64 +120,73 @@ function App() {
   };
   return (
     <div className="">
-      <UserContext.Provider value={{ user, setUser }}>
-        <NotificationContext.Provider value={{ notification, setNotification }}>
-          <EtiAppBar />
-          <Notification {...notification} />
-          <Suspense
-            fallback={
-              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                <CircularProgress />
-              </div>
-            }
-          >
-            <Routes>
-              <Route path="historia-del-eti" element={<HistoriaEti />} exact />
-              <Route path="manifiesto-etiano" element={<ManifiestoETiano />} exact />
-              <Route path="comision-de-genero-contact" element={<ComisionGeneroContact />} exact />
-              <Route
-                path="comision-de-genero-protocol"
-                element={<ComisionGeneroProtocol />}
-                exact
-              />
-              <Route path="comision-de-genero-who" element={<ComisionGeneroWho />} exact />
-              <Route path={ROUTES.SIGNUP} element={withUserMenu(Inscripcion)()} exact />
-              <Route path={ROUTES.SIGNUPS} element={withUserMenu(SignupList)()} exact />
-              <Route
-                path={ROUTES.ATTENDANCE}
-                element={withUserMenu(SignupList)({ isAttendance: true })}
-                exact
-              />
-              <Route
-                path={`${ROUTES.RECEIPTS}/:etiEventId/:signupId`}
-                element={withUserMenu(Receipt)()}
-              />
-              <Route path={`${ROUTES.RECEIPTS}/:etiEventId`} element={withUserMenu(Receipt)()} />
+      <EtiEventContext.Provider value={{ etiEvent, setEtiEvent }}>
+        <UserContext.Provider value={{ user, setUser }}>
+          <NotificationContext.Provider value={{ notification, setNotification }}>
+            <EtiAppBar />
+            <Notification {...notification} />
+            <Suspense
+              fallback={
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                  <CircularProgress />
+                </div>
+              }
+            >
+              <Routes>
+                <Route path="historia-del-eti" element={<HistoriaEti />} exact />
+                <Route path="manifiesto-etiano" element={<ManifiestoETiano />} exact />
+                <Route
+                  path="comision-de-genero-contact"
+                  element={<ComisionGeneroContact />}
+                  exact
+                />
+                <Route
+                  path="comision-de-genero-protocol"
+                  element={<ComisionGeneroProtocol />}
+                  exact
+                />
+                <Route path="comision-de-genero-who" element={<ComisionGeneroWho />} exact />
+                <Route path={ROUTES.SIGNUP} element={withUserMenu(Inscripcion)()} exact />
+                <Route path={ROUTES.SIGNUPS} element={withUserMenu(SignupList)()} exact />
+                <Route
+                  path={ROUTES.ATTENDANCE}
+                  element={withUserMenu(SignupList)({ isAttendance: true })}
+                  exact
+                />
+                <Route
+                  path={`${ROUTES.RECEIPTS}/:etiEventId/:signupId`}
+                  element={withUserMenu(Receipt)()}
+                />
+                <Route path={`${ROUTES.RECEIPTS}/:etiEventId`} element={withUserMenu(Receipt)()} />
 
-              <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
-              <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
-              <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`} element={<EventsList />} />
-              <Route
-                path={`${ROUTES.SUPERADMIN}${ROUTES.SENT_MAILS}/:id`}
-                element={<SentMailList />}
-              />
-              <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`} element={<EventForm />} />
-              <Route path={`${ROUTES.SUPERADMIN}${ROUTES.ROLES}`} element={<RolesList />} />
-              <Route path={ROUTES.USER} element={withUserMenu(UserHome)()} />
-              <Route path={`${ROUTES.BANKS}/:id`} element={<Bank />} />
-              <Route path={ROUTES.PROFILE} element={withUserMenu(Profile)()} />
-              <Route path={ROUTES.HOME} element={<Home />} />
-              <Route path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}`} element={<TemplatesList />} />
-              <Route
-                path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}/:id`}
-                element={<EditTemplate />}
-              />
-              <Route path={ROUTES.INSTRUCTIONS} element={<Instructions />} />
-            </Routes>
-          </Suspense>
-          <AppFooter />
-        </NotificationContext.Provider>
-      </UserContext.Provider>
+                <Route path={ROUTES.SIGN_IN} element={<SignInScreen />} exact />
+                <Route path={ROUTES.SUPERADMIN} element={<SuperAdmin />} />
+                <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`} element={<EventsList />} />
+                <Route
+                  path={`${ROUTES.SUPERADMIN}${ROUTES.SENT_MAILS}/:id`}
+                  element={<SentMailList />}
+                />
+                <Route path={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}/:id`} element={<EventForm />} />
+                <Route path={`${ROUTES.SUPERADMIN}${ROUTES.ROLES}`} element={<RolesList />} />
+                <Route path={ROUTES.USER} element={withUserMenu(UserHome)()} />
+                <Route path={`${ROUTES.BANKS}/:id`} element={<Bank />} />
+                <Route path={ROUTES.PROFILE} element={withUserMenu(Profile)()} />
+                <Route path={ROUTES.HOME} element={<Home />} />
+                <Route
+                  path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}`}
+                  element={<TemplatesList />}
+                />
+                <Route
+                  path={`${ROUTES.SUPERADMIN}${ROUTES.TEMPLATES}/:id`}
+                  element={<EditTemplate />}
+                />
+                <Route path={ROUTES.INSTRUCTIONS} element={<Instructions />} />
+              </Routes>
+            </Suspense>
+            <AppFooter />
+          </NotificationContext.Provider>
+        </UserContext.Provider>
+      </EtiEventContext.Provider>
     </div>
   );
 }

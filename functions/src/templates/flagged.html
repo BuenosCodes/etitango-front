@@ -8,7 +8,7 @@
     Information to change for every event will be highlighted by commenting "UPDATE WITH CURRENT EVENT INFORMATION"
 -->
 
-        <!-- UPDATE WITH CURRENT EVENT INFORMATION --><title>Inscripción Las ToninETI: Revisar Comprobante</title>
+      <title>Inscripción {{ etiEvent.name }}: Revisar Comprobante</title>
 
         <!-- CSS Reset : BEGIN -->
         <style>
@@ -345,7 +345,8 @@
               <tr>
               <td class="hero bg_white" style="padding: 1em 0 1em 0;" valign="middle">
                 <a href="https://etitango.com.ar" target="_blank">
-                    <img align="middle" alt="ETI banner" id="home-img-1" src="https://etitango.com.ar/img/logo/eti-currentEvent.jpg" style="width: 300px; max-width: 600px; height: auto; margin: auto; display: block;" width="35%">
+                  <img align='middle' alt='ETI banner' id='home-img-1' src='{{ etiEvent.image }}'
+                       style='width: 300px; max-width: 600px; height: auto; margin: auto; display: block;' width='35%'>
                 </a>
               </td>
               </tr><!-- end tr -->
@@ -356,20 +357,23 @@
                         <td>
                             <div class="text" style="padding: 0 2.5em; text-align: center;">
                                 <!-- <hr style="color: #019893;"> -->
-                                <div style="border: solid 2px #019893;"><h2 style="color: #019893; margin-bottom: 0;">Inscripción <!-- UPDATE WITH CURRENT EVENT INFORMATION -->Las ToninETI<br>¡Revisar comprobante!</h2>
+                              <div style='border: solid 2px #019893;'><h2 style='color: #019893; margin-bottom: 0;'>
+                                Inscripción {{ etiEvent.name }}<br>¡Revisar comprobante!</h2>
 <!--                                <p style="margin-top: 0; margin-bottom: 0;"><i>Cada vez más cerca de volver a abrazarnos</i></p></div> -->
                                 <p style="color: rgba(0,0,0,0.3) !important;  margin-top: 0; margin-bottom: 0;"><i>Más que un amor de verano...</i></p></div>
                                 <!-- <hr style="color: #019893; margin-bottom: 0;"> -->
                                 <p style="color: rgba(255,0,0,0.8); margin-top: 0; margin-bottom: 1em;"><i> ~ No responder a este correo ~ </i></p>
                                 <h3 style="margin-bottom: 0.5em;">¡Hola {{ userName }}! </h3>
-                                <h4 style="margin-bottom: 0;"> Attenti que tuvimos un problema con tu comprobante y tenés 3 días para corregirlo.</h4>
+                              <h4 style='margin-bottom: 0;'> Atenti que tuvimos un problema con tu comprobante y tenés 3
+                                días para corregirlo.</h4>
 
                                 <p style="color:#000">El comprobante de transferencia o depósito que subiste a la página presenta algún problema. Podés revisarlo ingresando al sitio web del ETI, desde <i>Tu panel de control ETIano => Inscripción al próximo ETI</i> (<a href="https://etitango.com.ar/inscripcion" style= "color: #019893; text-decoration: underline;">https://etitango.com.ar/inscripcion</a>). Ahí mismo seguirás teniendo habilitado el botón azul que dice "SUBÍ TU COMPROBANTE DE TRANSFERENCIA" para que puedas reemplazarlo por el comprobante válido correspondiente.
                                 <br>Tenés<b> 3 días corridos para subir tu comprobante válido a la página</b> a partir de hoy, ¡no cuelgues! Pasados los 3 días, <b>te daremos de baja definitivamente</b> y se le dará lugar a la próxima persona en la lista de espera.</p>
                                 <p style="color:#000">Si revisaste el comprobante que habías subido y aún así necesitás más información de porqué rechazamos tu comprobante, podés comunicarte con la Comisión Organizadora al correo <a href="mailto:organizadores@etitango.com.ar?subject=Motivo de rechazo de comprobante&body=Hola, ¿cómo están? Soy ..........., ya revisé el comprobante que subí a la página y no encuentro cuál es el problema con el mismo, ¿serán tan amables de explicármelo? AbrazETI, ..........." style= "color: #019893; text-decoration: underline;">organizadores@etitango.com.ar</a>. Recordá indicar tu nombre, apellido y la razón por la que te estás comunicando.</p>
                                 <p style="color: rgba(0,0,0,0.3) !important" >Si querés saber qué incluye el combo y cómo es el itinerario de este ETI, visitá la <a href="https://etitango.com.ar" style= "color: #019893; text-decoration: none;">página del ETI (<i style="text-decoration: underline;">https://etitango.com.ar</i>)</a>.</p>
 
-                                <h4 style="text-align: left;">AbrazETI,<br> Comisión Organizadora de <!-- UPDATE WITH CURRENT EVENT INFORMATION -->Las ToninETI.</h4>
+                              <h4 style='text-align: left;'>AbrazETI,<br> Comisión Organizadora de {{ etiEvent.name }}.
+                              </h4>
 
                                 <table style="font-size: 0.8em; border: 1px solid; color: rgba(255,0,0,0.8);" width="100%"><tbody><tr><td> <ul style="padding: 0; margin: 0;">
                                     <li style="margin-bottom: 0.6em;">Si tenés una medida judicial de Prohibición de Acercamiento local, provincial y/ o nacional hacia otrx etianx, TE RECORDAMOS QUE NO PODRÁS INSCRIBIRTE, debiendo enviar un mail a la Comisión Organizadora (<a href="mailto:organizadores@etitango.com.ar" style="color: inherit; text-decoration: underline;">organizadores@etitango.com.ar</a>) para liberar el lugar.</li>

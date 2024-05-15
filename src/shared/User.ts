@@ -28,6 +28,7 @@ export interface UserPersonalInfo {
   nameLast: string;
   province?: string;
   phoneNumber: '';
+  disability: string;
 }
 
 export type UserRolesListData = Pick<UserFullData, 'email' | 'roles' | 'id' | 'adminOf'>;

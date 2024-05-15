@@ -1,7 +1,7 @@
-import * as firebase from "firebase-admin";
-import {db} from "./index";
+import * as firebase from 'firebase-admin';
+import { db } from './index';
 
-const defaultPath = "Counters";
+const defaultPath = 'Counters';
 
 export interface incrementParams {
   transaction: firebase.firestore.Transaction;
@@ -20,14 +20,14 @@ export async function getIncrement(args: incrementParams): Promise<number> {
 
   if (counterDoc.exists) {
     console.log(`Counter ${args.counterName} exists`);
-    const {counterValue} = counterDoc.data()!;
+    const { counterValue } = counterDoc.data()!;
     result = counterValue + (args.incrementValue ?? 1);
-    args.transaction.update(counterRef, {counterValue: result});
+    args.transaction.update(counterRef, { counterValue: result });
   } else {
     const counterValue = result;
     console.log(`Counter ${args.counterName} 
     created with next value ${counterValue}`);
-    args.transaction.create(counterRef, {counterValue});
+    args.transaction.create(counterRef, { counterValue });
   }
 
   console.log(`Counter ${args.counterName} result ${result}`);

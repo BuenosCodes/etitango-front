@@ -17,9 +17,9 @@ import { ROUTES } from '../../../App.js';
 import { BANKS } from 'helpers/firestore/banks';
 import { ERROR_CODES } from '../../../helpers/constants/errorCodes.ts';
 import { NotificationContext } from '../../../helpers/NotificationContext.ts';
-import { getFutureEti } from '../../../helpers/firestore/events.ts';
 import { validateSignUp } from '../../../helpers/firestore/signups.ts';
 import { t } from 'i18next';
+import { EtiEventContext } from '../../../helpers/EtiEventContext';
 
 export default function Profile() {
   const ProfileSchema = object({
@@ -84,6 +84,7 @@ export default function Profile() {
 
   const { setNotification } = useContext(NotificationContext);
   const navigate = useNavigate();
+  const { etiEvent } = useContext(EtiEventContext);
   useEffect(() => {
     const fetchData = async () => {
       if (auth.currentUser?.uid) {
@@ -155,10 +156,8 @@ export default function Profile() {
 
   useEffect(() => {
     const getFormData = async () => {
-      const futureEtiEvent = await getFutureEti();
-      const etiEventId = futureEtiEvent?.id;
-      if (etiEventId) {
-        await validateSignUp(etiEventId);
+      if (etiEvent?.id) {
+        await validateSignUp(etiEvent.id);
       }
     };
     getFormData().catch(handleError);

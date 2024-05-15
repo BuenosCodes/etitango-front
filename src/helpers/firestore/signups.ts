@@ -1,7 +1,7 @@
 import { createOrUpdateDoc, getCollection, getDocument } from './index';
 import { collection, getDocs, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { db, functions, storage } from '../../etiFirebase';
-import { Signup, SignupFirestore, SignupStatus } from '../../shared/signup';
+import { Signup, SignupFirestore, SignupFormData, SignupStatus } from '../../shared/signup';
 import { httpsCallable } from 'firebase/functions';
 import { BankFirestore, BANKS } from './banks';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
@@ -89,7 +89,7 @@ export const getSignupForUserAndEvent = async (userId: string, etiEventId: strin
   return list[0];
 };
 
-export const createSignup = async (etiEventId: string, userId: string, data: Signup) => {
+export const createSignup = async (etiEventId: string, userId: string, data: SignupFormData) => {
   const signupData = {
     ...data,
     userId,
@@ -120,20 +120,6 @@ export const validateSignUp = async (etiEventId: string) => {
     console.log(e);
   }
 };
-
-export const createEmail = async () =>
-  Object.values(SignupStatus).map((status) =>
-    createOrUpdateDoc('mail', {
-      toUids: ['3YMkn4rGwHdb3dD5NXxR2okR4JNa'],
-      template: {
-        name: status,
-        data: {
-          username: 'ada',
-          name: 'Ada Lovelace'
-        }
-      }
-    })
-  );
 
 export const upsertTemplates = async () => {
   const seeds = httpsCallable(functions, 'seeds-upsertTemplates');
