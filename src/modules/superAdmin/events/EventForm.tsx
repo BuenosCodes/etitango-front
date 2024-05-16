@@ -82,7 +82,7 @@ export default function EventForm() {
       const data = {
         ...values,
         comboReturnDeadlineHuman: argentinaDateTimeFormatter.format(values.comboReturnDeadline),
-        dateSignupOpen: dateSignupOpen.toDate(),
+        dateSignupOpen: dateSignupOpen.toDate ? dateSignupOpen.toDate() : dateSignupOpen,
         // @ts-ignore
         prices: values.prices.map(({ deadline, price, ...rest }) => {
           return {
