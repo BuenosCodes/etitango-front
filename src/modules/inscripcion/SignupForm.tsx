@@ -23,7 +23,7 @@ export function SignupForm() {
   const { data: userData } = user;
   const { etiEvent } = useContext(EtiEventContext);
   const navigate = useNavigate();
-
+  console.log('*******_debug  SignupForm.tsx:26 SignupForm '); // TODO
   const SignupSchema = object({
     helpWith: string().required('Este campo no puede estar vacío'),
     food: string().required('Este campo no puede estar vacío'),

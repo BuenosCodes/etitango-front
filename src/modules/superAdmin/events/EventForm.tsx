@@ -27,6 +27,7 @@ import RolesList from '../roles/RolesList';
 import FileUpload from '../../../components/FileUpload';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DateTimePicker } from 'formik-mui-x-date-pickers';
+import { Unsubscribe } from 'firebase/firestore';
 
 export default function EventForm() {
   const EventFormSchema = object({
@@ -59,7 +60,7 @@ export default function EventForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let unsubscribe: Function;
+    let unsubscribe: Unsubscribe;
     const fetchData = async () => {
       if (id) {
         unsubscribe = await getEventLive(id, setEvent, setLoading);

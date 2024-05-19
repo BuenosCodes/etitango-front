@@ -63,6 +63,7 @@ export const getSignupForUserAndEvent = async (
   setSignUpDetails: Function,
   setIsLoading: Function
 ) => {
+  setIsLoading(true);
   const ref = collection(db, SIGNUPS);
 
   const q = query(

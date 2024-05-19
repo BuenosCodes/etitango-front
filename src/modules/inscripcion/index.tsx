@@ -10,15 +10,17 @@ import { SignupStatusDisplay } from '../components/SignupStatusDisplay';
 import { SignupClosed } from './SignupClosed';
 import { Title } from './Title';
 import { Signup } from '../../shared/signup';
+import { Unsubscribe } from 'firebase/firestore';
 
 export default function Index() {
   const [signupDetails, setSignupDetails] = useState<Signup>();
   const { user } = useContext(UserContext);
   const { etiEvent } = useContext(EtiEventContext);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    let unsubscribe;
+    let unsubscribe: Unsubscribe;
     async function fetch() {
+      console.log('*******_debug  index.tsx:22 fetch '); // TODO
       if (user.uid && etiEvent?.id) {
         unsubscribe = await getSignupForUserAndEvent(
           user.uid,
@@ -30,7 +32,11 @@ export default function Index() {
     }
 
     fetch();
-    return unsubscribe;
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, [user, etiEvent]);
   const shouldShowSignupForm = user && etiEvent?.id && !signupDetails?.id;
 

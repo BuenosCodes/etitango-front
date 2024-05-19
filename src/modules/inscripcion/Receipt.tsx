@@ -9,6 +9,7 @@ import { ROUTES } from 'App';
 import { ReceiptDisplay } from '../../components/ReceiptDisplay';
 import { UserRoles } from 'shared/User';
 import WithAuthentication from 'modules/withAuthentication';
+import { Unsubscribe } from 'firebase/firestore';
 
 const ReceiptPage = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const ReceiptPage = () => {
   const [signup, setSignup] = useState<Signup>();
   const { etiEventId, signupId } = useParams();
   useEffect(() => {
-    let unsubscribe: Function;
+    let unsubscribe: Unsubscribe;
 
     const fetchData = async () => {
       if (signupId) {

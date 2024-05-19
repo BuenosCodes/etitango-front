@@ -34,16 +34,27 @@ const SignupList = (props: { isAttendance: boolean }) => {
 
   /** get signups */
   useEffect(() => {
+    let unsubscribe;
     const fetchData = async () => {
       setIsLoading(true);
       if (etiEvent?.id) {
-        return getSignups(etiEvent.id, isAdminOfEvent(user, etiEvent.id), setSignups, setIsLoading);
+        unsubscribe = getSignups(
+          etiEvent.id,
+          isAdminOfEvent(user, etiEvent.id),
+          setSignups,
+          setIsLoading
+        );
       }
     };
 
     fetchData().catch((error) => {
       console.error(error);
     });
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, [etiEvent]);
 
   return (
