@@ -1,9 +1,8 @@
-import { createOrUpdateDoc, getCollection, getDocument } from './index';
+import { createOrUpdateDoc, getDocument } from './index';
 import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { db, functions, storage } from '../../etiFirebase';
 import { Signup, SignupFirestore, SignupFormData, SignupStatus } from '../../shared/signup';
 import { httpsCallable } from 'firebase/functions';
-import { BankFirestore, BANKS } from './banks';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 
 export const SIGNUPS = `signups`;
@@ -28,13 +27,6 @@ export const getSignups = async (
   setIsLoading: Function
 ) => {
   const ref = collection(db, SIGNUPS);
-  let banks: BankFirestore[] = [];
-  if (isAdmin) {
-    banks = (await getCollection(BANKS)) as BankFirestore[];
-  }
-  const addBank = (doc: Signup) => {
-    return { ...doc, alias: getAliasForUserId(banks, doc.userId) };
-  };
   const q = query(ref, where('etiEventId', '==', etiEventId), orderBy('orderNumber'));
 
   return onSnapshot(q, (snapshot) => {
@@ -45,21 +37,9 @@ export const getSignups = async (
       };
     }) as SignupFirestore[];
     let signups: SignupDetails[] = docs.map(toJs);
-    if (isAdmin) {
-      signups = signups.map(addBank);
-    }
     setSignups(signups);
     setIsLoading(false);
   });
-};
-
-const getAliasForUserId = (banks: BankFirestore[], userId: string) => {
-  for (const bank of banks) {
-    if (bank.id === userId) {
-      return bank.bank;
-    }
-  }
-  return '';
 };
 
 const toJs = (signup: SignupFirestore) =>
@@ -90,7 +70,7 @@ export const getSignupForUserAndEvent = async (
 
   return onSnapshot(q, (snapshot) => {
     const data = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as SignupFirestore[];
-    setSignUpDetails(toJs(data[0]));
+    setSignUpDetails(data[0] ? toJs(data[0]) : {});
     setIsLoading(false);
   });
 };

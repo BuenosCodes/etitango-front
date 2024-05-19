@@ -32,16 +32,12 @@ export default function Index() {
     fetch();
     return unsubscribe;
   }, [user, etiEvent]);
-  const shouldShowSignupForm = user && !signupDetails;
+  const shouldShowSignupForm = user && etiEvent?.id && !signupDetails?.id;
+
   if (isLoading) {
-    return (
-      <>
-        {isLoading}
-        <CircularProgress />
-      </>
-    );
+    return <CircularProgress />;
   }
-  if (!isLoading && !etiEvent?.id) {
+  if (!etiEvent?.id) {
     return (
       <Typography variant="h5" color="secondary" align="center" my={4}>
         El pŕoximo ETI viene pronto!
@@ -62,7 +58,7 @@ export default function Index() {
           >
             <Title etiEvent={etiEvent} />
             {etiEvent?.dateSignupOpen > new Date() ? <SignupClosed etiEvent={etiEvent} /> : null}
-            {shouldShowSignupForm ? <SignupForm etiEvent={etiEvent} /> : null}
+            {shouldShowSignupForm ? <SignupForm /> : null}
             {signupDetails?.id ? <SignupStatusDisplay signupDetails={signupDetails} /> : null}
           </Grid>
         </Container>

@@ -44,7 +44,7 @@ service cloud.firestore {
 
     match /banks/{documentId} {
       allow write: if requestBelongsToUser();
-      allow read: if documentId == request.auth.uid || requestBelongsToUser() || isAdmin();
+      allow read: if documentId == request.auth.uid || requestBelongsToUser() || isAdmin() || isSuperAdmin();
     }
 
     match /signups/{document=**} {

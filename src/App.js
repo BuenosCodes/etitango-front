@@ -96,7 +96,7 @@ function App() {
     }
 
     fetch();
-  }, []);
+  }, [user]);
 
   const [notification, setNotificationInfo] = useState({
     visible: false,

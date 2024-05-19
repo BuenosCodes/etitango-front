@@ -69,7 +69,7 @@ exports.onUpdateSignup = functions.firestore
     if (before.status !== after.status) {
       const ref = change.after.ref;
 
-      const statusHistory = prepareStatusHistory(before);
+      const statusHistory = prepareStatusHistory(after);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       ref.set({ statusHistory, lastModifiedAt: new Date() }, { merge: true });
