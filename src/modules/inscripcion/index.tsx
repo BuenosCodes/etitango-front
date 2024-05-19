@@ -1,10 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Container, Grid, Typography } from '@mui/material';
+import { CircularProgress, Container, Grid, Typography } from '@mui/material';
 import WithAuthentication from '../withAuthentication';
 import { getSignupForUserAndEvent } from '../../helpers/firestore/signups';
-import { auth } from '../../etiFirebase';
-import { getDocument } from '../../helpers/firestore/index.js';
-import { USERS } from '../../helpers/firestore/users';
 import { UserContext } from '../../helpers/UserContext';
 import { CompleteProfileAlert } from '../user/components/completeProfileAlert';
 import { EtiEventContext } from '../../helpers/EtiEventContext';
@@ -12,35 +9,39 @@ import { SignupForm } from './SignupForm';
 import { SignupStatusDisplay } from '../components/SignupStatusDisplay';
 import { SignupClosed } from './SignupClosed';
 import { Title } from './Title';
+import { Signup } from '../../shared/signup';
 
-export default function Inscripcion() {
-  const [userData, setUserData] = useState({});
-  const [signUpDetails, setSignUpDetails] = useState({});
+export default function Index() {
+  const [signupDetails, setSignupDetails] = useState<Signup>();
   const { user } = useContext(UserContext);
   const { etiEvent } = useContext(EtiEventContext);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
+    let unsubscribe;
     async function fetch() {
       if (user.uid && etiEvent?.id) {
-        setSignUpDetails(await getSignupForUserAndEvent(user.uid, etiEvent.id));
+        unsubscribe = await getSignupForUserAndEvent(
+          user.uid,
+          etiEvent.id,
+          setSignupDetails,
+          setIsLoading
+        );
       }
     }
 
     fetch();
-  }, [user]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (auth.currentUser?.uid) {
-        const user = await getDocument(`${USERS}/${auth.currentUser.uid}`);
-        setUserData(user);
-        // setLoading(false);
-      }
-    };
-    fetchData().catch((error) => console.error(error));
-  }, [auth.currentUser?.uid]);
-
-  if (!etiEvent?.id) {
+    return unsubscribe;
+  }, [user, etiEvent]);
+  const shouldShowSignupForm = user && !signupDetails;
+  if (isLoading) {
+    return (
+      <>
+        {isLoading}
+        <CircularProgress />
+      </>
+    );
+  }
+  if (!isLoading && !etiEvent?.id) {
     return (
       <Typography variant="h5" color="secondary" align="center" my={4}>
         El pŕoximo ETI viene pronto!
@@ -61,15 +62,8 @@ export default function Inscripcion() {
           >
             <Title etiEvent={etiEvent} />
             {etiEvent?.dateSignupOpen > new Date() ? <SignupClosed etiEvent={etiEvent} /> : null}
-            {signUpDetails?.id ? (
-              <SignupStatusDisplay signupDetails={signUpDetails} />
-            ) : (
-              <SignupForm
-                userData={userData}
-                etiEvent={etiEvent}
-                isSignedUp={!!signUpDetails?.id}
-              />
-            )}
+            {shouldShowSignupForm ? <SignupForm etiEvent={etiEvent} /> : null}
+            {signupDetails?.id ? <SignupStatusDisplay signupDetails={signupDetails} /> : null}
           </Grid>
         </Container>
       </>

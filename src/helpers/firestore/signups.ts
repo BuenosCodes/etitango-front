@@ -1,5 +1,5 @@
 import { createOrUpdateDoc, getCollection, getDocument } from './index';
-import { collection, getDocs, onSnapshot, orderBy, query, where } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { db, functions, storage } from '../../etiFirebase';
 import { Signup, SignupFirestore, SignupFormData, SignupStatus } from '../../shared/signup';
 import { httpsCallable } from 'firebase/functions';
@@ -73,20 +73,26 @@ const toJs = (signup: SignupFirestore) =>
 
 export const getSignup = async (signupId: string) => getDocument(SIGNUP(signupId));
 
-export const getSignupForUserAndEvent = async (userId: string, etiEventId: string) => {
+export const getSignupForUserAndEvent = async (
+  userId: string,
+  etiEventId: string,
+  setSignUpDetails: Function,
+  setIsLoading: Function
+) => {
   const ref = collection(db, SIGNUPS);
+
   const q = query(
     ref,
     where('etiEventId', '==', etiEventId),
     where('userId', '==', userId),
     orderBy('orderNumber', 'desc')
   );
-  const querySnapshot = await getDocs(q);
-  const list = querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data()
-  })) as Signup[];
-  return list[0];
+
+  return onSnapshot(q, (snapshot) => {
+    const data = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as SignupFirestore[];
+    setSignUpDetails(toJs(data[0]));
+    setIsLoading(false);
+  });
 };
 
 export const createSignup = async (etiEventId: string, userId: string, data: SignupFormData) => {
