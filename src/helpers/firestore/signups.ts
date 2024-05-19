@@ -48,7 +48,11 @@ const toJs = (signup: SignupFirestore) =>
     dateDeparture: signup.dateDeparture?.toDate(),
     dateArrival: signup.dateArrival?.toDate(),
     dateEnd: signup.dateDeparture?.toDate(),
-    lastModifiedAt: signup.lastModifiedAt?.toDate()
+    lastModifiedAt: signup.lastModifiedAt?.toDate(),
+    statusHistory: signup.statusHistory?.map(({ date, ...rest }) => ({
+      ...rest,
+      date: date.toDate()
+    }))
   } as Signup);
 
 export const getSignup = async (signupId: string) => getDocument(SIGNUP(signupId));

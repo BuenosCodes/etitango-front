@@ -42,7 +42,7 @@ function ReceiptUpload({ signupDetails }: { signupDetails: Signup }) {
             </Typography>
           </React.Fragment>
         ))}
-        <ComboPricingDisplay />
+        <ComboPricingDisplay orderNumber={signupDetails.orderNumber} />
       </div>
     </Container>
   );

@@ -17,8 +17,8 @@ export function ComboPricingDisplay({ orderNumber }: { orderNumber?: number }) {
       </Typography>
       {etiEvent?.prices.map(({ price, deadlineHuman }, i) => (
         <Typography key={'prices_' + i}>
-          {argentinaCurrencyFormatter.format(price + (orderNumber || 0))} hasta el {deadlineHuman}{' '}
-          (inclusive)
+          {argentinaCurrencyFormatter.format(price + (orderNumber || 0) / 100)} hasta el{' '}
+          {deadlineHuman} (inclusive)
         </Typography>
       ))}
     </Grid>
