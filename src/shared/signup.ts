@@ -52,7 +52,7 @@ export type Signup = SignupFormData &
   UserData & {
     id: string;
     etiEventId: string;
-    status?: SignupStatus;
+    status: SignupStatus;
     didAttend: boolean;
     receipt?: string;
     orderNumber: number;
