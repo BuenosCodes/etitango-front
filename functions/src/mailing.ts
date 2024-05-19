@@ -75,19 +75,21 @@ exports.onUpdateSignup = functions.firestore
       ref.set({ statusHistory, lastModifiedAt: new Date() }, { merge: true });
       const eventRef = db.doc(`events/${before.etiEventId}`);
       const etiEvent = <EtiEventFirestore>(await eventRef.get()).data();
-      const mailRef = db.collection('mail');
-      await mailRef.add({
-        to: [after.email],
-        template: {
-          name: after.status,
-          eventId: before.etiEventId,
-          data: {
-            userName: after.nameFirst,
-            etiEvent: prepareEtiEvent(etiEvent, after)
-          }
-        },
-        signupId
-      });
+      if (after.status !== SignupStatus.WAITLIST) {
+        const mailRef = db.collection('mail');
+        await mailRef.add({
+          to: [after.email],
+          template: {
+            name: after.status,
+            eventId: before.etiEventId,
+            data: {
+              userName: after.nameFirst,
+              etiEvent: prepareEtiEvent(etiEvent, after)
+            }
+          },
+          signupId
+        });
+      }
     }
   });
 
