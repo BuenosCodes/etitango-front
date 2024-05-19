@@ -12,11 +12,7 @@ import {
 } from '@mui/material';
 import WithAuthentication from '../../withAuthentication';
 import { Translation } from 'react-i18next';
-import {
-  argentinaCurrencyFormatter,
-  argentinaDateTimeFormatter,
-  SCOPES
-} from 'helpers/constants/i18n';
+import { argentinaCurrencyFormatter, argentinaDateFormatter, SCOPES } from 'helpers/constants/i18n';
 import { Field, FieldArray, Form, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 import { array, date, number, object, string } from 'yup';
@@ -81,7 +77,7 @@ export default function EventForm() {
     try {
       const data = {
         ...values,
-        comboReturnDeadlineHuman: argentinaDateTimeFormatter.format(values.comboReturnDeadline),
+        comboReturnDeadlineHuman: argentinaDateFormatter.format(values.comboReturnDeadline),
         dateSignupOpen: dateSignupOpen.toDate ? dateSignupOpen.toDate() : dateSignupOpen,
         // @ts-ignore
         prices: values.prices.map(({ deadline, price, ...rest }) => {
@@ -90,7 +86,7 @@ export default function EventForm() {
             deadline,
             price,
             priceHuman: argentinaCurrencyFormatter.format(price),
-            deadlineHuman: argentinaDateTimeFormatter.format(deadline)
+            deadlineHuman: argentinaDateFormatter.format(deadline)
           };
         })
       };
