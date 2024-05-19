@@ -20,6 +20,7 @@ import { SCOPES } from '../../helpers/constants/i18n';
 import SignupSummary from './SignupSummary';
 import { isAdmin, isAdminOfEvent, isSuperAdmin } from '../../helpers/firestore/users';
 import { EtiEventContext } from '../../helpers/EtiEventContext';
+import { Unsubscribe } from 'firebase/firestore';
 
 const SignupList = (props: { isAttendance: boolean }) => {
   const { user } = useContext(UserContext);
@@ -34,11 +35,11 @@ const SignupList = (props: { isAttendance: boolean }) => {
 
   /** get signups */
   useEffect(() => {
-    let unsubscribe;
+    let unsubscribe: Unsubscribe;
     const fetchData = async () => {
       setIsLoading(true);
       if (etiEvent?.id) {
-        unsubscribe = getSignups(
+        unsubscribe = await getSignups(
           etiEvent.id,
           isAdminOfEvent(user, etiEvent.id),
           setSignups,

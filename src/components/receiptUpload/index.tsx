@@ -24,25 +24,27 @@ function ReceiptUpload({ signupDetails }: { signupDetails: Signup }) {
         {[SignupStatus.PAYMENT_PENDING, SignupStatus.PAYMENT_DELAYED].includes(
           signupDetails?.status
         ) ? (
-          <Typography variant={'h6'}>
-            Tenés hasta el{' '}
-            {argentinaDateTimeFormatter.format(
-              addDays(signupDetails?.lastModifiedAt, etiEvent.daysBeforeExpiration)
-            )}{' '}
-            para subir tu comprobante
-          </Typography>
+          <>
+            <Typography variant={'h6'}>
+              Tenés hasta el{' '}
+              {argentinaDateTimeFormatter.format(
+                addDays(signupDetails?.lastModifiedAt, etiEvent.daysBeforeExpiration)
+              )}{' '}
+              para subir tu comprobante
+            </Typography>
+            <Typography variant="h3">Datos para la transferencia</Typography>
+            {Object.entries(etiEvent.bank).map(([k, v]) => (
+              <React.Fragment key={k}>
+                <Typography>
+                  {t(k)}: {v}
+                </Typography>
+              </React.Fragment>
+            ))}
+            <ComboPricingDisplay orderNumber={signupDetails.orderNumber} />
+          </>
         ) : (
           <></>
         )}
-        <Typography variant="h3">Datos para la transferencia</Typography>
-        {Object.entries(etiEvent.bank).map(([k, v]) => (
-          <React.Fragment key={k}>
-            <Typography>
-              {t(k)}: {v}
-            </Typography>
-          </React.Fragment>
-        ))}
-        <ComboPricingDisplay orderNumber={signupDetails.orderNumber} />
       </div>
     </Container>
   );

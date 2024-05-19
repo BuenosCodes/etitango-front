@@ -20,8 +20,7 @@ export default function Index() {
   useEffect(() => {
     let unsubscribe: Unsubscribe;
     async function fetch() {
-      console.log('*******_debug  index.tsx:22 fetch '); // TODO
-      if (user.uid && etiEvent?.id) {
+      if (user.uid && etiEvent?.id && !signupDetails) {
         unsubscribe = await getSignupForUserAndEvent(
           user.uid,
           etiEvent.id,
@@ -38,7 +37,7 @@ export default function Index() {
       }
     };
   }, [user, etiEvent]);
-  const shouldShowSignupForm = user && etiEvent?.id && !signupDetails?.id;
+  const shouldShowSignupForm = user && etiEvent?.id && !signupDetails?.id && !isLoading;
 
   if (isLoading) {
     return <CircularProgress />;
