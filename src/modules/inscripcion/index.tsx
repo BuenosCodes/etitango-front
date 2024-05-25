@@ -19,6 +19,7 @@ export default function Index() {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     let unsubscribe: Unsubscribe;
+
     async function fetch() {
       if (user.uid && etiEvent?.id && !signupDetails) {
         unsubscribe = await getSignupForUserAndEvent(
@@ -37,7 +38,9 @@ export default function Index() {
       }
     };
   }, [user, etiEvent]);
-  const shouldShowSignupForm = user && etiEvent?.id && !signupDetails?.id && !isLoading;
+  const isSignupOpen = etiEvent?.dateSignupOpen <= new Date();
+  const shouldShowSignupForm =
+    user && etiEvent?.id && !signupDetails?.id && !isLoading && isSignupOpen;
 
   if (isLoading) {
     return <CircularProgress />;
@@ -62,7 +65,7 @@ export default function Index() {
             spacing={3}
           >
             <Title etiEvent={etiEvent} />
-            {etiEvent?.dateSignupOpen > new Date() ? <SignupClosed etiEvent={etiEvent} /> : null}
+            {!isSignupOpen ? <SignupClosed etiEvent={etiEvent} /> : null}
             {shouldShowSignupForm ? <SignupForm /> : null}
             {signupDetails?.id ? <SignupStatusDisplay signupDetails={signupDetails} /> : null}
           </Grid>

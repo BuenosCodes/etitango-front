@@ -18,7 +18,7 @@ import { UserContext } from '../../helpers/UserContext';
 import AdminTools from './AdminTools';
 import { SCOPES } from '../../helpers/constants/i18n';
 import SignupSummary from './SignupSummary';
-import { isAdmin, isAdminOfEvent, isSuperAdmin } from '../../helpers/firestore/users';
+import { isAdminOfEvent, isSuperAdmin } from '../../helpers/firestore/users';
 import { EtiEventContext } from '../../helpers/EtiEventContext';
 import { Unsubscribe } from 'firebase/firestore';
 
@@ -32,19 +32,14 @@ const SignupList = (props: { isAttendance: boolean }) => {
   const { t } = useTranslation([SCOPES.MODULES.SIGN_UP_LIST, SCOPES.COMMON.FORM], {
     useSuspense: false
   });
-
+  const isAdminOfThisEvent = isAdminOfEvent(user, etiEvent?.id);
   /** get signups */
   useEffect(() => {
     let unsubscribe: Unsubscribe;
     const fetchData = async () => {
       setIsLoading(true);
       if (etiEvent?.id) {
-        unsubscribe = await getSignups(
-          etiEvent.id,
-          isAdminOfEvent(user, etiEvent.id),
-          setSignups,
-          setIsLoading
-        );
+        unsubscribe = await getSignups(etiEvent.id, isAdminOfThisEvent, setSignups, setIsLoading);
       }
     };
 
@@ -75,7 +70,7 @@ const SignupList = (props: { isAttendance: boolean }) => {
           </Grid>
           <Grid item>
             {alert.text && <Alert {...alert.props}>{alert.text}</Alert>}
-            {isAdminOfEvent(user, etiEvent?.id) && etiEvent?.capacity && (
+            {isAdminOfThisEvent && etiEvent?.capacity && (
               <AdminTools
                 selectedRows={selectedRows}
                 etiEventId={etiEvent?.id!}
@@ -87,7 +82,7 @@ const SignupList = (props: { isAttendance: boolean }) => {
             <TableContainer component={Paper}>
               <SignupListTable
                 setSelectedRows={setSelectedRows}
-                isAdmin={isAdmin(user)}
+                isAdmin={isAdminOfThisEvent}
                 isSuperAdmin={isSuperAdmin(user)}
                 etiEventId={etiEvent?.id!}
                 signups={
@@ -98,7 +93,7 @@ const SignupList = (props: { isAttendance: boolean }) => {
                 isLoading={isLoading}
                 isAttendance={props.isAttendance}
                 markAttendance={markAttendance}
-                disabled={props.isAttendance && !isAdminOfEvent(user, etiEvent?.id)}
+                disabled={props.isAttendance && !isAdminOfThisEvent}
               />
             </TableContainer>
           </Grid>
