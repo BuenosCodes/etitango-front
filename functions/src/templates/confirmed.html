@@ -4,11 +4,8 @@
         <meta content="IE=edge" http-equiv="X-UA-Compatible">
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
-        <!-- ATTENTION EDITORS:
-    Information to change for every event will be highlighted by commenting "UPDATE WITH CURRENT EVENT INFORMATION"
--->
-
-      <<title>Inscripción {{ etiEvent.name }}: ¡Todo listo!</title>
+        
+        <title>Inscripción {{ etiEvent.name }}: ¡Todo listo!</title>
 
         <!-- CSS Reset : BEGIN -->
         <style>
@@ -329,27 +326,11 @@
         <div class="email-container" style="max-width: 600px; margin: 0 auto;">
             <!-- BEGIN BODY -->
           <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="margin: auto;" width="100%">
-              <!-- <tr>
-              <td valign="top" class="bg_white" style="padding: 1em 2.5em 0 2.5em;">
-                  <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                      <tr>
-                          <td class="logo" style="text-align: center;">
-                            <h1><a href="#">ETI</a></h1>
-                          </td>
-                      </tr>
-                  </table>
-              </td>
-              </tr> -->
-              <!-- end tr -->
-
 
               <tr>
               <td class="hero bg_white" style="padding: 1em 0 1em 0;" valign="middle">
-                <!-- <a href="https://etitango.com.ar" target="_blank"> -->
                 <a href="https://etitango.com.ar" target="_blank">
-                  <img align='middle' alt='ETI banner' id='home-img-1' src='{{ etiEvent.image }}'
-                       style='width: 300px; max-width: 600px; height: auto; margin: auto; display: block;' width='35%'>
-                    <!-- <img id="home-img-1" align="middle" src="https://etitango.com.ar/static/img/h/eti_logo.png" width="35%" alt="ETI banner" style="width: 300px; max-width: 600px; height: auto; margin: auto; display: block;"> -->
+                    <img align="middle" alt="ETI banner" id="home-img-1" src='{{ etiEvent.image }}' style="width: 300px; max-width: 600px; height: auto; margin: auto; display: block;" width="35%">
                 </a>
               </td>
               </tr><!-- end tr -->
@@ -363,21 +344,18 @@
                                   <div style='border: solid 2px #019893;'><h2 style='color: #019893; margin-bottom: 0;'>
                                     Inscripción {{ etiEvent.name }}<br>¡Todo
                                     listo!</h2>
-                                    <p style="margin-top: 0; margin-bottom: 0;"><i>Cada vez más cerca de volver a abrazarnos</i></p></div>
+                                    <p style="margin-top: 0; margin-bottom: 0; color: rgba(0,0,0,0.3) !important;"><i>Cada vez más cerca de volver a abrazarnos</i></p></div>
                                     <!-- <hr style="color: #019893; margin-bottom: 0;"> -->
                                     <p style="color: rgba(255,0,0,0.8); margin-top: 0; margin-bottom: 1em;"><i> ~ No responder a este correo ~ </i></p>
                                     <h3 style="margin-bottom: 0.5em;">¡Felicidades {{ userName }}! </h3>
-                                  <h4 style='margin-bottom: 0;'> Tu inscripción fue confirmada. <b>¡Nos vemos en el
-                                    {{ etiEvent.name }}! </b></h4>
-                                  <p style='color:#000'> Recordá que en caso de no poder asistir, tenés tiempo hasta el
-                                    {{ etiEvent.comboReturnDeadlineHuman }} para pedir la devolución de tu combo. </p>
+                                  <h4 style='margin-bottom: 0;'> Tu inscripción fue confirmada. <b>¡Nos vemos en el {{ etiEvent.name }}! </b></h4>
+                                  <p style='color:#000'> Recordá que en caso de no poder asistir, tenés tiempo hasta el {{ etiEvent.comboReturnDeadlineHuman }} para pedir la devolución de tu combo. </p>
                                     <p style="margin-top: 0;">¡Te esperamos!</p>
-                                    <p>Si querés saber qué incluye el combo y cómo es el itinerario de este ETI, visitá la <a href="https://etitango.com.ar" style="text-decoration: none;">página del ETI (<i style="text-decoration: underline;">https://etitango.com.ar</i>)</a>.</p>
+                                    <p>Si querés saber qué incluye el combo y cómo es el itinerario de este ETI, visitá la <a href="https://etitango.com.ar" style="text-decoration: none;" target="_blank">página del ETI (<i style="text-decoration: underline;">https://etitango.com.ar</i>)</a>.</p>
 
-                                  <h4 style='text-align: left;'>Abrazo ETIano,<br> Comisión Organizadora del
-                                    {{ etiEvent.name }}.</h4>
+                                  <h4 style='text-align: left;'>Abrazo ETIano,<br> Comisión Organizadora del {{ etiEvent.name }}.</h4>
 
-                                <table style="font-size: 0.8em; border: 1px solid; color: rgba(255,0,0,0.8);" width="100%"><tbody><tr><td> <ul style="padding: 0; margin: 0;">
+                                <table style="font-size: 0.8em; border: 1px solid; color: rgba(255,0,0,0.8);" width="100%"><tbody><tr><td> <ul style="padding: 0; margin: 0; list-style-position: inside;">
                                     <li style="margin-bottom: 0.6em;">Si tenés una medida judicial de Prohibición de Acercamiento local, provincial y/ o nacional hacia otrx etianx, TE RECORDAMOS QUE NO PODRÁS INSCRIBIRTE, debiendo enviar un mail a la Comisión Organizadora (<a href="mailto:organizadores@etitango.com.ar" style="color: inherit; text-decoration: underline;">organizadores@etitango.com.ar</a>) para liberar el lugar.</li>
                                     <li>Si has solicitado alguna medida de Prohibición de Acercamiento hacia otrx etianx mandanos un mail con los datos completos de quién está denunciadx (Nombre y Apellido, DNI, Lugar de Residencia) y documentación respaldatoria, a fin de BLOQUEAR SU INSCRIPCIÓN.</li>
                                 </ul></td></tr></tbody></table>

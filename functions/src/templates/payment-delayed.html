@@ -4,10 +4,7 @@
   <meta content='IE=edge' http-equiv='X-UA-Compatible'>
   <meta content='width=device-width, initial-scale=1.0' name='viewport'>
   <meta name='x-apple-disable-message-reformatting'>  <!-- Disable auto-scale in iOS 10 Mail entirely -->
-  <!-- ATTENTION EDITORS:
-      Information to change for every event will be highlighted by commenting "UPDATE WITH CURRENT EVENT INFORMATION"
-  -->
-
+  
   <title>Inscripción {{ etiEvent.name }}: Datos bancarios (Pago demorado)</title>
 
   <!-- CSS Reset : BEGIN -->
@@ -357,26 +354,11 @@
     <!-- BEGIN BODY -->
     <table align='center' border='0' cellpadding='0' cellspacing='0' role='presentation' style='margin: auto;'
            width='100%'>
-      <!-- <tr>
-      <td valign="top" class="bg_white" style="padding: 1em 2.5em 0 2.5em;">
-          <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-              <tr>
-                  <td class="logo" style="text-align: center;">
-                    <h1><a href="#">ETI</a></h1>
-                  </td>
-              </tr>
-          </table>
-      </td>
-      </tr> -->
-      <!-- end tr -->
-
 
       <tr>
         <td class='hero bg_white' style='padding: 1em 0 1em 0;' valign='middle'>
           <a href='https://etitango.com.ar' target='_blank'>
-            <img align='middle' alt='ETI banner' id='home-img-1'
-                 src='{{ etiEvent.image }}'
-                 style='width: 300px; max-width: 600px; height: auto; margin: auto; display: block;' width='35%'>
+            <img align='middle' alt='ETI banner' id='home-img-1' src='{{ etiEvent.image }}' style='width: 300px; max-width: 600px; height: auto; margin: auto; display: block;' width='35%'>
           </a>
         </td>
       </tr><!-- end tr -->
@@ -388,20 +370,17 @@
                 <div class='text' style='padding: 0 2.5em; text-align: center;'>
                   <!-- <hr style="color: #019893;"> -->
                   <div style='border: solid 2px #019893;'><h2 style='color: #019893; margin-bottom: 0;'>
-                    Inscripción {{ etiEvent.name }}<br>¡A pagar tu
-                    combo!<br>Te damos unos días de changüí</h2>
-                    <p style='margin-top: 0; margin-bottom: 0;'><i>Cada vez más cerca de volver a abrazarnos</i></p>
+                    Inscripción {{ etiEvent.name }}<br>¡A pagar tu combo!<br>Te damos unos días de changüí</h2>
+                    <p style='margin-top: 0; margin-bottom: 0; color: rgba(0,0,0,0.3) !important;'><i>Cada vez más cerca de volver a abrazarnos</i></p>
                   </div>
                   <!-- <hr style="color: #019893; margin-bottom: 0;"> -->
                   <p style='color: rgba(255,0,0,0.8); margin-top: 0; margin-bottom: 1em;'><i> ~ No responder a este
                     correo ~ </i></p>
                   <h3 style='margin-bottom: 0.5em;'>¡Hola {{ userName }}! </h3>
-                  <h4 style='margin-bottom: 0;'> Estás a un paso de completar tu inscripción. Colgaste porque pasaron
-                    los 5 días que tenías para pagar y no recibimos tu comprobante... Pero ¡queremos verte en el ETI!
-                    Así que te damos 3 días más, ¡no cuelgues! </h4>
+                  <h4 style='margin-bottom: 0;'> Estás a un paso de completar tu inscripción. Colgaste porque pasaron los {{ etiEvent.daysBeforeExpiration }} días que tenías para pagar y no recibimos tu comprobante... Pero ¡queremos verte en el ETI! Así que te damos {{ etiEvent.daysBeforeExpiration }} días más, ¡no cuelgues! </h4>
 
-                  <p style='color:#000'>Para completar tu inscripción al <b>{{ etiEvent.name }}</b>, tenés que
-                    depositar el valor del combo que es de
+                  <p style='color:#000'>Para completar tu inscripción al {{ etiEvent.name }}, tenés que realizar el depósito y subir el comprobante. El valor del combo varía según la fecha en la que te toque pagar. <b>¡OJO!</b> El precio varía según la fecha en la que te toque pagar, pero recordá que vos {{ userName }}, a partir de hoy, tenés <b>{{ etiEvent.daysBeforeExpiration }} días corridos para realizar el pago y subir tu comprobante</b>. Los precios son:</p>
+
                   <table align='center' style='color:#000; border: #019893 solid;'>
                     <thead>
                     <tr style='color:red; border: #019893 solid;'>
@@ -421,21 +400,13 @@
 
                     </tbody>
                   </table>
-                  Le sumamos algunos centavos para que tu transferencia sea más fácil de procesar por el equipo
-                  organizador.
-                  Luego debés subir el archivo de tu comprobante de transferencia o depósito al sitio web
-                  del ETI desde <i>Tu panel de control ETIano => Inscripción al próximo ETI</i> (<a
-                  href='https://etitango.com.ar/inscripcion'
-                  style='color: #019893; text-decoration: underline;'>https://etitango.com.ar/inscripcion</a>)
-                  y clickeando el botón azul que dice: "SUBÍ TU COMPROBANTE DE TRANSFERENCIA".
-                  <br>Tenés <b> 5 días extra de corridos para realizar el pago</b> a partir de hoy, ¡no
-                  cuelgues!</p>
+                  <p style='color:#000'>Notarás que le sumamos algunos centavos que se correponden con tu número de orden para que tu transferencia sea más fácil de identificar por el equipo organizador. Por favor, <b>depositá el valor exacto que te indicamos más arriba</b>.</p>
 
-                  <p style='color:#000'>Los datos de la cuenta son:</p>
-                  <table align='center' style='color:#000; border: #019893 solid;'>
-                    <table align='center' style='color:#000; border: #019893 solid;'>
+                    <p style='color:#000'>Una vez realizado el pago, debés subir el archivo de tu comprobante de transferencia o depósito al sitio web del ETI desde <i>Tu panel de control ETIano => Inscripción al próximo ETI</i> (<a href='https://etitango.com.ar/inscripcion' target="_blank" style='color: #019893; text-decoration: underline;'>https://etitango.com.ar/inscripcion</a>), clickeando el botón azul que dice: "SUBÍ TU COMPROBANTE DE TRANSFERENCIA".</p>
+                    <p style="color:#000">Los datos de la cuenta son:</p>
+                    <table align="center" style="color:#000; border: #019893 solid;">
                       <tr style='color:red; border: #019893 solid;'>
-                        <th colspan='2'>Datos bancarios {{etiEvent.name}}
+                        <th colspan='2'>Datos bancarios {{ etiEvent.name }}
                         </th>
                       </tr>
                       <tr>
@@ -458,40 +429,36 @@
                         <th>CUIT/CUIL:</th>
                         <td>{{etiEvent.bank.cuit}}</td>
                       </tr>
-
                     </table>
-                    <br>
+                  <br>
 
-                    <p>Si querés saber qué incluye el combo y cómo es el itinerario de este ETI, visitá la <a
-                      href='https://etitango.com.ar' style='text-decoration: none;'>página del ETI (<i
-                      style='text-decoration: underline;'>https://etitango.com.ar</i>)</a>.</p>
+                  <p>Si querés saber qué incluye el combo y cómo es el itinerario de este ETI, visitá la <a
+                    href='https://etitango.com.ar' style='text-decoration: none;'>página del ETI (<i
+                    style='text-decoration: underline;'>https://etitango.com.ar</i>)</a>.</p>
 
-                    <h4 style='text-align: left;'>Abrazo ETIano,<br> Comisión Organizadora del {{ etiEvent.name }}.</h4>
+                  <h4 style='text-align: left;'>Abrazo ETIano,<br> Comisión Organizadora del {{ etiEvent.name }}.</h4>
 
-                    <table style='font-size: 0.8em; border: 1px solid; color: rgba(255,0,0,0.8);' width='100%'>
-                      <tbody>
-                      <tr>
-                        <td>
-                          <ul style='padding: 0; margin: 0;'>
-                            <li style='margin-bottom: 0.6em;'>Si tenés una medida judicial de Prohibición de
-                              Acercamiento
-                              local, provincial y/ o nacional hacia otrx etianx, TE RECORDAMOS QUE NO PODRÁS
-                              INSCRIBIRTE,
-                              debiendo enviar un mail a la Comisión Organizadora (<a
-                                href='mailto:organizadores@etitango.com.ar'
-                                style='color: inherit; text-decoration: underline;'>organizadores@etitango.com.ar</a>)
-                              para liberar el lugar.
-                            </li>
-                            <li>Si has solicitado alguna medida de Prohibición de Acercamiento hacia otrx etianx
-                              mandanos
-                              un mail con los datos completos de quién está denunciadx (Nombre y Apellido, DNI, Lugar de
-                              Residencia) y documentación respaldatoria, a fin de BLOQUEAR SU INSCRIPCIÓN.
-                            </li>
-                          </ul>
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
+                  <table style='font-size: 0.8em; border: 1px solid; color: rgba(255,0,0,0.8);' width='100%'>
+                    <tbody>
+                    <tr>
+                      <td>
+                        <ul style='padding: 0; margin: 0; list-style-position: inside;'>
+                          <li style='margin-bottom: 0.6em;'>Si tenés una medida judicial de Prohibición de Acercamiento
+                            local, provincial y/ o nacional hacia otrx etianx, TE RECORDAMOS QUE NO PODRÁS INSCRIBIRTE,
+                            debiendo enviar un mail a la Comisión Organizadora (<a
+                              href='mailto:organizadores@etitango.com.ar'
+                              style='color: inherit; text-decoration: underline;'>organizadores@etitango.com.ar</a>)
+                            para liberar el lugar.
+                          </li>
+                          <li>Si has solicitado alguna medida de Prohibición de Acercamiento hacia otrx etianx mandanos
+                            un mail con los datos completos de quién está denunciadx (Nombre y Apellido, DNI, Lugar de
+                            Residencia) y documentación respaldatoria, a fin de BLOQUEAR SU INSCRIPCIÓN.
+                          </li>
+                        </ul>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
 
                 </div>
               </td>

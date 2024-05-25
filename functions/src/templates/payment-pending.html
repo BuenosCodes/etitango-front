@@ -1,13 +1,10 @@
 <head>
-  <meta charset='UTF-8'>
-  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-  <meta name='x-apple-disable-message-reformatting'>  <!-- Disable auto-scale in iOS 10 Mail entirely -->
-  <!-- ATTENTION EDITORS:
-      Information to change for every event will be highlighted by commenting "UPDATE WITH CURRENT EVENT INFORMATION"
-  -->
-
-  <<title>Inscripción {{ etiEvent.name }}: Datos bancarios</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
+  
+  <title>Inscripción {{ etiEvent.name }}: Datos bancarios</title>
 
   <!-- CSS Reset : BEGIN -->
   <style>
@@ -50,7 +47,7 @@
 
       /* What it does: Uses a better rendering method when resizing images in IE. */
       img {
-          -ms-interpolation-mode: bicubic;
+          -ms-interpolation-mode:bicubic;
       }
 
       /* What it does: Prevents Windows 10 Mail from underlining links despite inline CSS. Styles for underlined links should be inline. */
@@ -59,7 +56,7 @@
       }
 
       /* What it does: A work-around for email clients meddling in triggered links. */
-      *[x-apple-data-detectors], /* iOS */
+      *[x-apple-data-detectors],  /* iOS */
       .unstyle-auto-detected-links *,
       .aBn {
           border-bottom: 0 !important;
@@ -97,14 +94,12 @@
               min-width: 320px !important;
           }
       }
-
       /* iPhone 6, 6S, 7, 8, and X */
       @media only screen and (min-device-width: 375px) and (max-device-width: 413px) {
           u ~ div .email-container {
               min-width: 375px !important;
           }
       }
-
       /* iPhone 6+, 7+, and 8+ */
       @media only screen and (min-device-width: 414px) {
           u ~ div .email-container {
@@ -122,25 +117,20 @@
       .primary {
           background: #30e3ca;
       }
-
       .bg_white {
           background: #ffffff;
       }
-
       .bg_light {
           background: #fafafa;
       }
-
       .bg_black {
           background: #000000;
       }
-
       .bg_dark {
-          background: rgba(0, 0, 0, .8);
+          background: rgba(0,0,0,.8);
       }
-
       .email-section {
-          padding: 1.5em;
+          padding:1.5em;
       }
 
       /*BUTTON*/
@@ -148,26 +138,22 @@
           padding: 10px 15px;
           display: inline-block;
       }
-
       .btn.btn-primary {
           border-radius: 5px;
           background: #019893;
           color: #ffffff;
       }
-
       .btn.btn-white {
           border-radius: 5px;
           background: #ffffff;
           color: #000000;
       }
-
       .btn.btn-white-outline {
           border-radius: 5px;
           background: transparent;
           border: 1px solid #fff;
           color: #fff;
       }
-
       .btn.btn-black-outline {
           border-radius: 0px;
           background: transparent;
@@ -176,7 +162,7 @@
           font-weight: 700;
       }
 
-      h1, h2, h3, h4, h5, h6 {
+      h1,h2,h3,h4,h5,h6 {
           font-family: 'Lato', sans-serif;
           color: #000000;
           margin-top: 0;
@@ -188,22 +174,20 @@
           font-weight: 400;
           font-size: 15px;
           line-height: 1.8;
-          color: rgba(0, 0, 0, .4);
+          color: rgba(0,0,0,.4);
       }
 
       a {
-          color: #019893;
+          color:#019893;
       }
 
       table {
       }
-
       /*LOGO*/
 
       .logo h1 {
           margin: 0;
       }
-
       .logo h1 a {
           color: #30e3ca;
           font-size: 24px;
@@ -218,9 +202,8 @@
       }
 
       .hero .text {
-          color: rgba(0, 0, 0, .3);
+          color: rgba(0,0,0,.3);
       }
-
       .hero .text h2 {
           color: #000;
           font-size: 40px;
@@ -228,12 +211,10 @@
           font-weight: 400;
           line-height: 1.4;
       }
-
       .hero .text h3 {
           font-size: 24px;
           font-weight: 300;
       }
-
       .hero .text h2 span {
           font-weight: 600;
           color: #30e3ca;
@@ -243,7 +224,6 @@
       /*HEADING SECTION*/
       .heading-section {
       }
-
       .heading-section h2 {
           color: #000000;
           font-size: 28px;
@@ -251,17 +231,15 @@
           line-height: 1.4;
           font-weight: 400;
       }
-
       .heading-section .subheading {
           margin-bottom: 20px !important;
           display: inline-block;
           font-size: 13px;
           text-transform: uppercase;
           letter-spacing: 2px;
-          color: rgba(0, 0, 0, .4);
+          color: rgba(0,0,0,.4);
           position: relative;
       }
-
       .heading-section .subheading::after {
           position: absolute;
           left: 0;
@@ -275,33 +253,29 @@
       }
 
       .heading-section-white {
-          color: rgba(255, 255, 255, .8);
+          color: rgba(255,255,255,.8);
       }
-
       .heading-section-white h2 {
           font-family: 'Lato', sans-serif;
           line-height: 1;
           padding-bottom: 0;
       }
-
       .heading-section-white h2 {
           color: #ffffff;
       }
-
       .heading-section-white .subheading {
           margin-bottom: 0;
           display: inline-block;
           font-size: 13px;
           text-transform: uppercase;
           letter-spacing: 2px;
-          color: rgba(255, 255, 255, .4);
+          color: rgba(255,255,255,.4);
       }
 
 
       ul.social {
           padding: 0;
       }
-
       ul.social li {
           display: inline-block;
           margin-right: 10px;
@@ -310,27 +284,23 @@
       /*FOOTER*/
 
       .footer {
-          border-top: 1px solid rgba(0, 0, 0, .05);
-          color: rgba(0, 0, 0, .5);
+          border-top: 1px solid rgba(0,0,0,.05);
+          color: rgba(0,0,0,.5);
       }
-
       .footer .heading {
           color: #000;
           font-size: 20px;
       }
-
       .footer ul {
           margin: 0;
           padding: 0;
       }
-
       .footer ul li {
           list-style: none;
           margin-bottom: 10px;
       }
-
       .footer ul li a {
-          color: rgba(0, 0, 0, 1);
+          color: rgba(0,0,0,1);
       }
 
 
@@ -346,219 +316,175 @@
 </head>
 
 
-<body style='margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #f1f1f1;' width='100%'>
-<center style='width: 100%; background-color: #f1f1f1;'>
-  <div
-    style='display: none; font-size: 1px;max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;'>
+<body style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #f1f1f1;" width="100%">
+  <center style="width: 100%; background-color: #f1f1f1;">
+  <div style="display: none; font-size: 1px;max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
     &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
   </div>
-  <div class='email-container' style='max-width: 600px; margin: 0 auto;'>
-    <!-- BEGIN BODY -->
-    <table align='center' border='0' cellpadding='0' cellspacing='0' role='presentation' style='margin: auto;'
-           width='100%'>
-      <!-- <tr>
-      <td valign="top" class="bg_white" style="padding: 1em 2.5em 0 2.5em;">
-          <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+  <div class="email-container" style="max-width: 600px; margin: 0 auto;">
+      <!-- BEGIN BODY -->
+    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="margin: auto;" width="100%">
+        <!-- <tr>
+        <td valign="top" class="bg_white" style="padding: 1em 2.5em 0 2.5em;">
+            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td class="logo" style="text-align: center;">
+                      <h1><a href="#">ETI</a></h1>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        </tr> -->
+        <!-- end tr -->
+
+
+        <tr>
+        <td class="hero bg_white" style="padding: 1em 0 1em 0;" valign="middle">
+          <a href="https://etitango.com.ar" target="_blank">
+              <img align="middle" alt="ETI banner" id="home-img-1" src='{{ etiEvent.image }}' style="width: 300px; max-width: 600px; height: auto; margin: auto; display: block;" width="35%">
+          </a>
+        </td>
+        </tr><!-- end tr -->
+      <tr>
+        <td class="hero bg_white" style="padding: 0em 0 2em 0;" valign="middle">
+          <table>
               <tr>
-                  <td class="logo" style="text-align: center;">
-                    <h1><a href="#">ETI</a></h1>
+                  <td>
+                      <div class="text" style="padding: 0 2.5em; text-align: center;">
+                          <!-- <hr style="color: #019893;"> -->
+                        <div style='border: solid 2px #019893;'><h2 style='color: #019893; margin-bottom: 0;'>
+                          Inscripción {{ etiEvent.name }}<br>¡A pagar tu
+                          combo!</h2>
+                          <p style="margin-top: 0; margin-bottom: 0;"><i>Cada vez más cerca de volver a abrazarnos</i></p></div>
+                          <!-- <hr style="color: #019893; margin-bottom: 0;"> -->
+                          <p style="color: rgba(255,0,0,0.8); margin-top: 0; margin-bottom: 1em;"><i> ~ No responder a este correo ~ </i></p>
+                          <h3 style="margin-bottom: 0.5em;">¡Hola {{ userName }}! </h3>
+                          <h4 style="margin-bottom: 0;"> Estás a un paso de completar tu inscripción, ¡no cuelgues! </h4>
+
+                        <p style='color:#000'>A partir de hoy tenés <b>{{ etiEvent.daysBeforeExpiration }} días corridos para realizar el pago y subir tu comprobante</b>. Pasados los {{ etiEvent.daysBeforeExpiration }} días, te daremos de baja y se le dará lugar a la próxima persona en la lista de espera.</p>
+
+                        <p style='color:#000; margin-bottom:0;'>El valor del combo varía según la fecha en la que te toque pagar. <b>¡OJO!</b> El precio varía según la fecha en la que te toque pagar, la cual depende de cuándo hayas quedado preinscripto, pero recordá que vos {{ userName }}, a partir de hoy, tenés <b>{{ etiEvent.daysBeforeExpiration }} días corridos para realizar el pago y subir tu comprobante</b>. Los precios son:</p>
+
+                        <table align='center' style='color:#000; border: #019893 solid;'>
+                          <thead>
+                          <tr style='color:red; border: #019893 solid;'>
+                            <th>Precio</th>
+                            <th>Hasta el</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+      
+                          {{#each etiEvent.prices}}
+                          <tr>
+                            <td style='padding:15px;'>{{this.priceHuman}}</td>
+                            <td>{{this.deadlineHuman}} (inclusive)</td>
+                          </tr>
+                          {{/each}}
+      
+      
+                          </tbody>
+                        </table>
+                        <p style='color:#000'>Notarás que le sumamos algunos centavos que se correponden con tu número de orden para que tu transferencia sea más fácil de identificar por el equipo organizador. Por favor, <b>depositá el valor exacto que te indicamos más arriba</b>.</p>
+
+                          <p style='color:#000'>Una vez realizado el pago, debés subir el archivo de tu comprobante de transferencia o depósito al sitio web del ETI desde <i>Tu panel de control ETIano => Inscripción al próximo ETI</i> (<a href='https://etitango.com.ar/inscripcion' target="_blank" style='color: #019893; text-decoration: underline;'>https://etitango.com.ar/inscripcion</a>), clickeando el botón azul que dice: "SUBÍ TU COMPROBANTE DE TRANSFERENCIA".</p>
+                          <p style="color:#000">Los datos de la cuenta son:</p>
+                          <table align="center" style="color:#000; border: #019893 solid;">
+                            <tr style='color:red; border: #019893 solid;'>
+                              <th colspan='2'>Datos bancarios {{ etiEvent.name }}
+                              </th>
+                            </tr>
+                            <tr>
+                              <th>Entidad:</th>
+                              <td>{{etiEvent.bank.entity}}</td>
+                            </tr>
+                            <tr>
+                              <th>Alias:</th>
+                              <td>{{etiEvent.bank.alias}}</td>
+                            </tr>
+                            <tr>
+                              <th>CBU:</th>
+                              <td>{{etiEvent.bank.cbu}}</td>
+                            </tr>
+                            <tr>
+                              <th>Titular:</th>
+                              <td>{{etiEvent.bank.holder}}</td>
+                            </tr>
+                            <tr>
+                              <th>CUIT/CUIL:</th>
+                              <td>{{etiEvent.bank.cuit}}</td>
+                            </tr>
+                          </table>
+                          <br>
+
+                          <p>Si querés saber qué incluye el combo y cómo es el itinerario de este ETI, visitá la <a href="https://etitango.com.ar" style="text-decoration: none;"  target="_blank">página del ETI (<i style="text-decoration: underline;">https://etitango.com.ar</i>)</a>.</p>
+
+                        <h4 style='text-align: left;'>Abrazo ETIano,<br> Comisión Organizadora del {{ etiEvent.name }}.</h4>
+
+                          <table style="font-size: 0.8em; border: 1px solid; color: rgba(255,0,0,0.8);" width="100%"><tbody><tr><td> <ul style="padding: 0; margin: 0; list-style-position: inside;">
+                              <li style="margin-bottom: 0.6em;">Si tenés una medida judicial de Prohibición de Acercamiento local, provincial y/ o nacional hacia otrx etianx, TE RECORDAMOS QUE NO PODRÁS INSCRIBIRTE, debiendo enviar un mail a la Comisión Organizadora (<a href="mailto:organizadores@etitango.com.ar" style="color: inherit; text-decoration: underline;">organizadores@etitango.com.ar</a>) para liberar el lugar.</li>
+                              <li>Si has solicitado alguna medida de Prohibición de Acercamiento hacia otrx etianx mandanos un mail con los datos completos de quién está denunciadx (Nombre y Apellido, DNI, Lugar de Residencia) y documentación respaldatoria, a fin de BLOQUEAR SU INSCRIPCIÓN.</li>
+                          </ul></td></tr></tbody></table>
+
+                      </div>
                   </td>
               </tr>
           </table>
-      </td>
-      </tr> -->
-      <!-- end tr -->
-
-
-      <tr>
-        <td class='hero bg_white' style='padding: 1em 0 1em 0;' valign='middle'>
-          <a href='https://etitango.com.ar' target='_blank'>
-            <img align='middle' alt='ETI banner' id='home-img-1'
-                 src='{{ etiEvent.image }}'
-                 style='width: 300px; max-width: 600px; height: auto; margin: auto; display: block;' width='35%'>
-          </a>
         </td>
       </tr><!-- end tr -->
-      <tr>
-        <td class='hero bg_white' style='padding: 0em 0 2em 0;' valign='middle'>
-          <table>
-            <tr>
-              <td>
-                <div class='text' style='padding: 0 2.5em; text-align: center;'>
-                  <!-- <hr style="color: #019893;"> -->
-                  <div style='border: solid 2px #019893;'><h2 style='color: #019893; margin-bottom: 0;'>
-                    Inscripción {{ etiEvent.name }}<br>¡A pagar tu
-                    combo!</h2>
-                    <p style='margin-top: 0; margin-bottom: 0;'><i>Cada vez más cerca de volver a abrazarnos</i></p>
-                  </div>
-                  <!-- <hr style="color: #019893; margin-bottom: 0;"> -->
-                  <p style='color: rgba(255,0,0,0.8); margin-top: 0; margin-bottom: 1em;'><i> ~ No responder a este
-                    correo ~ </i></p>
-                  <h3 style='margin-bottom: 0.5em;'>¡Hola {{ userName }}! </h3>
-                  <h4 style='margin-bottom: 0;'> Estás a un paso de completar tu inscripción, ¡no cuelgues! </h4>
-
-                  <p style='color:#000'>Para completar tu inscripción al <b>{{ etiEvent.name }}</b>, tenés que
-                    depositar el valor del combo que es de:
-                  <table align='center' style='color:#000; border: #019893 solid;'>
-                    <thead>
-                    <tr style='color:red; border: #019893 solid;'>
-                      <th>Precio</th>
-                      <th>Hasta el</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    {{#each etiEvent.prices}}
-                    <tr>
-                      <td style='padding:15px;'>{{this.priceHuman}}</td>
-                      <td>{{this.deadlineHuman}} (inclusive)</td>
-                    </tr>
-                    {{/each}}
-
-
-                    </tbody>
-                  </table>
-                  Le sumamos algunos centavos para que tu transferencia sea más fácil de procesar por el equipo
-                  organizador.
-                  Luego debés subir el archivo de tu comprobante de transferencia o depósito al sitio web
-                  del ETI desde <i>Tu panel de control ETIano => Inscripción al próximo ETI</i> (<a
-                  href='https://etitango.com.ar/inscripcion'
-                  style='color: #019893; text-decoration: underline;'>https://etitango.com.ar/inscripcion</a>)
-                  y clickeando el botón azul que dice: "SUBÍ TU COMPROBANTE DE TRANSFERENCIA".
-                  <br>Tenés <b> 5 días extra de corridos para realizar el pago</b> a partir de hoy, ¡no
-                  cuelgues!</p>
-                  <p style='color:#000'>Los datos de la cuenta son:</p>
-                  <table align='center' style='color:#000; border: #019893 solid;'>
-                    <tr style='color:red; border: #019893 solid;'>
-                      <th colspan='2'>Datos bancarios {{etiEvent.name}}
-                      </th>
-                    </tr>
-                    <tr>
-                      <th>Entidad:</th>
-                      <td>{{etiEvent.bank.entity}}</td>
-                    </tr>
-                    <tr>
-                      <th>Alias:</th>
-                      <td>{{etiEvent.bank.alias}}</td>
-                    </tr>
-                    <tr>
-                      <th>CBU:</th>
-                      <td>{{etiEvent.bank.cbu}}</td>
-                    </tr>
-                    <tr>
-                      <th>Titular:</th>
-                      <td>{{etiEvent.bank.holder}}</td>
-                    </tr>
-                    <tr>
-                      <th>CUIT/CUIL:</th>
-                      <td>{{etiEvent.bank.cuit}}</td>
-                    </tr>
-                  </table>
-                  <br>
-
-                  <p>Si querés saber qué incluye el combo y cómo es el itinerario de este ETI, visitá la <a
-                    href='https://etitango.com.ar' style='text-decoration: none;'>página del ETI (<i
-                    style='text-decoration: underline;'>https://etitango.com.ar</i>)</a>.</p>
-
-                  <h4 style='text-align: left;'>Abrazo ETIano,<br> Comisión Organizadora del
-                    {{ etiEvent.name }}.</h4>
-
-                  <table style='font-size: 0.8em; border: 1px solid; color: rgba(255,0,0,0.8);' width='100%'>
-                    <tbody>
-                    <tr>
-                      <td>
-                        <ul style='padding: 0; margin: 0;'>
-                          <li style='margin-bottom: 0.6em;'>Si tenés una medida judicial de Prohibición de Acercamiento
-                            local, provincial y/ o nacional hacia otrx etianx, TE RECORDAMOS QUE NO PODRÁS INSCRIBIRTE,
-                            debiendo enviar un mail a la Comisión Organizadora (<a
-                              href='mailto:organizadores@etitango.com.ar'
-                              style='color: inherit; text-decoration: underline;'>organizadores@etitango.com.ar</a>)
-                            para liberar el lugar.
-                          </li>
-                          <li>Si has solicitado alguna medida de Prohibición de Acercamiento hacia otrx etianx mandanos
-                            un mail con los datos completos de quién está denunciadx (Nombre y Apellido, DNI, Lugar de
-                            Residencia) y documentación respaldatoria, a fin de BLOQUEAR SU INSCRIPCIÓN.
-                          </li>
-                        </ul>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-
-                </div>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr><!-- end tr -->
-      <!-- 1 Column Text + Button : END -->
+    <!-- 1 Column Text + Button : END -->
     </table>
-    <table align='center' border='0' cellpadding='0' cellspacing='0' role='presentation' style='margin: auto;'
-           width='100%'>
-      <tr>
-        <td class='bg_light footer email-section' valign='middle'>
-          <table>
-            <tr>
-              <td style='padding-top: 20px;' valign='top' width='33.333%'>
-                <table border='0' cellpadding='0' cellspacing='0' role='presentation' width='100%'>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="margin: auto;" width="100%">
+        <tr>
+          <td class="bg_light footer email-section" valign="middle">
+              <table>
                   <tr>
-                    <td style='text-align: left; padding-right: 10px;'>
-                      <h3 class='heading'>Sobre el ETI</h3>
-                      <p style='color: rgba(0,0,0,.5);'>El Encuentro Tanguero del Interior es una reunión de amantes del
-                        tango que viajamos por el país compartiendo abrazos.</p>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-              <td style='padding-top: 20px;' valign='top' width='33.333%'>
-                <table border='0' cellpadding='0' cellspacing='0' role='presentation' width='100%'>
-                  <tr>
-                    <td style='text-align: left; padding-left: 5px; padding-right: 5px;'>
-                      <h3 class='heading'>Contacto</h3>
-                      <ul>
-                        <li><span class='text' style='color: rgba(0,0,0,.5);'>Comisión Organizadora</span></li>
-                        <li><a href='mailto:organizadores@etitango.com.ar'
-                               style='word-wrap: break-word; color: rgba(0,0,0,.5);'>organizadores@etitango.com.ar</a>
-                        </li>
-                        <li><span class='text' style='color: rgba(0,0,0,.5);'>Comisión Informática</span></li>
-                        <li><a href='mailto:comision.informatica@etitango.com.ar'
-                               style='word-wrap: break-word; color: rgba(0,0,0,.5);'>comision.informatica@etitango.com.ar</a>
-                        </li>
-                      </ul>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-              <td style='padding-top: 20px;' valign='top' width='33.333%'>
-                <table border='0' cellpadding='0' cellspacing='0' role='presentation' width='100%'>
-                  <tr>
-                    <td style='text-align: left; padding-left: 10px;'>
-                      <h3 class='heading'>Enlaces útiles</h3>
-                      <ul>
-                        <li><a href='https://etitango.com.ar/manifiesto-etiano' style='color: rgba(0,0,0,.5);'
-                               target='_blank'>Manifiesto ETIano</a></li>
-                        <li><a href='https://etitango.com.ar' style='color: rgba(0,0,0,.5);' target='_blank'>Home
-                          ETIano</a></li>
-                        <li><a href='https://etitango.com.ar/historia-del-eti' style='color: rgba(0,0,0,.5);'
-                               target='_blank'>Historia ETIana</a></li>
-                        <li><a href='https://etitango.com.ar/comision-de-genero-who' style='color: rgba(0,0,0,.5);'
-                               target='_blank'>Comisión de Género</a></li>
-                      </ul>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-          </table>
-        </td>
+                  <td style="padding-top: 20px;" valign="top" width="33.333%">
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+                      <tr>
+                        <td style="text-align: left; padding-right: 10px;">
+                            <h3 class="heading">Sobre el ETI</h3>
+                            <p style="color: rgba(0,0,0,.5);">El Encuentro Tanguero del Interior es una reunión de amantes del tango que viajamos por el país compartiendo abrazos.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td style="padding-top: 20px;" valign="top" width="33.333%">
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+                      <tr>
+                        <td style="text-align: left; padding-left: 5px; padding-right: 5px;">
+                            <h3 class="heading">Contacto</h3>
+                              <ul>
+                                  <li><span class="text" style="color: rgba(0,0,0,.5);">Comisión Organizadora</span></li>
+                                  <li><a href="mailto:organizadores@etitango.com.ar" style="word-wrap: break-word; color: rgba(0,0,0,.5);">organizadores@etitango.com.ar</a></li>
+                                  <li><span class="text" style="color: rgba(0,0,0,.5);">Comisión Informática</span></li>
+                                  <li><a href="mailto:comision.informatica@etitango.com.ar" style="word-wrap: break-word; color: rgba(0,0,0,.5);">comision.informatica@etitango.com.ar</a></li>
+                              </ul>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td style="padding-top: 20px;" valign="top" width="33.333%">
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+                      <tr>
+                        <td style="text-align: left; padding-left: 10px;">
+                            <h3 class="heading">Enlaces útiles</h3>
+                            <ul>
+                                      <li><a href="https://etitango.com.ar/manifiesto-etiano" style="color: rgba(0,0,0,.5);" target="_blank">Manifiesto ETIano</a></li>
+                                      <li><a href="https://etitango.com.ar" style="color: rgba(0,0,0,.5);" target="_blank">Home ETIano</a></li>
+                                      <li><a href="https://etitango.com.ar/historia-del-eti" style="color: rgba(0,0,0,.5);" target="_blank">Historia ETIana</a></li>
+                                      <li><a href="https://etitango.com.ar/comision-de-genero-who" style="color: rgba(0,0,0,.5);" target="_blank">Comisión de Género</a></li>
+                                    </ul>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
       </tr><!-- end: tr -->
       <tr>
-        <td class='bg_light' style='text-align: center;'>
-          <p>¿Por qué recibí este mail? Si recibiste este mail equivocadamente, por favor avisanos a nuestro mail:
-            <br><a
-              href='mailto:comision.informatica@etitango.com.ar?subject=Mail equivocado&body=He recibido un mail de inscripción al ETI pero yo no he realizado ninguna inscripción.'
-              style='color: rgba(0,0,0,.8);'>Click aquí para enviar mail a <span
-              style='color: #019893; text-decoration: underline;'>comision.informatica@etitango.com.ar</span></a></p>
+        <td class="bg_light" style="text-align: center;">
+            <p>¿Por qué recibí este mail? Si recibiste este mail equivocadamente, por favor avisanos a nuestro mail: <br><a href="mailto:comision.informatica@etitango.com.ar?subject=Mail equivocado&body=He recibido un mail de inscripción al ETI pero yo no he realizado ninguna inscripción." style="color: rgba(0,0,0,.8);">Click aquí para enviar mail a <span style= "color: #019893; text-decoration: underline;" >comision.informatica@etitango.com.ar</span></a></p>
         </td>
       </tr>
     </table>
