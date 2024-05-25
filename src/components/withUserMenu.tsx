@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserMenu } from '../modules/user/components/menu/userMenu.jsx';
+import { UserMenu } from '../modules/user/components/menu/userMenu';
 import UserNavBar from '../modules/user/components/navBar/UserNavBar';
 import { Container } from '@mui/material';
 

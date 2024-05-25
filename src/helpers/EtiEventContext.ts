@@ -2,7 +2,7 @@ import { createContext } from 'react';
 import { EtiEvent } from '../shared/etiEvent';
 
 export const EtiEventContext = createContext({
-  etiEvent: {} as Partial<EtiEvent>,
+  etiEvent: {} as EtiEvent,
   // eslint-disable-next-line no-unused-vars
   setEtiEvent: (etiEvent: EtiEvent) => {}
 });

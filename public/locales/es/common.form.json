@@ -17,6 +17,7 @@
   "daysBeforeExpiration": "días para pagar",
   "deadline": "fecha limite de pago",
   "disability": "Tenés alguna discapacidad? Cuál?",
+  "daysBetweenPayment": "Días de demora en pago",
   "dniNumber": "DNI",
   "email": "Email",
   "etiEventId": "ID de ETI",

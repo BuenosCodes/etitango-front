@@ -4,7 +4,7 @@ import { SCOPES } from '../../helpers/constants/i18n';
 import { Translation } from 'react-i18next';
 import { Button, Typography } from '@mui/material';
 import { ROUTES } from '../../App.js';
-import { SignupStatusDisplay } from '../components/SignupStatusDisplay.jsx';
+import { SignupStatusDisplay } from '../components/SignupStatusDisplay';
 
 export default function UserHome() {
   return (

@@ -47,24 +47,35 @@ export type SignupFormData = {
   city?: string;
 };
 
+interface StatusHistory {
+  status: SignupStatus;
+  date: Date;
+}
+
+type StatusHistoryFirestore = Omit<StatusHistory, 'date'> & { date: Timestamp };
+
 // eslint-disable-next-line no-undef
 export type Signup = SignupFormData &
   UserData & {
     id: string;
     etiEventId: string;
-    status?: SignupStatus;
+    status: SignupStatus;
     didAttend: boolean;
     receipt?: string;
     orderNumber: number;
     lastModifiedAt: Date;
-    statusHistory?: { status: SignupStatus; date: Date }[];
+    statusHistory?: StatusHistory[];
     dateArrival: Date;
     dateDeparture: Date;
     userId: string;
   };
 
-export type SignupFirestore = Omit<Signup, 'dateArrival' | 'dateDeparture' | 'lastModifiedAt'> & {
+export type SignupFirestore = Omit<
+  Signup,
+  'dateArrival' | 'dateDeparture' | 'lastModifiedAt' | 'statusHistory'
+> & {
   dateArrival: Timestamp;
   dateDeparture: Timestamp;
   lastModifiedAt: Timestamp;
+  statusHistory: StatusHistoryFirestore[];
 };

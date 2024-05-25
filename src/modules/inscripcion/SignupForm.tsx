@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import { SCOPES } from '../../helpers/constants/i18n';
 import { bool, date, object, string } from 'yup';
 import { createSignup } from '../../helpers/firestore/signups';
-import { auth } from '../../etiFirebase.js';
 import { ROUTES } from '../../App.js';
 import { Field, Form, Formik } from 'formik';
 import { Button, Grid, MenuItem, Typography } from '@mui/material';
@@ -10,24 +9,19 @@ import { ETIDatePicker } from '../../components/form/DatePicker';
 import { Select } from 'formik-mui';
 import { SignupFormData, SignupHelpWith } from '../../shared/signup';
 import { LocationPicker } from '../../components/form/LocationPicker';
-import React from 'react';
-import { EtiEvent } from '../../shared/etiEvent';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserData } from '../../shared/User';
+import { UserContext } from '../../helpers/UserContext';
+import { ComboPricingDisplay } from '../components/ComboPricingDisplay';
+import { EtiEventContext } from '../../helpers/EtiEventContext';
 
-export function SignupForm({
-  etiEvent,
-  userData,
-  isSignedUp
-}: {
-  etiEvent: EtiEvent;
-  userData: UserData;
-  isSignedUp: boolean;
-}) {
+export function SignupForm() {
   const { t } = useTranslation([SCOPES.COMMON.FORM, SCOPES.MODULES.SIGN_UP], {
     useSuspense: false
   });
-
+  const { user } = useContext(UserContext);
+  const { data: userData } = user;
+  const { etiEvent } = useContext(EtiEventContext);
   const navigate = useNavigate();
 
   const SignupSchema = object({
@@ -64,7 +58,7 @@ export function SignupForm({
       city
     };
     try {
-      await createSignup(etiEvent?.id, auth.currentUser!.uid, data);
+      await createSignup(etiEvent?.id, user.uid, data);
       navigate(ROUTES.SIGNUPS);
     } catch (error) {
       console.error(error);
@@ -77,19 +71,22 @@ export function SignupForm({
     <Formik
       enableReinitialize
       initialValues={{
-        nameFirst: userData.nameFirst,
-        nameLast: userData.nameLast,
-        dniNumber: userData.dniNumber,
+        nameFirst: userData?.nameFirst,
+        nameLast: userData?.nameLast,
+        dniNumber: userData?.dniNumber,
         // @ts-ignore
         helpWith: '',
-        food: userData.food,
-        isCeliac: userData.isCeliac,
-        country: userData.country,
-        province: userData.province,
-        city: userData.city,
+        // @ts-ignore
+        food: userData?.food,
+        // @ts-ignore
+        isCeliac: userData?.isCeliac,
+        // @ts-ignore
+        country: userData?.country,
+        province: userData?.province,
+        city: userData?.city,
         dateArrival: etiEvent?.dateStart,
         dateDeparture: etiEvent?.dateEnd,
-        email: auth?.currentUser?.email
+        email: user.email
       }}
       validationSchema={SignupSchema}
       onSubmit={async (values: SignupFormData, { setSubmitting }) => {
@@ -144,26 +141,14 @@ export function SignupForm({
                 />
               </Grid>
               <Grid item container justifyContent={'center'}>
-                <Grid item style={{ textAlign: 'center' }} justifyContent={'center'}>
-                  <Typography variant="h3" color="primary" align="center">
-                    {t(`${SCOPES.MODULES.SIGN_UP}.combo`)}
-                  </Typography>
-                  {etiEvent?.prices.map((p, i) => {
-                    const { priceHuman, deadlineHuman } = p;
-                    return (
-                      <Typography key={'prices_' + i}>
-                        {priceHuman} hasta el {deadlineHuman} (inclusive)
-                      </Typography>
-                    );
-                  })}
-                </Grid>
+                <ComboPricingDisplay />
                 <Grid container justifyContent="flex-end">
                   <Grid item>
                     <Button
                       variant="contained"
                       color="secondary"
                       type="submit"
-                      disabled={isSignedUp || isSubmitting}
+                      disabled={isSubmitting}
                     >
                       {t(`${SCOPES.MODULES.SIGN_UP}.${'signUp'}`).toUpperCase()}
                     </Button>

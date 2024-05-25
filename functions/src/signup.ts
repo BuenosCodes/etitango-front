@@ -2,11 +2,10 @@ import * as functions from 'firebase-functions';
 import { CallableContext } from 'firebase-functions/lib/common/providers/https';
 import { db } from './index';
 import { validateUserIsLoggedIn, validateUserOwnsTheEvent } from './validators';
-import { Signup, SignupCreate, SignupStatus } from '../../src/shared/signup';
+import { Signup, SignupStatus } from '../../src/shared/signup';
 import { getIncrement } from './counters';
 import { UserData } from '../../src/shared/User';
 import { EtiEvent } from '../../src/shared/etiEvent';
-//import { EtiEvent } from '../../src/shared/etiEvent';
 
 const validateSingleSignup = async (
   transaction: FirebaseFirestore.Transaction,
@@ -50,7 +49,7 @@ function getUserIdOrFail(context: CallableContext) {
 }
 
 export const createSignup = functions.https.onCall(
-  async (data: SignupCreate, context: CallableContext) => {
+  async (data: Signup, context: CallableContext) => {
     validateUserIsLoggedIn(context);
     const userId = getUserIdOrFail(context);
     await db.runTransaction(async (transaction) => {

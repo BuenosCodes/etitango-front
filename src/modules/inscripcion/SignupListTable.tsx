@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Signup } from 'shared/signup';
+import { Signup, SignupStatus } from 'shared/signup';
 import { Button, Checkbox, Paper } from '@mui/material';
 import {
   DataGrid,
@@ -17,6 +17,28 @@ import { intersection } from 'lodash';
 import { Alert } from '../../components/alert/Alert';
 
 export type SignupField = keyof Signup;
+
+function daysBetween(date1: Date, date2: Date) {
+  const msPerDay = 24 * 60 * 60 * 1000;
+  const time1 = date1.getTime();
+  const time2 = date2.getTime();
+
+  const dayDifference = Math.abs(time2 - time1) / msPerDay;
+
+  return parseFloat(dayDifference.toFixed(1));
+}
+
+const getSignupHistoryEntry = (signup: Signup, status: SignupStatus) => {
+  const output = signup?.statusHistory || [];
+  return output?.reverse().find((e) => e.status === status);
+};
+
+const getDaysBetweenPayment = (signup: Signup) => {
+  const pending = getSignupHistoryEntry(signup, SignupStatus.PAYMENT_PENDING)?.date;
+  if (!pending) return 0;
+  const paid = getSignupHistoryEntry(signup, SignupStatus.PAYMENT_TO_CONFIRM)?.date;
+  return daysBetween(pending, paid || new Date());
+};
 
 export function SignupListTable(props: {
   etiEventId: string;
@@ -87,7 +109,9 @@ export function SignupListTable(props: {
     'food',
     'isCeliac',
     'phoneNumber',
-    'disability'
+    'disability',
+    // @ts-ignore
+    'daysBetweenPayment'
   ];
 
   const searchableFields: SignupField[] = [
@@ -229,7 +253,7 @@ export function SignupListTable(props: {
     } else {
       output.isCeliac = t('yes');
     }
-
+    output.daysBetweenPayment = getDaysBetweenPayment(signup);
     return output;
   };
 

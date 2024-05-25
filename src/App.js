@@ -28,7 +28,7 @@ const ComisionGeneroProtocol = React.lazy(() =>
 const ComisionGeneroWho = React.lazy(() =>
   import('./modules/home/comision-de-genero/comisionGeneroWho')
 );
-const Inscripcion = React.lazy(() => import('./modules/inscripcion/Inscripcion'));
+const Inscripcion = React.lazy(() => import('./modules/inscripcion/index'));
 const SignupList = React.lazy(() => import('./modules/inscripcion/SignupList'));
 const Receipt = React.lazy(() => import('./modules/inscripcion/Receipt'));
 const SignInScreen = React.lazy(() => import('./modules/signIn/signIn'));
@@ -96,7 +96,7 @@ function App() {
     }
 
     fetch();
-  }, []);
+  }, [user]);
 
   const [notification, setNotificationInfo] = useState({
     visible: false,

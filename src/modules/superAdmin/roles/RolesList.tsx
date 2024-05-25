@@ -4,6 +4,7 @@ import { UserFullData, UserRoles } from 'shared/User';
 import * as firestoreUserHelper from 'helpers/firestore/users';
 import RolesListTable from './rolesListTable';
 import { RolesAddForm } from './RolesAddForm';
+import { Unsubscribe } from 'firebase/firestore';
 
 const RolesList = ({ eventId }: { eventId?: string }) => {
   // eslint-disable-next-line no-unused-vars
@@ -14,7 +15,7 @@ const RolesList = ({ eventId }: { eventId?: string }) => {
   useEffect(() => {
     setIsLoading(true);
 
-    let unsubscribe: Function;
+    let unsubscribe: Unsubscribe;
 
     const fetchData = async () => {
       unsubscribe = await firestoreUserHelper.getAdmins(setUsers, setIsLoading, eventId);

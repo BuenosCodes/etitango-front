@@ -12,11 +12,7 @@ import {
 } from '@mui/material';
 import WithAuthentication from '../../withAuthentication';
 import { Translation } from 'react-i18next';
-import {
-  argentinaCurrencyFormatter,
-  argentinaDateTimeFormatter,
-  SCOPES
-} from 'helpers/constants/i18n';
+import { argentinaCurrencyFormatter, argentinaDateFormatter, SCOPES } from 'helpers/constants/i18n';
 import { Field, FieldArray, Form, Formik } from 'formik';
 import { TextField } from 'formik-mui';
 import { array, date, number, object, string } from 'yup';
@@ -31,6 +27,7 @@ import RolesList from '../roles/RolesList';
 import FileUpload from '../../../components/FileUpload';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DateTimePicker } from 'formik-mui-x-date-pickers';
+import { Unsubscribe } from 'firebase/firestore';
 
 export default function EventForm() {
   const EventFormSchema = object({
@@ -63,7 +60,7 @@ export default function EventForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let unsubscribe: Function;
+    let unsubscribe: Unsubscribe;
     const fetchData = async () => {
       if (id) {
         unsubscribe = await getEventLive(id, setEvent, setLoading);
@@ -81,8 +78,8 @@ export default function EventForm() {
     try {
       const data = {
         ...values,
-        comboReturnDeadlineHuman: argentinaDateTimeFormatter.format(values.comboReturnDeadline),
-        dateSignupOpen: dateSignupOpen.toDate(),
+        comboReturnDeadlineHuman: argentinaDateFormatter.format(values.comboReturnDeadline),
+        dateSignupOpen: dateSignupOpen.toDate ? dateSignupOpen.toDate() : dateSignupOpen,
         // @ts-ignore
         prices: values.prices.map(({ deadline, price, ...rest }) => {
           return {
@@ -90,11 +87,11 @@ export default function EventForm() {
             deadline,
             price,
             priceHuman: argentinaCurrencyFormatter.format(price),
-            deadlineHuman: argentinaDateTimeFormatter.format(deadline)
+            deadlineHuman: argentinaDateFormatter.format(deadline)
           };
         })
       };
-      await createOrUpdateDoc('events', data, id);
+      await createOrUpdateDoc('events', data, id === 'new' ? undefined : id);
       navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
     } catch (error) {
       console.error(error);
@@ -110,10 +107,7 @@ export default function EventForm() {
     >
       {(t) => (
         <>
-          <WithAuthentication
-            roles={[UserRoles.SUPER_ADMIN]}
-            redirectUrl={`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`}
-          />
+          <WithAuthentication roles={[UserRoles.SUPER_ADMIN]} />
           {loading ? (
             <CircularProgress />
           ) : (
