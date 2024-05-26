@@ -6,7 +6,8 @@ import { SCOPES } from 'helpers/constants/i18n.ts';
 import { styles } from './userMenu.styles.ts';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../../helpers/UserContext';
-import { isAdmin, isSuperAdmin } from '../../../../helpers/firestore/users';
+import { isAdminOfEvent, isSuperAdmin } from '../../../../helpers/firestore/users';
+import { EtiEventContext } from '../../../../helpers/EtiEventContext';
 
 export function UserMenu() {
   const { t } = useTranslation(SCOPES.MODULES.USER, { useSuspense: false });
@@ -15,6 +16,7 @@ export function UserMenu() {
   const { pathname: currentRoute } = useLocation();
   const isCurrentRoute = (route) => currentRoute === route;
   const getStyles = (route) => [styles.item, isCurrentRoute(route) && { ...styles.selectedItem }];
+  const { etiEvent } = useContext(EtiEventContext);
 
   return (
     <>
@@ -28,7 +30,7 @@ export function UserMenu() {
         <Button sx={getStyles(ROUTES.SIGNUPS)} onClick={() => navigate(ROUTES.SIGNUPS)}>
           {t('signupList')}
         </Button>
-        {isAdmin(user) ? (
+        {isAdminOfEvent(user, etiEvent?.id) ? (
           <Button sx={getStyles(ROUTES.SIGNUPS)} onClick={() => navigate(ROUTES.ATTENDANCE)}>
             {t('attendance')}
           </Button>
