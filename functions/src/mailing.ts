@@ -61,9 +61,9 @@ exports.onUpdateSignup = functions.firestore
   // @ts-ignore
   .onUpdate(async (change: Change<DocumentSnapshot<Signup>>, context: EventContext) => {
     const signupId = context.params.signupId;
-    console.info(`onUpdate triggered for ${signupId}`);
     const before = change.before.data();
     const after = change.after.data();
+    console.info(`onUpdate triggered for ${signupId}, change: ${after}, user: ${userId}`);
 
     if (!before || !after) return;
     if (before.status !== after.status) {
