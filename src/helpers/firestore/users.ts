@@ -44,7 +44,7 @@ export async function getAdmins(setUsers: Function, setIsLoading: Function, etiE
     if (etiEventId) {
       users = docs.filter((d) => d.adminOf.includes(etiEventId));
     } else {
-      users = docs.filter((d) => Object.values(d.roles).find((e) => e));
+      users = docs.filter((d) => Object.values(d.roles || {}).find((e) => e));
     }
 
     setUsers(users);
@@ -62,15 +62,16 @@ const getUserByEmail = async (email: string) => {
   })) as UserFullData[];
   return docs[0];
 };
+
 export async function assignSuperAdmin(email: string) {
   const doc = await getUserByEmail(email);
   return createOrUpdateDoc(USERS, { roles: { [UserRoles.SUPER_ADMIN]: true } }, doc.id);
 }
+
 export async function assignEventAdmin(email: string, etiEventId: string) {
   const userDoc = await getUserByEmail(email);
   const eventRef = doc(db, `${EVENTS}/${etiEventId}`);
   const batch = writeBatch(db);
-
   batch.update(eventRef, { admins: arrayUnion(userDoc.id) });
   const ref = doc(db, `${USERS}/${userDoc.id}`);
   batch.update(

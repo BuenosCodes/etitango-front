@@ -25,7 +25,7 @@ exports.onUpdateUser = functions.firestore
     const before = change.before.data();
     const after = change.after.data();
     const auth = getAuth();
-    if (after?.roles[UserRoles.SUPER_ADMIN]) {
+    if (after?.roles && after?.roles[UserRoles.SUPER_ADMIN]) {
       await auth.setCustomUserClaims(context.params.userId, { [UserRoles.SUPER_ADMIN]: true });
     }
 
