@@ -216,7 +216,8 @@ export function SignupListTable(props: {
   }
 
   if (isAdmin && !isAttendance) {
-    columns.push(viewBankButton, viewReceiptButton);
+    columns.push(viewBankButton);
+    columns.unshift(viewReceiptButton);
   }
 
   const attendanceCheckbox = {
