@@ -36,7 +36,7 @@ async function validateSignupIsOpen(etiEventId: string) {
   const event = await eventRef.get();
 
   if (event.data()?.dateSignupOpen.toDate().getTime() > new Date().getTime()) {
-    throw new functions.https.HttpsError('failed-precondition', "Signups haven't opened yet");
+    throw new functions.https.HttpsError('failed-precondition', 'Signups haven\'t opened yet');
   }
 }
 
@@ -117,6 +117,7 @@ export const advanceStatusPending = async (
   const batch = db.batch();
 
   signupDocsSnapshot.forEach((doc) => {
+    console.log(`updating signup #${doc.id}`);
     batch.update(doc.ref, { status: to });
   });
 
@@ -152,7 +153,7 @@ export const advanceStatusWaitlist = async (
 
 export async function doAdvanceSignups(etiEvent: any) {
   const { capacity, daysBeforeExpiration, id } = etiEvent;
-
+  console.log('advanceStatusPending', SignupStatus.PAYMENT_PENDING, SignupStatus.FLAGGED);
   await advanceStatusPending(
     id,
     [SignupStatus.PAYMENT_PENDING, SignupStatus.FLAGGED],
@@ -172,6 +173,8 @@ export async function doAdvanceSignups(etiEvent: any) {
     .get();
   const remainingCapacity = capacity - signupDocsSnapshot.size;
 
+  console.log('advanceStatusWaitlist', SignupStatus.WAITLIST, SignupStatus.PAYMENT_PENDING);
+
   await advanceStatusWaitlist(
     id,
     SignupStatus.WAITLIST,
@@ -183,14 +186,15 @@ export async function doAdvanceSignups(etiEvent: any) {
 
 export const advanceSignups = functions.https.onCall(
   async ({ etiEventId }: { etiEventId: string }, context: CallableContext) => {
+    console.log(`advanceSignups triggered for event/${etiEventId}`);
+    console.log('user', context.auth?.uid)
     validateUserIsLoggedIn(context);
-
     const eventRef = db.collection('events').doc(etiEventId);
     const event = await eventRef.get();
     const etiEvent = <EtiEvent>event.data();
 
     validateUserOwnsTheEvent(context, etiEvent.admins);
-
+    console.log("User Owns the Event");
     return await doAdvanceSignups({ ...etiEvent, id: etiEventId });
   }
 );

@@ -4,6 +4,7 @@ import { CallableContext } from 'firebase-functions/lib/common/providers/https';
 
 export function validateUserOwnsTheEvent(context: CallableContext, eventAdmins: string[]) {
   if (!eventAdmins.includes(context.auth!.uid)) {
+    console.log(`user ${context.auth!.uid} is not in eventAdmins (${eventAdmins}`);
     throw new functions.https.HttpsError(
       'unauthenticated',
       'You must be an event owner to perform this operation'
