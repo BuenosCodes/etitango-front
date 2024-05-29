@@ -63,7 +63,7 @@ exports.onUpdateSignup = functions.firestore
     const signupId = context.params.signupId;
     const before = change.before.data();
     const after = change.after.data();
-    console.info(`onUpdate triggered for ${signupId}, change: ${after}, user: ${userId}`);
+    console.info(`onUpdate triggered for ${signupId}, change: ${after}`);
 
     if (!before || !after) return;
     if (before.status !== after.status) {

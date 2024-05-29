@@ -144,6 +144,7 @@ export const advanceStatusWaitlist = async (
   const signupDocsSnapshot = await query.get();
 
   signupDocsSnapshot.forEach((doc) => {
+     console.log(`updating signup #${doc.id}`);
     batch.update(doc.ref, { status: to });
   });
 
