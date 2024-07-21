@@ -36,7 +36,7 @@ async function validateSignupIsOpen(etiEventId: string) {
   const event = await eventRef.get();
 
   if (event.data()?.dateSignupOpen.toDate().getTime() > new Date().getTime()) {
-    throw new functions.https.HttpsError('failed-precondition', 'Signups haven\'t opened yet');
+    throw new functions.https.HttpsError('failed-precondition', "Signups haven't opened yet");
   }
 }
 
@@ -144,7 +144,7 @@ export const advanceStatusWaitlist = async (
   const signupDocsSnapshot = await query.get();
 
   signupDocsSnapshot.forEach((doc) => {
-     console.log(`updating signup #${doc.id}`);
+    console.log(`updating signup #${doc.id}`);
     batch.update(doc.ref, { status: to });
   });
 
@@ -188,14 +188,14 @@ export async function doAdvanceSignups(etiEvent: any) {
 export const advanceSignups = functions.https.onCall(
   async ({ etiEventId }: { etiEventId: string }, context: CallableContext) => {
     console.log(`advanceSignups triggered for event/${etiEventId}`);
-    console.log('user', context.auth?.uid)
+    console.log('user', context.auth?.uid);
     validateUserIsLoggedIn(context);
     const eventRef = db.collection('events').doc(etiEventId);
     const event = await eventRef.get();
     const etiEvent = <EtiEvent>event.data();
 
     validateUserOwnsTheEvent(context, etiEvent.admins);
-    console.log("User Owns the Event");
+    console.log('User Owns the Event');
     return await doAdvanceSignups({ ...etiEvent, id: etiEventId });
   }
 );
