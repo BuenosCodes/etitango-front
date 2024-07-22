@@ -1,4 +1,3 @@
-import { config } from 'dotenv';
 import { initializeApp } from 'firebase/app';
 import * as firebaseAuth from 'firebase/auth';
 import { connectAuthEmulator, getAuth } from 'firebase/auth';
@@ -10,7 +9,6 @@ import { connectStorageEmulator, getStorage } from 'firebase/storage';
 
 /* eslint-disable no-undef */
 
-config();
 export const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
