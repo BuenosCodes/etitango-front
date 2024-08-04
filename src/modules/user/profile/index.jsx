@@ -23,20 +23,8 @@ import { EtiEventContext } from '../../../helpers/EtiEventContext';
 
 export default function Profile() {
   const ProfileSchema = object({
-    nameFirst: string()
-      .required('Este campo no puede estar vacío')
-      .test(
-        'length',
-        'El nombre debe tener menos de 32 caracteres',
-        (value) => !value || (value && value.length <= 32)
-      ),
-    nameLast: string()
-      .required('Este campo no puede estar vacío')
-      .test(
-        'length',
-        'El apellido debe tener menos de 32 caracteres',
-        (value) => !value || (value && value.length <= 32)
-      ),
+    nameFirst: string().required('Este campo no puede estar vacío'),
+    nameLast: string().required('Este campo no puede estar vacío'),
     dniNumber: number()
       .required('Completa este campo')
       .positive()
@@ -60,24 +48,23 @@ export default function Profile() {
         (value) => !value || (value && value.toString().length >= 10)
       ),
 
-    country: string().nullable(true).required('Este campo no puede estar vacío'),
-    province: string()
-      .nullable(true)
-      .when('country', {
-        is: 'Argentina',
-        then: string().nullable(true).required('Este campo no puede estar vacío')
-      }),
-    city: string()
-      .nullable(true)
-      .when('country', {
-        is: 'Argentina',
-        then: string().nullable(true).required('Este campo no puede estar vacío')
-      }),
+    country: string().nullable().required('Este campo no puede estar vacío'),
+    province: string().when('country', {
+      is: 'Argentina',
+      then: (schema) => schema.required('Este campo no puede estar vacío'),
+      otherwise: (schema) => schema.nullable()
+    }),
+    city: string().when('country', {
+      is: 'Argentina',
+      then: (schema) => schema.required('Este campo no puede estar vacío'),
+      otherwise: (schema) => schema.nullable()
+    }),
     bank: string().required(
       'Este campo no puede estar vacío. Es necesario para gestionar la devolución de tu combo y para resolver problemas con el pago'
     ),
     disability: string()
   });
+
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
   const [isPendingSignup, setIsPendingSignup] = useState(false);
