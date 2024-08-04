@@ -45,6 +45,7 @@ export type SignupFormData = {
   country: string;
   province?: string;
   city?: string;
+  wantsLodging?: boolean;
 };
 
 interface StatusHistory {
