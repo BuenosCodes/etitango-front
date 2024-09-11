@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import WithAuthentication from '../../withAuthentication';
 import { UserData, UserRoles } from 'shared/User';
 import * as firestoreBankHelper from 'helpers/firestore/banks';
@@ -13,6 +13,7 @@ import { Timestamp } from 'firebase/firestore';
 
 const Bank = () => {
   const { id } = useParams();
+  const { etiEvent } = useContext(EtiEventContext);
   const { t } = useTranslation([SCOPES.COMMON.FORM], { useSuspense: false });
   // eslint-disable-next-line no-unused-vars
   const [bank, setBank] = useState<string>('');
