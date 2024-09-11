@@ -1,5 +1,6 @@
 import { User } from 'firebase/auth';
 import { FoodChoices } from './signup';
+import { Timestamp } from 'firebase/firestore';
 
 export enum UserRoles {
   // eslint-disable-next-line no-unused-vars
@@ -11,6 +12,7 @@ export enum UserRoles {
 export interface UserData extends UserPersonalInfo {
   roles?: { [role: string]: boolean };
   adminOf: string[];
+  lastModifiedAt: Timestamp;
 }
 
 export interface UserFullData extends UserData {

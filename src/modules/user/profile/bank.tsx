@@ -8,6 +8,8 @@ import { Paper, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { SCOPES } from '../../../helpers/constants/i18n';
 import Container from '@mui/material/Container';
+import { EtiEventContext } from '../../../helpers/EtiEventContext';
+import { Timestamp } from 'firebase/firestore';
 
 const Bank = () => {
   const { id } = useParams();
@@ -41,12 +43,22 @@ const Bank = () => {
 
   function printEntry(entry: any): any {
     const [key, val]: [key: string, val: any] = entry;
+
+    if (val instanceof Timestamp) {
+      return (
+        <Typography key={key}>
+          {t(key)}: {val.toDate().toLocaleString()}
+        </Typography>
+      );
+    }
+
     if (val instanceof Object)
       return (
         <Typography key={key}>
           {t(key)}: {Object.entries(val).map(printEntry)}
         </Typography>
       );
+
     return (
       <Typography key={key}>
         {t(key)}: {val.toString()}
@@ -56,7 +68,7 @@ const Bank = () => {
 
   return (
     <>
-      <WithAuthentication roles={[UserRoles.ADMIN]} />
+      <WithAuthentication roles={[UserRoles.ADMIN]} eventId={etiEvent?.id} />
       <Container maxWidth="xl" sx={{ marginTop: 6, display: 'flex', justifyItems: 'center' }}>
         <Paper sx={{ padding: 3 }}>
           <Typography variant={'h6'}>CBU/ALIAS: {bank}</Typography>
