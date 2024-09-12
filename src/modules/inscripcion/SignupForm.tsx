@@ -6,7 +6,7 @@ import { ROUTES } from '../../App.js';
 import { Field, Form, Formik } from 'formik';
 import { Button, Grid, MenuItem, Typography } from '@mui/material';
 import { ETIDatePicker } from '../../components/form/DatePicker';
-import { Select } from 'formik-mui';
+import { CheckboxWithLabel, Select } from 'formik-mui';
 import { SignupFormData, SignupHelpWith } from '../../shared/signup';
 import { LocationPicker } from '../../components/form/LocationPicker';
 import React, { useContext } from 'react';
@@ -28,6 +28,7 @@ export function SignupForm() {
     helpWith: string().required('Este campo no puede estar vacío'),
     food: string().required('Este campo no puede estar vacío'),
     isCeliac: bool().required('Este campo no puede estar vacío'),
+    wantsLodging: bool(),
     country: string().required('Este campo no puede estar vacío'),
     province: string().when('country', {
       is: 'Argentina',
@@ -42,8 +43,17 @@ export function SignupForm() {
     dateDeparture: date().required('Este campo no puede estar vacío')
   });
   const save = async (values: SignupFormData, setSubmitting: Function) => {
-    const { dateArrival, dateDeparture, helpWith, food, isCeliac, country, province, city } =
-      values;
+    const {
+      dateArrival,
+      dateDeparture,
+      helpWith,
+      food,
+      isCeliac,
+      country,
+      province,
+      city,
+      wantsLodging
+    } = values;
     let data = {
       dateArrival,
       dateDeparture,
@@ -52,7 +62,8 @@ export function SignupForm() {
       isCeliac,
       country,
       province,
-      city
+      city,
+      wantsLodging
     };
     try {
       await createSignup(etiEvent?.id, user.uid, data);
@@ -83,7 +94,8 @@ export function SignupForm() {
         city: userData?.city,
         dateArrival: etiEvent?.dateStart,
         dateDeparture: etiEvent?.dateEnd,
-        email: user.email
+        email: user.email,
+        wantsLodging: false
       }}
       validationSchema={SignupSchema}
       onSubmit={async (values: SignupFormData, { setSubmitting }) => {
@@ -137,6 +149,16 @@ export function SignupForm() {
                   location={userData}
                 />
               </Grid>
+              {etiEvent?.lodgingCapacity ? (
+                <Grid item md={6} sm={12} xs={12}>
+                  <Field
+                    component={CheckboxWithLabel}
+                    type="checkbox"
+                    name="wantsLodging"
+                    Label={{ label: t('wantsLodging') }}
+                  />
+                </Grid>
+              ) : null}
               <Grid item container justifyContent={'center'}>
                 <ComboPricingDisplay />
                 <Grid container justifyContent="flex-end">

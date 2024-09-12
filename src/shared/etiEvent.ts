@@ -19,6 +19,7 @@ export interface EtiEventBase {
   locations: { name: ''; link: '' }[];
   landingTitle: string;
   comboReturnDeadlineHuman: string;
+  lodgingCapacity: number;
 }
 
 export interface EtiEvent extends EtiEventBase {

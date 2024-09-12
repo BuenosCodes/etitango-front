@@ -30,28 +30,30 @@ import { DateTimePicker } from 'formik-mui-x-date-pickers';
 import { Unsubscribe } from 'firebase/firestore';
 
 export default function EventForm() {
+  const msg = 'Este campo no puede estar vacío';
   const EventFormSchema = object({
-    dateEnd: date().required('Este campo no puede estar vacío'),
-    dateSignupOpen: date().required('Este campo no puede estar vacío'),
-    dateStart: date().required('Este campo no puede estar vacío'),
-    location: string().required('Este campo no puede estar vacío'),
-    name: string().required('Este campo no puede estar vacío'),
+    dateEnd: date().required(msg),
+    dateSignupOpen: date().required(msg),
+    dateStart: date().required(msg),
+    location: string().required(msg),
+    name: string().required(msg),
     prices: array()
       .of(
         object().shape({
-          deadline: date().required('Este campo no puede estar vacío'),
-          price: number().required('Este campo no puede estar vacío')
+          deadline: date().required(msg),
+          price: number().required(msg)
         })
       )
       .min(1, 'Debe haber al menos un precio')
       .required('Debe haber al menos un precio'),
     bank: object().shape({
-      entity: string().required('Este campo no puede estar vacío'),
-      holder: string().required('Este campo no puede estar vacío'),
-      cbu: string().required('Este campo no puede estar vacío'),
-      alias: string().required('Este campo no puede estar vacío'),
-      cuit: string().required('Este campo no puede estar vacío')
-    })
+      entity: string().required(msg),
+      holder: string().required(msg),
+      cbu: string().required(msg),
+      alias: string().required(msg),
+      cuit: string().required(msg)
+    }),
+    lodgingCapacity: number().required()
   });
 
   const [event, setEvent] = useState<EtiEvent>();
@@ -181,6 +183,16 @@ export default function EventForm() {
                               <Field
                                 name="capacity"
                                 label={t('capacity')}
+                                component={TextField}
+                                type="number"
+                                required
+                                fullWidth
+                              />
+                            </Grid>
+                            <Grid item md={6} sm={6} xs={12}>
+                              <Field
+                                name="lodgingCapacity"
+                                label={t('lodgingCapacity')}
                                 component={TextField}
                                 type="number"
                                 required

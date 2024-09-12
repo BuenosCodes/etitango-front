@@ -110,6 +110,7 @@ export function SignupListTable(props: {
     'isCeliac',
     'phoneNumber',
     'disability',
+    'wantsLodging',
     // @ts-ignore
     'daysBetweenPayment'
   ];
@@ -250,10 +251,17 @@ export function SignupListTable(props: {
       }
     });
     if (!signup.isCeliac) {
-      delete output.isCeliac;
+      output.isCeliac = t('no');
     } else {
       output.isCeliac = t('yes');
     }
+
+    if (!signup.wantsLodging) {
+      output.wantsLodging = t('no');
+    } else {
+      output.wantsLodging = t('yes');
+    }
+
     output.daysBetweenPayment = getDaysBetweenPayment(signup);
     return output;
   };

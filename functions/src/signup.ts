@@ -195,7 +195,6 @@ export const advanceSignups = functions.https.onCall(
     const etiEvent = <EtiEvent>event.data();
 
     validateUserOwnsTheEvent(context, etiEvent.admins);
-    console.log('User Owns the Event');
     return await doAdvanceSignups({ ...etiEvent, id: etiEventId });
   }
 );
