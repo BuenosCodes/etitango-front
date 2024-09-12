@@ -32,14 +32,14 @@ function ReceiptUpload({ signupDetails }: { signupDetails: Signup }) {
               )}{' '}
               para subir tu comprobante
             </Typography>
-            <Typography variant="h3">Datos para la transferencia</Typography>
-            {Object.entries(etiEvent.bank).map(([k, v]) => (
-              <React.Fragment key={k}>
-                <Typography>
-                  {t(k)}: {v}
-                </Typography>
-              </React.Fragment>
-            ))}
+            {/*<Typography variant="h3">Datos para la transferencia</Typography>*/}
+            {/*{Object.entries(etiEvent.bank).map(([k, v]) => (*/}
+            {/*  <React.Fragment key={k}>*/}
+            {/*    <Typography>*/}
+            {/*      {t(k)}: {v}*/}
+            {/*    </Typography>*/}
+            {/*  </React.Fragment>*/}
+            {/*))}*/}
             <ComboPricingDisplay orderNumber={signupDetails.orderNumber} />
           </>
         ) : (

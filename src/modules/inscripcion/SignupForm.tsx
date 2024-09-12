@@ -173,13 +173,13 @@ export function SignupForm() {
                     </Button>
                   </Grid>
                 </Grid>
-                <Grid item style={{ textAlign: 'center' }}>
-                  <Typography variant="caption">
-                    {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer`)}
-                    <b>{etiEvent?.comboReturnDeadlineHuman}</b>.<br />
-                    {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer2`)}
-                  </Typography>
-                </Grid>
+                {/*<Grid item style={{ textAlign: 'center' }}>*/}
+                {/*  <Typography variant="caption">*/}
+                {/*    {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer`)}*/}
+                {/*    <b>{etiEvent?.comboReturnDeadlineHuman}</b>.<br />*/}
+                {/*    {t(`${SCOPES.MODULES.SIGN_UP}.disclaimer2`)}*/}
+                {/*  </Typography>*/}
+                {/*</Grid>*/}
               </Grid>
             </Grid>
           </Form>
