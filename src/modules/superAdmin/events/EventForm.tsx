@@ -360,7 +360,7 @@ export default function EventForm() {
                                     </Grid>
                                   </Grid>
                                 ))}
-                                <Button variant="contained" onClick={() => push([])}>
+                                <Button variant="contained" onClick={() => push({ title: '', activities: '' })}>
                                   Agregar día
                                 </Button>
                               </>
