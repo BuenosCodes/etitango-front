@@ -26,7 +26,7 @@ export const ETIDatePicker = ({
     mask="__-__-____"
     onChange={(value: any) => {
       const targetFieldName = index ? `${fieldName.replace('${index}', 'index')}` : fieldName;
-      setFieldValue(targetFieldName, value.toDate());
+      setFieldValue(targetFieldName, value?.toDate());
     }}
   />
 );
