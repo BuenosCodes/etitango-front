@@ -23,8 +23,8 @@ export function ComboPricingDisplay({ orderNumber }: { orderNumber?: number }) {
           ATENCIÓN: el precio final del combo es la suma del precio base más unos centavos que se
           corresponden con tu número de orden. Esto es para que la organización identifique más
           fácil e inequívocamente tu pago. Te compartimos el precio base para que lo tengas de
-          referencia pero por favor transferí el monto que te vamos a indicar una vez que se te
-          habilite a pagar tu combo.
+          referencia pero por favor <strong>transferí el monto que te vamos a indicar una vez que se te
+          habilite a pagar tu combo</strong>.
         </Typography>
       </div>
 

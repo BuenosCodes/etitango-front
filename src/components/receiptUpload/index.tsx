@@ -32,6 +32,9 @@ function ReceiptUpload({ signupDetails }: { signupDetails: Signup }) {
               )}{' '}
               para subir tu comprobante
             </Typography>
+
+
+
             {/*<Typography variant="h3">Datos para la transferencia</Typography>*/}
             {/*{Object.entries(etiEvent.bank).map(([k, v]) => (*/}
             {/*  <React.Fragment key={k}>*/}
@@ -45,6 +48,13 @@ function ReceiptUpload({ signupDetails }: { signupDetails: Signup }) {
         ) : (
           <></>
         )}
+        <Typography variant={'h6'} py={2}>
+              No se realizará reintegro del combo.
+            </Typography>
+          <Typography variant={'caption'} >
+              Quien esté interesado en transferirlo, deberá hacerse cargo de esta operación, previa notificación a la
+              organización
+            </Typography>
       </div>
     </Container>
   );
