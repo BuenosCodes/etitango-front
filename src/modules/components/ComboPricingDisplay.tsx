@@ -14,7 +14,10 @@ export function ComboPricingDisplay({ orderNumber }: { orderNumber?: number }) {
     <Grid item style={{ textAlign: 'center' }} justifyContent={'center'}>
       <Typography variant="h3" color="primary" align="center">
         {t(`${SCOPES.MODULES.SIGN_UP}.combo`)}
+        :
+        {argentinaCurrencyFormatter.format(etiEvent.prices[0].price + (orderNumber || 0) / 100)}
       </Typography>
+
       <div style={{ marginTop: '10px', marginBottom: '10px' }}>
         <Typography variant="caption">
           ATENCIÓN: el precio final del combo es la suma del precio base más unos centavos que se
@@ -24,12 +27,7 @@ export function ComboPricingDisplay({ orderNumber }: { orderNumber?: number }) {
           habilite a pagar tu combo.
         </Typography>
       </div>
-      {etiEvent?.prices.map(({ price, deadlineHuman }, i) => (
-        <Typography key={'prices_' + i}>
-          {argentinaCurrencyFormatter.format(price + (orderNumber || 0) / 100)} hasta el{' '}
-          {deadlineHuman} (inclusive)
-        </Typography>
-      ))}
+
     </Grid>
   );
 }
