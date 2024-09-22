@@ -65,7 +65,11 @@ const getUserByEmail = async (email: string) => {
 
 export async function assignSuperAdmin(email: string) {
   const doc = await getUserByEmail(email);
-  return createOrUpdateDoc(USERS, { roles: { [UserRoles.SUPER_ADMIN]: true } }, doc.id);
+  return createOrUpdateDoc(
+    USERS,
+    { roles: { ...doc.roles, [UserRoles.SUPER_ADMIN]: true } },
+    doc.id
+  );
 }
 
 export async function assignEventAdmin(email: string, etiEventId: string) {
@@ -78,7 +82,7 @@ export async function assignEventAdmin(email: string, etiEventId: string) {
     ref,
     {
       // @ts-ignore
-      roles: { [UserRoles.ADMIN]: true },
+      roles: { ...userDoc.roles, [UserRoles.ADMIN]: true },
       adminOf: arrayUnion(etiEventId)
     },
     { merge: true }
