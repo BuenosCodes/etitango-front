@@ -61,7 +61,7 @@ function Cronograma() {
               ))}
               <Grid container spacing={3} px={5} mt={3}>
                 {etiEvent?.schedule.map(({ title, activities }, index) => (
-                  <Grid item key={`cronograma_${index}`} xs={12} md={4}>
+                  <Grid item key={`cronograma_${index}`} xs={12} md={etiEvent?.schedule.length === 3 ? 4 : 6}>
                     <Paper sx={{ padding: '24px', height: '100%' }}>
                       <Box sx={number}>
                         <Typography>{title}</Typography>
