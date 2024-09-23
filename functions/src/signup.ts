@@ -161,28 +161,28 @@ export async function doAdvanceSignups(etiEvent: any) {
     SignupStatus.CANCELLED,
     daysBeforeExpiration
   );
+  console.log('capacity', JSON.stringify(capacity)); // TODO NINA
+  // const signupRef = db.collection('signups');
+  // const signupDocsSnapshot = await signupRef
+  //   .where('etiEventId', '==', id)
+  //   .where('status', 'in', [
+  //     SignupStatus.PAYMENT_PENDING,
+  //     SignupStatus.PAYMENT_TO_CONFIRM,
+  //     SignupStatus.FLAGGED,
+  //     SignupStatus.CONFIRMED
+  //   ])
+  //   .get();
+  // const remainingCapacity = capacity - signupDocsSnapshot.size;
 
-  const signupRef = db.collection('signups');
-  const signupDocsSnapshot = await signupRef
-    .where('etiEventId', '==', id)
-    .where('status', 'in', [
-      SignupStatus.PAYMENT_PENDING,
-      SignupStatus.PAYMENT_TO_CONFIRM,
-      SignupStatus.FLAGGED,
-      SignupStatus.CONFIRMED
-    ])
-    .get();
-  const remainingCapacity = capacity - signupDocsSnapshot.size;
-
-  console.log('advanceStatusWaitlist', SignupStatus.WAITLIST, SignupStatus.PAYMENT_PENDING);
-
-  await advanceStatusWaitlist(
-    id,
-    SignupStatus.WAITLIST,
-    SignupStatus.PAYMENT_PENDING,
-    remainingCapacity
-  );
-  return { success: true };
+  // console.log('advanceStatusWaitlist', SignupStatus.WAITLIST, SignupStatus.PAYMENT_PENDING);
+  //
+  // await advanceStatusWaitlist(
+  //   id,
+  //   SignupStatus.WAITLIST,
+  //   SignupStatus.PAYMENT_PENDING,
+  //   remainingCapacity
+  // );
+  // return { success: true };
 }
 
 export const advanceSignups = functions.https.onCall(
