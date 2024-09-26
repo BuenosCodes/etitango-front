@@ -1,8 +1,6 @@
 import * as React from 'react';
-import TreeView from '@mui/lab/TreeView';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import TreeItem from '@mui/lab/TreeItem';
+import { SimpleTreeView as TreeView } from '@mui/x-tree-view/SimpleTreeView';
+import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import { Signup, SignupStatus } from '../../shared/signup';
 import groupBy from 'lodash/groupBy';
 import { Paper, Typography } from '@mui/material';
@@ -22,25 +20,25 @@ function SignupSummaryByStatus(props: { signups: Signup[]; label: string }) {
   return (
     <TreeView
       aria-label="Signup summary"
-      defaultCollapseIcon={<ExpandMoreIcon />}
-      defaultExpandIcon={<ChevronRightIcon />}
+      // defaultCollapseIcon={<ExpandMoreIcon />}
+      // defaultExpandIcon={<ChevronRightIcon />}
       sx={{ flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
     >
-      <TreeItem nodeId={label} label={`${label}: ${signups?.length ?? 0}`}>
-        <TreeItem nodeId={'Total'} label={'Total: ' + signups?.length ?? 0}>
-          <TreeItem nodeId={'Argentina'} label={'Argentina: ' + argentinaSignups?.length}>
+      <TreeItem itemId={label} label={`${label}: ${signups?.length ?? 0}`}>
+        <TreeItem itemId={'Total'} label={'Total: ' + signups?.length ?? 0}>
+          <TreeItem itemId={'Argentina'} label={'Argentina: ' + argentinaSignups?.length}>
             {Object.entries(groupedByProvince).map(([province, signupsForProvince], i) => (
               <TreeItem
-                nodeId={'Argentina_' + i.toString()}
+                itemId={'Argentina_' + i.toString()}
                 label={province + ': ' + signupsForProvince.length}
                 key={i}
               />
             ))}
           </TreeItem>
-          <TreeItem nodeId={'Others'} label={'Otros Países: ' + otherCountrySignups?.length}>
+          <TreeItem itemId={'Others'} label={'Otros Países: ' + otherCountrySignups?.length}>
             {Object.entries(grouped).map(([country, signupsForCountry], i) => (
               <TreeItem
-                nodeId={i.toString()}
+                itemId={i.toString()}
                 label={country + ': ' + signupsForCountry.length}
                 key={i}
               />
