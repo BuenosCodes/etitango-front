@@ -6,17 +6,18 @@
    ` $ git clone git@github.com:BuenosCodes/etitango-front.git`
 3. Stay into main branch, if you are not there:
    ` $ git checkout main`
-4. Create an `.env` file and save it into the root and /functions folders. Contact the PM to get the file content.
-5. Make the install:
+4. Create an `.env` file and save it into the root and /functions folders (see the `.env_example` files for reference). Get the credentials from rom https://console.firebase.google.com/u/0/project/etitango-5118a/settings/general/web:NGU3MjE2NDctODNjYy00YTFjLTliZWEtZDAxODhiNTExZDBk
+5. Create `extensions/firestore-send-email.env` file (see the `firestore-send-email.env_example` file for reference). Get the credentials from https://console.firebase.google.com/u/0/project/etitango-5118a/extensions/instances/firestore-send-email?tab=config.
+6. Make the install:
    ` $ npm install`
-6. Go to the folder /functions
+7. Go to the folder /functions
    ` $ cd functions/`
-7. Make the install
+8. Make the install
    ` $ npm install`
-8. Make the build
+9. Make the build
    `$ npm run build`
-9. Go back to the root folder and start
-   `$ npm start`
+10. Go back to the root folder and start
+    `$ npm start`
 
 # Firebase environment set up
 
@@ -32,3 +33,6 @@
    `$ firebase emulators:start --export-on-exit=<PATH_TO_DIRECTORY> --import <PATH_TO_DIRECTORY>`
    where the path is any local folder user decides to use to storage data.
 6. Create file extensions/firestore-send-email.env (from repository root, a level up from functions) with the data provided by the team
+
+cuando se crea el usuario en auth, también se crea en la DB. entonces después en el localhost:4000 vas a firestore (la db) y a mano le agregás la propiedad superadmin. eso solo al primer usuario, después lo podés hacer todo desde la UI.
+doc: user/<userid> - prop: roles: {superadmin: true}
