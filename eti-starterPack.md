@@ -38,6 +38,7 @@
 are stored as codebase secrets in the github repository.
 
 # Auth and users
-On first auth, you'll be prompted to create a dummy user. this will also create it in the db. you then need to go to http://localhost:4000/ and add a map key called "roles" having 2 subkeys: "admin": true, "superadmin": true
+On first auth, you'll be prompted to create a dummy user. this will also create it in the db. you then need to go to http://localhost:4000/ and add a map key called "roles" having 1 subkey: "superadmin": true
+you can then create all the subsequent roles in the UI
 
 `doc: user/<userid> - prop: roles: {superadmin: true}`
