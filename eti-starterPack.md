@@ -34,5 +34,11 @@
    where the path is any local folder user decides to use to storage data.
 6. Create file extensions/firestore-send-email.env (from repository root, a level up from functions) with the data provided by the team
 
-cuando se crea el usuario en auth, también se crea en la DB. entonces después en el localhost:4000 vas a firestore (la db) y a mano le agregás la propiedad superadmin. eso solo al primer usuario, después lo podés hacer todo desde la UI.
-doc: user/<userid> - prop: roles: {superadmin: true}
+# ENV files
+are stored as codebase secrets in the github repository.
+
+# Auth and users
+On first auth, you'll be prompted to create a dummy user. this will also create it in the db. you then need to go to http://localhost:4000/ and add a map key called "roles" having 1 subkey: "superadmin": true
+you can then create all the subsequent roles in the UI
+
+`doc: user/<userid> - prop: roles: {superadmin: true}`
