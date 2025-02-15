@@ -81,6 +81,7 @@ export function SignupForm() {
       initialValues={{
         nameFirst: userData?.nameFirst,
         nameLast: userData?.nameLast,
+        birthDate: userData?.birthDate,
         dniNumber: userData?.dniNumber,
         // @ts-ignore
         helpWith: '',

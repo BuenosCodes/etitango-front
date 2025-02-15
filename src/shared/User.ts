@@ -23,6 +23,7 @@ export interface UserPersonalInfo {
   city?: string;
   country: string;
   dniNumber: string;
+  birthDate: string;
   email: string;
   food: FoodChoices;
   isCeliac: boolean;

@@ -7,7 +7,8 @@ import { Translation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel, Select, TextField } from 'formik-mui';
-import { bool, number, object, string } from 'yup';
+import { DateField } from '@mui/x-date-pickers/DateField';
+import { bool, date, number, object, string } from 'yup';
 import { DanceRoles, FoodChoices } from 'shared/signup';
 import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
 import { LocationPicker } from '../../../components/form/LocationPicker.tsx';
@@ -25,6 +26,7 @@ export default function Profile() {
   const ProfileSchema = object({
     nameFirst: string().required('Este campo no puede estar vacío'),
     nameLast: string().required('Este campo no puede estar vacío'),
+    birthDate: date().required('Este campo no puede estar vacío'),
     dniNumber: number()
       .required('Completa este campo')
       .positive()
@@ -154,6 +156,7 @@ export default function Profile() {
                   initialValues={{
                     nameFirst: userData?.nameFirst || '',
                     nameLast: userData?.nameLast || '',
+                    birthDate: userData?.birthDate || '',
                     dniNumber: userData?.dniNumber || '',
                     food: userData?.food || '',
                     role: userData?.role || '',
@@ -189,6 +192,16 @@ export default function Profile() {
                             name="nameLast"
                             label={t('nameLast')}
                             component={TextField}
+                            required
+                            fullWidth
+                            disabled={isPendingSignup}
+                          />
+                        </Grid>
+                        <Grid item md={6} sm={6} xs={12}>
+                          <Field
+                            name="birthDate"
+                            label={t('birthDate')}
+                            component={DateField}
                             required
                             fullWidth
                             disabled={isPendingSignup}
