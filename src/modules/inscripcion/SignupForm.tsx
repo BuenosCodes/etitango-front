@@ -160,24 +160,6 @@ export function SignupForm() {
                 </Grid>
               ) : null}
               <Grid item container justifyContent={'center'}>
-                <Typography variant="caption">
-                  Se dispone de <strong>100 plazas</strong> en las cabañas que se encuentran dentro del complejo
-                  deportivo Eva Perón (Barrio Pipo, ciudad de Ushuaia) para las noches del 6, 7 y 8 de diciembre
-                  (<strong>5 no está incluido</strong>) a metros del Gimnasio donde serán las actividades de esos mismos
-                  días.
-
-                  Se trata de albergues con 11 cuchetas (22 camas) que cuentan solamente con colchón, una frazada y
-                  almohada (recomendamos en caso de hacer frio traer bolsa de dormir, aunque hay buena calefacción en
-                  las cabañas), por lo que se debe llevar ropa de cama y toalla.
-
-                  Cada cabaña cuenta con dos baños que deben ser aseados y mantenidos por los usuarios, por lo cual será
-                  responsabilidad de quienes las usan el aseo. Los materiales para ello serán adquiridos por la
-                  organización del ETI.
-
-                  Se accederá a este alojamiento por <strong>orden de inscripción</strong>, a quienes <strong>seleccionen
-                  la opción alojamiento</strong>, y queden dentro del cupo. Una vez que confirmemos tu inscripción, si
-                  estás dentro del cupo, te llegarán a tu correo las indicaciones y el detalle de cómo proceder.
-                </Typography>
                 <ComboPricingDisplay />
                 <Grid container justifyContent="flex-end">
                   <Grid item>
