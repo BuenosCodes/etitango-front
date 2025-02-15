@@ -87,38 +87,18 @@ export default function Profile() {
   }, [auth.currentUser?.uid]);
 
   const save = async (values, setSubmitting) => {
-    const {
-      nameFirst,
-      nameLast,
-      email,
-      dniNumber,
-      food,
-      isCeliac,
-      country,
-      province,
-      city,
-      role,
-      bank,
-      disability,
-      phoneNumber
-    } = values;
-    let userData = {
-      lastModifiedAt: new Date(),
-      nameFirst,
-      nameLast,
-      email,
-      dniNumber,
-      food,
-      isCeliac,
-      country,
-      role,
-      disability,
-      phoneNumber
-    };
-    const isArgentina = userData.country === 'Argentina';
+    delete values.role;
 
-    userData.province = isArgentina ? province : deleteField();
-    userData.city = isArgentina ? city : deleteField();
+    let userData = {
+      ...values,
+      lastModifiedAt: new Date(),
+    };
+    const {bank} = userData;
+
+    if (userData.country !== 'Argentina') {
+      userData.province = deleteField();
+      userData.city = deleteField();
+    }
 
     const userId = auth.currentUser.uid;
     try {
