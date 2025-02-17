@@ -54,6 +54,7 @@ export function SignupForm() {
       city,
       wantsLodging
     } = values;
+
     let data = {
       dateArrival,
       dateDeparture,
