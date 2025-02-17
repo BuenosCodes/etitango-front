@@ -58,6 +58,7 @@ type StatusHistoryFirestore = Omit<StatusHistory, 'date'> & { date: Timestamp };
 // eslint-disable-next-line no-undef
 export type Signup = SignupFormData &
   Omit<UserData, 'lastModifiedAt'> & {
+
     id: string;
     etiEventId: string;
     status: SignupStatus;
