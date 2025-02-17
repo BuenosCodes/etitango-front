@@ -11,7 +11,7 @@ import { bool, date, number, object, string } from 'yup';
 import { DanceRoles, FoodChoices } from 'shared/signup';
 import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
 import { LocationPicker } from '../../../components/form/LocationPicker.tsx';
-import { DatePicker } from 'formik-mui-x-date-pickers';
+import { ETIDatePicker } from '../../../components/form/DatePicker.tsx';
 import { USERS } from 'helpers/firestore/users';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
@@ -201,12 +201,11 @@ export default function Profile() {
                           />
                         </Grid>
                         <Grid item md={6} sm={6} xs={12}>
-                          <Field
-                            name="birthDate"
+                          <ETIDatePicker
                             label={t('birthDate')}
-                            component={DatePicker}
-                            required
-                            fullWidth
+                            fieldName="birthDate"
+                            setFieldValue={setFieldValue}
+                            textFieldProps={{ fullWidth: true }}
                             disabled={isPendingSignup}
                           />
                         </Grid>
