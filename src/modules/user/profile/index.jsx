@@ -7,11 +7,11 @@ import { Translation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel, Select, TextField } from 'formik-mui';
-import { DateField } from '@mui/x-date-pickers/DateField';
 import { bool, date, number, object, string } from 'yup';
 import { DanceRoles, FoodChoices } from 'shared/signup';
 import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
 import { LocationPicker } from '../../../components/form/LocationPicker.tsx';
+import { ETIDatePicker } from '../../../components/form/DatePicker.tsx';
 import { USERS } from 'helpers/firestore/users';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
@@ -204,7 +204,7 @@ export default function Profile() {
                           <Field
                             name="birthDate"
                             label={t('birthDate')}
-                            component={DateField}
+                            component={ETIDatePicker}
                             required
                             fullWidth
                             disabled={isPendingSignup}
