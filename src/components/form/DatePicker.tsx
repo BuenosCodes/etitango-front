@@ -7,7 +7,8 @@ export const ETIDatePicker = ({
   fieldName,
   setFieldValue,
   textFieldProps,
-  index
+  index,
+  future : future = true
 }: {
   label: string;
   fieldName: string;
@@ -15,10 +16,12 @@ export const ETIDatePicker = ({
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
   textFieldProps: any;
   index?: number;
+  future?: boolean;
 }) => (
   <Field
     component={DatePicker}
-    disablePast
+    disablePast={future}
+    disableFuture={!future}
     textField={textFieldProps}
     label={label}
     name={fieldName}

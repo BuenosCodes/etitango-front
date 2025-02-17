@@ -144,6 +144,7 @@ export function SignupForm() {
                 <ETIDatePicker
                   label={t('birthDate')}
                   fieldName="birthDate"
+                  future={false}
                   setFieldValue={setFieldValue}
                   textFieldProps={{ fullWidth: true }}
                 />

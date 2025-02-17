@@ -204,6 +204,7 @@ export default function Profile() {
                           <ETIDatePicker
                             label={t('birthDate')}
                             fieldName="birthDate"
+                            future={false}
                             setFieldValue={setFieldValue}
                             textFieldProps={{ fullWidth: true }}
                             disabled={isPendingSignup}
