@@ -140,6 +140,15 @@ export function SignupForm() {
                   ))}
                 </Field>
               </Grid>
+              <Grid item md={4} sm={4} xs={12}>
+                <ETIDatePicker
+                  label={t('birthDate')}
+                  fieldName="birthDate"
+                  setFieldValue={setFieldValue}
+                  textFieldProps={{ fullWidth: true }}
+                />
+              </Grid>
+
               <Grid item xs={12}>
                 <Typography sx={{ mb: 1 }}>{t('whereAreYouComingFrom')}</Typography>
                 <LocationPicker
