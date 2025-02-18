@@ -16,6 +16,7 @@ export const isUserDataComplete = (userData: any): userData is RequiredUserData 
     isCeliac: '',
     nameFirst: '',
     nameLast: '',
+    birthDate: '',
     phoneNumber: ''
   };
   const missingAttributes = Object.keys(schema)

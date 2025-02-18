@@ -37,6 +37,7 @@ export enum FoodChoices {
 }
 
 export type SignupFormData = {
+  birthDate: Date;
   dateArrival: Date;
   dateDeparture: Date;
   helpWith: SignupHelpWith;

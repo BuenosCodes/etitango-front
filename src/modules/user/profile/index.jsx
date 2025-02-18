@@ -7,10 +7,11 @@ import { Translation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n';
 import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel, Select, TextField } from 'formik-mui';
-import { bool, number, object, string } from 'yup';
+import { bool, date, number, object, string } from 'yup';
 import { DanceRoles, FoodChoices } from 'shared/signup';
 import { createOrUpdateDoc, getDocument } from 'helpers/firestore';
 import { LocationPicker } from '../../../components/form/LocationPicker.tsx';
+import { ETIDatePicker } from '../../../components/form/DatePicker.tsx';
 import { USERS } from 'helpers/firestore/users';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
@@ -25,6 +26,7 @@ export default function Profile() {
   const ProfileSchema = object({
     nameFirst: string().required('Este campo no puede estar vacío'),
     nameLast: string().required('Este campo no puede estar vacío'),
+    birthDate: date().required('Este campo no puede estar vacío'),
     dniNumber: number()
       .required('Completa este campo')
       .positive()
@@ -87,38 +89,18 @@ export default function Profile() {
   }, [auth.currentUser?.uid]);
 
   const save = async (values, setSubmitting) => {
-    const {
-      nameFirst,
-      nameLast,
-      email,
-      dniNumber,
-      food,
-      isCeliac,
-      country,
-      province,
-      city,
-      role,
-      bank,
-      disability,
-      phoneNumber
-    } = values;
-    let userData = {
-      lastModifiedAt: new Date(),
-      nameFirst,
-      nameLast,
-      email,
-      dniNumber,
-      food,
-      isCeliac,
-      country,
-      role,
-      disability,
-      phoneNumber
-    };
-    const isArgentina = userData.country === 'Argentina';
+    delete values.role;
 
-    userData.province = isArgentina ? province : deleteField();
-    userData.city = isArgentina ? city : deleteField();
+    let userData = {
+      ...values,
+      lastModifiedAt: new Date(),
+    };
+    const {bank} = userData;
+
+    if (userData.country !== 'Argentina') {
+      userData.province = deleteField();
+      userData.city = deleteField();
+    }
 
     const userId = auth.currentUser.uid;
     try {
@@ -177,6 +159,7 @@ export default function Profile() {
                   initialValues={{
                     nameFirst: userData?.nameFirst || '',
                     nameLast: userData?.nameLast || '',
+                    birthDate: userData?.birthDate || '',
                     dniNumber: userData?.dniNumber || '',
                     food: userData?.food || '',
                     role: userData?.role || '',
@@ -214,6 +197,16 @@ export default function Profile() {
                             component={TextField}
                             required
                             fullWidth
+                            disabled={isPendingSignup}
+                          />
+                        </Grid>
+                        <Grid item md={6} sm={6} xs={12}>
+                          <ETIDatePicker
+                            label={t('birthDate')}
+                            fieldName="birthDate"
+                            future={false}
+                            setFieldValue={setFieldValue}
+                            textFieldProps={{ fullWidth: true }}
                             disabled={isPendingSignup}
                           />
                         </Grid>

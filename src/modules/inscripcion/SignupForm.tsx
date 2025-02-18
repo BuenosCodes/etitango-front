@@ -39,11 +39,13 @@ export function SignupForm() {
       is: 'Argentina',
       then: (schema) => schema.required('Este campo no puede estar vacío')
     }),
+    birthDate: date().required('Este campo no puede estar vacío'),
     dateArrival: date().required('Este campo no puede estar vacío'),
     dateDeparture: date().required('Este campo no puede estar vacío')
   });
   const save = async (values: SignupFormData, setSubmitting: Function) => {
     const {
+      birthDate,
       dateArrival,
       dateDeparture,
       helpWith,
@@ -56,6 +58,7 @@ export function SignupForm() {
     } = values;
 
     let data = {
+      birthDate,
       dateArrival,
       dateDeparture,
       helpWith,
@@ -76,12 +79,15 @@ export function SignupForm() {
     }
   };
 
+  const birthDate = userData?.birthDate || new Date();
+
   return (
     <Formik
       enableReinitialize
       initialValues={{
         nameFirst: userData?.nameFirst,
         nameLast: userData?.nameLast,
+        birthDate: birthDate,
         dniNumber: userData?.dniNumber,
         // @ts-ignore
         helpWith: '',
@@ -139,6 +145,16 @@ export function SignupForm() {
                   ))}
                 </Field>
               </Grid>
+              <Grid item md={4} sm={4} xs={12}>
+                <ETIDatePicker
+                  label={t('birthDate')}
+                  fieldName="birthDate"
+                  future={false}
+                  setFieldValue={setFieldValue}
+                  textFieldProps={{ fullWidth: true }}
+                />
+              </Grid>
+
               <Grid item xs={12}>
                 <Typography sx={{ mb: 1 }}>{t('whereAreYouComingFrom')}</Typography>
                 <LocationPicker
