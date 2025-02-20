@@ -1345,7 +1345,7 @@
     }, 
     {
         "code": "CAT", 
-        "name": "4"
+        "name": "Catamarca"
     }, 
     {
         "code": "CAT", 
@@ -2345,7 +2345,7 @@
     }, 
     {
         "code": "COR", 
-        "name": "7"
+        "name": "Córdoba"
     }, 
     {
         "code": "COR", 
@@ -2657,7 +2657,7 @@
     }, 
     {
         "code": "COR", 
-        "name": "12"
+        "name": "La 12"
     }, 
     {
         "code": "COR", 
@@ -4309,7 +4309,7 @@
     }, 
     {
         "code": "ENT", 
-        "name": "9"
+        "name": "Entre Ríos"
     }, 
     {
         "code": "ENT", 
@@ -5005,7 +5005,7 @@
     }, 
     {
         "code": "FOR", 
-        "name": "10"
+        "name": "Formosa"
     }, 
     {
         "code": "FOR", 
@@ -5509,7 +5509,7 @@
     }, 
     {
         "code": "PAM", 
-        "name": "12"
+        "name": "La Pampa"
     }, 
     {
         "code": "PAM", 
@@ -6041,7 +6041,7 @@
     }, 
     {
         "code": "MIS", 
-        "name": "15"
+        "name": "Misiones"
     }, 
     {
         "code": "MIS", 
@@ -6269,7 +6269,7 @@
     }, 
     {
         "code": "NEU", 
-        "name": "16"
+        "name": "Neuquén"
     }, 
     {
         "code": "NEU", 
@@ -6877,7 +6877,7 @@
     }, 
     {
         "code": "SAL", 
-        "name": "18"
+        "name": "Salta"
     }, 
     {
         "code": "SAL", 
@@ -6973,8 +6973,8 @@
     }, 
     {
         "code": "SJU", 
-        "name": "19"
-    }, 
+        "name": "San Juan"
+    },
     {
         "code": "SJU", 
         "name": "San Martín"
