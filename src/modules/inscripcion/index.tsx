@@ -38,7 +38,7 @@ export default function Index() {
       }
     };
   }, [user, etiEvent]);
-  const isSignupOpen = etiEvent?.dateSignupOpen <= new Date();
+  const isSignupOpen = etiEvent?.dateSignupOpen ? etiEvent.dateSignupOpen <= new Date() : false;
   const shouldShowSignupForm =
     user && etiEvent?.id && !signupDetails?.id && !isLoading && isSignupOpen;
 
@@ -48,28 +48,29 @@ export default function Index() {
   if (!etiEvent?.id) {
     return (
       <Typography variant="h5" color="secondary" align="center" my={4}>
-        El pŕoximo ETI viene pronto!
+        El próximo ETI viene pronto!
       </Typography>
     );
   } else
     return (
       <>
-        <WithAuthentication />
-        <CompleteProfileAlert />
-        <Container maxWidth="lg" sx={{ marginTop: 3 }}>
-          <Grid
-            container
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            spacing={3}
-          >
-            <Title etiEvent={etiEvent} />
-            {!isSignupOpen ? <SignupClosed etiEvent={etiEvent} /> : null}
-            {shouldShowSignupForm ? <SignupForm /> : null}
-            {signupDetails?.id ? <SignupStatusDisplay signupDetails={signupDetails} /> : null}
-          </Grid>
-        </Container>
+        <WithAuthentication>
+          <CompleteProfileAlert />
+          <Container maxWidth="lg" sx={{ marginTop: 3 }}>
+            <Grid
+              container
+              direction="column"
+              alignItems="center"
+              justifyContent="center"
+              spacing={3}
+            >
+              <Title etiEvent={etiEvent} />
+              {!isSignupOpen ? <SignupClosed etiEvent={etiEvent} /> : null}
+              {shouldShowSignupForm ? <SignupForm /> : null}
+              {signupDetails?.id ? <SignupStatusDisplay signupDetails={signupDetails} /> : null}
+            </Grid>
+          </Container>
+        </WithAuthentication>
       </>
     );
 }

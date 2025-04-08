@@ -1,5 +1,5 @@
 import { collection, doc, limit, onSnapshot, query, where } from 'firebase/firestore';
-import { db } from '../../etiFirebase';
+import { mockFirestore } from '../../__mocks__';
 import { SIGNUPS } from './signups';
 import { Signup, SignupStatus } from '../../shared/signup';
 
@@ -8,7 +8,7 @@ export async function getNextSignup(
   setIsLoading: Function,
   etiEventId: string
 ) {
-  const ref = collection(db, SIGNUPS);
+  const ref = collection(mockFirestore, SIGNUPS);
   const q = query(
     ref,
     where('etiEventId', '==', etiEventId),
@@ -30,7 +30,7 @@ export async function getNextSignup(
 }
 
 export async function getSignup(setSignup: Function, setIsLoading: Function, signupId: string) {
-  const ref = doc(db, SIGNUPS, signupId);
+  const ref = doc(mockFirestore, SIGNUPS, signupId);
 
   return onSnapshot(ref, (snapshot) => {
     setSignup({
