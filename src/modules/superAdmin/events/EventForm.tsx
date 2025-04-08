@@ -15,7 +15,6 @@ import { Translation } from 'react-i18next';
 import { argentinaCurrencyFormatter, argentinaDateFormatter, SCOPES } from 'helpers/constants/i18n';
 import { Field, FieldArray, Form, Formik } from 'formik';
 import { TextField } from 'formik-mui';
-import { array, date, number, object, string } from 'yup';
 import { createOrUpdateDoc } from 'helpers/firestore';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '../../../App.js';
@@ -28,36 +27,12 @@ import FileUpload from '../../../components/FileUpload';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DateTimePicker } from 'formik-mui-x-date-pickers';
 import { Unsubscribe } from 'firebase/firestore';
+import { etiEventSchema, toFirestore } from '../../../shared/schemas';
 
 export default function EventForm() {
-  const msg = 'Este campo no puede estar vacío';
-  const EventFormSchema = object({
-    dateEnd: date().required(msg),
-    dateSignupOpen: date().required(msg),
-    dateStart: date().required(msg),
-    location: string().required(msg),
-    name: string().required(msg),
-    prices: array()
-      .of(
-        object().shape({
-          deadline: date().required(msg),
-          price: number().required(msg)
-        })
-      )
-      .min(1, 'Debe haber al menos un precio')
-      .required('Debe haber al menos un precio'),
-    bank: object().shape({
-      entity: string().required(msg),
-      holder: string().required(msg),
-      cbu: string().required(msg),
-      alias: string().required(msg),
-      cuit: string().required(msg)
-    }),
-    lodgingCapacity: number().required()
-  });
-
   const [event, setEvent] = useState<EtiEvent>();
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -76,29 +51,38 @@ export default function EventForm() {
     };
   }, [id]);
 
-  const save = async ({ dateSignupOpen, ...values }: any, setSubmitting: Function) => {
+  const save = async (values: any, setSubmitting: Function) => {
     try {
+      setError(null);
       const data = {
         ...values,
         comboReturnDeadlineHuman: argentinaDateFormatter.format(values.comboReturnDeadline),
-        dateSignupOpen: dateSignupOpen.toDate ? dateSignupOpen.toDate() : dateSignupOpen,
-        // @ts-ignore
-        prices: values.prices.map(({ deadline, price, ...rest }) => {
-          return {
-            ...rest,
-            deadline,
-            price,
-            priceHuman: argentinaCurrencyFormatter.format(price),
-            deadlineHuman: argentinaDateFormatter.format(deadline)
-          };
-        })
+        dateSignupOpen: values.dateSignupOpen.toDate ? values.dateSignupOpen.toDate() : values.dateSignupOpen,
+        prices: values.prices.map(({ deadline, price, ...rest }: PriceSchedule) => ({
+          ...rest,
+          deadline,
+          price,
+          priceHuman: argentinaCurrencyFormatter.format(price),
+          deadlineHuman: argentinaDateFormatter.format(deadline)
+        }))
       };
-      await createOrUpdateDoc('events', data, id === 'new' ? undefined : id);
+
+      // Validate the data using our schema
+      const validationResult = etiEventSchema.safeParse(data);
+      if (!validationResult.success) {
+        setError(validationResult.error.errors[0].message);
+        setSubmitting(false);
+        return;
+      }
+
+      // Convert to Firestore format
+      const firestoreData = toFirestore.etiEvent(validationResult.data);
+      await createOrUpdateDoc('events', firestoreData, id === 'new' ? undefined : id);
       navigate(`${ROUTES.SUPERADMIN}${ROUTES.EVENTS}`);
     } catch (error) {
       console.error(error);
+      setError(error instanceof Error ? error.message : 'An error occurred');
       setSubmitting(false);
-      //TODO global error handling this.setState({errors: error.response.event})
     }
   };
 
@@ -124,6 +108,11 @@ export default function EventForm() {
                 <Grid item sx={{ my: 3, typography: 'h5', color: 'secondary.main' }}>
                   EVENTS
                 </Grid>
+                {error && (
+                  <Grid item xs={12}>
+                    <Alert severity="error">{error}</Alert>
+                  </Grid>
+                )}
                 <Formik
                   initialValues={{
                     ...event,
@@ -138,7 +127,6 @@ export default function EventForm() {
                     ],
                     locations: event?.locations || [{ name: '', link: '' }]
                   }}
-                  validationSchema={EventFormSchema}
                   onSubmit={async (values, { setSubmitting }) => {
                     await save(values, setSubmitting);
                   }}
