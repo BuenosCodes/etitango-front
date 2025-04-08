@@ -44,7 +44,8 @@
     "typescript": "^4.7.4",
     "web-vitals": "^4.2.2",
     "webpack": "^5.93.0",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "zod": "^3.24.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -53,7 +54,11 @@
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
+    "migrate": "ts-node src/migrations/run.ts",
+    "migrate:rollback": "ts-node src/migrations/run.ts rollback",
+    "migrate:test": "jest src/migrations",
+    "bootstrap": "ts-node src/scripts/bootstrap.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -82,6 +87,7 @@
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "2.7.1"
+    "prettier": "2.7.1",
+    "ts-node": "^10.9.2"
   }
 }
