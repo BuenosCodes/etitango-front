@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { SCOPES } from 'helpers/constants/i18n.ts';
 import { ROUTES } from 'App.js';
 import { Button, Typography } from '@mui/material';
+import { mockAuth } from '../../__mocks__';
 
 function SignInScreen() {
   const { t } = useTranslation([SCOPES.MODULES.SIGN_IN], {
@@ -18,7 +19,7 @@ function SignInScreen() {
 
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
-    const unregisterAuthObserver = auth.onAuthStateChanged((user) => {
+    const unregisterAuthObserver = mockAuth.onAuthStateChanged((user) => {
       setIsSignedIn(!!user);
       setIsVerified(user?.emailVerified);
     });
@@ -30,7 +31,7 @@ function SignInScreen() {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <p>{t('notSignedIn')}</p>
 
-        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
+        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={mockAuth} />
 
         <Button href={ROUTES.INSTRUCTIONS} variant={'contained'}>
           <Typography>Dudas? Mirá el Instructivo</Typography>

@@ -260,4 +260,5 @@ const EtiAppBar = () => {
     </AppBar>
   );
 };
+
 export default EtiAppBar;

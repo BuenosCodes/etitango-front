@@ -11,11 +11,13 @@ import { ROUTES } from 'App';
 const WithAuthentication = ({
   redirectUrl,
   roles,
-  eventId
+  eventId,
+  children
 }: {
   redirectUrl?: string;
   roles?: UserRoles[];
   eventId?: string;
+  children: React.ReactNode;
 }) => {
   const auth = getAuth();
   // @ts-ignore
@@ -23,15 +25,21 @@ const WithAuthentication = ({
   const { user, setUser }: { user: IUser; setUser: (data: IUser) => {} } = useContext(UserContext);
   const [ran, setRan] = useState(false);
   useEffect(() => {
+    console.log('Setting up auth observer');
     const unregisterAuthObserver = auth.onAuthStateChanged(async (user: User | null) => {
+      console.log('Auth state changed, user:', user);
       if (user) {
         const userData = (await getUser(user.uid)) as UserFullData;
         setUser({ ...user, data: userData });
       }
       setRan(true);
     });
+    console.log('unregisterAuthObserver type:', typeof unregisterAuthObserver);
 
-    return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
+    return () => {
+      console.log('Cleanup: unregisterAuthObserver type:', typeof unregisterAuthObserver);
+      unregisterAuthObserver();
+    };
   }, [auth]);
 
   const unverified = ran && (!user || !user?.emailVerified);
@@ -53,6 +61,7 @@ const WithAuthentication = ({
         // eslint-disable-next-line react/prop-types
         <Navigate to={ROUTES.SIGN_IN} replace state={{ redirectUrl: redirectUrl }} />
       )}
+      {ran && !unverified && hasRequiredRole() && children}
     </>
   );
 };
