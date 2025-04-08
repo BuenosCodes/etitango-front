@@ -9,12 +9,13 @@ import { styles } from './UserNavBar.styles';
 import { IUser } from '../../../../shared/User';
 import { UserContext } from '../../../../helpers/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { mockAuth } from '../../../../__mocks__';
 
 export default function UserNavBar() {
   const { t } = useTranslation(SCOPES.COMPONENTS.BAR, { useSuspense: false });
   const { user }: { user: IUser } = useContext(UserContext);
   const navigate = useNavigate();
-  const logout = () => auth.signOut().then(() => navigate(ROUTES.HOME));
+  const logout = () => mockAuth.signOut().then(() => navigate(ROUTES.HOME));
   return (
     <Grid container sx={styles.panelContainer}>
       <Grid item xs={12} md={3} sx={styles.accountInfoContainer}>

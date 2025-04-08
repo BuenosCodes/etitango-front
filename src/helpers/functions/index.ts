@@ -2,9 +2,10 @@ import { httpsCallable } from 'firebase/functions';
 import { functions } from '../../etiFirebase';
 import { SampleInterface, SampleResponse } from '../../shared/example';
 import { getUser } from '../firestore/users';
+import { mockFunctions } from '../../__mocks__';
 
 export async function callTest() {
-  const helloWorld = httpsCallable<SampleInterface, SampleResponse>(functions, 'helloWorld');
+  const helloWorld = httpsCallable<SampleInterface, SampleResponse>(mockFunctions, 'helloWorld');
   const data: SampleInterface = { fieldA: 'hola mundo' };
   const result = await helloWorld(data);
   const { txt } = result.data;
@@ -23,7 +24,7 @@ export async function createUserInDbIfNotExists(user: { uid: string; email: stri
   }
 
   const email = user.email;
-  const createUser = httpsCallable(functions, 'authentication-createUserInDB');
+  const createUser = httpsCallable(mockFunctions, 'authentication-createUserInDB');
 
   try {
     await createUser({ email });

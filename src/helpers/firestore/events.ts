@@ -6,12 +6,15 @@ import {
   onSnapshot,
   orderBy,
   query,
-  where
+  where,
+  updateDoc,
+  Timestamp
 } from 'firebase/firestore';
-import { db, storage } from '../../etiFirebase';
+import { storage } from '../../etiFirebase';
 import { EtiEvent, EtiEventFirestore, priceScheduleToJs } from '../../shared/etiEvent';
 import { createOrUpdateDoc, getCollection, getDocument } from './index';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { mockFirestore } from '../../__mocks__';
 
 export const EVENTS = 'events';
 
@@ -26,14 +29,13 @@ const toJs = (etiEventFromFirestore: EtiEventFirestore) =>
   } as EtiEvent);
 
 export async function getFutureEti() {
-  const ref = collection(db, EVENTS);
-  const q = query(ref, where('dateEnd', '>', new Date()), orderBy('dateEnd', 'asc'), limit(1));
-  const querySnapshot = await getDocs(q);
-  const data = querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data()
-  }))[0] as EtiEventFirestore;
-  return toJs(data);
+  const ref = collection(mockFirestore, EVENTS);
+  const q = query(ref, where('dateStart', '>', new Date()), limit(1));
+  const snapshot = await getDocs(q);
+  if (snapshot.empty) {
+    return null;
+  }
+  return toJs(snapshot.docs[0].data() as EtiEventFirestore);
 }
 
 export async function getEvent(id: string) {
@@ -42,8 +44,21 @@ export async function getEvent(id: string) {
 }
 
 export async function getEvents() {
-  const events = (await getCollection(EVENTS)) as EtiEventFirestore[];
-  return events.map(toJs);
+  const ref = collection(mockFirestore, EVENTS);
+  const snapshot = await getDocs(ref);
+  return snapshot.docs.map(doc => toJs(doc.data() as EtiEventFirestore));
+}
+
+export async function updateEvent(event: EtiEvent) {
+  const ref = doc(mockFirestore, EVENTS, event.id);
+  await updateDoc(ref, {
+    ...event,
+    dateStart: Timestamp.fromDate(event.dateStart),
+    dateEnd: Timestamp.fromDate(event.dateEnd),
+    dateSignupOpen: Timestamp.fromDate(event.dateSignupOpen),
+    comboReturnDeadline: event.comboReturnDeadline ? Timestamp.fromDate(event.comboReturnDeadline) : null
+  });
+  return true;
 }
 
 export async function uploadEventImage(eventId: string, file: File) {
@@ -66,7 +81,7 @@ export const getEventLive = async (
   setIsLoading: Function
 ) => {
   setIsLoading(true);
-  return onSnapshot(doc(db, EVENTS, etiEventId), (doc) => {
+  return onSnapshot(doc(mockFirestore, EVENTS, etiEventId), (doc) => {
     const data = { ...doc.data(), id: etiEventId } as EtiEventFirestore;
     setEvent(toJs(data));
     setIsLoading(false);
