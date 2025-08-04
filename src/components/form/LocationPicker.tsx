@@ -1,8 +1,7 @@
 import { Grid, TextField as TextFieldMUI } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import React, { useEffect, useState } from 'react';
-import { getCountries } from 'helpers/thirdParties/restCountries';
-import { getProvinces, getCities } from 'helpers/thirdParties/georef';
+import { getCountries, getProvinces, getCities } from 'helpers/thirdParties/georef';
 import { FormikValues } from 'formik';
 
 export const LocationPicker = ({
