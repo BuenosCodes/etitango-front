@@ -22,6 +22,11 @@ export interface ArgentinaProvinciaLocal {
   code: string;
   name: string;
 }
+// https://gist.github.com/ratrabbit/e39778d3de34286e8dd36fe80c05e237
+export interface CountriesLocal {
+  name: string;
+  es_name: string;
+}
 
 const ProvinciasMap : { [id: string] : string;  } = {
   "Capital Federal": "CAB",
@@ -63,6 +68,12 @@ export const getCitiesDatosGobAr = async (province: string) => {
   const data = (await response.json()) as ArgentinaLocalidadesDatosGobAr;
   return (data?.localidades || []).map((localidad) => toTitleCase(localidad.nombre)).sort();
 };
+
+export const getCountries = async () => {
+  const response = await fetch('/data/countries.json');
+  const countries  = (await response.json()) as CountriesLocal[];
+  return (countries || []).map((country) => country.es_name).sort();
+}
 
 export const getProvinces = async () => {
   const response = await fetch('/data/argentina_states.json');
