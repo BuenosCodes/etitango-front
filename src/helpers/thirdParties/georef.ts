@@ -70,7 +70,7 @@ export const getCitiesDatosGobAr = async (province: string) => {
 };
 
 export const getCountries = async () => {
-  const response = await fetch('/data/coustries.json');
+  const response = await fetch('/data/countries.json');
   const countries  = (await response.json()) as CountriesLocal[];
   return (countries || []).map((country) => country.es_name).sort();
 }
