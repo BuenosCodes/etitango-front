@@ -10,10 +10,10 @@ function Index() {
   return (
     <React.Fragment>
       <Portada />
-      {etiEvent?.image && (
+      {etiEvent && etiEvent.image && (
         <img src={etiEvent.image} alt="Proximmo ETI" width="100%" height="100%" />
       )}
-      {etiEvent?.id && <Cronograma />}
+      {etiEvent && etiEvent.id && <Cronograma />}
     </React.Fragment>
   );
 }

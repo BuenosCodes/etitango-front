@@ -1,9 +1,10 @@
 import { createOrUpdateDoc, getDocument } from './index';
 import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
-import { db, functions, storage } from '../../etiFirebase';
+import { storage } from '../../etiFirebase';
 import { Signup, SignupFirestore, SignupFormData, SignupStatus } from '../../shared/signup';
 import { httpsCallable } from 'firebase/functions';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { mockFirestore, mockFunctions } from '../../__mocks__';
 
 export const SIGNUPS = `signups`;
 export const SIGNUP = (signupId: string) => `${SIGNUPS}/${signupId}`;
@@ -26,7 +27,7 @@ export const getSignups = async (
   setSignups: Function,
   setIsLoading: Function
 ) => {
-  const ref = collection(db, SIGNUPS);
+  const ref = collection(mockFirestore, SIGNUPS);
   const q = query(ref, where('etiEventId', '==', etiEventId), orderBy('orderNumber'));
 
   return onSnapshot(q, (snapshot) => {
@@ -64,7 +65,7 @@ export const getSignupForUserAndEvent = async (
   setIsLoading: Function
 ) => {
   setIsLoading(true);
-  const ref = collection(db, SIGNUPS);
+  const ref = collection(mockFirestore, SIGNUPS);
 
   const q = query(
     ref,
@@ -86,7 +87,7 @@ export const createSignup = async (etiEventId: string, userId: string, data: Sig
     userId,
     etiEventId
   };
-  const createSignup = httpsCallable(functions, 'signup-createSignup');
+  const createSignup = httpsCallable(mockFunctions, 'signup-createSignup');
   try {
     return createSignup(signupData);
   } catch (e) {
@@ -95,7 +96,7 @@ export const createSignup = async (etiEventId: string, userId: string, data: Sig
 };
 
 export const resetSignup = async (etiEventId: string, signupId: string) => {
-  const resetSignup = httpsCallable(functions, 'signup-resetSignup');
+  const resetSignup = httpsCallable(mockFunctions, 'signup-resetSignup');
   try {
     return resetSignup({ etiEventId, signupId });
   } catch (e) {
@@ -104,7 +105,7 @@ export const resetSignup = async (etiEventId: string, signupId: string) => {
 };
 
 export const validateSignUp = async (etiEventId: string) => {
-  const validateSignUp = httpsCallable(functions, 'signup-validateSignup');
+  const validateSignUp = httpsCallable(mockFunctions, 'signup-validateSignup');
   try {
     return validateSignUp({ etiEventId });
   } catch (e) {
@@ -113,7 +114,7 @@ export const validateSignUp = async (etiEventId: string) => {
 };
 
 export const upsertTemplates = async () => {
-  const seeds = httpsCallable(functions, 'seeds-upsertTemplates');
+  const seeds = httpsCallable(mockFunctions, 'seeds-upsertTemplates');
   try {
     await seeds();
   } catch (e) {
@@ -122,7 +123,7 @@ export const upsertTemplates = async () => {
 };
 
 export const fixMailing = async (etiEventId: string) => {
-  const fn = httpsCallable(functions, 'mailing-retryFailedMails');
+  const fn = httpsCallable(mockFunctions, 'mailing-retryFailedMails');
   try {
     await fn(etiEventId);
   } catch (e) {
@@ -131,7 +132,7 @@ export const fixMailing = async (etiEventId: string) => {
 };
 
 export const fixNumbering = async (etiEventId: string) => {
-  const fn = httpsCallable(functions, 'superAdmin-fixNumbering');
+  const fn = httpsCallable(mockFunctions, 'superAdmin-fixNumbering');
   try {
     await fn(etiEventId);
   } catch (e) {
@@ -140,7 +141,7 @@ export const fixNumbering = async (etiEventId: string) => {
 };
 
 export const advanceSignups = async (etiEventId: string) => {
-  const fn = httpsCallable(functions, 'signup-advanceSignups');
+  const fn = httpsCallable(mockFunctions, 'signup-advanceSignups');
   try {
     await fn({ etiEventId });
   } catch (e) {

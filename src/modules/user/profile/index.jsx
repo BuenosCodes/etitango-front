@@ -20,6 +20,7 @@ import { NotificationContext } from '../../../helpers/NotificationContext.ts';
 import { validateSignUp } from '../../../helpers/firestore/signups.ts';
 import { t } from 'i18next';
 import { EtiEventContext } from '../../../helpers/EtiEventContext';
+import { mockAuth } from '../../../__mocks__';
 
 export default function Profile() {
   const ProfileSchema = object({
@@ -74,17 +75,17 @@ export default function Profile() {
   const { etiEvent } = useContext(EtiEventContext);
   useEffect(() => {
     const fetchData = async () => {
-      if (auth.currentUser?.uid) {
+      if (mockAuth.currentUser?.uid) {
         const [user, bank] = await Promise.all([
-          getDocument(`${USERS}/${auth.currentUser.uid}`),
-          getDocument(`${BANKS}/${auth.currentUser.uid}`)
+          getDocument(`${USERS}/${mockAuth.currentUser.uid}`),
+          getDocument(`${BANKS}/${mockAuth.currentUser.uid}`)
         ]);
         setUserData({ ...user, bank: bank?.bank });
         setLoading(false);
       }
     };
     fetchData().catch((error) => console.error(error));
-  }, [auth.currentUser?.uid]);
+  }, [mockAuth.currentUser?.uid]);
 
   const save = async (values, setSubmitting) => {
     const {
@@ -120,7 +121,7 @@ export default function Profile() {
     userData.province = isArgentina ? province : deleteField();
     userData.city = isArgentina ? city : deleteField();
 
-    const userId = auth.currentUser.uid;
+    const userId = mockAuth.currentUser.uid;
     try {
       await Promise.all([
         createOrUpdateDoc('users', userData, userId),
@@ -184,7 +185,7 @@ export default function Profile() {
                     country: userData.country || null,
                     province: userData.province || null,
                     city: userData.city || null,
-                    email: auth?.currentUser?.email,
+                    email: mockAuth?.currentUser?.email,
                     bank: userData.bank || '',
                     phoneNumber: userData.phoneNumber || '',
                     disability: userData.disability || ''

@@ -16,7 +16,7 @@ export interface EtiEventBase {
     cuit: string;
   };
   schedule: { title: string; activities: string }[];
-  locations: { name: ''; link: '' }[];
+  locations: { name: string; link: string }[];
   landingTitle: string;
   comboReturnDeadlineHuman: string;
   lodgingCapacity: number;

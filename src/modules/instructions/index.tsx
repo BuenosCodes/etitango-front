@@ -9,14 +9,15 @@ function Intructions() {
   });
 
   return (
-    <Grid container direction="column" spacing={3}>
-      <Grid item>
+    <Grid container direction="column" spacing={3} data-testid="grid-container">
+      <Grid item data-testid="grid-item">
         <Typography variant="h5" color="secondary" align="center">
           {t('instructions')}
         </Typography>
       </Grid>
       <Grid
         item
+        data-testid="grid-item"
         style={{
           display: 'flex',
           alignSelf: 'center'

@@ -1,0 +1,18 @@
+
+
+* test
+#+BEGIN_SRC shell
+firebase projects:list
+#+END_SRC
+
+verificar estar en el proyecto adecuado
+sino ajustar las variables en los .env
+
+#+BEGIN_SRC shell
+firebase use ${nombre del proyecto}
+#+END_SRC
+
+
+#+BEGIN_SRC shell
+firebase deploy --only {hosting, functions}
+#+END_SRC

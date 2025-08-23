@@ -15,6 +15,7 @@ import { db } from '../../etiFirebase';
 import { createOrUpdateDoc, getDocument } from './index';
 import { IUser, UserFullData, UserRoles } from '../../shared/User';
 import { EVENTS } from './events';
+import { mockFirestore } from '../../__mocks__';
 
 export const USERS = 'users';
 const USER = (userId: string) => `${USERS}/${userId}`;
@@ -22,7 +23,7 @@ const USER = (userId: string) => `${USERS}/${userId}`;
 export const getUser = (userId: string) => <Promise<UserFullData>>getDocument(USER(userId));
 
 export async function getAdmins(setUsers: Function, setIsLoading: Function, etiEventId?: string) {
-  const ref = collection(db, USERS);
+  const ref = collection(mockFirestore, USERS);
 
   const isAdminOfEvent = where('adminOf', 'array-contains', etiEventId);
   let q;
@@ -53,7 +54,7 @@ export async function getAdmins(setUsers: Function, setIsLoading: Function, etiE
 }
 
 const getUserByEmail = async (email: string) => {
-  const ref = collection(db, USERS);
+  const ref = collection(mockFirestore, USERS);
   const q = query(ref, where('email', '==', email), limit(1));
   const querySnapshot = await getDocs(q);
   const docs = querySnapshot.docs.map((doc) => ({
@@ -74,10 +75,10 @@ export async function assignSuperAdmin(email: string) {
 
 export async function assignEventAdmin(email: string, etiEventId: string) {
   const userDoc = await getUserByEmail(email);
-  const eventRef = doc(db, `${EVENTS}/${etiEventId}`);
-  const batch = writeBatch(db);
+  const eventRef = doc(mockFirestore, `${EVENTS}/${etiEventId}`);
+  const batch = writeBatch(mockFirestore);
   batch.update(eventRef, { admins: arrayUnion(userDoc.id) });
-  const ref = doc(db, `${USERS}/${userDoc.id}`);
+  const ref = doc(mockFirestore, `${USERS}/${userDoc.id}`);
   batch.update(
     ref,
     {
@@ -103,8 +104,8 @@ export async function removeSuperAdmin(email: string) {
 export async function unassignEventAdmin(email: string, etiEventId: string) {
   const userDoc = await getUserByEmail(email);
   const { id: userId } = userDoc;
-  const eventRef = doc(db, `${EVENTS}/${etiEventId}`);
-  const batch = writeBatch(db);
+  const eventRef = doc(mockFirestore, `${EVENTS}/${etiEventId}`);
+  const batch = writeBatch(mockFirestore);
   // @ts-ignore
   batch.update(eventRef, { admins: arrayRemove(userId) }, { merge: true });
 
@@ -116,7 +117,7 @@ export async function unassignEventAdmin(email: string, etiEventId: string) {
     // eslint-disable-next-line no-undef
     data = { ...data, [`roles.${[UserRoles.ADMIN]}`]: deleteField(), adminOf: deleteField() };
   }
-  const userRef = doc(db, `${USERS}/${userId}`);
+  const userRef = doc(mockFirestore, `${USERS}/${userId}`);
   batch.update(userRef, data, { merge: true });
   await batch.commit();
 }

@@ -1,6 +1,6 @@
 import { getCollection } from './index';
 import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
-import { db } from '../../etiFirebase';
+import { mockFirestore } from '../../__mocks__';
 import { flatten } from 'flat';
 
 export const MAIL = 'mail';
@@ -68,7 +68,7 @@ export async function getMails() {
 }
 
 export async function getMailsForEvent(eventId: string, userEmail?: string | null) {
-  const ref = collection(db, MAIL);
+  const ref = collection(mockFirestore, MAIL);
   const eventFilter = where('template.eventId', '==', eventId);
   const q = userEmail
     ? query(ref, eventFilter, where('to', 'array-contains', userEmail))

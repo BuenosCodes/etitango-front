@@ -29,7 +29,7 @@ export interface UserPersonalInfo {
   nameFirst: string;
   nameLast: string;
   province?: string;
-  phoneNumber: '';
+  phoneNumber: string;
   disability: string;
 }
 
